@@ -14,13 +14,17 @@ public class QueueManager : MonoBehaviour
     private void Awake()
     {
         gameManager = GetComponent<GameManager>();
+        if (gameManager == null)
+        {
+            Debug.LogError("Game Manager not found!");
+        }
     }
 
     public void CreateQueue()
     {
         actionList.Clear();
 
-        GenereateEnemyActions();
+        GenerateEnemyActions();
 
         actionList.AddRange(GetActions(gameManager.PlayerMobs, ActionType.Defense));
         actionList.AddRange(GetActions(gameManager.EnemyMobs, ActionType.Defense));
@@ -40,35 +44,74 @@ public class QueueManager : MonoBehaviour
         actionList.AddRange(GetActions(gameManager.EnemyMobs, actionType));
     }
 
-    private void GenereateEnemyActions()
+    private void GenerateEnemyActions()
     {
+        if (gameManager == null)
+        {
+            Debug.LogError("Game Manager is null!");
+            return;
+        }
+
+        if (gameManager.EnemyMobs == null)
+        {
+            Debug.LogError("EnemyMobs list is null!");
+            return;
+        }
+
+        if (gameManager.PlayerMobs == null)
+        {
+            Debug.LogError("PlayerMobs list is null!");
+            return;
+        }
+
         foreach (Mob mob in gameManager.EnemyMobs)
         {
-            if (!mob.IsDead)
-            {
-                mob.CurrentAction.MobInstance = mob;
-                int randActionType = UnityEngine.Random.Range(1, Enum.GetValues(typeof(ActionType)).Length);
-                mob.CurrentAction.MobAction = (ActionType)randActionType;
+            if (mob == null || mob.IsDead)
+                continue;
 
-                if (mob.CheckStamina())
+            mob.CurrentAction.MobInstance = mob;
+            
+            // Получаем все возможные типы действий
+            var actionTypes = Enum.GetValues(typeof(ActionType));
+            int randActionType = UnityEngine.Random.Range(1, actionTypes.Length);
+            mob.CurrentAction.MobAction = (ActionType)randActionType;
+
+            if (mob.CheckStamina())
+            {
+                if (mob.CurrentAction.MobAction == ActionType.Attack1 || mob.CurrentAction.MobAction == ActionType.Attack2)
                 {
-                    if (mob.CurrentAction.MobAction == ActionType.Attack1 || mob.CurrentAction.MobAction == ActionType.Attack2)
+                    if (gameManager.PlayerMobs.Count > 0)
                     {
                         int randMob = UnityEngine.Random.Range(0, gameManager.PlayerMobs.Count);
                         mob.CurrentAction.TargetInstance = gameManager.PlayerMobs[randMob];
                     }
                 }
-                else mob.CurrentAction.MobAction = ActionType.SkipTurn;
+            }
+            else
+            {
+                mob.CurrentAction.MobAction = ActionType.SkipTurn;
             }
         }
     }
 
     private List<Action> GetActions(List<Mob> list, ActionType actionType)
     {
+        if (list == null)
+        {
+            Debug.LogError("Mob list is null!");
+            return new List<Action>();
+        }
+
         List<Action> resultList = new List<Action>();
         foreach (Mob mob in list)
         {
-            if (mob.CurrentAction.MobAction == actionType) actionList.Add(mob.CurrentAction);
+            if (mob == null || mob.CurrentAction == null)
+                continue;
+
+            if (mob.CurrentAction.MobAction == actionType)
+            {
+                resultList.Add(mob.CurrentAction);
+            }
         }
 
         return resultList;
@@ -76,8 +119,13 @@ public class QueueManager : MonoBehaviour
 
     public void RunQueue()
     {
-        currentActionIndex = 0;
+        if (actionList == null || actionList.Count == 0)
+        {
+            Debug.LogError("Action list is empty!");
+            return;
+        }
 
+        currentActionIndex = 0;
         PerformAction(actionList[currentActionIndex]);
     }
 
@@ -94,25 +142,45 @@ public class QueueManager : MonoBehaviour
 
     private void PerformAction(Action action)
     {
-        if (!action.MobInstance.IsDead)
+        if (action == null || action.MobInstance == null)
         {
-            switch (action.MobAction)
-            {
-                case ActionType.SkipTurn:
-                    action.MobInstance.PerformSkipTurn();
-                    break;
-                case ActionType.Defense:
-                    action.MobInstance.PerformDefense();
-                    break;
-                case ActionType.Attack1:
-                    if (!action.TargetInstance.IsDead) action.MobInstance.PerformAttack();
-                    else NextAction();
-                    break;
-                case ActionType.Attack2:
-                    if (!action.TargetInstance.IsDead) action.MobInstance.PerformAttack();
-                    else NextAction();
-                    break;
-            }
-        } else NextAction();
+            Debug.LogError("Invalid action or mob instance!");
+            NextAction();
+            return;
+        }
+
+        if (action.MobInstance.IsDead)
+        {
+            Debug.Log($"Skipping dead mob {action.MobInstance.name}");
+            NextAction();
+            return;
+        }
+
+        switch (action.MobAction)
+        {
+            case ActionType.SkipTurn:
+                action.MobInstance.PerformSkipTurn();
+                break;
+
+            case ActionType.Defense:
+                action.MobInstance.PerformDefense();
+                break;
+
+            case ActionType.Attack1:
+            case ActionType.Attack2:
+                if (action.TargetInstance == null || action.TargetInstance.IsDead)
+                {
+                    Debug.Log($"Attack target is dead or null for {action.MobInstance.name}");
+                    NextAction();
+                    return;
+                }
+                action.MobInstance.PerformAttack();
+                break;
+
+            default:
+                Debug.LogWarning($"Unknown action type: {action.MobAction}");
+                NextAction();
+                break;
+        }
     }
 }

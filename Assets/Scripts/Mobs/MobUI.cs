@@ -30,6 +30,35 @@ public class MobUI : MonoBehaviour
     private void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
+        if (gameManager == null)
+        {
+            Debug.LogError($"Game Manager not found on {transform.name}");
+        }
+
+        if (cursor == null)
+        {
+            Debug.LogError($"Cursor not found on {transform.name}");
+        }
+
+        if (hpBar == null)
+        {
+            Debug.LogError($"HP Bar not found on {transform.name}");
+        }
+
+        if (buttons == null)
+        {
+            Debug.LogError($"Buttons not found on {transform.name}");
+        }
+
+        if (mobText == null)
+        {
+            Debug.LogError($"MobText not found on {transform.name}");
+        }
+
+        if (shieldIcon == null)
+        {
+            Debug.LogError($"Shield icon not found on {transform.name}");
+        }
     }
 
     private void Start()
@@ -59,18 +88,48 @@ public class MobUI : MonoBehaviour
 
     public void ShowTargetCursor()
     {
+        if (gameManager == null)
+        {
+            Debug.LogError($"Game Manager is null in {transform.name}");
+            return;
+        }
+
+        if (gameManager.EnemyMobs == null)
+        {
+            Debug.LogError($"EnemyMobs list is null in {transform.name}");
+            return;
+        }
+
         foreach (Mob mob in gameManager.EnemyMobs)
         {
-            if (mob.IsHostile && !mob.IsDead)
+            if (mob == null || !mob.IsHostile || mob.IsDead)
+                continue;
+
+            if (mob.UI != null && mob.UI.MobCursor != null)
             {
                 mob.UI.MobCursor.ShowTarget();
+            }
+            else
+            {
+                Debug.LogError($"UI or Cursor is null on enemy mob {mob.name}");
             }
         }
     }
 
-    public void UpdateHPBar(int value)
+    public void UpdateHP(int value)
     {
-        hpBar.UpdateHPBar(value);
+        if (hpBar != null)
+        {
+            hpBar.UpdateHP(value);
+        }
+    }
+
+    public void UpdateMaxHP(int value)
+    {
+        if (hpBar != null)
+        {
+            hpBar.UpdateMaxHP(value);
+        }
     }
 
     public void ShowText(string value, Color color)
@@ -80,11 +139,28 @@ public class MobUI : MonoBehaviour
 
     public void ShowShield()
     {
+        if (shieldIcon == null)
+        {
+            Debug.LogError($"Shield icon is null in {transform.name}");
+            return;
+        }
+
         DOTween.Sequence()
             .Append(shieldIcon.transform.DOScale(shieldScale, .3f))
             .Join(shieldIcon.transform.DOLocalMove(Vector3.zero, .5f))
             .AppendInterval(.3f)
-            .OnComplete(GetComponent<Mob>().NextAction);
+            .OnComplete(() =>
+            {
+                var mob = GetComponent<Mob>();
+                if (mob != null)
+                {
+                    mob.NextAction();
+                }
+                else
+                {
+                    Debug.LogError($"Mob component is null in {transform.name}");
+                }
+            });
     }
 
     public void HideShield()

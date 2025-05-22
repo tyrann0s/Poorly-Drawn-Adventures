@@ -19,8 +19,29 @@ public class HPBar : MonoBehaviour
         slider.value = maxValue;
     }
 
-    public void UpdateHPBar(int value)
+    public void UpdateHP(int value)
     {
-        slider.value = value;
+        if (slider != null)
+        {
+            slider.value = value;
+            var text = slider.GetComponentInChildren<Text>();
+            if (text != null)
+            {
+                text.text = $"{value}/{slider.maxValue}";
+            }
+        }
+    }
+
+    public void UpdateMaxHP(int value)
+    {
+        if (slider != null)
+        {
+            slider.maxValue = value;
+            var text = slider.GetComponentInChildren<Text>();
+            if (text != null)
+            {
+                text.text = $"{slider.value}/{value}";
+            }
+        }
     }
 }

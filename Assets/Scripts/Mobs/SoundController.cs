@@ -9,30 +9,123 @@ public class SoundController : MonoBehaviour
 
     public void Pick()
     {
-        pick.Play();
+        if (pick == null)
+        {
+            Debug.LogWarning($"Pick sound not found on {transform.name}");
+            return;
+        }
+
+        if (!pick.isPlaying)
+        {
+            pick.Play();
+        }
     }
 
     public void Attack1()
     {
-        attack1.Play();
+        if (attack1 == null)
+        {
+            Debug.LogWarning($"Attack1 sound not found on {transform.name}");
+            return;
+        }
+
+        if (!attack1.isPlaying)
+        {
+            attack1.Play();
+        }
     }
 
     public void Attack2()
     {
-        attack2.Play();
+        if (attack2 == null)
+        {
+            Debug.LogWarning($"Attack2 sound not found on {transform.name}");
+            return;
+        }
+
+        if (!attack2.isPlaying)
+        {
+            attack2.Play();
+        }
+    }
+
+    public void PlayShieldDamageSound()
+    {
+        if (shieldDamage == null)
+        {
+            Debug.LogWarning($"ShieldDamage sound not found on {transform.name}");
+            return;
+        }
+
+        if (!shieldDamage.isPlaying)
+        {
+            shieldDamage.Play();
+        }
     }
 
     public void Death()
     {
-        commonDamage.Play();
-        death.Play();
-        souls.Play();
+        if (commonDamage == null)
+        {
+            Debug.LogWarning($"CommonDamage sound not found on {transform.name}");
+        }
+        else if (!commonDamage.isPlaying)
+        {
+            commonDamage.Play();
+        }
+
+        if (death == null)
+        {
+            Debug.LogWarning($"Death sound not found on {transform.name}");
+        }
+        else if (!death.isPlaying)
+        {
+            death.Play();
+        }
+
+        if (souls == null)
+        {
+            Debug.LogWarning($"Souls sound not found on {transform.name}");
+        }
+        else if (!souls.isPlaying)
+        {
+            souls.Play();
+        }
     }
 
     public void GetDamage()
     {
-        getDamage.Play();
-        commonDamage.Play();
+        if (getDamage == null)
+        {
+            Debug.LogWarning($"GetDamage sound not found on {transform.name}");
+        }
+        else if (!getDamage.isPlaying)
+        {
+            getDamage.Play();
+        }
+
+        if (commonDamage == null)
+        {
+            Debug.LogWarning($"CommonDamage sound not found on {transform.name}");
+        }
+        else if (!commonDamage.isPlaying)
+        {
+            commonDamage.Play();
+        }
+    }
+
+    public void PlayGetDamageSound()
+    {
+        if (getDamage == null)
+        {
+            Debug.LogWarning($"GetDamage sound not found on {transform.name}");
+            return;
+        }
+
+        if (!getDamage.isPlaying)
+        {
+            getDamage.Play();
+        }
     }
 
     public void GetShieldDamage()
@@ -42,11 +135,26 @@ public class SoundController : MonoBehaviour
 
     public void StartMove()
     {
-        move.Play();
+        if (move == null)
+        {
+            Debug.LogWarning($"Move sound not found on {transform.name}");
+            return;
+        }
+
+        if (!move.isPlaying)
+        {
+            move.Play();
+        }
     }
 
     public void StopMove()
     {
+        if (move == null)
+        {
+            Debug.LogWarning($"Move sound not found on {transform.name}");
+            return;
+        }
+
         move.Stop();
     }
 }

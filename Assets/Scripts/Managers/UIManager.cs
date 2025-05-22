@@ -17,6 +17,12 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Button startFightButton;
 
+    [SerializeField]
+    private Button changeCardButton;
+
+    [SerializeField]
+    private Button confirmChangeButton;
+
     public void ShowAnouncerPanel(bool isAnimated, string value)
     {
         if (isAnimated) anouncerPanel.ShowAnimated(value);
@@ -61,6 +67,41 @@ public class UIManager : MonoBehaviour
     {
         DOTween.Sequence()
             .Append(startFightButton.gameObject.transform.DOScale(0, .5f))
+            .SetEase(Ease.InOutQuint);
+    }
+
+    public void ShowChangeCardsButton()
+    {
+        DOTween.Sequence()
+            .Append(changeCardButton.gameObject.transform.DOScale(.5f, .5f))
+            .SetEase(Ease.InOutQuint);
+
+        changeCardButton.GetComponentInChildren<Text>().text = "Change cards";
+    }
+
+    public void WaitChangeCardsButton()
+    {
+        changeCardButton.GetComponentInChildren<Text>().text = "Cancel";
+    }
+
+    public void HideChangeCardsButton()
+    {
+        DOTween.Sequence()
+            .Append(changeCardButton.gameObject.transform.DOScale(0, .5f))
+            .SetEase(Ease.InOutQuint);
+    }
+
+    public void ShowConfirmChangeButton()
+    {
+        DOTween.Sequence()
+            .Append(confirmChangeButton.gameObject.transform.DOScale(.5f, .5f))
+            .SetEase(Ease.InOutQuint);
+    }
+
+    public void HideConfirmChangeButton()
+    {
+        DOTween.Sequence()
+            .Append(confirmChangeButton.gameObject.transform.DOScale(0, .5f))
             .SetEase(Ease.InOutQuint);
     }
 

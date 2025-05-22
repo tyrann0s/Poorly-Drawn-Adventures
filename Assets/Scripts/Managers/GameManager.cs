@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,12 +13,17 @@ public class GameManager : MonoBehaviour
     public List<Mob> EnemyMobs { get; set; } = new List<Mob>();
 
     public bool ControlLock { get; set; }
+    public bool ChangeCardMode { get; set; }
+
     public Mob PickingMob { get; set; }
     public Mob ActivatedMob { get; set; }
 
     private QueueManager queueManager;
     private MusicManager musicManager;
     private UIManager uiManager;
+
+    private CardPanel cardPanel;
+    public CardPanel _CardPanel => cardPanel;
 
     public bool IsWin, IsLose;
 
@@ -30,6 +34,12 @@ public class GameManager : MonoBehaviour
         queueManager = GetComponent<QueueManager>();
         musicManager = GetComponent<MusicManager>();
         uiManager = GetComponent<UIManager>();
+        cardPanel = FindFirstObjectByType<CardPanel>();
+
+        if (queueManager == null) Debug.LogError("Queue Manager not found!");
+        if (musicManager == null) Debug.LogError("Music Manager not found!");
+        if (uiManager == null) Debug.LogError("UI Manager not found!");
+        if (cardPanel == null) Debug.LogError("Card Panel not found!");
     }
 
     private void Start()
@@ -38,29 +48,113 @@ public class GameManager : MonoBehaviour
         uiManager.ShowAnouncerPanel(true, "Assign actions!");
         calmMusicCoroutine = musicManager.FadeTrackToZero(musicManager.Calm);
         musicManager.StartCalmMusic();
+
+        cardPanel.GenereteCards();
+        SetCardPanel(false);
+        uiManager.ShowChangeCardsButton();
     }
 
     public void AddMob(Mob mob)
     {
-        if (mob.IsHostile) EnemyMobs.Add(mob);
-        else PlayerMobs.Add(mob);
+        if (mob == null)
+        {
+            Debug.LogError("Trying to add null mob!");
+            return;
+        }
+
+        if (mob.IsHostile)
+        {
+            if (!EnemyMobs.Contains(mob))
+            {
+                EnemyMobs.Add(mob);
+            }
+            else
+            {
+                Debug.LogWarning($"Mob {mob.name} is already in enemy mobs list!");
+            }
+        }
+        else
+        {
+            if (!PlayerMobs.Contains(mob))
+            {
+                PlayerMobs.Add(mob);
+            }
+            else
+            {
+                Debug.LogWarning($"Mob {mob.name} is already in player mobs list!");
+            }
+        }
     }
 
     public void MobDied(Mob mob)
     {
-        if (mob.IsActivated) uiManager.UpdateCurrentMobPanel(null);
-        if (mob.IsHostile) EnemyMobs.RemoveAll(x => x == mob);
-        else PlayerMobs.RemoveAll(x => x == mob);
+        if (mob == null)
+        {
+            Debug.LogError("Trying to remove null mob!");
+            return;
+        }
+
+        if (mob.IsActivated)
+        {
+            uiManager.UpdateCurrentMobPanel(null);
+            mob.IsActivated = false;
+        }
+
+        if (mob.IsHostile)
+        {
+            if (EnemyMobs.Contains(mob))
+            {
+                EnemyMobs.Remove(mob);
+            }
+            else
+            {
+                Debug.LogWarning($"Mob {mob.name} not found in enemy mobs list!");
+            }
+        }
+        else
+        {
+            if (PlayerMobs.Contains(mob))
+            {
+                PlayerMobs.Remove(mob);
+            }
+            else
+            {
+                Debug.LogWarning($"Mob {mob.name} not found in player mobs list!");
+            }
+        }
+
+        CheckWinCondition();
     }
 
     public void ReadyToFight()
     {
-        foreach (Mob mob in PlayerMobs)
+        if (PlayerMobs == null || PlayerMobs.Count == 0)
         {
-            if (!mob.IsHaveAction) return;
+            Debug.LogError("No player mobs available!");
+            return;
         }
 
-        StartCoroutine(calmMusicCoroutine);
+        bool allActionsAssigned = true;
+        foreach (Mob mob in PlayerMobs)
+        {
+            if (!mob.IsHaveAction)
+            {
+                allActionsAssigned = false;
+                break;
+            }
+        }
+
+        if (!allActionsAssigned)
+        {
+            Debug.Log("Waiting for all player mobs to assign actions...");
+            return;
+        }
+
+        if (calmMusicCoroutine != null)
+        {
+            StartCoroutine(calmMusicCoroutine);
+        }
+
         uiManager.ShowStartBattleButton();
     }
 
@@ -89,6 +183,13 @@ public class GameManager : MonoBehaviour
             mob.UI.HideShield();
         }
 
+        // Показываем сообщение о конце раунда и сбрасываем действия мобов
+        uiManager.ShowAnouncerPanel(true, "Next Round!");
+        ResetMobs();
+        
+        // Сбрасываем состояние карт для следующего раунда
+        cardPanel.ResetRound();
+        
         CheckWinCondition();
     }
 
@@ -123,23 +224,54 @@ public class GameManager : MonoBehaviour
             IsLose = true;
             uiManager.GameEndScreen();
             uiManager.ShowGameEndPanel("DEFEAT!");
-            return;
-        }
-
-        ResetMobs();
+            ResetMobs();
 
         uiManager.ShowAnouncerPanel(true, "Next round!");
         StopCoroutine(calmMusicCoroutine);
         musicManager.StartCalmMusic();
+        cardPanel.GenereteCards();
+        SetCardPanel(false);
+        if (cardPanel.CanChangeCards())
+        {
+            uiManager.ShowChangeCardsButton();
+        }
+        }
+
+        ResetMobs();
+        StopCoroutine(calmMusicCoroutine);
+        musicManager.StartCalmMusic();
+        cardPanel.GenereteCards();
+        SetCardPanel(false);
+        if (cardPanel.CanChangeCards())
+        {
+            uiManager.ShowChangeCardsButton();
+        }
     }
 
     private IEnumerator LaunchFireworks()
     {
+        if (fireworkPSs.Count == 0)
+        {
+            Debug.LogError("No fireworks found!");
+            yield break;
+        }
+
         for (int i = 0; i < 100;  i++)
         {
             int rand = UnityEngine.Random.Range(0, fireworkPSs.Count);
-            fireworkPSs[rand].GetComponent<AudioSource>().Play();
-            fireworkPSs[rand].Play();
+            if (rand < fireworkPSs.Count)
+            {
+                var firework = fireworkPSs[rand];
+                if (firework != null)
+                {
+                    var audioSource = firework.GetComponent<AudioSource>();
+                    if (audioSource != null)
+                    {
+                        audioSource.Play();
+                    }
+                    firework.Play();
+                }
+            }
 
             yield return new WaitForSeconds(UnityEngine.Random.Range(.2f, 2f));
         }
@@ -148,5 +280,41 @@ public class GameManager : MonoBehaviour
     public void RestartScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void SetCardPanel(bool state)
+    {
+        if (state)
+        {
+            cardPanel.EnableInteraction();
+        } else cardPanel.DisableInteraction();
+    }
+
+    public void StartChangeCardMode()
+    {
+        if (ChangeCardMode)
+        {
+            StopChangeCardMode();
+            return;
+        }
+
+        cardPanel.StartChangeMode();
+        ChangeCardMode = true;
+
+        uiManager.WaitChangeCardsButton();
+    }
+
+    public void StopChangeCardMode()
+    {
+        cardPanel.StopChangeMode();
+        uiManager.ShowChangeCardsButton();
+        ChangeCardMode = false;
+    }
+
+    public void ExitChangeCardMode()
+    {
+        cardPanel.StopChangeMode();
+        uiManager.HideChangeCardsButton();
+        ChangeCardMode = false;
     }
 }

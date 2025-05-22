@@ -49,13 +49,24 @@ public class Mob : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null)
+        {
+            Debug.LogError($"SpriteRenderer not found on {name}");
+            return;
+        }
+
         gameManager = FindObjectOfType<GameManager>();
         uiManager = FindObjectOfType<UIManager>();
         uiSounds = FindObjectOfType<UISounds>();
         queueManager = FindObjectOfType<QueueManager>();
+
         animationController = GetComponent<AnimationController>();
         soundController = GetComponent<SoundController>();
         ui = GetComponent<MobUI>();
+
+        if (animationController == null) Debug.LogError($"AnimationController not found on {name}");
+        if (soundController == null) Debug.LogError($"SoundController not found on {name}");
+        if (ui == null) Debug.LogError($"MobUI not found on {name}");
     }
 
     private void Start()
@@ -75,16 +86,31 @@ public class Mob : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (!IsHostile && !IsHaveAction && !IsDead && !IsActivated && !gameManager.ControlLock)
+        if (gameManager == null || uiManager == null || ui == null || uiSounds == null)
         {
-            ui.MobCursor.Show();
-            uiSounds.ButtonHover();
+            Debug.LogError($"Missing required components in {name}");
+            return;
         }
 
-        if (!IsHostile && !IsDead && gameManager.ActivatedMob == null) uiManager.UpdateCurrentMobPanel(this);
-        if (IsHostile && !IsDead) uiManager.UpdateEnemyMobPanel(this);
+        if (!IsHostile && !IsHaveAction && !IsDead && !IsActivated && !gameManager.ControlLock && !gameManager.ChangeCardMode)
+        {
+            if (ui.MobCursor != null)
+            {
+                ui.MobCursor.Show();
+                uiSounds.ButtonHover();
+            }
+        }
 
-        if (IsHostile && gameManager.ControlLock)
+        if (!IsHostile && !IsDead && gameManager.ActivatedMob == null)
+        {
+            uiManager.UpdateCurrentMobPanel(this);
+        }
+        if (IsHostile && !IsDead)
+        {
+            uiManager.UpdateEnemyMobPanel(this);
+        }
+
+        if (IsHostile && gameManager.ControlLock && ui.MobCursor != null)
         {
             ui.MobCursor.ZoomIn();
         }
@@ -92,7 +118,7 @@ public class Mob : MonoBehaviour
 
     private void OnMouseExit()
     {
-        if (!IsHostile && !IsHaveAction && !IsDead && !IsActivated && !gameManager.ControlLock)
+        if (!IsHostile && !IsHaveAction && !IsDead && !IsActivated && !gameManager.ControlLock && !gameManager.ChangeCardMode)
         {
             ui.MobCursor.Hide();
         }
@@ -110,7 +136,7 @@ public class Mob : MonoBehaviour
     {
         if (Input.GetMouseButtonUp(0))
         {
-            if (!IsHostile && !IsHaveAction && !IsDead && !gameManager.ControlLock)
+            if (!IsHostile && !IsHaveAction && !IsDead && !gameManager.ControlLock && !gameManager.ChangeCardMode)
             {
                 if (IsActivated)
                 {
@@ -133,6 +159,7 @@ public class Mob : MonoBehaviour
                     if (mob != this) mob.Deactivate();
                 }
                 gameManager.ControlLock = false;
+                gameManager.SetCardPanel(false);
             }
         }
     }
@@ -163,27 +190,42 @@ public class Mob : MonoBehaviour
         uiManager.UpdateCurrentMobPanel(null);
     }
 
-    public void GetDamage(int amount)
+    public void GetDamage(int damage)
     {
-        if (IsUnderDefense)
+        if (IsDead) return;
+
+        // Анимация получения урона
+        animationController.PlayGetDamage_Animation();
+
+        // Звук получения урона
+        soundController.GetDamage();
+
+        // Визуальный эффект
+        if (getDamageVFX != null)
         {
-            soundController.GetShieldDamage();
-            ui.ShowText("Blocked!", Color.blue);
-            shieldHitVFX.Play();
+            getDamageVFX.Play();
         }
         else
         {
-            mobHP -= amount;
-            ui.UpdateHPBar(mobHP);
-            ui.ShowText(amount.ToString(), Color.red);
-            if (mobHP > 0)
+            Debug.LogWarning($"Damage VFX not found on {name}");
+        }
+
+        if (IsUnderDefense)
+        {
+            soundController.PlayShieldDamageSound();
+            ui.ShowText("Blocked!", Color.white);
+        }
+        else
+        {
+            soundController.PlayGetDamageSound();
+            
+            mobHP -= damage;
+            ui.UpdateHP(mobHP);
+
+            if (mobHP <= 0)
             {
-                soundController.GetDamage();
-                getDamageVFX.Play();
-                animationController.PlayGetDamage_Animation();
-                if (IsActivated) uiManager.UpdateCurrentMobPanel(this);
+                Die();
             }
-            else Die();
         }
     }
 
@@ -191,10 +233,16 @@ public class Mob : MonoBehaviour
     {
         IsDead = true;
         soundController.Death();
-        ui.MobDeath();
+        if (ui != null)
+        {
+            ui.MobDeath();
+        }
         gameManager?.MobDied(this);
         animationController.PlayDie_Animation();
-        deathVFX.Play();
+        if (deathVFX != null)
+        {
+            deathVFX.Play();
+        }
     }
 
     public void SkpTurn()
@@ -231,6 +279,9 @@ public class Mob : MonoBehaviour
         transform.DOMove(rivalPosition.transform.position, .3f);
         gameManager.ReadyToFight();
         uiSounds.ActionConfirm();
+
+        gameManager.ExitChangeCardMode();
+        gameManager._CardPanel.DeleteCards();
     }
 
     private void Attack(ActionType action)
@@ -240,6 +291,8 @@ public class Mob : MonoBehaviour
         ui.ShowTargetCursor();
         gameManager.ControlLock = true;
         gameManager.PickingMob = this;
+        gameManager.ExitChangeCardMode();
+        gameManager.SetCardPanel(true);
     }
 
     public void PerformSkipTurn()

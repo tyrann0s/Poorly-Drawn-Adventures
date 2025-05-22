@@ -18,6 +18,10 @@ public class PopUpPanel : MonoBehaviour
     private void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
+        if (gameManager == null)
+        {
+            Debug.LogError("Game Manager not found!");
+        }
     }
 
     public void Show(string value)
@@ -46,11 +50,17 @@ public class PopUpPanel : MonoBehaviour
 
     private void ControlLockOn()
     {
-        gameManager.ControlLock = true;
+        if (gameManager != null)
+        {
+            gameManager.ControlLock = true;
+        }
     }
 
     private void ControlLockOff()
     {
-        gameManager.ControlLock = false;
+        if (gameManager != null)
+        {
+            gameManager.ControlLock = false;
+        }
     }
 }

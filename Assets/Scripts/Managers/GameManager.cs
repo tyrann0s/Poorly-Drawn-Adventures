@@ -225,19 +225,10 @@ public class GameManager : MonoBehaviour
             uiManager.GameEndScreen();
             uiManager.ShowGameEndPanel("DEFEAT!");
             ResetMobs();
+            return;
+        }
 
         uiManager.ShowAnouncerPanel(true, "Next round!");
-        StopCoroutine(calmMusicCoroutine);
-        musicManager.StartCalmMusic();
-        cardPanel.GenereteCards();
-        SetCardPanel(false);
-        if (cardPanel.CanChangeCards())
-        {
-            uiManager.ShowChangeCardsButton();
-        }
-        }
-
-        ResetMobs();
         StopCoroutine(calmMusicCoroutine);
         musicManager.StartCalmMusic();
         cardPanel.GenereteCards();

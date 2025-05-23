@@ -13,7 +13,7 @@ public class CardPanel : MonoBehaviour
     [SerializeField]
     private int ignoreLayer, normalLayer;
 
-    public List<GameObject> Cards { get; private set; } = new List<GameObject>();
+    public List<Card> Cards { get; private set; } = new List<Card>();
 
     private Vector3 originTransform;
     private Vector3 originScale = Vector3.one;
@@ -68,48 +68,46 @@ public class CardPanel : MonoBehaviour
             if (Cards[i] == null)
             {
                 GameObject go = Instantiate(cardPrefab, spawnPositions[i]);
-                Cards[i] = go;
-                go.GetComponent<Card>().ParentCardPanel = this;
+                Cards[i] = go.GetComponent<Card>();
+                Cards[i].ParentCardPanel = this;
             }
         }
     }
 
     public void DisableInteraction()
     {
-        foreach (GameObject card in Cards)
+        foreach (Card card in Cards)
         {
-            if (card != null) card.layer = ignoreLayer;
+            if (card != null) card.gameObject.layer = ignoreLayer;
         }
         transform.position = originTransform;
     }
 
     public void EnableInteraction()
     {
-        foreach (GameObject card in Cards)
+        foreach (Card card in Cards)
         {
-            if (card != null) card.layer = normalLayer;
+            if (card != null) card.gameObject.layer = normalLayer;
         }
         transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
     }
 
     public void DeleteCards()
     {
-        List<GameObject> cardsToDelete = new List<GameObject>(); 
-        foreach (GameObject card in Cards)
+        List<Card> cardsToDelete = new List<Card>(); 
+        foreach (Card card in Cards)
         {
             if (card != null)
             {
-                Card currentCard = card.GetComponent<Card>();
-
-                if (currentCard.IsPicked || currentCard.IsForChange)
+                if (card.IsPicked || card.IsForChange)
                 {
                     cardsToDelete.Add(card);
-                    Destroy(card);
+                    Destroy(card.gameObject);
                 }
             }
         }
 
-        foreach (GameObject card in cardsToDelete)
+        foreach (Card card in cardsToDelete)
         {
             Cards[Cards.IndexOf(card)] = null;
         }
@@ -198,17 +196,16 @@ public class CardPanel : MonoBehaviour
 
     private void ResetCardState()
     {
-        foreach (GameObject card in Cards)
+        foreach (Card card in Cards)
         {
             if (card != null)
             {
-                Card cardComponent = card.GetComponent<Card>();
-                if (cardComponent != null)
+                if (card.IsPicked || card.IsForChange)
                 {
-                    cardComponent.IsPicked = false;
-                    cardComponent.IsForChange = false;
-                    cardComponent.transform.localScale = Vector3.one; // Возвращаем оригинальный размер
-                    cardComponent.transform.position = card.transform.parent.position; // Возвращаем оригинальную позицию
+                    card.IsPicked = false;
+                    card.IsForChange = false;
+                    card.transform.localScale = Vector3.one;
+                    card.transform.position = card.transform.parent.position;
                 }
             }
         }

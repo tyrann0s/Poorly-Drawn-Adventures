@@ -1,5 +1,14 @@
 {
   "dependencies": {
+    "com.boxqkrtm.ide.cursor": {
+      "version": "https://github.com/boxqkrtm/com.unity.ide.cursor.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.test-framework": "1.1.9"
+      },
+      "hash": "38fecf55e4fd94ccfe58a92ed8ad1a529ba1694e"
+    },
     "com.unity.2d.animation": {
       "version": "10.1.4",
       "depth": 0,
@@ -130,15 +139,6 @@
         "com.unity.test-framework": "1.1.9"
       },
       "url": "https://packages.unity.com"
-    },
-    "com.unity.ide.windsurf": {
-      "version": "https://github.com/Asuta/com.unity.ide.windsurf.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {
-        "com.unity.test-framework": "1.1.9"
-      },
-      "hash": "6161accf3e7beab96341813913e714c7e2fb5c5d"
     },
     "com.unity.inputsystem": {
       "version": "1.14.0",

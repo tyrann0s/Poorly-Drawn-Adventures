@@ -1,5 +1,7 @@
 public enum ElementType
 {
+    Physical,
+    Etherial,
     Fire,
     Water,
     Air,

@@ -116,7 +116,7 @@ public class MobUI : MonoBehaviour
         }
     }
 
-    public void UpdateHP(int value)
+    public void UpdateHP(float value)
     {
         if (hpBar != null)
         {

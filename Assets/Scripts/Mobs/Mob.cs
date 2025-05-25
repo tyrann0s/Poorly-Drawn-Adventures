@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Cards;
 using UnityEngine;
 
 public class Mob : MonoBehaviour
@@ -42,9 +43,11 @@ public class Mob : MonoBehaviour
     private MobData mobData;
     public MobData MobData => mobData;
 
-    private int mobHP, mobStamina;
-    public int MobHP => mobHP;
-    public int MobStamina => mobStamina;
+    private float mobHP, mobStamina;
+    public float MobHP => mobHP;
+    public float MobStamina => mobStamina;
+    
+    public ElementCombo CurrentCombo { get; set; }
 
     private void Awake()
     {
@@ -55,10 +58,10 @@ public class Mob : MonoBehaviour
             return;
         }
 
-        gameManager = FindObjectOfType<GameManager>();
-        uiManager = FindObjectOfType<UIManager>();
-        uiSounds = FindObjectOfType<UISounds>();
-        queueManager = FindObjectOfType<QueueManager>();
+        gameManager = FindFirstObjectByType<GameManager>();
+        uiManager = FindFirstObjectByType<UIManager>();
+        uiSounds = FindFirstObjectByType<UISounds>();
+        queueManager = FindFirstObjectByType<QueueManager>();
 
         animationController = GetComponent<AnimationController>();
         soundController = GetComponent<SoundController>();
@@ -154,6 +157,9 @@ public class Mob : MonoBehaviour
                 gameManager.PickingMob.CurrentAction.TargetInstance = this;
                 gameManager.PickingMob.ActionPrepared();
                 gameManager.PickingMob.Deactivate();
+                gameManager.PickingMob.CurrentCombo = gameManager.GetCombo();
+                
+                
                 foreach (Mob mob in gameManager.EnemyMobs)
                 {
                     if (mob != this) mob.Deactivate();
@@ -190,7 +196,7 @@ public class Mob : MonoBehaviour
         uiManager.UpdateCurrentMobPanel(null);
     }
 
-    public void GetDamage(int damage)
+    public void GetDamage(float damage, ElementCombo enemyCombo)
     {
         if (IsDead) return;
 
@@ -218,8 +224,14 @@ public class Mob : MonoBehaviour
         else
         {
             soundController.PlayGetDamageSound();
+
+            if (enemyCombo != null)
+            {
+                mobHP -= damage * enemyCombo.damageMultiplier;
+                Debug.Log("был нанесен урон с " + enemyCombo.comboName);
+            }
+            else mobHP -= damage;
             
-            mobHP -= damage;
             ui.UpdateHP(mobHP);
 
             if (mobHP <= 0)
@@ -357,9 +369,9 @@ public class Mob : MonoBehaviour
         } 
     }
 
-    private IEnumerator DamageCoroutine(int damage, int cost)
+    private IEnumerator DamageCoroutine(float damage, float cost)
     {
-        CurrentAction.TargetInstance.GetDamage(damage);
+        CurrentAction.TargetInstance.GetDamage(damage, CurrentCombo);
         mobStamina -= cost;
 
         yield return new WaitForSeconds(.5f);

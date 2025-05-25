@@ -1,213 +1,234 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
-public class CardPanel : MonoBehaviour
+namespace Cards
 {
-    [SerializeField]
-    private GameObject cardPrefab;
-
-    [SerializeField]
-    private List<Transform> spawnPositions = new List<Transform>();
-
-    [SerializeField]
-    private int ignoreLayer, normalLayer;
-
-    public List<Card> Cards { get; private set; } = new List<Card>();
-
-    private Vector3 originTransform;
-    private Vector3 originScale = Vector3.one;
-
-    public bool CardChangeMode { get; set; } = false;
-    public int ChangeIndex { get; private set; } = 0;
-    private int changesMadeThisRound = 0;
-    private const int MAX_CHANGES_PER_ROUND = 1; // Максимальное количество изменений за раунд
-
-    private UIManager uiManager;
-    private GameManager gameManager;
-
-    private void Start()
+    public class CardPanel : MonoBehaviour
     {
-        if (cardPrefab == null)
+        [SerializeField]
+        private GameObject cardPrefab;
+
+        [SerializeField]
+        private List<Transform> spawnPositions = new List<Transform>();
+
+        [SerializeField]
+        private int ignoreLayer, normalLayer;
+    
+        [SerializeField]
+        private CardCombination combinationSystem;
+        public ElementCombo CurrentCombination { get; private set; }
+
+        public List<Card> Cards { get; private set; } = new List<Card>();
+
+        private Vector3 originTransform;
+
+        public bool CardChangeMode { get; set; }
+        public int ChangeIndex { get; private set; }
+        private int changesMadeThisRound;
+        private const int MaxChangesPerRound = 1; // Максимальное количество изменений за раунд
+
+        private UIManager uiManager;
+        private GameManager gameManager;
+
+        private void Start()
         {
-            Debug.LogError("Card prefab is not assigned!");
-            return;
-        }
-
-        if (spawnPositions == null || spawnPositions.Count == 0)
-        {
-            Debug.LogError("No spawn positions found!");
-            return;
-        }
-
-        for (int i = 0; i < spawnPositions.Count; i++)
-        {
-            Cards.Add(null);
-        }
-
-        originTransform = transform.position;
-
-        uiManager = FindFirstObjectByType<UIManager>();
-        gameManager = FindFirstObjectByType<GameManager>();
-
-        if (uiManager == null)
-        {
-            Debug.LogError("UIManager not found!");
-        }
-
-        if (gameManager == null)
-        {
-            Debug.LogError("GameManager not found!");
-        }
-    }
-
-    public void GenereteCards()
-    {
-        for (int i = 0; i < spawnPositions.Count; i++)
-        {
-            if (Cards[i] == null)
+            if (cardPrefab == null)
             {
-                GameObject go = Instantiate(cardPrefab, spawnPositions[i]);
-                Cards[i] = go.GetComponent<Card>();
-                Cards[i].ParentCardPanel = this;
+                Debug.LogError("Card prefab is not assigned!");
+                return;
+            }
+
+            if (spawnPositions == null || spawnPositions.Count == 0)
+            {
+                Debug.LogError("No spawn positions found!");
+                return;
+            }
+
+            for (int i = 0; i < spawnPositions.Count; i++)
+            {
+                Cards.Add(null);
+            }
+
+            originTransform = transform.position;
+
+            uiManager = FindFirstObjectByType<UIManager>();
+            gameManager = FindFirstObjectByType<GameManager>();
+
+            if (uiManager == null)
+            {
+                Debug.LogError("UIManager not found!");
+            }
+
+            if (gameManager == null)
+            {
+                Debug.LogError("GameManager not found!");
             }
         }
-    }
 
-    public void DisableInteraction()
-    {
-        foreach (Card card in Cards)
+        public void GenereteCards()
         {
-            if (card != null) card.gameObject.layer = ignoreLayer;
-        }
-        transform.position = originTransform;
-    }
-
-    public void EnableInteraction()
-    {
-        foreach (Card card in Cards)
-        {
-            if (card != null) card.gameObject.layer = normalLayer;
-        }
-        transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
-    }
-
-    public void DeleteCards()
-    {
-        List<Card> cardsToDelete = new List<Card>(); 
-        foreach (Card card in Cards)
-        {
-            if (card != null)
+            for (int i = 0; i < spawnPositions.Count; i++)
             {
-                if (card.IsPicked || card.IsForChange)
+                if (Cards[i] == null)
                 {
-                    cardsToDelete.Add(card);
-                    Destroy(card.gameObject);
+                    GameObject go = Instantiate(cardPrefab, spawnPositions[i]);
+                    Cards[i] = go.GetComponent<Card>();
+                    Cards[i].ParentCardPanel = this;
                 }
             }
         }
 
-        foreach (Card card in cardsToDelete)
+        public void DisableInteraction()
         {
-            Cards[Cards.IndexOf(card)] = null;
-        }
-    }
-
-    public void StartChangeMode()
-    {
-        if (!CanChangeCards())
-        {
-            Debug.LogWarning("Cannot start change mode - max changes per round reached!");
-            return;
-        }
-
-        CardChangeMode = true;
-        EnableInteraction();
-        uiManager.ShowChangeCardsButton();
-    }
-
-    public void StopChangeMode()
-    {
-        CardChangeMode = false;
-        ChangeIndex = 0;
-        DisableInteraction();
-        uiManager.HideConfirmChangeButton();
-        uiManager.HideChangeCardsButton();
-    }
-
-    public void IncreaseCardsForChange()
-    {
-        if (ChangeIndex < 2)
-        {
-            ChangeIndex++;
-            uiManager.ShowConfirmChangeButton();
-        }
-    }
-
-    public void DecreaseCardsForChange()
-    {
-        if (ChangeIndex > 0)
-        {
-            ChangeIndex--;
-            if (ChangeIndex == 0)
+            foreach (Card card in Cards)
             {
-                uiManager.HideConfirmChangeButton();
+                if (card != null) card.gameObject.layer = ignoreLayer;
+            }
+            transform.position = originTransform;
+        }
+
+        public void EnableInteraction()
+        {
+            foreach (Card card in Cards)
+            {
+                if (card != null) card.gameObject.layer = normalLayer;
+            }
+            transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+        }
+
+        public void DeleteCards()
+        {
+            List<Card> cardsToDelete = new List<Card>(); 
+            foreach (Card card in Cards)
+            {
+                if (card != null)
+                {
+                    if (card.IsPicked || card.IsForChange)
+                    {
+                        cardsToDelete.Add(card);
+                        Destroy(card.gameObject);
+                    }
+                }
+            }
+
+            foreach (Card card in cardsToDelete)
+            {
+                Cards[Cards.IndexOf(card)] = null;
             }
         }
-    }
 
-    public bool CanChangeCards()
-    {
-        return changesMadeThisRound < MAX_CHANGES_PER_ROUND;
-    }
-
-    public void ChangeCards()
-    {
-        if (!CanChangeCards())
+        public void StartChangeMode()
         {
-            Debug.LogWarning("Cannot change cards more than once per round!");
-            return;
+            if (!CanChangeCards())
+            {
+                Debug.LogWarning("Cannot start change mode - max changes per round reached!");
+                return;
+            }
+
+            CardChangeMode = true;
+            EnableInteraction();
+            uiManager.ShowChangeCardsButton();
         }
 
-        DeleteCards();
-        GenereteCards();
-        uiManager.HideConfirmChangeButton();
-        uiManager.HideChangeCardsButton();
-        DisableInteraction();
-        ResetCardState();
-        changesMadeThisRound++;
+        public void StopChangeMode()
+        {
+            CardChangeMode = false;
+            ChangeIndex = 0;
+            DisableInteraction();
+            uiManager.HideConfirmChangeButton();
+            uiManager.HideChangeCardsButton();
+        }
+
+        public void IncreaseCardsForChange()
+        {
+            if (ChangeIndex < 2)
+            {
+                ChangeIndex++;
+                uiManager.ShowConfirmChangeButton();
+            }
+        }
+
+        public void DecreaseCardsForChange()
+        {
+            if (ChangeIndex > 0)
+            {
+                ChangeIndex--;
+                if (ChangeIndex == 0)
+                {
+                    uiManager.HideConfirmChangeButton();
+                }
+            }
+        }
+
+        public bool CanChangeCards()
+        {
+            return changesMadeThisRound < MaxChangesPerRound;
+        }
+
+        public void ChangeCards()
+        {
+            if (!CanChangeCards())
+            {
+                Debug.LogWarning("Cannot change cards more than once per round!");
+                return;
+            }
+
+            DeleteCards();
+            GenereteCards();
+            uiManager.HideConfirmChangeButton();
+            uiManager.HideChangeCardsButton();
+            DisableInteraction();
+            ResetCardState();
+            changesMadeThisRound++;
         
-        // Сбрасываем ControlLock и ChangeCardMode после изменения карт
-        if (gameManager != null)
-        {
-            gameManager.ControlLock = false;
-            gameManager.ChangeCardMode = false;
-        }
-    }
-
-    public void ResetRound()
-    {
-        changesMadeThisRound = 0;
-        CardChangeMode = false;
-        ChangeIndex = 0;
-        DisableInteraction();
-        uiManager.ShowChangeCardsButton();
-    }
-
-    private void ResetCardState()
-    {
-        foreach (Card card in Cards)
-        {
-            if (card != null)
+            // Сбрасываем ControlLock и ChangeCardMode после изменения карт
+            if (gameManager != null)
             {
-                if (card.IsPicked || card.IsForChange)
+                gameManager.ControlLock = false;
+                gameManager.ChangeCardMode = false;
+            }
+        }
+
+        public void ResetRound()
+        {
+            changesMadeThisRound = 0;
+            CardChangeMode = false;
+            ChangeIndex = 0;
+            DisableInteraction();
+            uiManager.ShowChangeCardsButton();
+        }
+
+        private void ResetCardState()
+        {
+            foreach (Card card in Cards)
+            {
+                if (card != null)
                 {
-                    card.IsPicked = false;
-                    card.IsForChange = false;
-                    card.transform.localScale = Vector3.one;
-                    card.transform.position = card.transform.parent.position;
+                    if (card.IsPicked || card.IsForChange)
+                    {
+                        card.IsPicked = false;
+                        card.IsForChange = false;
+                        card.transform.localScale = Vector3.one;
+                        card.transform.position = card.transform.parent.position;
+                    }
                 }
             }
+        }
+
+        public void CheckForCombination()
+        {
+            var pickedCards = Cards.Where(card => card != null && card.IsPicked).ToList();
+            CurrentCombination = combinationSystem.CheckCombination(pickedCards);
+
+            uiManager.ShowCombination(CurrentCombination);
+        }
+
+        public ElementCombo GetCombo()
+        {
+            ElementCombo combo = CurrentCombination;
+            CurrentCombination = null;
+            return combo;
         }
     }
 }

@@ -1,10 +1,7 @@
 using DG.Tweening;
-using DG.Tweening.Core;
-using DG.Tweening.Core.Easing;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Cards;
 
 public class UIManager : MonoBehaviour
 {
@@ -22,6 +19,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private Button confirmChangeButton;
+
+    [SerializeField] private Text combinationText;
 
     public void ShowAnouncerPanel(bool isAnimated, string value)
     {
@@ -111,5 +110,10 @@ public class UIManager : MonoBehaviour
         currentMobPanel.gameObject.SetActive(false);
         enemyMobPanel.gameObject.SetActive(false);
         startFightButton.gameObject.SetActive(false);
+    }
+
+    public void ShowCombination(ElementCombo currentCombination)
+    {
+        combinationText.text = currentCombination == null ? "" : currentCombination.comboName;
     }
 }

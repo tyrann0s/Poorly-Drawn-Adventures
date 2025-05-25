@@ -13,13 +13,13 @@ public class HPBar : MonoBehaviour
         slider = GetComponentInChildren<Slider>();
     }
 
-    public void Init(int maxValue)
+    public void Init(float maxValue)
     {
         slider.maxValue = maxValue;
         slider.value = maxValue;
     }
 
-    public void UpdateHP(int value)
+    public void UpdateHP(float value)
     {
         if (slider != null)
         {

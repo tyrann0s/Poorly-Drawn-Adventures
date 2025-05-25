@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cards;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -224,11 +225,9 @@ public class GameManager : MonoBehaviour
             IsLose = true;
             uiManager.GameEndScreen();
             uiManager.ShowGameEndPanel("DEFEAT!");
-            ResetMobs();
             return;
         }
-
-        uiManager.ShowAnouncerPanel(true, "Next round!");
+        
         StopCoroutine(calmMusicCoroutine);
         musicManager.StartCalmMusic();
         cardPanel.GenereteCards();
@@ -307,5 +306,10 @@ public class GameManager : MonoBehaviour
         cardPanel.StopChangeMode();
         uiManager.HideChangeCardsButton();
         ChangeCardMode = false;
+    }
+
+    public ElementCombo GetCombo()
+    {
+        return cardPanel.GetCombo();
     }
 }

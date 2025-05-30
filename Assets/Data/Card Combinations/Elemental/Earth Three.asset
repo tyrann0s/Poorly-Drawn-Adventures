@@ -10,12 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29c92791fd514019bc4dbc9cb3aa8ee0, type: 3}
-  m_Name: Air Pair
+  m_Name: Earth Three
   m_EditorClassIdentifier: 
-  useRanksInsteadOfElements: 0
-  elements: 0400000004000000
-  ranks: 
-  damageType: 4
-  damageMultiplier: 1.5
-  comboName: Air Pair
+  specificConditions: []
+  mixedConditions: []
+  elementConditions:
+  - elementType: 5
+  - elementType: 5
+  - elementType: 5
+  rankConditions: []
+  damageType: 5
+  damageMultiplier: 2
+  comboName: Earth Three
   description: 
+  stun: 0
+  ignoreDefense: 1
+  aoeAttack: 0

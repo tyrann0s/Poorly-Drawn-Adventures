@@ -5,9 +5,24 @@ using Cards;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField]
-    private CurrentMobPanel currentMobPanel, enemyMobPanel;
-
+    private static UIManager instance;
+    public static UIManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindFirstObjectByType<UIManager>();
+                if (instance == null)
+                {
+                    GameObject go = new GameObject("UI Manager");
+                    instance = go.AddComponent<UIManager>();
+                }
+            }
+            return instance;
+        }
+    }
+    
     [SerializeField]
     private PopUpPanel gameEndPanel, anouncerPanel;
 
@@ -21,6 +36,13 @@ public class UIManager : MonoBehaviour
     private Button confirmChangeButton;
 
     [SerializeField] private Text combinationText;
+    
+    public UISounds UISounds { get; private set; }
+
+    private void Start()
+    {
+        UISounds = GetComponentInChildren<UISounds>();
+    }
 
     public void ShowAnouncerPanel(bool isAnimated, string value)
     {
@@ -31,28 +53,6 @@ public class UIManager : MonoBehaviour
     public void ShowGameEndPanel(string value)
     {
         gameEndPanel.Show(value);
-    }
-
-    public void UpdateCurrentMobPanel(Mob mob)
-    {
-        UpdateMobPanel(currentMobPanel, mob);
-    }
-
-    public void UpdateEnemyMobPanel(Mob mob)
-    {
-        UpdateMobPanel(enemyMobPanel, mob);
-    }
-
-    private void UpdateMobPanel(CurrentMobPanel mobPanel, Mob mob)
-    {
-        if (mob != null)
-        {
-            mobPanel.UpdatePanel(mob);
-        }
-        else
-        {
-            mobPanel.UpdatePanel();
-        }
     }
 
     public void ShowStartBattleButton()
@@ -107,13 +107,17 @@ public class UIManager : MonoBehaviour
     public void GameEndScreen()
     {
         gameEndPanel.gameObject.SetActive(true);
-        currentMobPanel.gameObject.SetActive(false);
-        enemyMobPanel.gameObject.SetActive(false);
         startFightButton.gameObject.SetActive(false);
     }
 
     public void ShowCombination(ElementCombo currentCombination)
     {
         combinationText.text = currentCombination == null ? "" : currentCombination.comboName;
+    }
+    
+    private void OnDestroy()
+    {
+        // Останавливает все твины, связанные с этим объектом
+        DOTween.Kill(transform);
     }
 }

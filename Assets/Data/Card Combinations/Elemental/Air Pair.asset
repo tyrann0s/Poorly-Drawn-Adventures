@@ -10,11 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29c92791fd514019bc4dbc9cb3aa8ee0, type: 3}
-  m_Name: 3 Pair
+  m_Name: Air Pair
   m_EditorClassIdentifier: 
-  useRanksInsteadOfElements: 1
-  elements: 
-  ranks: 0300000003000000
+  specificConditions: []
+  mixedConditions: []
+  elementConditions:
+  - elementType: 4
+  - elementType: 4
+  rankConditions: []
+  damageType: 4
   damageMultiplier: 1.5
-  comboName: Pair of 3
+  comboName: Air Pair
   description: 
+  stun: 0
+  ignoreDefense: 0
+  aoeAttack: 0

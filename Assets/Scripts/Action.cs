@@ -1,9 +1,11 @@
+using Mobs;
+
 public enum ActionType
 {
     SkipTurn,
     Defense,
     Attack1,
-    Attack2
+    Attack2,
 }
 
 

@@ -1,43 +1,62 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimationController : MonoBehaviour
+namespace Mobs
 {
-    private Animator animator;
-
-    private void Awake()
+    public class AnimationController : MobComponent
     {
-        animator = GetComponent<Animator>();
-    }
+        private Animator animator;
 
-    public void PlayIdle_Animation()
-    {
-        animator.Play("Idle");
-    }
+        protected override void Awake()
+        {
+            base.Awake();
+            animator = GetComponent<Animator>();
+        }
 
-    public void PlayRun_Animation()
-    {
-        animator.Play("Run");
-    }
+        public void PlayIdle_Animation()
+        {
+            animator.Play("Idle");
+        }
 
-    public void PlayAttack1_Animation()
-    {
-        animator.Play("Attack1");
-    }
+        public void PlayRun_Animation()
+        {
+            animator.Play("Run");
+        }
 
-    public void PlayAttack2_Animation()
-    {
-        animator.Play("Attack2");
-    }
+        public void PlayAttack1_Animation()
+        {
+            animator.Play("Attack1");
+        }
 
-    public void PlayGetDamage_Animation()
-    {
-        animator.Play("GetDamage");
-    }
+        public void PlayAttack2_Animation()
+        {
+            animator.Play("Attack2");
+        }
 
-    public void PlayDie_Animation()
-    {
-        animator.Play("Die");
+        public void PlayGetDamage_Animation()
+        {
+            animator.Play("GetDamage");
+        }
+
+        public void PlayDie_Animation()
+        {
+            animator.Play("Die");
+        }
+    
+        public void PlayAttackAnimation()
+        {
+            ParentMob.SoundController.StopMove();
+            switch (ParentMob.CurrentAction.MobAction)
+            {
+                case ActionType.Attack1:
+                    ParentMob.AnimationController.PlayAttack1_Animation();
+                    ParentMob.SoundController.Attack1();
+                    break;
+
+                case ActionType.Attack2:
+                    ParentMob.AnimationController.PlayAttack2_Animation();
+                    ParentMob.SoundController.Attack2();
+                    break;
+            }
+        }
     }
 }

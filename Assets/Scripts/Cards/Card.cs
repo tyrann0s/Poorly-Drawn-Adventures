@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 
@@ -34,10 +33,19 @@ namespace Cards
                 return;
             }
 
-            cardElement.CurrentElementType = (ElementType)UnityEngine.Random.Range(0, Enum.GetValues(typeof(ElementType)).Length);
-            cardRank = UnityEngine.Random.Range(1, 7);
+            cardElement.CurrentElementType = GetRandomElementType();
+            cardRank = Random.Range(1, 7);
             originTransform = transform.position;
             originScale = transform.localScale;
+        }
+
+        private ElementType GetRandomElementType()
+        {
+            const int firstElementIndex = (int)ElementType.Fire;
+            const int lastElementIndex = (int)ElementType.Earth;
+            
+            // Генерируем случайное значение только среди стихийных элементов
+            return (ElementType)Random.Range(firstElementIndex, lastElementIndex + 1);
         }
 
         private void Start()

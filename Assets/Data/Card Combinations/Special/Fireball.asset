@@ -10,11 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29c92791fd514019bc4dbc9cb3aa8ee0, type: 3}
-  m_Name: 4 Pair
+  m_Name: Fireball
   m_EditorClassIdentifier: 
-  useRanksInsteadOfElements: 1
-  elements: 
-  ranks: 0400000004000000
-  damageMultiplier: 1.5
-  comboName: Pair of 4
+  specificConditions:
+  - elementType: 2
+    rank: 3
+  - elementType: 5
+    rank: 3
+  mixedConditions: []
+  elementConditions: []
+  rankConditions: []
+  damageType: 2
+  damageMultiplier: 2
+  comboName: Fireball
   description: 
+  stun: 1
+  ignoreDefense: 0
+  aoeAttack: 0

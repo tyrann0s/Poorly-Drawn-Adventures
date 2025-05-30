@@ -1,46 +1,47 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HPBar : MonoBehaviour
+namespace Mobs
 {
-    private Slider slider;
-    public int MaxValue { get; set; }
-
-    private void Awake()
+    public class HPBar : MonoBehaviour
     {
-        slider = GetComponentInChildren<Slider>();
-    }
+        private Slider slider;
+        public int MaxValue { get; set; }
 
-    public void Init(float maxValue)
-    {
-        slider.maxValue = maxValue;
-        slider.value = maxValue;
-    }
-
-    public void UpdateHP(float value)
-    {
-        if (slider != null)
+        private void Awake()
         {
-            slider.value = value;
-            var text = slider.GetComponentInChildren<Text>();
-            if (text != null)
+            slider = GetComponentInChildren<Slider>();
+        }
+
+        public void Init(float maxValue)
+        {
+            slider.maxValue = maxValue;
+            slider.value = maxValue;
+        }
+
+        public void UpdateHP(float value)
+        {
+            if (slider != null)
             {
-                text.text = $"{value}/{slider.maxValue}";
+                slider.value = value;
+                var text = slider.GetComponentInChildren<Text>();
+                if (text != null)
+                {
+                    text.text = $"{value}/{slider.maxValue}";
+                }
             }
         }
-    }
 
-    public void UpdateMaxHP(int value)
-    {
-        if (slider != null)
+        public void UpdateMaxHP(int value)
         {
-            slider.maxValue = value;
-            var text = slider.GetComponentInChildren<Text>();
-            if (text != null)
+            if (slider != null)
             {
-                text.text = $"{slider.value}/{value}";
+                slider.maxValue = value;
+                var text = slider.GetComponentInChildren<Text>();
+                if (text != null)
+                {
+                    text.text = $"{slider.value}/{value}";
+                }
             }
         }
     }

@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Managers;
+using Mobs;
 
 public class MobSpawner : MonoBehaviour
 {
@@ -33,7 +35,7 @@ public class MobSpawner : MonoBehaviour
 
         if (isHostile)
         {
-            currentMob.MirrorMob();
+            currentMob.MobMovement.MirrorMob();
         }
     }
 
@@ -57,7 +59,7 @@ public class MobSpawner : MonoBehaviour
         }
 
         currentMob.IsHostile = isHostile;
-        currentMob.OriginPosition = new Vector3(
+        currentMob.MobMovement.OriginPosition = new Vector3(
             transform.position.x,
             transform.position.y + currentMob.transform.localPosition.y,
             transform.position.z

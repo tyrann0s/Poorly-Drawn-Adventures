@@ -1,32 +1,39 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class MobText : MonoBehaviour
+namespace Mobs
 {
-    [SerializeField]
-    private TMP_Text text;
-
-    [SerializeField]
-    private float animationSpeed;
-
-    [SerializeField]
-    private Transform destination;
-
-    public void ShowText(string value, Color color)
+    public class MobText : MonoBehaviour
     {
-        text.text = value;
-        text.color = color;
+        [SerializeField]
+        private TMP_Text text;
 
-        DOTween.Sequence()
-            .Append(transform.DOLocalMove(destination.localPosition, animationSpeed))
-            .Join(transform.DOScale(.5f, animationSpeed))
-            .AppendInterval(animationSpeed)
-            .Append(text.DOFade(0f, animationSpeed))
-            .Append(transform.DOLocalMove(Vector3.zero, 0))
-            .Append(transform.DOScale(Vector3.zero, 0))
-            .Append(text.DOFade(1, 1));
+        [SerializeField]
+        private float animationSpeed;
+
+        [SerializeField]
+        private Transform destination;
+
+        public void ShowText(string value, Color color)
+        {
+            text.text = value;
+            text.color = color;
+
+            DOTween.Sequence()
+                .Append(transform.DOLocalMove(destination.localPosition, animationSpeed))
+                .Join(transform.DOScale(.5f, animationSpeed))
+                .AppendInterval(animationSpeed)
+                .Append(text.DOFade(0f, animationSpeed))
+                .Append(transform.DOLocalMove(Vector3.zero, 0))
+                .Append(transform.DOScale(Vector3.zero, 0))
+                .Append(text.DOFade(1, 1));
+        }
+    
+        private void OnDestroy()
+        {
+            // Останавливает все твины, связанные с этим объектом
+            DOTween.Kill(transform);
+        }
     }
 }

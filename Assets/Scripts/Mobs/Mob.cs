@@ -1,427 +1,94 @@
-using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using Cards;
+using Managers;
 using UnityEngine;
 
-public class Mob : MonoBehaviour
+namespace Mobs
 {
-    [SerializeField]
-    private int staminaRestoreAmount;
-
-    private SpriteRenderer spriteRenderer;
-
-    private AnimationController animationController;
-    private SoundController soundController;
-    private MobUI ui;
-    public MobUI UI => ui;
-
-    [SerializeField]
-    private GameObject rivalPosition;
-    public GameObject RivalPosition => rivalPosition;
-
-    [SerializeField]
-    private ParticleSystem deathVFX, getDamageVFX, shieldHitVFX;
-
-    public bool IsHostile { get; set; }
-    public bool IsActivated { get; set; }
-    public bool IsDead { get; set; }
-    public bool IsHaveAction { get; set; }
-    public bool IsTarget { get; set; }
-    public bool IsUnderDefense { get; set; }
-
-    private GameManager gameManager;
-    private UIManager uiManager;
-    private UISounds uiSounds;
-    private QueueManager queueManager;
-
-    public Action CurrentAction { get; set; } = new Action();
-
-    public Vector3 OriginPosition { get; set; }
-
-    [SerializeField]
-    private MobData mobData;
-    public MobData MobData => mobData;
-
-    private float mobHP, mobStamina;
-    public float MobHP => mobHP;
-    public float MobStamina => mobStamina;
+    public enum MobState
+    {
+        Idle,
+        Ready,
+        Activated,
+        Attack,
+        Defense,
+        Stun,
+        Dead
+    }
     
-    public ElementCombo CurrentCombo { get; set; }
-
-    private void Awake()
+    public class Mob : MonoBehaviour
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        if (spriteRenderer == null)
+        [SerializeField]
+        private float staminaRestoreAmount;
+        public float StaminaRestoreAmount => staminaRestoreAmount;
+        
+        [SerializeField]
+        private MobData mobData;
+        public MobData MobData => mobData;
+        
+        public MobCombatSystem MobCombatSystem { get; private set; }
+        public MobInput MobInput { get; private set; }
+        public MobActions MobActions { get; private set; }
+        public MobMovement MobMovement { get; private set; }
+        public MobVFX MobVFX { get; private set; }
+        public AnimationController AnimationController { get; private set; }
+        public SoundController SoundController { get; private set; }
+        public MobUI UI { get; private set; }
+
+        public bool IsHostile { get; set; }
+        public MobState State { get; set; }
+        public int StunTime { get; set; }
+
+        public Action CurrentAction { get; set; } = new Action();
+        
+        public float MobHP {get; set;}
+        public float MobStamina { get; set; }
+    
+        public ElementCombo CurrentCombo { get; set; }
+
+        private void Awake()
         {
-            Debug.LogError($"SpriteRenderer not found on {name}");
-            return;
+            MobCombatSystem = GetComponent<MobCombatSystem>();
+            MobInput = GetComponent<MobInput>();
+            MobActions = GetComponent<MobActions>();
+            MobMovement = GetComponent<MobMovement>();
+            MobVFX = GetComponent<MobVFX>();
+            AnimationController = GetComponent<AnimationController>();
+            SoundController = GetComponent<SoundController>();
+            UI = GetComponent<MobUI>();
+
+            if (AnimationController == null) Debug.LogError($"AnimationController not found on {name}");
+            if (SoundController == null) Debug.LogError($"SoundController not found on {name}");
+            if (UI == null) Debug.LogError($"MobUI not found on {name}");
         }
 
-        gameManager = FindFirstObjectByType<GameManager>();
-        uiManager = FindFirstObjectByType<UIManager>();
-        uiSounds = FindFirstObjectByType<UISounds>();
-        queueManager = FindFirstObjectByType<QueueManager>();
-
-        animationController = GetComponent<AnimationController>();
-        soundController = GetComponent<SoundController>();
-        ui = GetComponent<MobUI>();
-
-        if (animationController == null) Debug.LogError($"AnimationController not found on {name}");
-        if (soundController == null) Debug.LogError($"SoundController not found on {name}");
-        if (ui == null) Debug.LogError($"MobUI not found on {name}");
-    }
-
-    private void Start()
-    {
-        animationController.PlayIdle_Animation();
-
-        mobHP = mobData.MaxHP;
-        mobStamina = mobData.MaxStamina;
-
-        if (IsHostile) rivalPosition.transform.localPosition = new Vector3(-rivalPosition.transform.localPosition.x, 0, 0);
-    }
-
-    public void MirrorMob()
-    {
-        spriteRenderer.flipX = true;
-    }
-
-    private void OnMouseEnter()
-    {
-        if (gameManager == null || uiManager == null || ui == null || uiSounds == null)
+        private void Start()
         {
-            Debug.LogError($"Missing required components in {name}");
-            return;
+            AnimationController.PlayIdle_Animation();
+
+            MobHP = mobData.MaxHP;
+            MobStamina = mobData.MaxStamina;
         }
-
-        if (!IsHostile && !IsHaveAction && !IsDead && !IsActivated && !gameManager.ControlLock && !gameManager.ChangeCardMode)
+        
+        public void Activate()
         {
-            if (ui.MobCursor != null)
+            foreach (Mob mob in GameManager.Instance.PlayerMobs)
             {
-                ui.MobCursor.Show();
-                uiSounds.ButtonHover();
-            }
-        }
-
-        if (!IsHostile && !IsDead && gameManager.ActivatedMob == null)
-        {
-            uiManager.UpdateCurrentMobPanel(this);
-        }
-        if (IsHostile && !IsDead)
-        {
-            uiManager.UpdateEnemyMobPanel(this);
-        }
-
-        if (IsHostile && gameManager.ControlLock && ui.MobCursor != null)
-        {
-            ui.MobCursor.ZoomIn();
-        }
-    }
-
-    private void OnMouseExit()
-    {
-        if (!IsHostile && !IsHaveAction && !IsDead && !IsActivated && !gameManager.ControlLock && !gameManager.ChangeCardMode)
-        {
-            ui.MobCursor.Hide();
-        }
-
-        if (!IsHostile && !IsDead && gameManager.ActivatedMob == null) uiManager.UpdateCurrentMobPanel(null);
-        if (IsHostile && !IsDead) uiManager.UpdateEnemyMobPanel(null);
-
-        if (IsHostile && gameManager.ControlLock)
-        {
-            ui.MobCursor.ZoomOut();
-        }
-    }
-
-    private void OnMouseOver()
-    {
-        if (Input.GetMouseButtonUp(0))
-        {
-            if (!IsHostile && !IsHaveAction && !IsDead && !gameManager.ControlLock && !gameManager.ChangeCardMode)
-            {
-                if (IsActivated)
+                if (mob != this)
                 {
-                    Deactivate();
-                }
-                else
-                {
-                    Activate();                  
+                    GameManager.Instance.ActivatedMob = this;
+                    mob.UI.HideUI();
                 }
             }
 
-            if (IsHostile && gameManager.ControlLock)
-            {
-                ui.MobCursor.PickTarget();
-                gameManager.PickingMob.CurrentAction.TargetInstance = this;
-                gameManager.PickingMob.ActionPrepared();
-                gameManager.PickingMob.Deactivate();
-                gameManager.PickingMob.CurrentCombo = gameManager.GetCombo();
-                
-                
-                foreach (Mob mob in gameManager.EnemyMobs)
-                {
-                    if (mob != this) mob.Deactivate();
-                }
-                gameManager.ControlLock = false;
-                gameManager.SetCardPanel(false);
-            }
-        }
-    }
-
-    public void Activate()
-    {
-        foreach (Mob mob in gameManager.PlayerMobs)
-        {
-            if (mob != this)
-            {
-                mob.IsActivated = false;
-                gameManager.ActivatedMob = this;
-                mob.UI.HideUI();
-            }
+            SoundController.Pick();
+            UI.Activate();
+            State = MobState.Activated;
         }
 
-        soundController.Pick();
-        ui.Activate();
-        IsActivated = true;
-        uiManager.UpdateCurrentMobPanel(this);
-    }
-
-    public void Deactivate()
-    {
-        ui.HideUI();
-        IsActivated = false;
-        gameManager.ActivatedMob = null;
-        uiManager.UpdateCurrentMobPanel(null);
-    }
-
-    public void GetDamage(float damage, ElementCombo enemyCombo)
-    {
-        if (IsDead) return;
-
-        // Анимация получения урона
-        animationController.PlayGetDamage_Animation();
-
-        // Звук получения урона
-        soundController.GetDamage();
-
-        // Визуальный эффект
-        if (getDamageVFX != null)
+        public void Deactivate()
         {
-            getDamageVFX.Play();
+            UI.HideUI();
+            GameManager.Instance.ActivatedMob = null;
         }
-        else
-        {
-            Debug.LogWarning($"Damage VFX not found on {name}");
-        }
-
-        if (IsUnderDefense)
-        {
-            soundController.PlayShieldDamageSound();
-            ui.ShowText("Blocked!", Color.white);
-        }
-        else
-        {
-            soundController.PlayGetDamageSound();
-
-            if (enemyCombo != null)
-            {
-                mobHP -= damage * enemyCombo.damageMultiplier;
-                Debug.Log("был нанесен урон с " + enemyCombo.comboName);
-            }
-            else mobHP -= damage;
-            
-            ui.UpdateHP(mobHP);
-
-            if (mobHP <= 0)
-            {
-                Die();
-            }
-        }
-    }
-
-    private void Die()
-    {
-        IsDead = true;
-        soundController.Death();
-        if (ui != null)
-        {
-            ui.MobDeath();
-        }
-        gameManager?.MobDied(this);
-        animationController.PlayDie_Animation();
-        if (deathVFX != null)
-        {
-            deathVFX.Play();
-        }
-    }
-
-    public void SkpTurn()
-    {
-        CurrentAction.MobAction = ActionType.SkipTurn;
-        CurrentAction.MobInstance = this;
-        Deactivate();
-
-        ActionPrepared();
-    }
-
-    public void Defense()
-    {
-        CurrentAction.MobAction = ActionType.Defense;
-        CurrentAction.MobInstance = this;
-        Deactivate();
-
-        ActionPrepared();
-    }
-
-    public void Attack1()
-    {
-        Attack(ActionType.Attack1);
-    }
-
-    public void Attack2()
-    {
-        Attack(ActionType.Attack2);
-    }
-
-    private void ActionPrepared()
-    {
-        IsHaveAction = true;
-        transform.DOMove(rivalPosition.transform.position, .3f);
-        gameManager.ReadyToFight();
-        uiSounds.ActionConfirm();
-
-        gameManager.ExitChangeCardMode();
-        gameManager._CardPanel.DeleteCards();
-    }
-
-    private void Attack(ActionType action)
-    {
-        CurrentAction.MobAction = action;
-        CurrentAction.MobInstance = this;
-        ui.ShowTargetCursor();
-        gameManager.ControlLock = true;
-        gameManager.PickingMob = this;
-        gameManager.ExitChangeCardMode();
-        gameManager.SetCardPanel(true);
-    }
-
-    public void PerformSkipTurn()
-    {
-        ui.ShowText("+" + staminaRestoreAmount + " stamina!", Color.green);
-        mobStamina += staminaRestoreAmount;
-        if (mobStamina > mobData.MaxStamina) mobStamina = mobData.MaxStamina;
-        NextAction();
-    }
-
-    public void PerformDefense()
-    {
-        mobStamina -= mobData.DefenseCost;
-        IsUnderDefense = true;
-        ui.ShowText("Defense!", Color.blue);
-        uiSounds.ShieldActivation();
-        ui.ShowShield();
-    }
-
-    public void NextAction()
-    {
-        queueManager.NextAction();
-    }
-
-    public void PerformAttack()
-    {
-        soundController.StartMove();
-        animationController.PlayRun_Animation();
-        DOTween.Sequence()
-            .Append(transform.DOMove(CurrentAction.TargetInstance.RivalPosition.transform.position, 1f))
-            .OnComplete(PlayAttackAnimation);
-    }
-
-    private void PlayAttackAnimation()
-    {
-        soundController.StopMove();
-        switch (CurrentAction.MobAction)
-        {
-            case ActionType.Attack1:
-                animationController.PlayAttack1_Animation();
-                soundController.Attack1();
-                break;
-
-            case ActionType.Attack2:
-                animationController.PlayAttack2_Animation();
-                soundController.Attack2();
-                break;
-        }
-    }
-
-    private void MakeDamage()
-    {
-        switch (CurrentAction.MobAction)
-        {
-            case ActionType.Attack1:
-                StartCoroutine(DamageCoroutine(mobData.Attack1Damage, mobData.Attack1Cost));
-                break;
-
-            case ActionType.Attack2:
-                StartCoroutine(DamageCoroutine(mobData.Attack2Damage, mobData.Attack2Cost));
-                break;
-        } 
-    }
-
-    private IEnumerator DamageCoroutine(float damage, float cost)
-    {
-        CurrentAction.TargetInstance.GetDamage(damage, CurrentCombo);
-        mobStamina -= cost;
-
-        yield return new WaitForSeconds(.5f);
-        GoToOriginPosition(true);
-
-        yield return new WaitForSeconds(1);
-        NextAction();
-    }
-
-    public void GoToOriginPosition(bool withSound)
-    {
-        if (transform.position == OriginPosition) return;
-
-        FlipMob();
-        if (withSound) soundController.StartMove();
-        animationController.PlayRun_Animation();
-        DOTween.Sequence()
-            .Append(transform.DOMove(OriginPosition, 1f))
-            .OnComplete(FlipMob);
-    }
-
-    private void FlipMob()
-    {
-        if (spriteRenderer.flipX) spriteRenderer.flipX = false;
-        else spriteRenderer.flipX = true;
-
-        soundController.StopMove();
-        animationController.PlayIdle_Animation();
-    }
-
-    public bool CheckStamina()
-    {
-        switch (CurrentAction.MobAction)
-        {
-            case ActionType.SkipTurn:
-                return true;
-
-            case ActionType.Defense:
-                if (mobStamina >= mobData.DefenseCost) return true;
-                else return false;
-
-            case ActionType.Attack1:
-                if (mobStamina >= mobData.Attack1Cost) return true;
-                else return false;
-
-            case ActionType.Attack2:
-                if (mobStamina >= mobData.Attack2Cost) return true;
-                else return false;
-        }
-
-        return false;
     }
 }

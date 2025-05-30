@@ -1,0 +1,103 @@
+#-------------------------------------------------------------------------------#
+#               Qodana analysis is configured by qodana.yaml file               #
+#             https://www.jetbrains.com/help/qodana/qodana-yaml.html            #
+#-------------------------------------------------------------------------------#
+version: "1.0"
+#Specify IDE code to run analysis without container (Applied in CI/CD pipeline)
+ide: QDNET
+#Specify inspection profile for code analysis
+profile:
+  name: qodana.starter
+include:
+  - name: Unity.PerformanceCriticalCodeCameraMain
+  - name: ConvertIfStatementToReturnStatement
+  - name: ConvertIfStatementToConditionalTernaryExpression
+  - name: ConvertIfStatementToNullCoalescingExpression
+  - name: ConvertIfStatementToNullCoalescingAssignment
+  - name: ArrangeThisQualifier
+  - name: ArrangeStaticMemberQualifier
+  - name: ArrangeModifiersOrder
+  - name: RedundantArrayCreationExpression
+  - name: CppAssignedValueIsNeverUsed
+  - name: AutoPropertyCanBeMadeGetOnly.Global
+  - name: AutoPropertyCanBeMadeGetOnly.Local
+  - name: CanSimplifySetAddingWithSingleCall
+  - name: ClassNeverInstantiated.Global
+  - name: ConvertIfStatementToSwitchStatement
+  - name: ConvertToLambdaExpression
+  - name: ConvertToAutoPropertyWithPrivateSetter
+  - name: CppJoinDeclarationAndAssignment
+  - name: CppDeclaratorNeverUsed
+  - name: CppEntityAssignedButNoRead
+  - name: CanSimplifyDictionaryLookupWithTryGetValue
+  - name: DuplicatedSwitchSectionBodies
+  - name: Unity.PerformanceCriticalCodeInvocation
+  - name: Unity.PerformanceCriticalCodeNullComparison
+  - name: ExtractCommonBranchingCode
+  - name: FieldCanBeMadeReadOnly.Global
+  - name: FieldCanBeMadeReadOnly.Local
+  - name: MISMATCHED_ASMDEF_FILENAME
+  - name: ForCanBeConvertedToForeach
+  - name: ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+  - name: Unity.UnityObjectNullComparison
+  - name: CppInconsistentNaming
+  - name: BadControlBracesIndent
+  - name: InlineOutVariableDeclaration
+  - name: InvertIf
+  - name: TooWideLocalVariableScope
+  - name: LoopCanBeConvertedToQuery
+  - name: MemberCanBePrivate.Global
+  - name: MemberCanBeMadeStatic.Local
+  - name: MergeConditionalExpression
+  - name: MergeIntoPattern
+  - name: MergeIntoLogicalPattern
+  - name: NotAccessedField.Global
+  - name: CppParameterNeverUsed
+  - name: ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+  - name: CppUnusedIncludeDirective
+  - name: Unity.PreferGuidReference
+  - name: RedundantIfElseBlock
+  - name: RedundantToStringCallForValueType
+  - name: RedundantEmptyObjectCreationArgumentList
+  - name: RedundantExplicitParamsArrayCreation
+  - name: CppRedundantParentheses
+  - name: RedundantDeclarationSemicolon
+  - name: RedundantStringInterpolation
+  - name: ArrangeRedundantParentheses
+  - name: ReplaceSubstringWithRangeIndexer
+  - name: ConvertSwitchStatementToSwitchExpression
+  - name: SwitchStatementMissingSomeEnumCasesNoDefault
+  - name: SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+  - name: UnusedType.Global
+  - name: UnusedMember.Global
+  - name: UnusedParameter.Global
+  - name: CssUnusedSymbol
+  - name: UseNameofExpression
+  - name: ConvertToCompoundAssignment
+  - name: ConvertToNullCoalescingCompoundAssignment
+  - name: ArrangeTypeMemberModifiers
+  - name: ArrangeTypeModifiers
+  - name: UseFormatSpecifierInFormatString
+  - name: UseObjectOrCollectionInitializer
+  - name: SuggestVarOrType_Elsewhere
+  - name: SuggestVarOrType_BuiltInTypes
+  - name: SuggestVarOrType_SimpleTypes
+  - name: ArrangeAccessorOwnerBody
+  - name: ArrangeTrailingCommaInMultilineLists
+  - name: ArrangeObjectCreationWhenTypeEvident
+  - name: UseStringInterpolation
+  - name: VirtualMemberNeverOverridden.Global
+
+#Enable inspections
+#include:
+#  - name: <SomeEnabledInspectionId>
+#Disable inspections
+#exclude:
+#  - name: <SomeDisabledInspectionId>
+#    paths:
+#      - <path/where/not/run/inspection>
+#Execute shell command before Qodana execution (Applied in CI/CD pipeline)
+#bootstrap: sh ./prepare-qodana.sh
+#Install IDE plugins before Qodana execution (Applied in CI/CD pipeline)
+#plugins:
+#  - id: <plugin.id> #(plugin id can be found at https://plugins.jetbrains.com)

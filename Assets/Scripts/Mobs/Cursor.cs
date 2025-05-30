@@ -1,82 +1,89 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Cursor : MonoBehaviour
+namespace Mobs
 {
-    private SpriteRenderer spriteRenderer;
-
-    private Tween pulseTween;
-
-    private void Start()
+    public class Cursor : MonoBehaviour
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.enabled = false;
-    }
+        private SpriteRenderer spriteRenderer;
 
-    public void Show()
-    {
-        spriteRenderer.enabled = true;
-    }
+        private Tween pulseTween;
 
-    public void ShowTarget()
-    {
-        spriteRenderer.color = Color.red;
-        spriteRenderer.enabled = true;
-        ZoomOut();
-    }
+        private void Start()
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            spriteRenderer.enabled = false;
+        }
 
-    public void Hide()
-    {
-        if (spriteRenderer != null) spriteRenderer.enabled = false;
-    }
+        public void Show()
+        {
+            spriteRenderer.enabled = true;
+        }
 
-    public void HideTarget()
-    {
-        spriteRenderer.color = Color.white;
-        spriteRenderer.enabled = false;
-    }
+        public void ShowTarget()
+        {
+            spriteRenderer.color = Color.red;
+            spriteRenderer.enabled = true;
+            ZoomOut();
+        }
 
-    public void Activate()
-    {
-        Show();
-        spriteRenderer.color = Color.green;
-        PulseTween();
-    }
+        public void Hide()
+        {
+            if (spriteRenderer != null) spriteRenderer.enabled = false;
+        }
 
-    public void Deactivate()
-    {
-        spriteRenderer.color = Color.white;
+        public void HideTarget()
+        {
+            spriteRenderer.color = Color.white;
+            spriteRenderer.enabled = false;
+        }
 
-        pulseTween.Kill();
-        transform.DOScale(1, .5f);
+        public void Activate()
+        {
+            Show();
+            spriteRenderer.color = Color.green;
+            PulseTween();
+        }
 
-        Hide();
-    }
+        public void Deactivate()
+        {
+            spriteRenderer.color = Color.white;
 
-    public void PulseTween()
-    {
-        pulseTween = DOTween.Sequence()
-            .Append(transform.DOScale(1.1f, .3f))
-            .Append(transform.DOScale(1, .3f))
-            .SetLoops(-1);
-    }
+            pulseTween.Kill();
+            transform.DOScale(1, .5f);
 
-    public void ZoomIn()
-    {
-        transform.DOScale(1f, .3f);
-    }
+            Hide();
+        }
 
-    public void ZoomOut()
-    {
-        transform.DOScale(.7f, .3f);
-    }
+        public void PulseTween()
+        {
+            pulseTween = DOTween.Sequence()
+                .Append(transform.DOScale(1.1f, .3f))
+                .Append(transform.DOScale(1, .3f))
+                .SetLoops(-1);
+        }
 
-    public void PickTarget()
-    {
-        DOTween.Sequence()
-            .Append(transform.DOScale(0f, .3f))
-            .OnComplete(Deactivate);
+        public void ZoomIn()
+        {
+            transform.DOScale(1f, .3f);
+        }
+
+        public void ZoomOut()
+        {
+            transform.DOScale(.7f, .3f);
+        }
+
+        public void PickTarget()
+        {
+            DOTween.Sequence()
+                .Append(transform.DOScale(0f, .3f))
+                .OnComplete(Deactivate);
+        }
+    
+        private void OnDestroy()
+        {
+            // Останавливает все твины, связанные с этим объектом
+            DOTween.Kill(transform);
+        }
     }
 }

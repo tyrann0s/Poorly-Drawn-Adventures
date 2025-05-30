@@ -1,11 +1,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Managers;
 
 namespace Cards
 {
     public class CardPanel : MonoBehaviour
     {
+        private static CardPanel instance;
+        public static CardPanel Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = FindFirstObjectByType<CardPanel>();
+                    if (instance == null)
+                    {
+                        GameObject go = new GameObject("CardPanel");
+                        instance = go.AddComponent<CardPanel>();
+                    }
+                }
+                return instance;
+            }
+        }
+        
         [SerializeField]
         private GameObject cardPrefab;
 
@@ -28,8 +47,17 @@ namespace Cards
         private int changesMadeThisRound;
         private const int MaxChangesPerRound = 1; // Максимальное количество изменений за раунд
 
-        private UIManager uiManager;
-        private GameManager gameManager;
+        private void Awake()
+        {
+            if (instance != null && instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
 
         private void Start()
         {
@@ -51,19 +79,6 @@ namespace Cards
             }
 
             originTransform = transform.position;
-
-            uiManager = FindFirstObjectByType<UIManager>();
-            gameManager = FindFirstObjectByType<GameManager>();
-
-            if (uiManager == null)
-            {
-                Debug.LogError("UIManager not found!");
-            }
-
-            if (gameManager == null)
-            {
-                Debug.LogError("GameManager not found!");
-            }
         }
 
         public void GenereteCards()
@@ -128,7 +143,7 @@ namespace Cards
 
             CardChangeMode = true;
             EnableInteraction();
-            uiManager.ShowChangeCardsButton();
+            UIManager.Instance.ShowChangeCardsButton();
         }
 
         public void StopChangeMode()
@@ -136,8 +151,8 @@ namespace Cards
             CardChangeMode = false;
             ChangeIndex = 0;
             DisableInteraction();
-            uiManager.HideConfirmChangeButton();
-            uiManager.HideChangeCardsButton();
+            UIManager.Instance.HideConfirmChangeButton();
+            UIManager.Instance.HideChangeCardsButton();
         }
 
         public void IncreaseCardsForChange()
@@ -145,7 +160,7 @@ namespace Cards
             if (ChangeIndex < 2)
             {
                 ChangeIndex++;
-                uiManager.ShowConfirmChangeButton();
+                UIManager.Instance.ShowConfirmChangeButton();
             }
         }
 
@@ -156,7 +171,7 @@ namespace Cards
                 ChangeIndex--;
                 if (ChangeIndex == 0)
                 {
-                    uiManager.HideConfirmChangeButton();
+                    UIManager.Instance.HideConfirmChangeButton();
                 }
             }
         }
@@ -176,18 +191,15 @@ namespace Cards
 
             DeleteCards();
             GenereteCards();
-            uiManager.HideConfirmChangeButton();
-            uiManager.HideChangeCardsButton();
+            UIManager.Instance.HideConfirmChangeButton();
+            UIManager.Instance.HideChangeCardsButton();
             DisableInteraction();
             ResetCardState();
             changesMadeThisRound++;
         
             // Сбрасываем ControlLock и ChangeCardMode после изменения карт
-            if (gameManager != null)
-            {
-                gameManager.ControlLock = false;
-                gameManager.ChangeCardMode = false;
-            }
+            GameManager.Instance.ControlLock = false;
+            GameManager.Instance.ChangeCardMode = false;
         }
 
         public void ResetRound()
@@ -196,7 +208,7 @@ namespace Cards
             CardChangeMode = false;
             ChangeIndex = 0;
             DisableInteraction();
-            uiManager.ShowChangeCardsButton();
+            UIManager.Instance.ShowChangeCardsButton();
         }
 
         private void ResetCardState()
@@ -221,7 +233,7 @@ namespace Cards
             var pickedCards = Cards.Where(card => card != null && card.IsPicked).ToList();
             CurrentCombination = combinationSystem.CheckCombination(pickedCards);
 
-            uiManager.ShowCombination(CurrentCombination);
+            UIManager.Instance.ShowCombination(CurrentCombination);
         }
 
         public ElementCombo GetCombo()

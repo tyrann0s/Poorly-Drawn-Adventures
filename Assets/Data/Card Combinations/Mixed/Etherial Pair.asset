@@ -10,12 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29c92791fd514019bc4dbc9cb3aa8ee0, type: 3}
-  m_Name: Earth Pair
+  m_Name: Etherial Pair
   m_EditorClassIdentifier: 
-  useRanksInsteadOfElements: 0
-  elements: 0500000005000000
-  ranks: 
-  damageType: 5
+  specificConditions: []
+  mixedConditions:
+  - amount: 2
+  elementConditions: []
+  rankConditions: []
+  damageType: 1
   damageMultiplier: 1.5
-  comboName: Earth Pair
+  comboName: Etherial Pair
   description: 
+  stun: 0
+  ignoreDefense: 0
+  aoeAttack: 0

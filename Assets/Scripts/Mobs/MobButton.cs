@@ -1,6 +1,5 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
+using Mobs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -22,10 +21,13 @@ public class MobButton : MonoBehaviour
 
     [SerializeField]
     private UnityEvent action;
+    
+    private UISounds uiSounds; 
 
     private void Start()
     {
         buttons = GetComponentInParent<MobButtons>();
+        uiSounds = FindFirstObjectByType<UISounds>();
     }
 
     private void OnMouseEnter()
@@ -33,7 +35,7 @@ public class MobButton : MonoBehaviour
         if (isActive)
         {
             transform.DOScale(buttons.ScaleAmount + .2f, .3f);
-            FindObjectOfType<UISounds>().ButtonHover();
+            uiSounds.ButtonHover();
         }
     }
 
@@ -48,7 +50,7 @@ public class MobButton : MonoBehaviour
         {
             buttons.HideButtons();
             action.Invoke();
-            FindObjectOfType<UISounds>().ButtonClick();
+            uiSounds.ButtonClick();
         }
         else mob.UI.ShowText("NOT ENOUGH STAMINA", Color.white);
     }
@@ -63,5 +65,11 @@ public class MobButton : MonoBehaviour
 
         isActive = value;
         mob = targetMob;
+    }
+    
+    private void OnDestroy()
+    {
+        // Останавливает все твины, связанные с этим объектом
+        DOTween.Kill(transform);
     }
 }

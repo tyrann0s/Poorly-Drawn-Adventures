@@ -1,7 +1,6 @@
 using DG.Tweening;
-using DG.Tweening.Core;
 using System.Collections;
-using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,17 +11,6 @@ public class PopUpPanel : MonoBehaviour
 
     [SerializeField]
     private float delayTime;
-
-    private GameManager gameManager;
-
-    private void Start()
-    {
-        gameManager = FindObjectOfType<GameManager>();
-        if (gameManager == null)
-        {
-            Debug.LogError("Game Manager not found!");
-        }
-    }
 
     public void Show(string value)
     {
@@ -50,17 +38,17 @@ public class PopUpPanel : MonoBehaviour
 
     private void ControlLockOn()
     {
-        if (gameManager != null)
-        {
-            gameManager.ControlLock = true;
-        }
+        GameManager.Instance.ControlLock = true;
     }
 
     private void ControlLockOff()
     {
-        if (gameManager != null)
-        {
-            gameManager.ControlLock = false;
-        }
+        GameManager.Instance.ControlLock = false;
+    }
+    
+    private void OnDestroy()
+    {
+        // Останавливает все твины, связанные с этим объектом
+        DOTween.Kill(transform);
     }
 }

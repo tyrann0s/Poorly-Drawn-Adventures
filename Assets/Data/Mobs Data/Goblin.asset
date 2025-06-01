@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Goblin
   m_EditorClassIdentifier: 
   mobName: Goblin
-  vulnerableTo: 0
+  vulnerableTo: 2
   immuneTo: 1
   maxHP: 100
   maxStamina: 100

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22b9167e2bf48da40ba66bc617fe899d, type: 3}
+  m_Name: TestMobWave 2
+  m_EditorClassIdentifier: 
+  mobPrefabs:
+  - {fileID: 4133970978171093904, guid: 71e4beee99fc9974682925c63c019255, type: 3}
+  - {fileID: 4133970978171093904, guid: c7e3d527cb88ec14a8b9ed375dfb224a, type: 3}
+  - {fileID: 4133970978171093904, guid: c7e3d527cb88ec14a8b9ed375dfb224a, type: 3}
+  - {fileID: 4133970978171093904, guid: 71e4beee99fc9974682925c63c019255, type: 3}

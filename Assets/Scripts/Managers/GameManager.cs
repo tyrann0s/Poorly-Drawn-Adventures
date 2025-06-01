@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Cards;
+using Levels;
 using Mobs;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,10 +28,15 @@ namespace Managers
                 return instance;
             }
         }
-
+        
         [SerializeField]
-        private GameObject fireworks;
-        private List<ParticleSystem> fireworkPSs = new List<ParticleSystem>();
+        private Level level;
+
+        private int currentWave;
+        private int maxWaves;
+
+        private List<MobSpawner> playerMobSpawners = new();
+        private List<MobSpawner> enemyMobSpawners = new();
 
         public List<Mob> PlayerMobs { get; set; } = new List<Mob>();
         public List<Mob> EnemyMobs { get; set; } = new List<Mob>();
@@ -42,6 +49,8 @@ namespace Managers
 
         public bool IsWin { get; private set; }
         public bool IsLose { get; private set; }
+        
+        public float CurrentCoins { get; set; }
 
         private IEnumerator calmMusicCoroutine;
 
@@ -55,11 +64,25 @@ namespace Managers
 
             instance = this;
             DontDestroyOnLoad(gameObject);
+            
+            if (!level) Debug.LogError("Level is not assigned!");
         }
 
         private void Start()
         {
-            fireworkPSs.AddRange(fireworks.GetComponentsInChildren<ParticleSystem>());
+            // Готовим спавнеры мобов
+            maxWaves = level.mobWaves.Count;
+            foreach (var mobSpawner in FindObjectsByType<MobSpawner>(sortMode: FindObjectsSortMode.None)
+                         .OrderBy(spawner => spawner.name)
+                         .ToList())
+            {
+                if (mobSpawner.IsHostile) enemyMobSpawners.Add(mobSpawner);
+                else playerMobSpawners.Add(mobSpawner);
+            }
+            
+            SpawnPlayerMobs();
+            SpawnNextWave();
+            
             UIManager.Instance.ShowAnouncerPanel(true, "Assign actions!");
             calmMusicCoroutine = MusicManager.Instance.FadeTrackToZero(MusicManager.Instance.Calm);
             MusicManager.Instance.StartCalmMusic();
@@ -69,9 +92,34 @@ namespace Managers
             UIManager.Instance.ShowChangeCardsButton();
         }
 
-        public void AddMob(Mob mob)
+        private void SpawnNextWave()
         {
-            if (mob == null)
+            int currentSpawner = 0;
+            foreach (var currentMob in level.mobWaves[currentWave].mobPrefabs)
+            {
+                AddMob(enemyMobSpawners[currentSpawner].SpawnMob(currentMob, false));
+                currentSpawner++;
+            }
+        }
+
+        private void SpawnBoss()
+        {
+            AddMob(enemyMobSpawners[3].SpawnMob(level.bossPrefab, true));
+        }
+
+        private void SpawnPlayerMobs()
+        {
+            int currentSpawner = 0;
+            foreach (var currentMob in PlayerManager.Instance.MobPrefabs)
+            {
+                AddMob(playerMobSpawners[currentSpawner].SpawnMob(currentMob, false));
+                currentSpawner++;
+            }
+        }
+
+        private void AddMob(Mob mob)
+        {
+            if (!mob)
             {
                 Debug.LogError("Trying to add null mob!");
                 return;
@@ -103,9 +151,18 @@ namespace Managers
 
         public void MobDied(Mob mob)
         {
-            if (mob == null)
+            if (!mob)
             {
                 Debug.LogError("Trying to remove null mob!");
+                return;
+            }
+
+            if (mob.IsBoss)
+            {
+                MusicManager.Instance.StartWinMusic();
+                IsWin = true;
+                UIManager.Instance.GameEndScreen();
+                UIManager.Instance.ShowGameEndPanel("VICTORY!");
                 return;
             }
 
@@ -224,12 +281,19 @@ namespace Managers
         {
             if (EnemyMobs.Count <= 0)
             {
-                MusicManager.Instance.StartWinMusic();
-                IsWin = true;
-                UIManager.Instance.GameEndScreen();
-                UIManager.Instance.ShowGameEndPanel("VICTORY!");
-                if (fireworkPSs.Count != 0) StartCoroutine(LaunchFireworks());
-                return;
+                if (currentWave != maxWaves)
+                {
+                    CurrentCoins += level.coinsForWave;
+                    UIManager.Instance.UpdateCoins(CurrentCoins);
+                    currentWave++;
+                    SpawnNextWave();
+                    return;
+                }
+                else
+                {
+                    SpawnBoss();
+                    return;   
+                }
             }
 
             if (PlayerMobs.Count <= 0)
@@ -248,35 +312,6 @@ namespace Managers
             if (CardPanel.Instance.CanChangeCards())
             {
                 UIManager.Instance.ShowChangeCardsButton();
-            }
-        }
-
-        private IEnumerator LaunchFireworks()
-        {
-            if (fireworkPSs.Count == 0)
-            {
-                Debug.LogError("No fireworks found!");
-                yield break;
-            }
-
-            for (int i = 0; i < 100;  i++)
-            {
-                int rand = Random.Range(0, fireworkPSs.Count);
-                if (rand < fireworkPSs.Count)
-                {
-                    var firework = fireworkPSs[rand];
-                    if (firework != null)
-                    {
-                        var audioSource = firework.GetComponent<AudioSource>();
-                        if (audioSource != null)
-                        {
-                            audioSource.Play();
-                        }
-                        firework.Play();
-                    }
-                }
-
-                yield return new WaitForSeconds(Random.Range(.2f, 2f));
             }
         }
 

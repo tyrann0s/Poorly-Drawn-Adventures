@@ -313,6 +313,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2501174963372472861}
   - component: {fileID: 1954504911037153408}
+  - component: {fileID: 6811788270057894979}
   - component: {fileID: 8877621610543104760}
   - component: {fileID: 6333396259607724139}
   - component: {fileID: 4994462170842151346}
@@ -352,7 +353,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db643c5a4923f964db70394fb781cbde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireworks: {fileID: 0}
+  level: {fileID: 0}
+--- !u!114 &6811788270057894979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2338758869280481909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7272178f93de341abccbaedf5f2010, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  testPrefabs:
+  - {fileID: 4133970978171093904, guid: c7e3d527cb88ec14a8b9ed375dfb224a, type: 3}
+  - {fileID: 4133970978171093904, guid: 71e4beee99fc9974682925c63c019255, type: 3}
+  - {fileID: 4133970978171093904, guid: fabfec77a66d41b4dbc3c7c25537af20, type: 3}
+  - {fileID: 4133970978171093904, guid: 80df389f92ec84547812e698d709ff0d, type: 3}
 --- !u!114 &8877621610543104760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,8 +383,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27e8faf24774f394099bc4df0ac056fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentMobPanel: {fileID: 0}
-  enemyMobPanel: {fileID: 0}
   gameEndPanel: {fileID: 0}
   anouncerPanel: {fileID: 0}
   startFightButton: {fileID: 0}

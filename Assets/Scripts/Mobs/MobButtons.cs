@@ -59,16 +59,21 @@ namespace Mobs
 
         public void HideButtons()
         {
-            DOTween.Sequence()
-                .Append(skipTurnbutton.transform.DOLocalMove(Vector3.zero, animationSpeed))
-                .Join(skipTurnbutton.transform.DOScale(Vector3.zero, animationSpeed))
-                .Append(defenseButton.transform.DOLocalMove(Vector3.zero, animationSpeed))
-                .Join(defenseButton.transform.DOScale(Vector3.zero, animationSpeed))
-                .Append(attack1Button.transform.DOLocalMove(Vector3.zero, animationSpeed))
-                .Join(attack1Button.transform.DOScale(Vector3.zero, animationSpeed))
-                .Append(attack2Button.transform.DOLocalMove(Vector3.zero, animationSpeed))
-                .Join(attack2Button.transform.DOScale(Vector3.zero, animationSpeed))
-                .OnComplete(DeactivateButtons);   
+            if (buttons == null) return;
+
+            // Удаляем уничтоженные кнопки из списка
+            buttons.RemoveAll(button => button == null);
+
+            foreach (var button in buttons)
+            {
+                if (button && button.transform)
+                {
+                    // Выполняем действия с кнопкой
+                    button.transform.localScale = Vector3.zero;
+                    // или
+                    button.gameObject.SetActive(false);
+                }
+            }
         }
 
         private void DeactivateButtons()

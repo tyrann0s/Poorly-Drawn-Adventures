@@ -9,7 +9,7 @@ namespace Mobs
 
         private Tween pulseTween;
 
-        private void Start()
+        private void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
             spriteRenderer.enabled = false;
@@ -47,12 +47,10 @@ namespace Mobs
 
         public void Deactivate()
         {
-            spriteRenderer.color = Color.white;
-
-            pulseTween.Kill();
-            transform.DOScale(1, .5f);
-
-            Hide();
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.color = new Color(1f, 1f, 1f, 0f); // Сделать прозрачным
+            }
         }
 
         public void PulseTween()

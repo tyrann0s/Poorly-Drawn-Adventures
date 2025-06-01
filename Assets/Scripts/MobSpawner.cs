@@ -1,62 +1,42 @@
+using System;
 using UnityEngine;
-using System.Collections.Generic;
 using Managers;
 using Mobs;
 
-public class MobSpawner : MonoBehaviour
+public class MobSpawner : MonoBehaviour, IComparable<MobSpawner>
 {
     [SerializeField, Tooltip("If true, the spawned mob will be mirrored and hostile")]
     private bool isHostile;
-
-    [SerializeField, Tooltip("List of mob prefabs that can be spawned")]
-    private List<GameObject> mobPrefabs = new();
+    public bool IsHostile => isHostile;
 
     private Mob currentMob;
-    private GameManager gameManager;
 
-    private void Awake()
-    {
-        gameManager = FindFirstObjectByType<GameManager>();
-        if (gameManager == null)
-        {
-            Debug.LogError($"GameManager not found in scene");
-        }
-    }
-
-    private void Start()
-    {
-        SpawnMob();
-    }
-
-    public void SpawnMob()
+    public Mob SpawnMob(GameObject prefab, bool isBoss)
     {
         ClearCurrentMob();
-        InstantiateMob();
+        var currentMob = InstantiateMob(prefab);
 
         if (isHostile)
         {
             currentMob.MobMovement.MirrorMob();
         }
+        
+        if (isBoss) currentMob.IsBoss = true;
+        
+        return currentMob;
     }
 
-    private void InstantiateMob()
+    private Mob InstantiateMob(GameObject prefab)
     {
-        if (mobPrefabs == null || mobPrefabs.Count == 0)
+        if (!prefab)
         {
             Debug.LogError($"No mob prefabs assigned to {gameObject.name}");
-            return;
+            return null;
         }
-
-        int rand = Random.Range(0, mobPrefabs.Count);
-        GameObject mobGo = Instantiate(mobPrefabs[rand], transform);
+        
+        GameObject mobGo = Instantiate(prefab, transform);
         
         currentMob = mobGo.GetComponent<Mob>();
-        if (currentMob == null)
-        {
-            Debug.LogError($"Mob component not found on prefab {mobGo.name}");
-            Destroy(mobGo);
-            return;
-        }
 
         currentMob.IsHostile = isHostile;
         currentMob.MobMovement.OriginPosition = new Vector3(
@@ -65,15 +45,22 @@ public class MobSpawner : MonoBehaviour
             transform.position.z
         );
 
-        gameManager.AddMob(currentMob);
+        return currentMob;
     }
 
-    public void ClearCurrentMob()
+    private void ClearCurrentMob()
     {
-        if (currentMob != null)
+        if (currentMob)
         {
             Destroy(currentMob.gameObject);
             currentMob = null;
         }
+    }
+
+    public int CompareTo(MobSpawner other)
+    {
+        // Определите здесь логику сравнения
+        // Например, можно сравнивать по позиции на сцене:
+        return transform.position.x.CompareTo(other.transform.position.x);
     }
 }

@@ -2,6 +2,14 @@ using UnityEngine;
 
 namespace Mobs
 {
+    public enum AttackType
+    {
+        Melee,
+        Ranged,
+        UnStun,
+        CastShield
+    }
+    
     [CreateAssetMenu(fileName = "Mob's Data", menuName = "Data/Mob's Data", order = 1)]
     public class MobData : ScriptableObject
     {
@@ -28,6 +36,12 @@ namespace Mobs
         [SerializeField]
         private int defenseCost;
         public float DefenseCost => defenseCost;
+
+        [SerializeField] private AttackType attackType;
+        public AttackType AttackType => attackType;
+
+        [SerializeField] private int maxTargets = 1;
+        public int MaxTargets => maxTargets;
 
         [SerializeField]
         private float attack1Damage;

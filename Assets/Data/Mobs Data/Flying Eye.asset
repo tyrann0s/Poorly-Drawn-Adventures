@@ -18,6 +18,8 @@ MonoBehaviour:
   maxHP: 75
   maxStamina: 200
   defenseCost: 50
+  attackType: 1
+  maxTargets: 1
   attack1Damage: 25
   attack1Cost: 25
   attack2Damage: 50

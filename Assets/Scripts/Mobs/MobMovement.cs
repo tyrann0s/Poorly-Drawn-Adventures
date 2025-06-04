@@ -55,9 +55,12 @@ namespace Mobs
 
         public void MoveToEnemy()
         {
-            DOTween.Sequence()
-                .Append(transform.DOMove(ParentMob.CurrentAction.TargetInstance.MobMovement.RivalPosition.transform.position, 1f))
-                .OnComplete(ParentMob.AnimationController.PlayAttackAnimation);
+            if (ParentMob.MobData.AttackType == AttackType.Melee)
+            {
+                DOTween.Sequence()
+                    .Append(transform.DOMove(ParentMob.CurrentAction.TargetInstance.MobMovement.RivalPosition.transform.position, 1f))
+                    .OnComplete(ParentMob.AnimationController.PlayAttackAnimation);
+            } else ParentMob.AnimationController.PlayAttackAnimation();
         }
 
         public void MoveToRivalPosition()

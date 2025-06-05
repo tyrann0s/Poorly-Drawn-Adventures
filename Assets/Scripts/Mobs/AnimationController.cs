@@ -45,14 +45,14 @@ namespace Mobs
         public void PlayAttackAnimation()
         {
             ParentMob.SoundController.StopMove();
-            switch (ParentMob.CurrentAction.MobAction)
+            switch (ParentMob.CurrentAction.MobActionType)
             {
-                case ActionType.Attack1:
+                case ActionType.Attack:
                     ParentMob.AnimationController.PlayAttack1_Animation();
                     ParentMob.SoundController.Attack1();
                     break;
 
-                case ActionType.Attack2:
+                case ActionType.Skill:
                     ParentMob.AnimationController.PlayAttack2_Animation();
                     ParentMob.SoundController.Attack2();
                     break;

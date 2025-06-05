@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Mobs
 {
@@ -6,6 +7,7 @@ namespace Mobs
     {
         Melee,
         Ranged,
+        Heal,
         UnStun,
         CastShield
     }
@@ -43,20 +45,20 @@ namespace Mobs
         [SerializeField] private int maxTargets = 1;
         public int MaxTargets => maxTargets;
 
-        [SerializeField]
-        private float attack1Damage;
-        public float Attack1Damage => attack1Damage;
+        [FormerlySerializedAs("attack1Damage")] [SerializeField]
+        private float attackDamage;
+        public float AttackDamage => attackDamage;
 
-        [SerializeField]
-        private float attack1Cost;
-        public float Attack1Cost => attack1Cost;
+        [FormerlySerializedAs("attack1Cost")] [SerializeField]
+        private float attackCost;
+        public float AttackCost => attackCost;
 
-        [SerializeField]
-        private int attack2Damage;
-        public float Attack2Damage => attack2Damage;
+        [FormerlySerializedAs("attack2Damage")] [SerializeField]
+        private int skillDamage;
+        public float SkillDamage => skillDamage;
 
-        [SerializeField]
-        private float attack2Cost;
-        public float Attack2Cost => attack2Cost;
+        [FormerlySerializedAs("attack2Cost")] [SerializeField]
+        private float skillCost;
+        public float SkillCost => skillCost;
     }
 }

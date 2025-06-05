@@ -51,22 +51,39 @@ namespace Mobs
                     }
                 }
 
-                if (ParentMob.IsHostile && GameManager.Instance.ControlLock)
+                if (ParentMob.IsHostile 
+                    && GameManager.Instance.ControlLock
+                    && GameManager.Instance.SelectingState == SelectingState.Enemy
+                    && GameManager.Instance.PickingMob.CurrentAction.Targets.Count < GameManager.Instance.PickingMob.MobData.MaxTargets)
                 {
-                    ParentMob.UI.MobCursor.PickTarget();
-                    GameManager.Instance.PickingMob.CurrentAction.TargetInstance = ParentMob;
-                    GameManager.Instance.PickingMob.MobActions.ActionPrepared();
-                    GameManager.Instance.PickingMob.Deactivate();
-                    GameManager.Instance.PickingMob.CurrentCombo = GameManager.Instance.GetCombo();
-                
-                    foreach (Mob mob in GameManager.Instance.EnemyMobs)
-                    {
-                        if (mob != ParentMob) mob.Deactivate();
-                    }
-                    GameManager.Instance.ControlLock = false;
-                    GameManager.Instance.SetCardPanel(false);
+                    PickEnemyMob();
                 }
             }
+        }
+
+        private void PickEnemyMob()
+        {
+            ParentMob.UI.MobCursor.PickTarget();
+            GameManager.Instance.PickingMob.CurrentAction.Targets.Add(ParentMob);
+            
+            if (GameManager.Instance.PickingMob.CurrentAction.Targets.Count < GameManager.Instance.PickingMob.MobData.MaxTargets) return;
+            
+            GameManager.Instance.PickingMob.MobActions.ActionPrepared();
+            GameManager.Instance.PickingMob.Deactivate();
+            GameManager.Instance.PickingMob.CurrentCombo = GameManager.Instance.GetCombo();
+                
+            foreach (Mob mob in GameManager.Instance.EnemyMobs)
+            {
+                if (mob != ParentMob) mob.Deactivate();
+            }
+            GameManager.Instance.ControlLock = false;
+            GameManager.Instance.SelectingState = SelectingState.None;
+            GameManager.Instance.SetCardPanel(false);
+        }
+
+        private void PickPlayerMob()
+        {
+            
         }
     }
 }

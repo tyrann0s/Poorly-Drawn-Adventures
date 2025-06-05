@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Cards;
 using Managers;
@@ -9,7 +10,7 @@ namespace Mobs
     {
         public void SkipTurn()
         {
-            ParentMob.CurrentAction.MobAction = ActionType.SkipTurn;
+            ParentMob.CurrentAction.MobActionType = ActionType.SkipTurn;
             ParentMob.CurrentAction.MobInstance = ParentMob;
             ParentMob.Deactivate();
 
@@ -18,21 +19,21 @@ namespace Mobs
 
         public void Defense()
         {
-            ParentMob.CurrentAction.MobAction = ActionType.Defense;
+            ParentMob.CurrentAction.MobActionType = ActionType.Defense;
             ParentMob.CurrentAction.MobInstance = ParentMob;
             ParentMob.Deactivate();
 
             ActionPrepared();
         }
 
-        public void Attack1()
+        public void Attack()
         {
-            Attack(ActionType.Attack1);
+            Attack(ActionType.Attack);
         }
 
-        public void Attack2()
+        public void Skill()
         {
-            Attack(ActionType.Attack2);
+            Attack(ActionType.Skill);
         }
 
         public void ActionPrepared()
@@ -45,15 +46,35 @@ namespace Mobs
             GameManager.Instance.ExitChangeCardMode();
             CardPanel.Instance.DeleteCards();
             
-            Debug.Log($"Action {ParentMob.CurrentAction.MobAction} is prepared {ParentMob} is {ParentMob.State}");
+            Debug.Log($"Action {ParentMob.CurrentAction.MobActionType} is prepared {ParentMob} is {ParentMob.State}");
         }
 
         private void Attack(ActionType action)
         {
-            ParentMob.CurrentAction.MobAction = action;
+            ParentMob.CurrentAction.MobActionType = action;
             ParentMob.CurrentAction.MobInstance = ParentMob;
             ParentMob.UI.ShowTargetCursor();
             GameManager.Instance.ControlLock = true;
+            switch (ParentMob.MobData.AttackType)
+            {
+                case AttackType.Melee:
+                    GameManager.Instance.SelectingState = SelectingState.Enemy;
+                    break;
+                case AttackType.Ranged:
+                    GameManager.Instance.SelectingState = SelectingState.Enemy;
+                    break;
+                case AttackType.Heal:
+                    GameManager.Instance.SelectingState = SelectingState.Player;
+                    break;
+                case AttackType.UnStun:
+                    GameManager.Instance.SelectingState = SelectingState.Player;
+                    break;
+                case AttackType.CastShield:
+                    GameManager.Instance.SelectingState = SelectingState.Player;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
             GameManager.Instance.PickingMob = ParentMob;
             GameManager.Instance.ExitChangeCardMode();
             GameManager.Instance.SetCardPanel(true);
@@ -93,14 +114,14 @@ namespace Mobs
 
         private void MakeDamage()
         {
-            switch (ParentMob.CurrentAction.MobAction)
+            switch (ParentMob.CurrentAction.MobActionType)
             {
-                case ActionType.Attack1:
-                    StartCoroutine(DamageCoroutine(ParentMob.MobData.Attack1Damage, ParentMob.MobData.Attack1Cost));
+                case ActionType.Attack:
+                    StartCoroutine(DamageCoroutine(ParentMob.MobData.AttackDamage, ParentMob.MobData.AttackCost));
                     break;
 
-                case ActionType.Attack2:
-                    StartCoroutine(DamageCoroutine(ParentMob.MobData.Attack2Damage, ParentMob.MobData.Attack2Cost));
+                case ActionType.Skill:
+                    StartCoroutine(DamageCoroutine(ParentMob.MobData.SkillDamage, ParentMob.MobData.SkillCost));
                     break;
             } 
         }
@@ -124,7 +145,7 @@ namespace Mobs
         
         public bool CheckStamina()
         {
-            switch (ParentMob.CurrentAction.MobAction)
+            switch (ParentMob.CurrentAction.MobActionType)
             {
                 case ActionType.SkipTurn:
                     return true;
@@ -133,12 +154,12 @@ namespace Mobs
                     if (ParentMob.MobStamina >= ParentMob.MobData.DefenseCost) return true;
                     else return false;
 
-                case ActionType.Attack1:
-                    if (ParentMob.MobStamina >= ParentMob.MobData.Attack1Cost) return true;
+                case ActionType.Attack:
+                    if (ParentMob.MobStamina >= ParentMob.MobData.AttackCost) return true;
                     else return false;
 
-                case ActionType.Attack2:
-                    if (ParentMob.MobStamina >= ParentMob.MobData.Attack2Cost) return true;
+                case ActionType.Skill:
+                    if (ParentMob.MobStamina >= ParentMob.MobData.SkillCost) return true;
                     else return false;
             }
 

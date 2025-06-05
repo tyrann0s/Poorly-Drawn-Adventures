@@ -69372,7 +69372,7 @@ PrefabInstance:
     - target: {fileID: -6308653599678785149, guid: 1790e0ead608247489b177e4f453df6b,
         type: 3}
       propertyPath: action.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Attack2
+      value: Skill
       objectReference: {fileID: 0}
     - target: {fileID: -6308653599678785149, guid: 1790e0ead608247489b177e4f453df6b,
         type: 3}
@@ -69533,7 +69533,7 @@ PrefabInstance:
     - target: {fileID: -6308653599678785149, guid: 1790e0ead608247489b177e4f453df6b,
         type: 3}
       propertyPath: action.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Attack1
+      value: Attack
       objectReference: {fileID: 0}
     - target: {fileID: -6308653599678785149, guid: 1790e0ead608247489b177e4f453df6b,
         type: 3}

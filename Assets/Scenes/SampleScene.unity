@@ -9010,6 +9010,30 @@ PrefabInstance:
       propertyPath: shieldActivation
       value: 
       objectReference: {fileID: 1235134889}
+    - target: {fileID: 6811788270057894979, guid: 9f9047774658a3240bddb4784b3097cd,
+        type: 3}
+      propertyPath: 'testPrefabs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 4133970978171093904, guid: 6578c40658368ec48a6eea033850a6a3,
+        type: 3}
+    - target: {fileID: 6811788270057894979, guid: 9f9047774658a3240bddb4784b3097cd,
+        type: 3}
+      propertyPath: 'testPrefabs.Array.data[1]'
+      value: 
+      objectReference: {fileID: 4133970978171093904, guid: 0d7da7211466ef544a084ccc67e950b3,
+        type: 3}
+    - target: {fileID: 6811788270057894979, guid: 9f9047774658a3240bddb4784b3097cd,
+        type: 3}
+      propertyPath: 'testPrefabs.Array.data[2]'
+      value: 
+      objectReference: {fileID: 4133970978171093904, guid: daa3609e561141a48ae7c5468533f100,
+        type: 3}
+    - target: {fileID: 6811788270057894979, guid: 9f9047774658a3240bddb4784b3097cd,
+        type: 3}
+      propertyPath: 'testPrefabs.Array.data[3]'
+      value: 
+      objectReference: {fileID: 4133970978171093904, guid: 7845f0e91517f8c429f4fe4c5e906ebb,
+        type: 3}
     - target: {fileID: 8877621610543104760, guid: 9f9047774658a3240bddb4784b3097cd,
         type: 3}
       propertyPath: coinsText

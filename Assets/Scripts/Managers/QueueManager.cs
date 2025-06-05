@@ -26,7 +26,7 @@ namespace Managers
             }
         }
         
-        private List<Action> actionList = new List<Action>();
+        private List<MobAction> actionList = new List<MobAction>();
 
         private int currentActionIndex;
 
@@ -48,14 +48,17 @@ namespace Managers
 
             GenerateEnemyActions();
 
+            // Фаза защиты
             actionList.AddRange(GetActions(GameManager.Instance.PlayerMobs, ActionType.Defense));
             actionList.AddRange(GetActions(GameManager.Instance.EnemyMobs, ActionType.Defense));
 
-            actionList.AddRange(GetActions(GameManager.Instance.PlayerMobs, ActionType.Attack1));
-            actionList.AddRange(GetActions(GameManager.Instance.PlayerMobs, ActionType.Attack2));
-            actionList.AddRange(GetActions(GameManager.Instance.EnemyMobs, ActionType.Attack1));
-            actionList.AddRange(GetActions(GameManager.Instance.EnemyMobs, ActionType.Attack2));
+            // Фаза атаки и скиллов
+            actionList.AddRange(GetActions(GameManager.Instance.PlayerMobs, ActionType.Attack));
+            actionList.AddRange(GetActions(GameManager.Instance.PlayerMobs, ActionType.Skill));
+            actionList.AddRange(GetActions(GameManager.Instance.EnemyMobs, ActionType.Attack));
+            actionList.AddRange(GetActions(GameManager.Instance.EnemyMobs, ActionType.Skill));
 
+            // Фаза пропуска хода
             actionList.AddRange(GetActions(GameManager.Instance.PlayerMobs, ActionType.SkipTurn));
             actionList.AddRange(GetActions(GameManager.Instance.EnemyMobs, ActionType.SkipTurn));
         }
@@ -102,11 +105,11 @@ namespace Managers
                 // Получаем все возможные типы действий
                 var actionTypes = Enum.GetValues(typeof(ActionType));
                 int randActionType = UnityEngine.Random.Range(1, actionTypes.Length);
-                mob.CurrentAction.MobAction = (ActionType)randActionType;
+                mob.CurrentAction.MobActionType = (ActionType)randActionType;
 
                 if (mob.MobActions.CheckStamina())
                 {
-                    if (mob.CurrentAction.MobAction == ActionType.Attack1 || mob.CurrentAction.MobAction == ActionType.Attack2)
+                    if (mob.CurrentAction.MobActionType == ActionType.Attack || mob.CurrentAction.MobActionType == ActionType.Skill)
                     {
                         if (GameManager.Instance.PlayerMobs.Count > 0)
                         {
@@ -117,28 +120,50 @@ namespace Managers
                 }
                 else
                 {
-                    mob.CurrentAction.MobAction = ActionType.SkipTurn;
+                    mob.CurrentAction.MobActionType = ActionType.SkipTurn;
                 }
             }
         }
 
-        private List<Action> GetActions(List<Mob> list, ActionType actionType)
+        private List<MobAction> GetActions(List<Mob> list, ActionType actionType)
         {
             if (list == null)
             {
                 Debug.LogError("Mob list is null!");
-                return new List<Action>();
+                return new List<MobAction>();
             }
 
-            List<Action> resultList = new List<Action>();
+            List<MobAction> resultList = new List<MobAction>();
             foreach (Mob mob in list)
             {
                 if (mob == null || mob.CurrentAction == null)
                     continue;
 
-                if (mob.CurrentAction.MobAction == actionType)
+                if (mob.CurrentAction.MobActionType == actionType)
                 {
-                    resultList.Add(mob.CurrentAction);
+                    switch (mob.CurrentAction.MobActionType)
+                    {
+                        case ActionType.SkipTurn:
+                            resultList.Add(mob.CurrentAction);
+                            break;
+                        case ActionType.Defense:
+                            resultList.Add(mob.CurrentAction);
+                            break;
+                        case ActionType.Attack:
+                            foreach (Mob actionTarget in mob.CurrentAction.Targets)
+                            {
+                                resultList.Add(new MobAction(mob.CurrentAction.MobActionType, mob, actionTarget));;
+                            }
+                            break;
+                        case ActionType.Skill:
+                            foreach (Mob actionTarget in mob.CurrentAction.Targets)
+                            {
+                                resultList.Add(new MobAction(mob.CurrentAction.MobActionType, mob, actionTarget));;
+                            }
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
                 }
             }
 
@@ -168,7 +193,7 @@ namespace Managers
             else PerformAction(actionList[currentActionIndex]);
         }
 
-        private void PerformAction(Action action)
+        private void PerformAction(MobAction action)
         {
             if (action == null || !action.MobInstance)
             {
@@ -190,7 +215,7 @@ namespace Managers
                 return;
             }
 
-            switch (action.MobAction)
+            switch (action.MobActionType)
             {
                 case ActionType.SkipTurn:
                     action.MobInstance.MobActions.PerformSkipTurn();
@@ -200,8 +225,8 @@ namespace Managers
                     action.MobInstance.MobActions.PerformDefense();
                     break;
 
-                case ActionType.Attack1:
-                case ActionType.Attack2:
+                case ActionType.Attack:
+                case ActionType.Skill:
                     if (action.TargetInstance == null || action.TargetInstance.State == MobState.Dead || action.TargetInstance.State == MobState.Stun)
                     {
                         Debug.Log($"Attack target is dead or null for {action.MobInstance.name}");
@@ -209,11 +234,15 @@ namespace Managers
                         return;
                     }
                     if (action.MobInstance.StunTime > 0) {}
-                    else action.MobInstance.MobActions.PerformAttack();
+                    else
+                    {
+                        action.MobInstance.CurrentAction.TargetInstance = action.TargetInstance;
+                        action.MobInstance.MobActions.PerformAttack();
+                    }
                     break;
 
                 default:
-                    Debug.LogWarning($"Unknown action type: {action.MobAction}");
+                    Debug.LogWarning($"Unknown action type: {action.MobActionType}");
                     NextAction();
                     break;
             }

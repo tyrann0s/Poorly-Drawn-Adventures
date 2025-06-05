@@ -38,10 +38,10 @@ namespace Mobs
             if (mob.MobStamina < mob.MobData.DefenseCost) defenseButton.SetActive(false, mob);
             else defenseButton.SetActive(true, mob);
 
-            if (mob.MobStamina < mob.MobData.Attack1Cost) attack1Button.SetActive(false, mob);
+            if (mob.MobStamina < mob.MobData.AttackCost) attack1Button.SetActive(false, mob);
             else attack1Button.SetActive(true, mob);
 
-            if (mob.MobStamina < mob.MobData.Attack2Cost) attack2Button.SetActive(false, mob);
+            if (mob.MobStamina < mob.MobData.SkillCost) attack2Button.SetActive(false, mob);
             else attack2Button.SetActive(true, mob);
 
             foreach (MobButton button in buttons) { button.gameObject.SetActive(true); }

@@ -9,6 +9,13 @@ using UnityEngine.SceneManagement;
 
 namespace Managers
 {
+    public enum SelectingState
+    {
+        None,
+        Enemy,
+        Player
+    }
+    
     public class GameManager : MonoBehaviour
     {
         private static GameManager instance;
@@ -42,6 +49,8 @@ namespace Managers
         public List<Mob> EnemyMobs { get; set; } = new List<Mob>();
 
         public bool ControlLock { get; set; }
+        public SelectingState SelectingState { get; set; }
+        
         public bool ChangeCardMode { get; set; }
 
         public Mob PickingMob { get; set; }

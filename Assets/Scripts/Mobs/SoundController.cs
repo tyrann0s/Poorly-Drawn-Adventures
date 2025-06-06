@@ -1,15 +1,19 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Mobs
 {
     public class SoundController : MobComponent
     {
         [SerializeField]
-        private AudioSource pick, attack1, attack2, death, souls, getDamage, commonDamage, shieldDamage, move;
+        private AudioSource pick;
+
+        [SerializeField]
+        private AudioSource attack, skill, death, souls, getDamage, commonDamage, shieldDamage, move;
 
         public void Pick()
         {
-            if (pick == null)
+            if (!pick)
             {
                 Debug.LogWarning($"Pick sound not found on {transform.name}");
                 return;
@@ -21,37 +25,37 @@ namespace Mobs
             }
         }
 
-        public void Attack1()
+        public void Attack()
         {
-            if (attack1 == null)
+            if (!attack)
             {
                 Debug.LogWarning($"Attack1 sound not found on {transform.name}");
                 return;
             }
 
-            if (!attack1.isPlaying)
+            if (!attack.isPlaying)
             {
-                attack1.Play();
+                attack.Play();
             }
         }
 
-        public void Attack2()
+        public void Skill()
         {
-            if (attack2 == null)
+            if (!skill)
             {
                 Debug.LogWarning($"Attack2 sound not found on {transform.name}");
                 return;
             }
 
-            if (!attack2.isPlaying)
+            if (!skill.isPlaying)
             {
-                attack2.Play();
+                skill.Play();
             }
         }
 
         public void PlayShieldDamageSound()
         {
-            if (shieldDamage == null)
+            if (!shieldDamage)
             {
                 Debug.LogWarning($"ShieldDamage sound not found on {transform.name}");
                 return;
@@ -65,7 +69,7 @@ namespace Mobs
 
         public void Death()
         {
-            if (commonDamage == null)
+            if (!commonDamage)
             {
                 Debug.LogWarning($"CommonDamage sound not found on {transform.name}");
             }
@@ -74,7 +78,7 @@ namespace Mobs
                 commonDamage.Play();
             }
 
-            if (death == null)
+            if (!death)
             {
                 Debug.LogWarning($"Death sound not found on {transform.name}");
             }
@@ -83,7 +87,7 @@ namespace Mobs
                 death.Play();
             }
 
-            if (souls == null)
+            if (!souls)
             {
                 Debug.LogWarning($"Souls sound not found on {transform.name}");
             }
@@ -95,7 +99,7 @@ namespace Mobs
 
         public void GetDamage()
         {
-            if (getDamage == null)
+            if (!getDamage)
             {
                 Debug.LogWarning($"GetDamage sound not found on {transform.name}");
             }
@@ -104,7 +108,7 @@ namespace Mobs
                 getDamage.Play();
             }
 
-            if (commonDamage == null)
+            if (!commonDamage)
             {
                 Debug.LogWarning($"CommonDamage sound not found on {transform.name}");
             }
@@ -116,7 +120,7 @@ namespace Mobs
 
         public void PlayGetDamageSound(bool isCritical)
         {
-            if (getDamage == null)
+            if (!getDamage)
             {
                 Debug.LogWarning($"GetDamage sound not found on {transform.name}");
                 return;
@@ -138,7 +142,7 @@ namespace Mobs
 
         public void StartMove()
         {
-            if (move == null)
+            if (!move)
             {
                 Debug.LogWarning($"Move sound not found on {transform.name}");
                 return;
@@ -152,7 +156,7 @@ namespace Mobs
 
         public void StopMove()
         {
-            if (move == null)
+            if (!move)
             {
                 Debug.LogWarning($"Move sound not found on {transform.name}");
                 return;

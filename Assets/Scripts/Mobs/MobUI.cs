@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using Managers;
 using UnityEngine;
@@ -58,6 +59,7 @@ namespace Mobs
         {
             hpBar.Init(GetComponent<Mob>().MobHP);
             shieldOiriginPosition = shieldIcon.transform.localPosition;
+            buttons.RenameSkillButton(ParentMob.MobData.AttackType.ToString() );
         }
 
         public void Activate()
@@ -81,19 +83,44 @@ namespace Mobs
 
         public void ShowTargetCursor()
         {
-            foreach (Mob mob in GameManager.Instance.EnemyMobs)
+            switch (GameManager.Instance.SelectingState)
             {
-                if (mob == null || !mob.IsHostile || mob.State == MobState.Dead || mob.State == MobState.Stun)
-                    continue;
+                case SelectingState.None:
+                    break;
+                case SelectingState.Enemy:
+                    foreach (Mob mob in GameManager.Instance.EnemyMobs)
+                    {
+                        if (!mob || !mob.IsHostile || mob.State == MobState.Dead)
+                            continue;
 
-                if (mob.UI != null && mob.UI.MobCursor != null)
-                {
-                    mob.UI.MobCursor.ShowTarget();
-                }
-                else
-                {
-                    Debug.LogError($"UI or Cursor is null on enemy mob {mob.name}");
-                }
+                        if (mob.UI && mob.UI.MobCursor)
+                        {
+                            mob.UI.MobCursor.ShowTarget();
+                        }
+                        else
+                        {
+                            Debug.LogError($"UI or Cursor is null on enemy mob {mob.name}");
+                        }
+                    }
+                    break;
+                case SelectingState.Player:
+                    foreach (Mob mob in GameManager.Instance.PlayerMobs)
+                    {
+                        if (!mob || mob.IsHostile || mob.State == MobState.Dead)
+                            continue;
+
+                        if (mob.UI && mob.UI.MobCursor && mob != GameManager.Instance.ActivatedMob)
+                        {
+                            mob.UI.MobCursor.ShowTarget();
+                        }
+                        else
+                        {
+                            Debug.LogError($"UI or Cursor is null on enemy mob {mob.name}");
+                        }
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(GameManager.Instance.SelectingState), GameManager.Instance.SelectingState, null);
             }
         }
 

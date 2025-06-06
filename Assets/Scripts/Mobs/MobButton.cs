@@ -66,6 +66,11 @@ public class MobButton : MonoBehaviour
         isActive = value;
         mob = targetMob;
     }
+
+    public void ChangeText(string value)
+    {
+        text.text = value;
+    }
     
     private void OnDestroy()
     {

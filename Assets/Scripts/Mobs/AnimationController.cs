@@ -22,12 +22,12 @@ namespace Mobs
             animator.Play("Run");
         }
 
-        public void PlayAttack1_Animation()
+        public void PlayAttack_Animation()
         {
             animator.Play("Attack1");
         }
 
-        public void PlayAttack2_Animation()
+        public void PlaySkill_Animation()
         {
             animator.Play("Attack2");
         }
@@ -48,13 +48,13 @@ namespace Mobs
             switch (ParentMob.CurrentAction.MobActionType)
             {
                 case ActionType.Attack:
-                    ParentMob.AnimationController.PlayAttack1_Animation();
-                    ParentMob.SoundController.Attack1();
+                    ParentMob.AnimationController.PlayAttack_Animation();
+                    ParentMob.SoundController.Attack();
                     break;
 
                 case ActionType.Skill:
-                    ParentMob.AnimationController.PlayAttack2_Animation();
-                    ParentMob.SoundController.Attack2();
+                    ParentMob.AnimationController.PlaySkill_Animation();
+                    ParentMob.SoundController.Skill();
                     break;
             }
         }

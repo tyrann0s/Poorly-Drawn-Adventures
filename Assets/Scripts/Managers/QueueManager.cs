@@ -227,7 +227,7 @@ namespace Managers
 
                 case ActionType.Attack:
                 case ActionType.Skill:
-                    if (action.TargetInstance == null || action.TargetInstance.State == MobState.Dead || action.TargetInstance.State == MobState.Stun)
+                    if (!action.TargetInstance || action.TargetInstance.State == MobState.Dead || action.TargetInstance.State == MobState.Stun)
                     {
                         Debug.Log($"Attack target is dead or null for {action.MobInstance.name}");
                         NextAction();
@@ -237,7 +237,13 @@ namespace Managers
                     else
                     {
                         action.MobInstance.CurrentAction.TargetInstance = action.TargetInstance;
-                        action.MobInstance.MobActions.PerformAttack();
+                        if (action.MobActionType == ActionType.Attack)
+                        {
+                            action.MobInstance.MobActions.PerformAttack();
+                        } else if (action.MobActionType == ActionType.Skill)
+                        {
+                            action.MobInstance.MobActions.PerformSkill();
+                        }
                     }
                     break;
 

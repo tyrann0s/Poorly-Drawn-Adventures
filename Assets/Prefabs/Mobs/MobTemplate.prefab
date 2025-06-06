@@ -63644,10 +63644,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bc854980087eea44b3be85a357b011f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skipTurnbutton: {fileID: 2614576569351164189}
+  skipTurnButton: {fileID: 2614576569351164189}
   defenseButton: {fileID: 4289193440939327733}
-  attack1Button: {fileID: 8070348811095321658}
-  attack2Button: {fileID: 4366707238669914999}
+  attackButton: {fileID: 8070348811095321658}
+  skillButton: {fileID: 4366707238669914999}
   animationSpeed: 0.1
   scaleAmount: 0.3
 --- !u!1 &7692303994163442469
@@ -69387,12 +69387,12 @@ PrefabInstance:
     - target: {fileID: 2831015146000943546, guid: 1790e0ead608247489b177e4f453df6b,
         type: 3}
       propertyPath: m_Name
-      value: Attack2Button
+      value: SkillButton
       objectReference: {fileID: 0}
     - target: {fileID: 3873901549943468525, guid: 1790e0ead608247489b177e4f453df6b,
         type: 3}
       propertyPath: m_text
-      value: Attack 2
+      value: Skill
       objectReference: {fileID: 0}
     - target: {fileID: 3873901549943468525, guid: 1790e0ead608247489b177e4f453df6b,
         type: 3}
@@ -69548,12 +69548,12 @@ PrefabInstance:
     - target: {fileID: 2831015146000943546, guid: 1790e0ead608247489b177e4f453df6b,
         type: 3}
       propertyPath: m_Name
-      value: Attack1Button
+      value: AttackButton
       objectReference: {fileID: 0}
     - target: {fileID: 3873901549943468525, guid: 1790e0ead608247489b177e4f453df6b,
         type: 3}
       propertyPath: m_text
-      value: Attack 1
+      value: Attack
       objectReference: {fileID: 0}
     - target: {fileID: 3873901549943468525, guid: 1790e0ead608247489b177e4f453df6b,
         type: 3}

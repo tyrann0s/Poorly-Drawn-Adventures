@@ -28,14 +28,58 @@ namespace Mobs
 
         public void Attack()
         {
-            Attack(ActionType.Attack);
+            CreateAction(ActionType.Attack);
         }
 
         public void Skill()
         {
-            Attack(ActionType.Skill);
+            CreateAction(ActionType.Skill);
         }
 
+        private void CreateAction(ActionType action)
+        {
+            ParentMob.CurrentAction.MobActionType = action;
+            ParentMob.CurrentAction.MobInstance = ParentMob;
+            GameManager.Instance.ControlLock = true;
+            switch (action)
+            {
+                case ActionType.Attack:
+                    GameManager.Instance.SelectingState = SelectingState.Enemy;
+                    GameManager.Instance.SetCardPanel(true);
+                    break;
+                case ActionType.Skill:
+                    switch (ParentMob.MobData.AttackType)
+                    {
+                        case AttackType.Melee:
+                            GameManager.Instance.SelectingState = SelectingState.Enemy;
+                            GameManager.Instance.SetCardPanel(true);
+                            break;
+                        case AttackType.Ranged:
+                            GameManager.Instance.SelectingState = SelectingState.Enemy;
+                            GameManager.Instance.SetCardPanel(true);
+                            break;
+                        case AttackType.Heal:
+                            GameManager.Instance.SelectingState = SelectingState.Player;
+                            break;
+                        case AttackType.UnStun:
+                            GameManager.Instance.SelectingState = SelectingState.Player;
+                            break;
+                        case AttackType.CastShield:
+                            GameManager.Instance.SelectingState = SelectingState.Player;
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(action), action, null);
+            }
+            
+            ParentMob.UI.ShowTargetCursor();
+            GameManager.Instance.PickingMob = ParentMob;
+            GameManager.Instance.ExitChangeCardMode();
+        }
+        
         public void ActionPrepared()
         {
             ParentMob.State = MobState.Ready;
@@ -47,37 +91,6 @@ namespace Mobs
             CardPanel.Instance.DeleteCards();
             
             Debug.Log($"Action {ParentMob.CurrentAction.MobActionType} is prepared {ParentMob} is {ParentMob.State}");
-        }
-
-        private void Attack(ActionType action)
-        {
-            ParentMob.CurrentAction.MobActionType = action;
-            ParentMob.CurrentAction.MobInstance = ParentMob;
-            ParentMob.UI.ShowTargetCursor();
-            GameManager.Instance.ControlLock = true;
-            switch (ParentMob.MobData.AttackType)
-            {
-                case AttackType.Melee:
-                    GameManager.Instance.SelectingState = SelectingState.Enemy;
-                    break;
-                case AttackType.Ranged:
-                    GameManager.Instance.SelectingState = SelectingState.Enemy;
-                    break;
-                case AttackType.Heal:
-                    GameManager.Instance.SelectingState = SelectingState.Player;
-                    break;
-                case AttackType.UnStun:
-                    GameManager.Instance.SelectingState = SelectingState.Player;
-                    break;
-                case AttackType.CastShield:
-                    GameManager.Instance.SelectingState = SelectingState.Player;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-            GameManager.Instance.PickingMob = ParentMob;
-            GameManager.Instance.ExitChangeCardMode();
-            GameManager.Instance.SetCardPanel(true);
         }
 
         public void PerformSkipTurn()
@@ -98,10 +111,7 @@ namespace Mobs
         public void PerformDefense()
         {
             ParentMob.MobStamina -= ParentMob.MobData.DefenseCost;
-            ParentMob.State = MobState.Defense;
-            ParentMob.UI.ShowText("Defense!", Color.blue);
-            UIManager.Instance.UISounds.ShieldActivation();
-            ParentMob.UI.ShowShield();
+            ParentMob.MobCombatSystem.ApplyDefense();
         }
         
         public void PerformAttack()
@@ -110,6 +120,30 @@ namespace Mobs
             ParentMob.SoundController.StartMove();
             ParentMob.AnimationController.PlayRun_Animation();
             ParentMob.MobMovement.MoveToEnemy();
+        }
+
+        public void PerformSkill()
+        {
+            ParentMob.State = MobState.Attack;
+            switch (ParentMob.MobData.AttackType)
+            {
+                case AttackType.Melee:
+                    ParentMob.SoundController.StartMove();
+                    ParentMob.AnimationController.PlayRun_Animation();
+                    ParentMob.MobMovement.MoveToEnemy();
+                    break;
+                case AttackType.Ranged:
+                    ParentMob.AnimationController.PlayAttackAnimation();
+                    break;
+                case AttackType.Heal:
+                    break;
+                case AttackType.UnStun:
+                    break;
+                case AttackType.CastShield:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private void MakeDamage()
@@ -126,8 +160,55 @@ namespace Mobs
             } 
         }
 
+        private void MakeSkill()
+        {
+            switch (ParentMob.MobData.AttackType)
+            {
+                case AttackType.Melee:
+                    MakeDamage();
+                    break;
+                case AttackType.Ranged:
+                    MakeDamage();
+                    break;
+                case AttackType.Heal:
+                case AttackType.UnStun:
+                case AttackType.CastShield:
+                    StartCoroutine(SkillCoroutine(ParentMob.MobData.SkillDamage, ParentMob.MobData.SkillCost));
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
         private IEnumerator DamageCoroutine(float damage, float cost)
         {
+            ParentMob.CurrentAction.TargetInstance.MobCombatSystem.GetDamage(damage, ParentMob.CurrentCombo);
+            ParentMob.MobStamina -= cost;
+
+            yield return new WaitForSeconds(.5f);
+            ParentMob.MobMovement.GoToOriginPosition(true);
+
+            yield return new WaitForSeconds(1);
+            NextAction();
+        }
+
+        private IEnumerator SkillCoroutine(float damage, float cost)
+        {
+            switch (ParentMob.MobData.AttackType)
+            {
+                case AttackType.Heal:
+                    ParentMob.CurrentAction.TargetInstance.MobCombatSystem.Heal(damage);
+                    break;
+                case AttackType.UnStun:
+                    ParentMob.CurrentAction.TargetInstance.State = MobState.Idle;
+                    ParentMob.CurrentAction.TargetInstance.StunTime = 0;
+                    break;
+                case AttackType.CastShield:
+                    ParentMob.MobCombatSystem.ApplyDefense();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
             ParentMob.CurrentAction.TargetInstance.MobCombatSystem.GetDamage(damage, ParentMob.CurrentCombo);
             ParentMob.MobStamina -= cost;
 

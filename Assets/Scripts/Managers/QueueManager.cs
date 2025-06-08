@@ -45,7 +45,7 @@ namespace Managers
         public void CreateQueue()
         {
             actionList.Clear();
-
+            
             GenerateEnemyActions();
 
             // Фаза защиты
@@ -91,7 +91,7 @@ namespace Managers
 
             foreach (Mob mob in GameManager.Instance.EnemyMobs)
             {
-                if (mob == null || mob.State == MobState.Dead || mob.State == MobState.Stun)
+                if (mob == null || mob.State == MobState.Dead || mob.MobStatusEffects.CheckStun())
                     continue;
             
                 if (mob.StunTime > 0)
@@ -202,7 +202,7 @@ namespace Managers
                 return;
             }
 
-            if (action.MobInstance.State == MobState.Dead || action.MobInstance.State == MobState.Stun)
+            if (action.MobInstance.State == MobState.Dead || action.MobInstance.MobStatusEffects.CheckStun())
             {
                 Debug.Log($"Skipping dead mob {action.MobInstance.name}");
                 NextAction();
@@ -227,7 +227,7 @@ namespace Managers
 
                 case ActionType.Attack:
                 case ActionType.Skill:
-                    if (!action.TargetInstance || action.TargetInstance.State == MobState.Dead || action.TargetInstance.State == MobState.Stun)
+                    if (!action.TargetInstance || action.TargetInstance.State == MobState.Dead || action.TargetInstance.MobStatusEffects.CheckStun())
                     {
                         Debug.Log($"Attack target is dead or null for {action.MobInstance.name}");
                         NextAction();

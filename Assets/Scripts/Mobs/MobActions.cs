@@ -103,7 +103,6 @@ namespace Mobs
 
         public void PerformStun()
         {
-            ParentMob.State = MobState.Stun;
             ParentMob.UI.ShowText("Stunned!", Color.white);
             ParentMob.StunTime--;
         }
@@ -133,13 +132,12 @@ namespace Mobs
                     ParentMob.MobMovement.MoveToEnemy();
                     break;
                 case AttackType.Ranged:
-                    ParentMob.AnimationController.PlayAttackAnimation();
+                    ParentMob.AnimationController.PlayActionAnimation();
                     break;
                 case AttackType.Heal:
-                    break;
                 case AttackType.UnStun:
-                    break;
                 case AttackType.CastShield:
+                    ParentMob.AnimationController.PlayActionAnimation();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -200,16 +198,14 @@ namespace Mobs
                     ParentMob.CurrentAction.TargetInstance.MobCombatSystem.Heal(damage);
                     break;
                 case AttackType.UnStun:
-                    ParentMob.CurrentAction.TargetInstance.State = MobState.Idle;
-                    ParentMob.CurrentAction.TargetInstance.StunTime = 0;
+                    ParentMob.CurrentAction.TargetInstance.MobCombatSystem.UnStun();
                     break;
                 case AttackType.CastShield:
-                    ParentMob.MobCombatSystem.ApplyDefense();
+                    ParentMob.CurrentAction.TargetInstance.MobCombatSystem.ApplyDefense();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            ParentMob.CurrentAction.TargetInstance.MobCombatSystem.GetDamage(damage, ParentMob.CurrentCombo);
             ParentMob.MobStamina -= cost;
 
             yield return new WaitForSeconds(.5f);

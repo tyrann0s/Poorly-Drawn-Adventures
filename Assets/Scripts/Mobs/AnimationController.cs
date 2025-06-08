@@ -42,7 +42,7 @@ namespace Mobs
             animator.Play("Die");
         }
     
-        public void PlayAttackAnimation()
+        public void PlayActionAnimation()
         {
             ParentMob.SoundController.StopMove();
             switch (ParentMob.CurrentAction.MobActionType)

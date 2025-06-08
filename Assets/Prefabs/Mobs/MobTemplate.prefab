@@ -58076,6 +58076,7 @@ GameObject:
   - component: {fileID: 6123770391339514622}
   - component: {fileID: 8460321424435457212}
   - component: {fileID: 5556248022799598762}
+  - component: {fileID: 783445128194541911}
   - component: {fileID: 1355722761114084243}
   - component: {fileID: 361468472179453751}
   - component: {fileID: 1762716710912001124}
@@ -58199,6 +58200,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d647a3b1577e140ba9bfafd3d39f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &783445128194541911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6123770391339514623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 869e723b600c4e3489f52e967e106540, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1355722761114084243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58294,8 +58307,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pick: {fileID: 5301955587689616050}
-  attack1: {fileID: 8821639593238878056}
-  attack2: {fileID: 7428473268219151603}
+  attack: {fileID: 0}
+  skill: {fileID: 0}
   death: {fileID: 5593349914441483331}
   souls: {fileID: 4892141211322690089}
   getDamage: {fileID: 8408482501703025325}

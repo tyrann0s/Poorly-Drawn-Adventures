@@ -10,8 +10,6 @@ namespace Mobs
         Ready,
         Activated,
         Attack,
-        Defense,
-        Stun,
         Dead
     }
     
@@ -26,6 +24,7 @@ namespace Mobs
         public MobData MobData => mobData;
         
         public MobCombatSystem MobCombatSystem { get; private set; }
+        public MobStatusEffects MobStatusEffects { get; private set; }
         public MobInput MobInput { get; private set; }
         public MobActions MobActions { get; private set; }
         public MobMovement MobMovement { get; private set; }
@@ -49,6 +48,7 @@ namespace Mobs
         private void Awake()
         {
             MobCombatSystem = GetComponent<MobCombatSystem>();
+            MobStatusEffects = GetComponent<MobStatusEffects>();
             MobInput = GetComponent<MobInput>();
             MobActions = GetComponent<MobActions>();
             MobMovement = GetComponent<MobMovement>();

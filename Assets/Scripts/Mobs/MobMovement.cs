@@ -57,7 +57,7 @@ namespace Mobs
         {
             DOTween.Sequence()
                 .Append(transform.DOMove(ParentMob.CurrentAction.TargetInstance.MobMovement.RivalPosition.transform.position, 1f))
-                .OnComplete(ParentMob.AnimationController.PlayAttackAnimation);
+                .OnComplete(ParentMob.AnimationController.PlayActionAnimation);
         }
 
         public void MoveToRivalPosition()

@@ -34,17 +34,23 @@ namespace Mobs
 
         public void ApplyDefense()
         {
-            ParentMob.State = MobState.Defense;
             ParentMob.UI.ShowText("Defense!", Color.blue);
             UIManager.Instance.UISounds.ShieldActivation();
             ParentMob.UI.ShowShield();
+        }
+
+        public void UnStun()
+        {
+            ParentMob.CurrentAction.TargetInstance.State = MobState.Idle;
+            ParentMob.CurrentAction.TargetInstance.StunTime = 0;
+            ParentMob.UI.ShowText("Stun Cleared!", Color.green);
         }
     
         private bool HandleShieldAttack(ElementCombo enemyCombo)
         {
             if (enemyCombo)
             {
-                if (ParentMob.State == MobState.Defense)
+                if (ParentMob.MobStatusEffects.CheckShield())
                 {
                     if (enemyCombo.ignoreDefense)
                     {
@@ -62,7 +68,7 @@ namespace Mobs
             }
             else
             {
-                if (ParentMob.State == MobState.Defense)
+                if (ParentMob.MobStatusEffects.CheckShield())
                 {
                     ParentMob.SoundController.PlayShieldDamageSound();
                     ParentMob.UI.ShowText("Blocked!", Color.white);

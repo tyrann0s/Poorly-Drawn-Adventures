@@ -213,7 +213,7 @@ namespace Managers
                 Debug.LogError("No player mobs available!");
                 return;
             }
-
+            
             bool allActionsAssigned = true;
             foreach (Mob mob in PlayerMobs)
             {
@@ -249,10 +249,11 @@ namespace Managers
         public void EndFight()
         {
             if (MusicManager.Instance != null) StartCoroutine(MusicManager.Instance.FadeTrackToZero(MusicManager.Instance.Battle));
-
+            
             foreach (Mob mob in PlayerMobs)
             { 
                 mob.State = MobState.Idle; 
+                mob.CurrentAction.Targets.Clear();
                 mob.MobMovement.GoToOriginPosition(false);
                 mob.UI.HideShield();
             }
@@ -260,6 +261,7 @@ namespace Managers
             foreach (Mob mob in EnemyMobs)
             {
                 mob.State = MobState.Idle;
+                mob.CurrentAction.Targets.Clear();
                 mob.UI.HideShield();
             }
 

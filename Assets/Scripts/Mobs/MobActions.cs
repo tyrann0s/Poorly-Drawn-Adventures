@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Cards;
 using Managers;
+using Mobs.Status_Effects;
 using UnityEngine;
 
 namespace Mobs
@@ -104,13 +105,12 @@ namespace Mobs
         public void PerformStun()
         {
             ParentMob.UI.ShowText("Stunned!", Color.white);
-            ParentMob.StunTime--;
         }
 
         public void PerformDefense()
         {
             ParentMob.MobStamina -= ParentMob.MobData.DefenseCost;
-            ParentMob.MobCombatSystem.ApplyDefense();
+            ParentMob.MobStatusEffects.AddEffect(ParentMob, StatusEffectType.Defense, 1);
         }
         
         public void PerformAttack()
@@ -201,7 +201,7 @@ namespace Mobs
                     ParentMob.CurrentAction.TargetInstance.MobCombatSystem.UnStun();
                     break;
                 case AttackType.CastShield:
-                    ParentMob.CurrentAction.TargetInstance.MobCombatSystem.ApplyDefense();
+                    ParentMob.CurrentAction.TargetInstance.MobStatusEffects.AddEffect(ParentMob.CurrentAction.TargetInstance, StatusEffectType.Defense, 1);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

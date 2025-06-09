@@ -7,12 +7,13 @@ namespace Mobs.Status_Effects
         Defense,
         Stun
     }
-    public class StatusEffect
+    public abstract class StatusEffect
     {
         public StatusEffectType EffectType { get; set; }
         public int Duration { get; set; }
+        public Mob ParentMob { get; set; }
 
-        public StatusEffect Create(StatusEffectType effectType, int duration)
+        public static StatusEffect Create(Mob parentMob, StatusEffectType effectType, int duration)
         {
             StatusEffect effect;
             switch (effectType)
@@ -27,9 +28,12 @@ namespace Mobs.Status_Effects
                     throw new ArgumentOutOfRangeException(nameof(effectType), effectType, null);
             }
             
+            effect.ParentMob = parentMob;
             effect.EffectType = effectType;
             effect.Duration = duration;
             return effect;
         }
+        
+        public abstract void ApplyEffect();
     }
 }

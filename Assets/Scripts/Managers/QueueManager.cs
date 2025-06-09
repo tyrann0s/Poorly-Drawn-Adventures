@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Mobs;
+using Mobs.Status_Effects;
 using UnityEngine;
 
 namespace Managers
@@ -94,7 +96,7 @@ namespace Managers
                 if (mob == null || mob.State == MobState.Dead || mob.MobStatusEffects.CheckStun())
                     continue;
             
-                if (mob.StunTime > 0)
+                if (mob.MobStatusEffects.StatusEffects.Any(x=>x.EffectType == StatusEffectType.Stun))
                 {
                     mob.MobActions.PerformStun();
                     continue;
@@ -209,7 +211,7 @@ namespace Managers
                 return;
             }
         
-            if (action.MobInstance.StunTime > 0)
+            if (action.MobInstance.MobStatusEffects.StatusEffects.Any(x=>x.EffectType == StatusEffectType.Stun))
             {
                 NextAction();
                 return;
@@ -233,7 +235,7 @@ namespace Managers
                         NextAction();
                         return;
                     }
-                    if (action.MobInstance.StunTime > 0) {}
+                    if (action.MobInstance.MobStatusEffects.StatusEffects.Any(x=>x.EffectType == StatusEffectType.Stun)) {}
                     else
                     {
                         action.MobInstance.CurrentAction.TargetInstance = action.TargetInstance;

@@ -253,6 +253,7 @@ namespace Managers
             foreach (Mob mob in PlayerMobs)
             { 
                 mob.State = MobState.Idle; 
+                mob.MobStatusEffects.UpdateEffectsDuration();
                 mob.CurrentAction.Targets.Clear();
                 mob.MobMovement.GoToOriginPosition(false);
                 mob.UI.HideShield();

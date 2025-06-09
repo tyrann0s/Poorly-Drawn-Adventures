@@ -19,6 +19,7 @@ namespace Cards
         [Header("Special Effects")]
         [Tooltip("Сжигает всю стамину до нуля или станит на несколько ходов")]
         public bool stun;
+        public int stunTime;
         [Tooltip("Пробивает щит")]
         public bool ignoreDefense;
         [Tooltip("Дамажит всех мобов на арене")]

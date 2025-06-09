@@ -25,5 +25,6 @@ MonoBehaviour:
   comboName: Fireball
   description: 
   stun: 1
+  stunTime: 2
   ignoreDefense: 0
   aoeAttack: 0

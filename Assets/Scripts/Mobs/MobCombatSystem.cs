@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using Cards;
 using Managers;
+using Mobs.Status_Effects;
 using UnityEngine;
 
 namespace Mobs
@@ -32,17 +33,9 @@ namespace Mobs
             ParentMob.UI.ShowText("Healed!", Color.green);
         }
 
-        public void ApplyDefense()
-        {
-            ParentMob.UI.ShowText("Defense!", Color.blue);
-            UIManager.Instance.UISounds.ShieldActivation();
-            ParentMob.UI.ShowShield();
-        }
-
         public void UnStun()
         {
-            ParentMob.CurrentAction.TargetInstance.State = MobState.Idle;
-            ParentMob.CurrentAction.TargetInstance.StunTime = 0;
+            ParentMob.MobStatusEffects.StatusEffects.RemoveAll(x => x.EffectType == StatusEffectType.Stun);
             ParentMob.UI.ShowText("Stun Cleared!", Color.green);
         }
     
@@ -133,8 +126,8 @@ namespace Mobs
 
                 if (enemyCombo.stun)
                 {
-                    ParentMob.StunTime += 2;
-                    ParentMob.UI.ShowText($"Stunned for {ParentMob.StunTime} turns!", Color.white);
+                    ParentMob.MobStatusEffects.AddEffect(ParentMob, StatusEffectType.Stun, enemyCombo.stunTime);
+                    ParentMob.UI.ShowText($"Stunned for {enemyCombo.stunTime} turns!", Color.white);
                 }
             }
             else

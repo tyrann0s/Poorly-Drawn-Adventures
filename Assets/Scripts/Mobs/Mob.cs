@@ -36,7 +36,6 @@ namespace Mobs
         public bool IsHostile { get; set; }
         public bool IsBoss { get; set; }
         public MobState State { get; set; }
-        public int StunTime { get; set; }
 
         public MobAction CurrentAction { get; set; } = new();
         

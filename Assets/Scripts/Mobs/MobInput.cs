@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Managers;
 using UnityEngine;
 
@@ -75,20 +76,14 @@ namespace Mobs
         {
             ParentMob.UI.MobCursor.PickTarget();
             GameManager.Instance.PickingMob.CurrentAction.Targets.Add(ParentMob);
+            if (GameManager.Instance.PickingMob.CurrentAction.MobActionType == ActionType.Attack)
+            {
+                CompletePicking(GameManager.Instance.EnemyMobs);
+                return;
+            }
             
             if (GameManager.Instance.PickingMob.CurrentAction.Targets.Count < GameManager.Instance.PickingMob.MobData.MaxTargets) return;
-            
-            GameManager.Instance.PickingMob.MobActions.ActionPrepared();
-            GameManager.Instance.PickingMob.Deactivate();
-            GameManager.Instance.PickingMob.CurrentCombo = GameManager.Instance.GetCombo();
-                
-            foreach (Mob mob in GameManager.Instance.EnemyMobs)
-            {
-                if (mob != ParentMob) mob.Deactivate();
-            }
-            GameManager.Instance.ControlLock = false;
-            GameManager.Instance.SelectingState = SelectingState.None;
-            GameManager.Instance.SetCardPanel(false);
+            CompletePicking(GameManager.Instance.EnemyMobs);
         }
 
         private void PickPlayerMob()
@@ -98,11 +93,16 @@ namespace Mobs
             
             if (GameManager.Instance.PickingMob.CurrentAction.Targets.Count < GameManager.Instance.PickingMob.MobData.MaxTargets) return;
             
+            CompletePicking(GameManager.Instance.PlayerMobs);
+        }
+
+        private void CompletePicking(List<Mob> mobList)
+        {
             GameManager.Instance.PickingMob.MobActions.ActionPrepared();
             GameManager.Instance.PickingMob.Deactivate();
             GameManager.Instance.PickingMob.CurrentCombo = GameManager.Instance.GetCombo();
                 
-            foreach (Mob mob in GameManager.Instance.PlayerMobs)
+            foreach (Mob mob in mobList)
             {
                 if (mob != ParentMob) mob.Deactivate();
             }

@@ -229,15 +229,15 @@ namespace Mobs
 
                 case ActionType.Defense:
                     if (ParentMob.MobStamina >= ParentMob.MobData.DefenseCost) return true;
-                    else return false;
+                    break;
 
                 case ActionType.Attack:
                     if (ParentMob.MobStamina >= ParentMob.MobData.AttackCost) return true;
-                    else return false;
+                    break;
 
                 case ActionType.Skill:
                     if (ParentMob.MobStamina >= ParentMob.MobData.SkillCost) return true;
-                    else return false;
+                    break;
             }
 
             return false;

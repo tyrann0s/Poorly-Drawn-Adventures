@@ -55,25 +55,22 @@ namespace Managers
             actionList.AddRange(GetActions(GameManager.Instance.EnemyMobs, ActionType.Defense));
 
             // Фаза атаки и скиллов
-            actionList.AddRange(GetActions(GameManager.Instance.PlayerMobs, ActionType.Attack));
             actionList.AddRange(GetActions(GameManager.Instance.PlayerMobs, ActionType.Skill));
-            actionList.AddRange(GetActions(GameManager.Instance.EnemyMobs, ActionType.Attack));
             actionList.AddRange(GetActions(GameManager.Instance.EnemyMobs, ActionType.Skill));
+            
+            actionList.AddRange(GetActions(GameManager.Instance.PlayerMobs, ActionType.Attack));
+            
+            actionList.AddRange(GetActions(GameManager.Instance.EnemyMobs, ActionType.Attack));
+            
 
             // Фаза пропуска хода
             actionList.AddRange(GetActions(GameManager.Instance.PlayerMobs, ActionType.SkipTurn));
             actionList.AddRange(GetActions(GameManager.Instance.EnemyMobs, ActionType.SkipTurn));
         }
 
-        public void CreateQueueForActionType(ActionType actionType)
-        {
-            actionList.AddRange(GetActions(GameManager.Instance.PlayerMobs, actionType));
-            actionList.AddRange(GetActions(GameManager.Instance.EnemyMobs, actionType));
-        }
-
         private void GenerateEnemyActions()
         {
-            if (GameManager.Instance == null)
+            if (!GameManager.Instance)
             {
                 Debug.LogError("Game Manager is null!");
                 return;
@@ -93,14 +90,7 @@ namespace Managers
 
             foreach (Mob mob in GameManager.Instance.EnemyMobs)
             {
-                if (mob == null || mob.State == MobState.Dead || mob.MobStatusEffects.CheckStun())
-                    continue;
-            
-                if (mob.MobStatusEffects.StatusEffects.Any(x=>x.EffectType == StatusEffectType.Stun))
-                {
-                    mob.MobActions.PerformStun();
-                    continue;
-                }
+                if (!mob || mob.State == MobState.Dead) continue;
 
                 mob.CurrentAction.MobInstance = mob;
             
@@ -111,12 +101,12 @@ namespace Managers
 
                 if (mob.MobActions.CheckStamina())
                 {
-                    if (mob.CurrentAction.MobActionType == ActionType.Attack || mob.CurrentAction.MobActionType == ActionType.Skill)
+                    if (mob.CurrentAction.MobActionType is ActionType.Attack or ActionType.Skill)
                     {
                         if (GameManager.Instance.PlayerMobs.Count > 0)
                         {
                             int randMob = UnityEngine.Random.Range(0, GameManager.Instance.PlayerMobs.Count);
-                            mob.CurrentAction.TargetInstance = GameManager.Instance.PlayerMobs[randMob];
+                            mob.CurrentAction.Targets.Add(GameManager.Instance.PlayerMobs[randMob]); 
                         }
                     }
                 }
@@ -138,7 +128,7 @@ namespace Managers
             List<MobAction> resultList = new List<MobAction>();
             foreach (Mob mob in list)
             {
-                if (mob == null || mob.CurrentAction == null)
+                if (!mob || mob.CurrentAction == null)
                     continue;
 
                 if (mob.CurrentAction.MobActionType == actionType)
@@ -204,14 +194,14 @@ namespace Managers
                 return;
             }
 
-            if (action.MobInstance.State == MobState.Dead || action.MobInstance.MobStatusEffects.CheckStun())
+            if (action.MobInstance.State == MobState.Dead)
             {
                 Debug.Log($"Skipping dead mob {action.MobInstance.name}");
                 NextAction();
                 return;
             }
         
-            if (action.MobInstance.MobStatusEffects.StatusEffects.Any(x=>x.EffectType == StatusEffectType.Stun))
+            if (action.MobInstance.MobStatusEffects.CheckStun())
             {
                 NextAction();
                 return;

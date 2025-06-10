@@ -51,21 +51,20 @@ namespace Managers
             GenerateEnemyActions();
 
             // Фаза защиты
-            actionList.AddRange(GetActions(GameManager.Instance.PlayerMobs, ActionType.Defense));
-            actionList.AddRange(GetActions(GameManager.Instance.EnemyMobs, ActionType.Defense));
+            actionList.AddRange(GetDefenseActions(GameManager.Instance.PlayerMobs));
+            actionList.AddRange(GetDefenseActions(GameManager.Instance.EnemyMobs));
 
-            // Фаза атаки и скиллов
-            actionList.AddRange(GetActions(GameManager.Instance.PlayerMobs, ActionType.Skill));
-            actionList.AddRange(GetActions(GameManager.Instance.EnemyMobs, ActionType.Skill));
+            // Фаза скиллов поддержки
+            actionList.AddRange(GetSupportActions(GameManager.Instance.PlayerMobs));
+            actionList.AddRange(GetSupportActions(GameManager.Instance.EnemyMobs));
             
-            actionList.AddRange(GetActions(GameManager.Instance.PlayerMobs, ActionType.Attack));
-            
-            actionList.AddRange(GetActions(GameManager.Instance.EnemyMobs, ActionType.Attack));
-            
+            // Фаза атаки
+            actionList.AddRange(GetAttackActions(GameManager.Instance.PlayerMobs));
+            actionList.AddRange(GetAttackActions(GameManager.Instance.EnemyMobs));
 
             // Фаза пропуска хода
-            actionList.AddRange(GetActions(GameManager.Instance.PlayerMobs, ActionType.SkipTurn));
-            actionList.AddRange(GetActions(GameManager.Instance.EnemyMobs, ActionType.SkipTurn));
+            actionList.AddRange(GetSkipTurnActions(GameManager.Instance.PlayerMobs));
+            actionList.AddRange(GetSkipTurnActions(GameManager.Instance.EnemyMobs));
         }
 
         private void GenerateEnemyActions()
@@ -117,46 +116,106 @@ namespace Managers
             }
         }
 
-        private List<MobAction> GetActions(List<Mob> list, ActionType actionType)
+        private List<MobAction> GetDefenseActions(List<Mob> list)
         {
-            if (list == null)
-            {
-                Debug.LogError("Mob list is null!");
-                return new List<MobAction>();
-            }
-
             List<MobAction> resultList = new List<MobAction>();
             foreach (Mob mob in list)
             {
                 if (!mob || mob.CurrentAction == null)
                     continue;
 
-                if (mob.CurrentAction.MobActionType == actionType)
+                if (mob.CurrentAction.MobActionType == ActionType.Defense)
                 {
-                    switch (mob.CurrentAction.MobActionType)
+                    resultList.Add(mob.CurrentAction);
+                }
+            }
+
+            return resultList;
+        }
+
+        private List<MobAction> GetSupportActions(List<Mob> list)
+        {
+            List<MobAction> resultList = new List<MobAction>();
+            foreach (Mob mob in list)
+            {
+                if (!mob || mob.CurrentAction == null)
+                    continue;
+                
+                if (mob.CurrentAction.MobActionType == ActionType.Skill)
+                {
+                    switch (mob.MobData.AttackType)
                     {
-                        case ActionType.SkipTurn:
-                            resultList.Add(mob.CurrentAction);
+                        case AttackType.Melee:
                             break;
-                        case ActionType.Defense:
-                            resultList.Add(mob.CurrentAction);
+                        case AttackType.Ranged:
                             break;
-                        case ActionType.Attack:
+                        case AttackType.Heal:
+                        case AttackType.UnStun:
+                        case AttackType.CastShield:
                             foreach (Mob actionTarget in mob.CurrentAction.Targets)
                             {
                                 resultList.Add(new MobAction(mob.CurrentAction.MobActionType, mob, actionTarget));;
                             }
                             break;
-                        case ActionType.Skill:
+                    }
+                }
+            }
+
+            return resultList;
+        }
+
+        private List<MobAction> GetAttackActions(List<Mob> list)
+        {
+            List<MobAction> resultList = new List<MobAction>();
+            foreach (Mob mob in list)
+            {
+                if (!mob || mob.CurrentAction == null)
+                    continue;
+
+                if (mob.CurrentAction.MobActionType == ActionType.Attack)
+                {
+                    foreach (Mob actionTarget in mob.CurrentAction.Targets)
+                    {
+                        resultList.Add(new MobAction(mob.CurrentAction.MobActionType, mob, actionTarget));;
+                    }
+                    continue;
+                }
+                
+                if (mob.CurrentAction.MobActionType == ActionType.Skill)
+                {
+                    switch (mob.MobData.AttackType)
+                    {
+                        case AttackType.Melee:
+                        case AttackType.Ranged:
                             foreach (Mob actionTarget in mob.CurrentAction.Targets)
                             {
                                 resultList.Add(new MobAction(mob.CurrentAction.MobActionType, mob, actionTarget));;
                             }
+                            break;
+                        case AttackType.Heal:
+                            break;
+                        case AttackType.UnStun:
+                            break;
+                        case AttackType.CastShield:
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
                 }
+            }
+
+            return resultList;
+        }
+
+        private List<MobAction> GetSkipTurnActions(List<Mob> list)
+        {
+            List<MobAction> resultList = new List<MobAction>();
+            foreach (Mob mob in list)
+            {
+                if (!mob || mob.CurrentAction == null)
+                    continue;
+                
+                if (mob.CurrentAction.MobActionType == ActionType.SkipTurn) resultList.Add(mob.CurrentAction);
             }
 
             return resultList;

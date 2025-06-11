@@ -42,6 +42,7 @@ namespace Mobs
             ParentMob.CurrentAction.MobActionType = action;
             ParentMob.CurrentAction.MobInstance = ParentMob;
             GameManager.Instance.ControlLock = true;
+
             switch (action)
             {
                 case ActionType.Attack:
@@ -78,7 +79,6 @@ namespace Mobs
             
             ParentMob.UI.ShowTargetCursor();
             GameManager.Instance.PickingMob = ParentMob;
-            GameManager.Instance.ExitChangeCardMode();
         }
         
         public void ActionPrepared()

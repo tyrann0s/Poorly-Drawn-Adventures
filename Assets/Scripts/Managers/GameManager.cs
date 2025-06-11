@@ -334,10 +334,8 @@ namespace Managers
 
         public void SetCardPanel(bool state)
         {
-            if (state)
-            {
-                CardPanel.Instance.EnableInteraction();
-            } else CardPanel.Instance.DisableInteraction();
+            if (state) CardPanel.Instance.EnableInteraction();
+            else CardPanel.Instance.DisableInteraction();
         }
 
         public void StartChangeCardMode()

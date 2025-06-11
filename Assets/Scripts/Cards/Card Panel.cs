@@ -98,7 +98,7 @@ namespace Cards
         {
             foreach (Card card in Cards)
             {
-                if (card != null) card.gameObject.layer = ignoreLayer;
+                if (card) card.gameObject.layer = ignoreLayer;
             }
             transform.position = originTransform;
         }
@@ -107,7 +107,7 @@ namespace Cards
         {
             foreach (Card card in Cards)
             {
-                if (card != null) card.gameObject.layer = normalLayer;
+                if (card) card.gameObject.layer = normalLayer;
             }
             transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
         }
@@ -117,7 +117,7 @@ namespace Cards
             List<Card> cardsToDelete = new List<Card>(); 
             foreach (Card card in Cards)
             {
-                if (card != null)
+                if (card)
                 {
                     if (card.IsPicked || card.IsForChange)
                     {

@@ -155,6 +155,7 @@ namespace Managers
             foreach (Mob mob in MobManager.Instance.EnemyMobs)
             {
                 mob.State = MobState.Idle;
+                mob.MobStatusEffects.UpdateEffectsDuration();
                 mob.CurrentAction.Targets.Clear();
                 mob.UI.HideShield();
             }

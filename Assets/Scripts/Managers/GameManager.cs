@@ -15,6 +15,15 @@ namespace Managers
         Enemy,
         Player
     }
+
+    public enum GamePhase
+    {
+        Prepare,
+        AssignActions,
+        Fight,
+        Win,
+        Lose
+    }
     
     public class GameManager : MonoBehaviour
     {
@@ -38,27 +47,13 @@ namespace Managers
         
         [SerializeField]
         private Level level;
-
-        private int currentWave;
-        private int maxWaves;
-
-        private List<MobSpawner> playerMobSpawners = new();
-        private List<MobSpawner> enemyMobSpawners = new();
-
-        public List<Mob> PlayerMobs { get; set; } = new List<Mob>();
-        public List<Mob> EnemyMobs { get; set; } = new List<Mob>();
+        public Level CurrentLevel => level;
 
         public bool ControlLock { get; set; }
         public SelectingState SelectingState { get; set; }
-        
-        public bool ChangeCardMode { get; set; }
-
+        public GamePhase CurrentPhase { get; set; }
         public Mob PickingMob { get; set; }
         public Mob ActivatedMob { get; set; }
-
-        public bool IsWin { get; private set; }
-        public bool IsLose { get; private set; }
-        
         public float CurrentCoins { get; set; }
 
         private IEnumerator calmMusicCoroutine;
@@ -79,143 +74,40 @@ namespace Managers
 
         private void Start()
         {
-            // Готовим спавнеры мобов
-            maxWaves = level.mobWaves.Count;
-            foreach (var mobSpawner in FindObjectsByType<MobSpawner>(sortMode: FindObjectsSortMode.None)
-                         .OrderBy(spawner => spawner.name)
-                         .ToList())
-            {
-                if (mobSpawner.IsHostile) enemyMobSpawners.Add(mobSpawner);
-                else playerMobSpawners.Add(mobSpawner);
-            }
-            
-            SpawnPlayerMobs();
-            SpawnNextWave();
-            
-            UIManager.Instance.ShowAnouncerPanel(true, "Assign actions!");
+            PreparationPhase();
+        }
+
+        public void PreparationPhase()
+        {
+            CurrentPhase = GamePhase.Prepare;
+            UIManager.Instance.ShowAssignActionsButton();
             calmMusicCoroutine = MusicManager.Instance.FadeTrackToZero(MusicManager.Instance.Calm);
             MusicManager.Instance.StartCalmMusic();
 
+            ResetMobs();
+            CardPanel.Instance.ResetRound();
             CardPanel.Instance.GenereteCards();
-            SetCardPanel(false);
             UIManager.Instance.ShowChangeCardsButton();
         }
 
-        private void SpawnNextWave()
+        public void AssignActionsPhase()
         {
-            int currentSpawner = 0;
-            foreach (var currentMob in level.mobWaves[currentWave].mobPrefabs)
-            {
-                AddMob(enemyMobSpawners[currentSpawner].SpawnMob(currentMob, false));
-                currentSpawner++;
-            }
-        }
-
-        private void SpawnBoss()
-        {
-            AddMob(enemyMobSpawners[3].SpawnMob(level.bossPrefab, true));
-        }
-
-        private void SpawnPlayerMobs()
-        {
-            int currentSpawner = 0;
-            foreach (var currentMob in PlayerManager.Instance.MobPrefabs)
-            {
-                AddMob(playerMobSpawners[currentSpawner].SpawnMob(currentMob, false));
-                currentSpawner++;
-            }
-        }
-
-        private void AddMob(Mob mob)
-        {
-            if (!mob)
-            {
-                Debug.LogError("Trying to add null mob!");
-                return;
-            }
-
-            if (mob.IsHostile)
-            {
-                if (!EnemyMobs.Contains(mob))
-                {
-                    EnemyMobs.Add(mob);
-                }
-                else
-                {
-                    Debug.LogWarning($"Mob {mob.name} is already in enemy mobs list!");
-                }
-            }
-            else
-            {
-                if (!PlayerMobs.Contains(mob))
-                {
-                    PlayerMobs.Add(mob);
-                }
-                else
-                {
-                    Debug.LogWarning($"Mob {mob.name} is already in player mobs list!");
-                }
-            }
-        }
-
-        public void MobDied(Mob mob)
-        {
-            if (!mob)
-            {
-                Debug.LogError("Trying to remove null mob!");
-                return;
-            }
-
-            if (mob.IsBoss)
-            {
-                MusicManager.Instance.StartWinMusic();
-                IsWin = true;
-                UIManager.Instance.GameEndScreen();
-                UIManager.Instance.ShowGameEndPanel("VICTORY!");
-                return;
-            }
-
-            if (mob.State == MobState.Activated)
-            {
-                mob.State = MobState.Idle;
-            }
-
-            if (mob.IsHostile)
-            {
-                if (EnemyMobs.Contains(mob))
-                {
-                    EnemyMobs.Remove(mob);
-                }
-                else
-                {
-                    Debug.LogWarning($"Mob {mob.name} not found in enemy mobs list!");
-                }
-            }
-            else
-            {
-                if (PlayerMobs.Contains(mob))
-                {
-                    PlayerMobs.Remove(mob);
-                }
-                else
-                {
-                    Debug.LogWarning($"Mob {mob.name} not found in player mobs list!");
-                }
-            }
-
-            CheckWinCondition();
+            CurrentPhase = GamePhase.AssignActions;
+            CardPanel.Instance.StopChangeMode();
+            UIManager.Instance.HideChangeCardsButton();
+            UIManager.Instance.HideAssignActionsButton();
         }
 
         public void ReadyToFight()
         {
-            if (PlayerMobs == null || PlayerMobs.Count == 0)
+            if (MobManager.Instance.PlayerMobs == null || MobManager.Instance.PlayerMobs.Count == 0)
             {
                 Debug.LogError("No player mobs available!");
                 return;
             }
             
             bool allActionsAssigned = true;
-            foreach (Mob mob in PlayerMobs)
+            foreach (Mob mob in MobManager.Instance.PlayerMobs)
             {
                 if (mob.State == MobState.Idle)
                 {
@@ -240,6 +132,7 @@ namespace Managers
 
         public void StartFight()
         {
+            CurrentPhase = GamePhase.Fight;
             UIManager.Instance.HideStartBattleButton();
             QueueManager.Instance.CreateQueue();
             QueueManager.Instance.RunQueue();
@@ -250,7 +143,7 @@ namespace Managers
         {
             if (MusicManager.Instance != null) StartCoroutine(MusicManager.Instance.FadeTrackToZero(MusicManager.Instance.Battle));
             
-            foreach (Mob mob in PlayerMobs)
+            foreach (Mob mob in MobManager.Instance.PlayerMobs)
             { 
                 mob.State = MobState.Idle; 
                 mob.MobStatusEffects.UpdateEffectsDuration();
@@ -259,116 +152,74 @@ namespace Managers
                 mob.UI.HideShield();
             }
 
-            foreach (Mob mob in EnemyMobs)
+            foreach (Mob mob in MobManager.Instance.EnemyMobs)
             {
                 mob.State = MobState.Idle;
                 mob.CurrentAction.Targets.Clear();
                 mob.UI.HideShield();
             }
 
-            // Показываем сообщение о конце раунда и сбрасываем действия мобов
-            UIManager.Instance.ShowAnouncerPanel(true, "Next Round!");
-            ResetMobs();
-        
-            // Сбрасываем состояние карт для следующего раунда
-            CardPanel.Instance.ResetRound();
-        
             CheckWinCondition();
+            PreparationPhase();
         }
 
         public void ResetMobs()
         {
-            foreach (Mob mob in PlayerMobs)
+            foreach (Mob mob in MobManager.Instance.PlayerMobs)
             {
                 mob.State = MobState.Idle;
             }
 
-            foreach (Mob mob in EnemyMobs)
+            foreach (Mob mob in MobManager.Instance.EnemyMobs)
             {
                 mob.State = MobState.Idle;
             }
         }
 
-        private void CheckWinCondition()
+        public void CheckWinCondition()
         {
-            if (EnemyMobs.Count <= 0)
+            if (MobManager.Instance.EnemyMobs.Count <= 0)
             {
-                if (currentWave != maxWaves)
+                if (MobManager.Instance.CurrentWave != MobManager.Instance.MaxWaves)
                 {
                     CurrentCoins += level.coinsForWave;
                     UIManager.Instance.UpdateCoins(CurrentCoins);
-                    currentWave++;
-                    SpawnNextWave();
+                    MobManager.Instance.CurrentWave++;
+                    MobManager.Instance.SpawnNextWave();
                     return;
                 }
                 else
                 {
-                    SpawnBoss();
+                    MobManager.Instance.SpawnBoss();
                     return;   
                 }
             }
 
-            if (PlayerMobs.Count <= 0)
+            if (MobManager.Instance.PlayerMobs.Count <= 0)
             {
-                MusicManager.Instance.StartLoseMusic();
-                IsLose = true;
-                UIManager.Instance.GameEndScreen();
-                UIManager.Instance.ShowGameEndPanel("DEFEAT!");
-                return;
+                Lose();
             }
-        
-            StopCoroutine(calmMusicCoroutine);
-            MusicManager.Instance.StartCalmMusic();
-            CardPanel.Instance.GenereteCards();
-            SetCardPanel(false);
-            if (CardPanel.Instance.CanChangeCards())
-            {
-                UIManager.Instance.ShowChangeCardsButton();
-            }
+        }
+
+        public void Win()
+        {
+            MusicManager.Instance.StartWinMusic();
+            CurrentPhase = GamePhase.Win;
+            UIManager.Instance.GameEndScreen();
+            UIManager.Instance.ShowGameEndPanel("VICTORY!");
+        }
+
+        public void Lose()
+        {
+            MusicManager.Instance.StartLoseMusic();
+            CurrentPhase = GamePhase.Lose;
+            UIManager.Instance.GameEndScreen();
+            UIManager.Instance.ShowGameEndPanel("DEFEAT!");
         }
 
         public void RestartScene()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
-
-        public void SetCardPanel(bool state)
-        {
-            if (state) CardPanel.Instance.EnableInteraction();
-            else CardPanel.Instance.DisableInteraction();
-        }
-
-        public void StartChangeCardMode()
-        {
-            if (ChangeCardMode)
-            {
-                StopChangeCardMode();
-                return;
-            }
-
-            CardPanel.Instance.StartChangeMode();
-            ChangeCardMode = true;
-
-            UIManager.Instance.WaitChangeCardsButton();
-        }
-
-        public void StopChangeCardMode()
-        {
-            CardPanel.Instance.StopChangeMode();
-            UIManager.Instance.ShowChangeCardsButton();
-            ChangeCardMode = false;
-        }
-
-        public void ExitChangeCardMode()
-        {
-            CardPanel.Instance.StopChangeMode();
-            UIManager.Instance.HideChangeCardsButton();
-            ChangeCardMode = false;
-        }
-
-        public ElementCombo GetCombo()
-        {
-            return CardPanel.Instance.GetCombo();
         }
     }
 }

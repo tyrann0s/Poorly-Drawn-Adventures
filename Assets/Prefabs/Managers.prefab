@@ -313,6 +313,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2501174963372472861}
   - component: {fileID: 1954504911037153408}
+  - component: {fileID: 968732777821401924}
   - component: {fileID: 6811788270057894979}
   - component: {fileID: 8877621610543104760}
   - component: {fileID: 6333396259607724139}
@@ -354,6 +355,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: {fileID: 0}
+--- !u!114 &968732777821401924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2338758869280481909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0d808cdcb5b9cb40837da4fab47ffdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6811788270057894979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,10 +398,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameEndPanel: {fileID: 0}
   anouncerPanel: {fileID: 0}
+  assignActionsButton: {fileID: 0}
   startFightButton: {fileID: 0}
   changeCardButton: {fileID: 0}
   confirmChangeButton: {fileID: 0}
   combinationText: {fileID: 0}
+  coinsText: {fileID: 0}
 --- !u!114 &6333396259607724139
 MonoBehaviour:
   m_ObjectHideFlags: 0

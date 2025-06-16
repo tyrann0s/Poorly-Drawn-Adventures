@@ -61,7 +61,7 @@ namespace Cards
 
         private void Start()
         {
-            if (cardPrefab == null)
+            if (!cardPrefab)
             {
                 Debug.LogError("Card prefab is not assigned!");
                 return;
@@ -197,9 +197,8 @@ namespace Cards
             ResetCardState();
             changesMadeThisRound++;
         
-            // Сбрасываем ControlLock и ChangeCardMode после изменения карт
+            // Сбрасываем ControlLock и  после изменения карт
             GameManager.Instance.ControlLock = false;
-            GameManager.Instance.ChangeCardMode = false;
         }
 
         public void ResetRound()

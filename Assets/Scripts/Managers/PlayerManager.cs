@@ -35,15 +35,12 @@ namespace Managers
 
             instance = this;
             DontDestroyOnLoad(gameObject);
+            
+            MobPrefabs = new (testPrefabs);
         }
 
         public List<GameObject> MobPrefabs { get; private set; } = new();
 
         public List<GameObject> testPrefabs;
-
-        private void Start()
-        {
-            MobPrefabs = new (testPrefabs);
-        }
     }
 }

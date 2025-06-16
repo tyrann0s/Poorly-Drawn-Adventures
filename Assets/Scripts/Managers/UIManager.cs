@@ -29,6 +29,9 @@ namespace Managers
         private PopUpPanel gameEndPanel, anouncerPanel;
 
         [SerializeField]
+        private Button assignActionsButton;
+        
+        [SerializeField]
         private Button startFightButton;
 
         [SerializeField]
@@ -56,6 +59,20 @@ namespace Managers
         public void ShowGameEndPanel(string value)
         {
             gameEndPanel.Show(value);
+        }
+
+        public void ShowAssignActionsButton()
+        {
+            DOTween.Sequence()
+                .Append(assignActionsButton.gameObject.transform.DOScale(1, .5f))
+                .SetEase(Ease.InOutQuint);
+        }
+
+        public void HideAssignActionsButton()
+        {
+            DOTween.Sequence()
+                .Append(assignActionsButton.gameObject.transform.DOScale(0, .5f))
+                .SetEase(Ease.InOutQuint);
         }
 
         public void ShowStartBattleButton()

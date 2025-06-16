@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Cards;
 using Managers;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace Mobs
     {
         private void OnMouseEnter()
         {
-            if (!ParentMob.IsHostile && ParentMob.State == MobState.Idle && !GameManager.Instance.ControlLock && !GameManager.Instance.ChangeCardMode)
+            if (!ParentMob.IsHostile && ParentMob.State == MobState.Idle && !GameManager.Instance.ControlLock && GameManager.Instance.CurrentPhase == GamePhase.AssignActions)
             {
                 if (ParentMob.UI.MobCursor)
                 {
@@ -25,7 +26,7 @@ namespace Mobs
 
         private void OnMouseExit()
         {
-            if (ParentMob.State == MobState.Idle && !GameManager.Instance.ControlLock && !GameManager.Instance.ChangeCardMode)
+            if (ParentMob.State == MobState.Idle && !GameManager.Instance.ControlLock && GameManager.Instance.CurrentPhase == GamePhase.AssignActions)
             {
                 ParentMob.UI.MobCursor.Hide();
             }
@@ -40,7 +41,7 @@ namespace Mobs
         {
             if (Input.GetMouseButtonUp(0))
             {
-                if (ParentMob.State == MobState.Idle && !ParentMob.IsHostile && !GameManager.Instance.ControlLock && !GameManager.Instance.ChangeCardMode)
+                if (ParentMob.State == MobState.Idle && !ParentMob.IsHostile && !GameManager.Instance.ControlLock && GameManager.Instance.CurrentPhase == GamePhase.AssignActions)
                 {
                     if (ParentMob.State == MobState.Activated)
                     {
@@ -78,12 +79,12 @@ namespace Mobs
             GameManager.Instance.PickingMob.CurrentAction.Targets.Add(ParentMob);
             if (GameManager.Instance.PickingMob.CurrentAction.MobActionType == ActionType.Attack)
             {
-                CompletePicking(GameManager.Instance.EnemyMobs);
+                CompletePicking(MobManager.Instance.EnemyMobs);
                 return;
             }
             
             if (GameManager.Instance.PickingMob.CurrentAction.Targets.Count < GameManager.Instance.PickingMob.MobData.MaxTargets) return;
-            CompletePicking(GameManager.Instance.EnemyMobs);
+            CompletePicking(MobManager.Instance.EnemyMobs);
         }
 
         private void PickPlayerMob()
@@ -93,14 +94,14 @@ namespace Mobs
             
             if (GameManager.Instance.PickingMob.CurrentAction.Targets.Count < GameManager.Instance.PickingMob.MobData.MaxTargets) return;
             
-            CompletePicking(GameManager.Instance.PlayerMobs);
+            CompletePicking(MobManager.Instance.PlayerMobs);
         }
 
         private void CompletePicking(List<Mob> mobList)
         {
             GameManager.Instance.PickingMob.MobActions.ActionPrepared();
             GameManager.Instance.PickingMob.Deactivate();
-            GameManager.Instance.PickingMob.CurrentCombo = GameManager.Instance.GetCombo();
+            GameManager.Instance.PickingMob.CurrentCombo = CardPanel.Instance.GetCombo();
                 
             foreach (Mob mob in mobList)
             {
@@ -108,7 +109,7 @@ namespace Mobs
             }
             GameManager.Instance.ControlLock = false;
             GameManager.Instance.SelectingState = SelectingState.None;
-            GameManager.Instance.SetCardPanel(false);
+            CardPanel.Instance.DisableInteraction();
         }
     }
 }

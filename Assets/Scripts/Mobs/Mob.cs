@@ -71,7 +71,7 @@ namespace Mobs
         
         public void Activate()
         {
-            foreach (Mob mob in GameManager.Instance.PlayerMobs)
+            foreach (Mob mob in MobManager.Instance.PlayerMobs)
             {
                 if (mob != this)
                 {

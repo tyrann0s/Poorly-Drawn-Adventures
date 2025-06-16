@@ -47,18 +47,18 @@ namespace Mobs
             {
                 case ActionType.Attack:
                     GameManager.Instance.SelectingState = SelectingState.Enemy;
-                    GameManager.Instance.SetCardPanel(true);
+                    CardPanel.Instance.EnableInteraction();
                     break;
                 case ActionType.Skill:
                     switch (ParentMob.MobData.AttackType)
                     {
                         case AttackType.Melee:
                             GameManager.Instance.SelectingState = SelectingState.Enemy;
-                            GameManager.Instance.SetCardPanel(true);
+                            CardPanel.Instance.EnableInteraction();
                             break;
                         case AttackType.Ranged:
                             GameManager.Instance.SelectingState = SelectingState.Enemy;
-                            GameManager.Instance.SetCardPanel(true);
+                            CardPanel.Instance.EnableInteraction();
                             break;
                         case AttackType.Heal:
                             GameManager.Instance.SelectingState = SelectingState.Player;
@@ -88,7 +88,7 @@ namespace Mobs
             GameManager.Instance.ReadyToFight();
             UIManager.Instance.UISounds.ActionConfirm();
 
-            GameManager.Instance.ExitChangeCardMode();
+            CardPanel.Instance.DisableInteraction();
             CardPanel.Instance.DeleteCards();
             
             Debug.Log($"Action {ParentMob.CurrentAction.MobActionType} is prepared {ParentMob} is {ParentMob.State}");

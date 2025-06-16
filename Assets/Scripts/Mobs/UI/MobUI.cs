@@ -88,7 +88,7 @@ namespace Mobs
                 case SelectingState.None:
                     break;
                 case SelectingState.Enemy:
-                    foreach (Mob mob in GameManager.Instance.EnemyMobs)
+                    foreach (Mob mob in MobManager.Instance.EnemyMobs)
                     {
                         if (!mob || !mob.IsHostile || mob.State == MobState.Dead)
                             continue;
@@ -104,7 +104,7 @@ namespace Mobs
                     }
                     break;
                 case SelectingState.Player:
-                    foreach (Mob mob in GameManager.Instance.PlayerMobs)
+                    foreach (Mob mob in MobManager.Instance.PlayerMobs)
                     {
                         if (!mob || mob.IsHostile || mob.State == MobState.Dead)
                             continue;

@@ -51,20 +51,20 @@ namespace Managers
             GenerateEnemyActions();
 
             // Фаза защиты
-            actionList.AddRange(GetDefenseActions(GameManager.Instance.PlayerMobs));
-            actionList.AddRange(GetDefenseActions(GameManager.Instance.EnemyMobs));
+            actionList.AddRange(GetDefenseActions(MobManager.Instance.PlayerMobs));
+            actionList.AddRange(GetDefenseActions(MobManager.Instance.EnemyMobs));
 
             // Фаза скиллов поддержки
-            actionList.AddRange(GetSupportActions(GameManager.Instance.PlayerMobs));
-            actionList.AddRange(GetSupportActions(GameManager.Instance.EnemyMobs));
+            actionList.AddRange(GetSupportActions(MobManager.Instance.PlayerMobs));
+            actionList.AddRange(GetSupportActions(MobManager.Instance.EnemyMobs));
             
             // Фаза атаки
-            actionList.AddRange(GetAttackActions(GameManager.Instance.PlayerMobs));
-            actionList.AddRange(GetAttackActions(GameManager.Instance.EnemyMobs));
+            actionList.AddRange(GetAttackActions(MobManager.Instance.PlayerMobs));
+            actionList.AddRange(GetAttackActions(MobManager.Instance.EnemyMobs));
 
             // Фаза пропуска хода
-            actionList.AddRange(GetSkipTurnActions(GameManager.Instance.PlayerMobs));
-            actionList.AddRange(GetSkipTurnActions(GameManager.Instance.EnemyMobs));
+            actionList.AddRange(GetSkipTurnActions(MobManager.Instance.PlayerMobs));
+            actionList.AddRange(GetSkipTurnActions(MobManager.Instance.EnemyMobs));
         }
 
         private void GenerateEnemyActions()
@@ -75,19 +75,19 @@ namespace Managers
                 return;
             }
 
-            if (GameManager.Instance.EnemyMobs == null)
+            if (MobManager.Instance.EnemyMobs == null)
             {
                 Debug.LogError("EnemyMobs list is null!");
                 return;
             }
 
-            if (GameManager.Instance.PlayerMobs == null)
+            if (MobManager.Instance.PlayerMobs == null)
             {
                 Debug.LogError("PlayerMobs list is null!");
                 return;
             }
 
-            foreach (Mob mob in GameManager.Instance.EnemyMobs)
+            foreach (Mob mob in MobManager.Instance.EnemyMobs)
             {
                 if (!mob || mob.State == MobState.Dead) continue;
 
@@ -102,10 +102,10 @@ namespace Managers
                 {
                     if (mob.CurrentAction.MobActionType is ActionType.Attack or ActionType.Skill)
                     {
-                        if (GameManager.Instance.PlayerMobs.Count > 0)
+                        if (MobManager.Instance.PlayerMobs.Count > 0)
                         {
-                            int randMob = UnityEngine.Random.Range(0, GameManager.Instance.PlayerMobs.Count);
-                            mob.CurrentAction.Targets.Add(GameManager.Instance.PlayerMobs[randMob]); 
+                            int randMob = UnityEngine.Random.Range(0, MobManager.Instance.PlayerMobs.Count);
+                            mob.CurrentAction.Targets.Add(MobManager.Instance.PlayerMobs[randMob]); 
                         }
                     }
                 }

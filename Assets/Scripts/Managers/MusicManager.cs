@@ -44,7 +44,6 @@ namespace Managers
             }
 
             instance = this;
-            DontDestroyOnLoad(gameObject);
         
             calmVolume = calm.volume;
             battleVolume = battle.volume;

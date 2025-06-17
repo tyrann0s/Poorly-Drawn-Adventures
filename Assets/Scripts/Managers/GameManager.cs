@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Cards;
+using DG.Tweening;
 using Levels;
 using Mobs;
 using UnityEngine;
@@ -67,7 +68,6 @@ namespace Managers
             }
 
             instance = this;
-            DontDestroyOnLoad(gameObject);
             
             if (!level) Debug.LogError("Level is not assigned!");
         }
@@ -141,8 +141,9 @@ namespace Managers
 
         public void EndFight()
         {
-            if (MusicManager.Instance != null) StartCoroutine(MusicManager.Instance.FadeTrackToZero(MusicManager.Instance.Battle));
+            if (MusicManager.Instance) StartCoroutine(MusicManager.Instance.FadeTrackToZero(MusicManager.Instance.Battle));
             
+            QueueManager.Instance.StopQueue();
             foreach (Mob mob in MobManager.Instance.PlayerMobs)
             { 
                 mob.State = MobState.Idle; 
@@ -159,8 +160,7 @@ namespace Managers
                 mob.CurrentAction.Targets.Clear();
                 mob.UI.HideShield();
             }
-
-            CheckWinCondition();
+            
             PreparationPhase();
         }
 
@@ -183,10 +183,12 @@ namespace Managers
             {
                 if (MobManager.Instance.CurrentWave != MobManager.Instance.MaxWaves)
                 {
+                    DOTween.KillAll();
                     CurrentCoins += level.coinsForWave;
                     UIManager.Instance.UpdateCoins(CurrentCoins);
                     MobManager.Instance.CurrentWave++;
                     MobManager.Instance.SpawnNextWave();
+                    EndFight();
                     return;
                 }
                 else

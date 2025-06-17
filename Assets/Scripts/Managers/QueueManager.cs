@@ -41,7 +41,6 @@ namespace Managers
             }
 
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
 
         public void CreateQueue()
@@ -233,6 +232,11 @@ namespace Managers
             PerformAction(actionList[currentActionIndex]);
         }
 
+        public void StopQueue()
+        {
+            currentActionIndex = 0;
+        }
+
         public void NextAction()
         {
             currentActionIndex++;
@@ -246,6 +250,8 @@ namespace Managers
 
         private void PerformAction(MobAction action)
         {
+            if (GameManager.Instance.CurrentPhase != GamePhase.Fight) return;
+            
             if (action == null || !action.MobInstance)
             {
                 Debug.LogError("Invalid action or mob instance!");

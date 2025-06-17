@@ -56,7 +56,6 @@ namespace Cards
             }
 
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
 
         private void Start()

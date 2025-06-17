@@ -141,7 +141,7 @@ namespace Managers
         private void OnDestroy()
         {
             // Останавливает все твины, связанные с этим объектом
-            DOTween.Kill(transform);
+            DOTween.Kill(gameObject);
         }
 
         public void UpdateCoins(float value)

@@ -44,7 +44,6 @@ namespace Managers
             }
 
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
 
         private void Start()
@@ -136,7 +135,7 @@ namespace Managers
 
             if (mob.State == MobState.Activated)
             {
-                mob.State = MobState.Idle;
+                mob.State = MobState.Dead;
             }
 
             if (mob.IsHostile)

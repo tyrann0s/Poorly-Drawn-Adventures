@@ -160,8 +160,6 @@ namespace Managers
                     Debug.LogWarning($"Mob {mob.name} not found in player mobs list!");
                 }
             }
-
-            GameManager.Instance.CheckWinCondition();
         }
     }
 }

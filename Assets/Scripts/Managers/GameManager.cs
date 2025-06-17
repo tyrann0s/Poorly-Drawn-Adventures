@@ -161,6 +161,7 @@ namespace Managers
                 mob.UI.HideShield();
             }
             
+            CheckWinCondition();
             PreparationPhase();
         }
 

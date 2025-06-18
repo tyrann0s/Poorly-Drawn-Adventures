@@ -140,9 +140,18 @@ namespace Cards
                 return;
             }
 
-            CardChangeMode = true;
-            EnableInteraction();
-            UIManager.Instance.ShowChangeCardsButton();
+            if (CardChangeMode)
+            {
+                CardChangeMode = false;
+                DisableInteraction();
+            }
+            else
+            {
+                CardChangeMode = true;
+                EnableInteraction();
+            }
+            
+            UIManager.Instance.SetChangeCardButtonText(!CardChangeMode);
         }
 
         public void StopChangeMode()

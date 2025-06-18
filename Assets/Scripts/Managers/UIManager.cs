@@ -36,6 +36,7 @@ namespace Managers
 
         [SerializeField]
         private Button changeCardButton;
+        private Text changeCardButtonText;
 
         [SerializeField]
         private Button confirmChangeButton;
@@ -48,6 +49,7 @@ namespace Managers
         private void Start()
         {
             UISounds = GetComponentInChildren<UISounds>();
+            changeCardButtonText = changeCardButton.GetComponentInChildren<Text>();
         }
 
         public void ShowAnouncerPanel(bool isAnimated, string value)
@@ -94,13 +96,12 @@ namespace Managers
             DOTween.Sequence()
                 .Append(changeCardButton.gameObject.transform.DOScale(.5f, .5f))
                 .SetEase(Ease.InOutQuint);
-
-            changeCardButton.GetComponentInChildren<Text>().text = "Change cards";
         }
 
-        public void WaitChangeCardsButton()
+        public void SetChangeCardButtonText(bool value)
         {
-            changeCardButton.GetComponentInChildren<Text>().text = "Cancel";
+            if (value) changeCardButtonText.text = "Change Cards";
+            else changeCardButtonText.text = "Cancel";
         }
 
         public void HideChangeCardsButton()

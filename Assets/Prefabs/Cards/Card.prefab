@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1968517882115380405}
   - component: {fileID: 3421759745851688333}
   - component: {fileID: 1862887035344644625}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RankText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -188,7 +188,7 @@ GameObject:
   - component: {fileID: 3165947756606349162}
   - component: {fileID: 3470932074264643172}
   - component: {fileID: 4076194222369573243}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -291,7 +291,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3641381506694258001}
   - component: {fileID: 6792839439708847852}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ElementIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -378,7 +378,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2417077013777215912}
   - component: {fileID: 269302033962440495}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: BKG
   m_TagString: Untagged
   m_Icon: {fileID: 0}

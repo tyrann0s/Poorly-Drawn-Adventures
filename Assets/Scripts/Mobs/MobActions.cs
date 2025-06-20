@@ -99,18 +99,12 @@ namespace Mobs
             ParentMob.UI.ShowText("+" + ParentMob.StaminaRestoreAmount + " stamina!", Color.green);
             ParentMob.MobStamina += ParentMob.StaminaRestoreAmount;
             if (ParentMob.MobStamina > ParentMob.MobData.MaxStamina) ParentMob.MobStamina = ParentMob.MobData.MaxStamina;
-            NextAction();
-        }
-
-        public void PerformStun()
-        {
-            ParentMob.UI.ShowText("Stunned!", Color.white);
+            QueueManager.Instance.NextAction();
         }
 
         public void PerformDefense()
         {
-            ParentMob.MobStamina -= ParentMob.MobData.DefenseCost;
-            ParentMob.MobStatusEffects.AddEffect(ParentMob, StatusEffectType.Defense, 1);
+            StartCoroutine(DefenseCoroutine());
         }
         
         public void PerformAttack()
@@ -187,7 +181,7 @@ namespace Mobs
             ParentMob.MobMovement.GoToOriginPosition(true);
 
             yield return new WaitForSeconds(1);
-            NextAction();
+            QueueManager.Instance.NextAction();
         }
 
         private IEnumerator SkillCoroutine(float damage, float cost)
@@ -212,11 +206,15 @@ namespace Mobs
             ParentMob.MobMovement.GoToOriginPosition(true);
 
             yield return new WaitForSeconds(1);
-            NextAction();
+            QueueManager.Instance.NextAction();
         }
-        
-        public void NextAction()
+
+        private IEnumerator DefenseCoroutine()
         {
+            ParentMob.MobStamina -= ParentMob.MobData.DefenseCost;
+            ParentMob.MobStatusEffects.AddEffect(ParentMob, StatusEffectType.Defense, 1);
+            
+            yield return new WaitForSeconds(1);
             QueueManager.Instance.NextAction();
         }
         

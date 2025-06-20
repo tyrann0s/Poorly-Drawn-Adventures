@@ -152,19 +152,7 @@ namespace Mobs
             DOTween.Sequence()
                 .Append(shieldIcon.transform.DOScale(shieldScale, .3f))
                 .Join(shieldIcon.transform.DOLocalMove(Vector3.zero, .5f))
-                .AppendInterval(.3f)
-                .OnComplete(() =>
-                {
-                    var mob = GetComponent<Mob>();
-                    if (mob != null)
-                    {
-                        mob.MobActions.NextAction();
-                    }
-                    else
-                    {
-                        Debug.LogError($"Mob component is null in {transform.name}");
-                    }
-                });
+                .AppendInterval(.3f);
         }
 
         public void HideShield()

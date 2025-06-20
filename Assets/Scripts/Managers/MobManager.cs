@@ -37,7 +37,7 @@ namespace Managers
         
         private void Awake()
         {
-            if (instance != null && instance != this)
+            if (instance && instance != this)
             {
                 Destroy(gameObject);
                 return;

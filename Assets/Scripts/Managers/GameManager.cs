@@ -182,7 +182,7 @@ namespace Managers
         {
             if (MobManager.Instance.EnemyMobs.Count <= 0)
             {
-                if (MobManager.Instance.CurrentWave != MobManager.Instance.MaxWaves)
+                if (MobManager.Instance.CurrentWave < MobManager.Instance.MaxWaves - 1)
                 {
                     DOTween.KillAll();
                     CurrentCoins += level.coinsForWave;

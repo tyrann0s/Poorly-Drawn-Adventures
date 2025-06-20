@@ -186,6 +186,8 @@ namespace Mobs
 
         private IEnumerator SkillCoroutine(float damage, float cost)
         {
+            ParentMob.MobStamina -= cost;
+            
             switch (ParentMob.MobData.AttackType)
             {
                 case AttackType.Heal:
@@ -200,8 +202,7 @@ namespace Mobs
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            ParentMob.MobStamina -= cost;
-
+            
             yield return new WaitForSeconds(.5f);
             ParentMob.MobMovement.GoToOriginPosition(true);
 

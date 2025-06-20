@@ -16,7 +16,7 @@ namespace Mobs
         {
             base.Awake();
             spriteRenderer = GetComponent<SpriteRenderer>();
-            if (spriteRenderer == null)
+            if (!spriteRenderer)
             {
                 Debug.LogError($"SpriteRenderer not found on {name}");
             }
@@ -34,7 +34,7 @@ namespace Mobs
         
         public void GoToOriginPosition(bool withSound)
         {
-            if (transform.position == OriginPosition) return;
+            if (IsOnOriginPosition()) return;
 
             FlipMob();
             if (withSound) ParentMob.SoundController.StartMove();
@@ -64,11 +64,10 @@ namespace Mobs
         {
             transform.DOMove(rivalPosition.transform.position, .3f);
         }
-
-        private void OnDestroy()
+        
+        public bool IsOnOriginPosition()
         {
-            // Останавливает все твины, связанные с этим объектом
-            DOTween.Kill(transform);
+            return transform.position == OriginPosition;
         }
     }
 }

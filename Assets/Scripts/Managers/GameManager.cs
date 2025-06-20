@@ -146,10 +146,11 @@ namespace Managers
             QueueManager.Instance.StopQueue();
             foreach (Mob mob in MobManager.Instance.PlayerMobs)
             { 
+                if (!mob.MobMovement.IsOnOriginPosition()) mob.MobMovement.GoToOriginPosition(false);
+                
                 mob.State = MobState.Idle; 
                 mob.MobStatusEffects.UpdateEffectsDuration();
                 mob.CurrentAction.Targets.Clear();
-                mob.MobMovement.GoToOriginPosition(false);
                 mob.UI.HideShield();
             }
 
@@ -184,7 +185,7 @@ namespace Managers
             {
                 if (MobManager.Instance.CurrentWave < MobManager.Instance.MaxWaves - 1)
                 {
-                    DOTween.KillAll();
+                    //DOTween.KillAll();
                     CurrentCoins += level.coinsForWave;
                     UIManager.Instance.UpdateCoins(CurrentCoins);
                     MobManager.Instance.CurrentWave++;
@@ -192,11 +193,9 @@ namespace Managers
                     EndFight();
                     return;
                 }
-                else
-                {
-                    MobManager.Instance.SpawnBoss();
-                    return;   
-                }
+
+                MobManager.Instance.SpawnBoss();
+                return;
             }
 
             if (MobManager.Instance.PlayerMobs.Count <= 0)

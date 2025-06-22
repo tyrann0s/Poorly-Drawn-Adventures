@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d5b205137b838e489d6e80e5fb62da9, type: 3}
   m_Name: TestLevel
   m_EditorClassIdentifier: 
+  scene: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
+  levelName: Tutorial
   mobWaves:
   - {fileID: 11400000, guid: 63ac916d17e6060488d476d7ea303710, type: 2}
   - {fileID: 11400000, guid: bcfdbcd403d1fdc4e80dec9548927594, type: 2}
@@ -19,3 +21,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cada622c26b264948b203443b22fddd2, type: 2}
   bossPrefab: {fileID: 4133970978171093904, guid: fabfec77a66d41b4dbc3c7c25537af20,
     type: 3}
+  coinsForWave: 100
+  description: 'Test description, test test test. 10500! Azazel
+
+    Making UI in
+    Unity sucks!'
+  rewardMob: {fileID: 11400000, guid: 08772855237473a4d88194c927e41800, type: 2}

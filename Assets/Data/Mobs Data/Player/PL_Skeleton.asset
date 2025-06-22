@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PL_Skeleton
   m_EditorClassIdentifier: 
   mobName: Skeleton
+  mobIcon: {fileID: 21300036, guid: 7ab74e659e1f0a34d9cfec21c478fc12, type: 3}
   vulnerableTo: 1
   immuneTo: 0
   maxHP: 200
@@ -20,7 +21,7 @@ MonoBehaviour:
   defenseCost: 50
   attackType: 4
   maxTargets: 1
-  attack1Damage: 50
-  attack1Cost: 50
-  attack2Damage: 75
-  attack2Cost: 75
+  attackDamage: 50
+  attackCost: 50
+  skillDamage: 75
+  skillCost: 75

@@ -319,7 +319,7 @@ GameObject:
   - component: {fileID: 6333396259607724139}
   - component: {fileID: 4994462170842151346}
   m_Layer: 0
-  m_Name: Managers
+  m_Name: FightManagers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

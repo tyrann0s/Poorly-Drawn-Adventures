@@ -18,6 +18,8 @@ namespace Mobs
         [SerializeField]
         private string mobName;
         public string MobName => mobName;
+
+        public Sprite mobIcon;
     
         [SerializeField]
         private ElementType vulnerableTo;

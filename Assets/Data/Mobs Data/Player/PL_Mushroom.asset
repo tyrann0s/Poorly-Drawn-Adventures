@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PL_Mushroom
   m_EditorClassIdentifier: 
   mobName: Mushroom
+  mobIcon: {fileID: 21300002, guid: 7ab74e659e1f0a34d9cfec21c478fc12, type: 3}
   vulnerableTo: 2
   immuneTo: 5
   maxHP: 125
@@ -20,7 +21,7 @@ MonoBehaviour:
   defenseCost: 50
   attackType: 3
   maxTargets: 1
-  attack1Damage: 50
-  attack1Cost: 50
-  attack2Damage: 75
-  attack2Cost: 75
+  attackDamage: 50
+  attackCost: 50
+  skillDamage: 75
+  skillCost: 75

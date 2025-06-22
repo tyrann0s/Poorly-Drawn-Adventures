@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PL_Goblin
   m_EditorClassIdentifier: 
   mobName: Goblin
+  mobIcon: {fileID: 21300024, guid: 7ab74e659e1f0a34d9cfec21c478fc12, type: 3}
   vulnerableTo: 2
   immuneTo: 1
   maxHP: 100
@@ -20,7 +21,7 @@ MonoBehaviour:
   defenseCost: 50
   attackType: 2
   maxTargets: 1
-  attack1Damage: 25
-  attack1Cost: 25
-  attack2Damage: 50
-  attack2Cost: 50
+  attackDamage: 25
+  attackCost: 25
+  skillDamage: 50
+  skillCost: 50

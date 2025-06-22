@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PL_Flying Eye
   m_EditorClassIdentifier: 
   mobName: Flying Eye
+  mobIcon: {fileID: 21300026, guid: 7ab74e659e1f0a34d9cfec21c478fc12, type: 3}
   vulnerableTo: 3
   immuneTo: 4
   maxHP: 75

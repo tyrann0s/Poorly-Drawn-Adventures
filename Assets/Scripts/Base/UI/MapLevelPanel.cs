@@ -1,3 +1,4 @@
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -18,6 +19,20 @@ namespace Hub.UI
             this.goldReward.text = goldReward;
             this.mobReward.text = mobReward;
             this.mobRewardIcon.sprite = mobRewardIcon;
+        }
+
+        public void ShowPanel()
+        {
+            DOTween.Sequence()
+                .Append(transform.DOScale(1, .2f))
+                .SetEase(Ease.InOutQuint);
+        }
+        
+        public void HidePanel()
+        {
+            DOTween.Sequence()
+                .Append(transform.DOScale(0, .2f))
+                .SetEase(Ease.InOutQuint);
         }
     }
 }

@@ -5,7 +5,6 @@ namespace Managers.Hub
     public class MapManager : MonoBehaviour
     {
         public static MapManager Instance { get; private set; }
-        private static MapManager instance;
 
         private void Awake()
         {

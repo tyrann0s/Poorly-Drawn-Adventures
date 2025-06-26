@@ -3,6 +3,7 @@ using Hub.UI;
 using Levels;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Hub
 {
@@ -23,6 +24,21 @@ namespace Hub
         {
             levelName.text = level.levelName;
             mapLevelPanel.SetupPanel(level.description, level.GetTotalCoins().ToString(), level.rewardMob.MobName, level.rewardMob.mobIcon);
+        }
+
+        private void OnMouseDown()
+        {
+            SceneManager.LoadScene(level.scene.name);
+        }
+
+        private void OnMouseEnter()
+        {
+            mapLevelPanel.ShowPanel();
+        }
+
+        private void OnMouseExit()
+        {
+            mapLevelPanel.HidePanel();
         }
     }
 }

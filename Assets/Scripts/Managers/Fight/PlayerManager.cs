@@ -34,7 +34,6 @@ namespace Managers
             }
 
             instance = this;
-            DontDestroyOnLoad(gameObject);
             
             MobPrefabs = new (testPrefabs);
         }

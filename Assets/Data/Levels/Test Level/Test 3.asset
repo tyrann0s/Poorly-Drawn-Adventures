@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d5b205137b838e489d6e80e5fb62da9, type: 3}
+  m_Name: Test 3
+  m_EditorClassIdentifier: 
+  scene: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
+  levelName: Test 3
+  mobWaves:
+  - {fileID: 11400000, guid: 63ac916d17e6060488d476d7ea303710, type: 2}
+  - {fileID: 11400000, guid: bcfdbcd403d1fdc4e80dec9548927594, type: 2}
+  - {fileID: 11400000, guid: 2ba5365aede7c014998a5dd37af880e6, type: 2}
+  - {fileID: 11400000, guid: cada622c26b264948b203443b22fddd2, type: 2}
+  bossPrefab: {fileID: 4133970978171093904, guid: fabfec77a66d41b4dbc3c7c25537af20,
+    type: 3}
+  coinsForWave: 100
+  description: 'Test 3 Scene
+
+'
+  rewardMob: {fileID: 11400000, guid: dab32124a956e6747be48d717784c7fb, type: 2}

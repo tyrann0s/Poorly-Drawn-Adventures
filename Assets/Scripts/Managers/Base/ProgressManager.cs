@@ -20,7 +20,7 @@ namespace Managers.Base
 
         private void Start()
         {
-            SaveSystem.Instance.SaveGame();
+            SaveSystem.Instance.LoadGame();
         }
     }
 }

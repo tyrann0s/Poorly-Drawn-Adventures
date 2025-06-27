@@ -14,7 +14,10 @@ namespace Managers.Base
         [SerializeField] private BaseScreen screenMain, screenMap, screenHub;
         
         public List<MobData> CurrentTeam { get; set; } = new();
-        public List<MobData> testMobs = new();
+        public List<MobData> AvailableHeroes { get; set; } = new();
+        public List<MobData> AvailableMobs { get; set; } = new();
+        
+        public int Coins { get; set; }
 
         private void Awake()
         {
@@ -24,8 +27,6 @@ namespace Managers.Base
                 return;
             }
             Instance = this;
-            
-            CurrentTeam = testMobs;
         }
 
         private void Start()

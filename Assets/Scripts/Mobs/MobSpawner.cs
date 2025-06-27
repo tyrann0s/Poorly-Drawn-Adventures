@@ -22,8 +22,6 @@ public class MobSpawner : MonoBehaviour, IComparable<MobSpawner>
             currentMob.MobMovement.MirrorMob();
         }
         
-        if (isBoss) currentMob.IsBoss = true;
-        
         return currentMob;
     }
 

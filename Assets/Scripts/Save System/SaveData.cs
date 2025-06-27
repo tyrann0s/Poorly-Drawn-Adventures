@@ -4,7 +4,8 @@ using UnityEngine;
 [System.Serializable]
 public class SaveData
 {
-    public float coins;
+    public int coins;
+    public List<MobSaveData> currentTeam = new();
     public List<MobSaveData> heroesUnlocked = new();
     public List<MobSaveData> mobsUnlocked = new();
     public List<LevelSaveData> levelsCleared = new();
@@ -13,11 +14,11 @@ public class SaveData
 [System.Serializable]
 public class MobSaveData
 {
-    public int mobID;
+    public string mobID;
 
-    public MobSaveData(int id)
+    public MobSaveData(string id)
     {
-        mobID = mobID;
+        mobID = id;
     }
 }
 
@@ -28,6 +29,6 @@ public class LevelSaveData
 
     public LevelSaveData(int id)
     {
-        levelID = levelID;
+        levelID = id;
     }
 }

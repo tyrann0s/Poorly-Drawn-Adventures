@@ -11,6 +11,13 @@ namespace Mobs
         UnStun,
         CastShield
     }
+
+    public enum MobType
+    {
+        Mob,
+        Hero,
+        Boss
+    }
     
     [CreateAssetMenu(fileName = "Mob's Data", menuName = "Data/Mob's Data", order = 1)]
     public class MobData : ScriptableObject
@@ -18,6 +25,10 @@ namespace Mobs
         [SerializeField]
         private string mobName;
         public string MobName => mobName;
+        
+        [SerializeField]
+        private MobType mobType;
+        public MobType Type => mobType;
 
         public Sprite mobIcon;
     
@@ -47,20 +58,25 @@ namespace Mobs
         [SerializeField] private int maxTargets = 1;
         public int MaxTargets => maxTargets;
 
-        [FormerlySerializedAs("attack1Damage")] [SerializeField]
+        [SerializeField]
         private float attackDamage;
         public float AttackDamage => attackDamage;
 
-        [FormerlySerializedAs("attack1Cost")] [SerializeField]
+        [SerializeField]
         private float attackCost;
         public float AttackCost => attackCost;
 
-        [FormerlySerializedAs("attack2Damage")] [SerializeField]
+        [SerializeField]
         private int skillDamage;
         public float SkillDamage => skillDamage;
 
-        [FormerlySerializedAs("attack2Cost")] [SerializeField]
+        [SerializeField]
         private float skillCost;
         public float SkillCost => skillCost;
+
+        public string GetId()
+        {
+            return name;
+        }
     }
 }

@@ -2,52 +2,16 @@
     "coins": 666.0,
     "heroesUnlocked": [
         {
-            "mobID": 0
+            "mobID": "PL_Flying Eye"
         },
         {
-            "mobID": 0
+            "mobID": "PL_Goblin"
         },
         {
-            "mobID": 0
+            "mobID": "PL_Flying Eye"
         },
         {
-            "mobID": 0
-        },
-        {
-            "mobID": 0
-        },
-        {
-            "mobID": 0
-        },
-        {
-            "mobID": 0
-        },
-        {
-            "mobID": 0
-        },
-        {
-            "mobID": 0
-        },
-        {
-            "mobID": 0
-        },
-        {
-            "mobID": 0
-        },
-        {
-            "mobID": 0
-        },
-        {
-            "mobID": 0
-        },
-        {
-            "mobID": 0
-        },
-        {
-            "mobID": 0
-        },
-        {
-            "mobID": 0
+            "mobID": "PL_Skeleton"
         }
     ],
     "mobsUnlocked": [],

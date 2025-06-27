@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d5b205137b838e489d6e80e5fb62da9, type: 3}
-  m_Name: Tutorial
+  m_Name: Test 1
   m_EditorClassIdentifier: 
   scene: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
-  levelName: Tutorial
+  levelName: Test 1
   mobWaves:
   - {fileID: 11400000, guid: 63ac916d17e6060488d476d7ea303710, type: 2}
-  bossPrefab: {fileID: 4133970978171093904, guid: fabfec77a66d41b4dbc3c7c25537af20,
+  - {fileID: 11400000, guid: bcfdbcd403d1fdc4e80dec9548927594, type: 2}
+  bossPrefab: {fileID: 4133970978171093904, guid: 498fefe996309154085e438200c8cf3e,
     type: 3}
   coinsForWave: 100
-  description: Tutorial Scene
-  rewardMob: {fileID: 11400000, guid: 08772855237473a4d88194c927e41800, type: 2}
+  description: Test 1 Scene
+  rewardMob: {fileID: 11400000, guid: 25e1f96f531ab784085d36b0a5bdeedb, type: 2}

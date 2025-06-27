@@ -127,7 +127,7 @@ namespace Managers
                 return;
             }
 
-            if (mob.IsBoss)
+            if (mob.MobData.Type == MobType.Boss)
             {
                 GameManager.Instance.Win();
                 return;

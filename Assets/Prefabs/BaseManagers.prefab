@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 7666979363742467422}
   - component: {fileID: 4754124887480889038}
   - component: {fileID: 2842493340932694446}
+  - component: {fileID: 7901214884564809145}
+  - component: {fileID: 5452567996698507780}
   m_Layer: 0
   m_Name: BaseManagers
   m_TagString: Untagged
@@ -46,6 +48,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e12af5dfd17c524b8e1088dbf4b5586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  screenMain: {fileID: 0}
+  screenMap: {fileID: 0}
+  screenHub: {fileID: 0}
+  testMobs: []
 --- !u!114 &4754124887480889038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,5 +74,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a22ad52810a91145a33b36cf0f31b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7901214884564809145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7094685526759621222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29d485587fd66184493fbaa6b35c1b3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5452567996698507780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7094685526759621222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 459b7b24c0b76774ab5a74dce208d44b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

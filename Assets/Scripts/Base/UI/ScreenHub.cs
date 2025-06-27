@@ -7,6 +7,7 @@ namespace Base.UI
     public class ScreenHub : BaseScreen
     {
         [SerializeField] private Button returnButton;
+        [SerializeField] private CurrentTeamPanel currentTeamPanel;
 
         private void Start()
         {
@@ -15,7 +16,7 @@ namespace Base.UI
 
         protected override void UpdateScreen()
         {
-            throw new NotImplementedException();
+            currentTeamPanel.UpdateTeamPanel();
         }
     }
 }

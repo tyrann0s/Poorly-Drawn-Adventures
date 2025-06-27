@@ -9,7 +9,7 @@ namespace Base.UI
     {
         private List<MobElement> mobElements = new();
 
-        private void Start()
+        private void Awake()
         {
             mobElements.AddRange(gameObject.GetComponentsInChildren<MobElement>());
         }

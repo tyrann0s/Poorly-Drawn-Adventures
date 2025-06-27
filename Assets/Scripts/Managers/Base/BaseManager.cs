@@ -24,11 +24,12 @@ namespace Managers.Base
                 return;
             }
             Instance = this;
+            
+            CurrentTeam = testMobs;
         }
 
         private void Start()
         {
-            CurrentTeam = testMobs;
             ShowMainScreen();
         }
 

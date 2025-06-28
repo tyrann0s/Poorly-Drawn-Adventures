@@ -10,18 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 613072c78cd233649803a6ffd2d0bc9b, type: 3}
-  m_Name: PL_Mushroom
+  m_Name: PL_Paladin
   m_EditorClassIdentifier: 
-  mobName: Mushroom
+  mobName: Paladin
+  mobType: 0
   mobIcon: {fileID: 21300002, guid: 7ab74e659e1f0a34d9cfec21c478fc12, type: 3}
   vulnerableTo: 2
   immuneTo: 5
   maxHP: 125
   maxStamina: 125
   defenseCost: 50
-  attackType: 3
+  attackType: 2
   maxTargets: 1
   attackDamage: 50
   attackCost: 50
   skillDamage: 75
   skillCost: 75
+  MobPrefab: {fileID: 4133970978171093904, guid: daa3609e561141a48ae7c5468533f100,
+    type: 3}

@@ -18,9 +18,9 @@ namespace Base.UI
         {
             for (int i = 0; i < mobElements.Count; i++)
             {
-                if (i < BaseManager.Instance.CurrentTeam.Count)
+                if (i < ProgressManager.Instance.CurrentTeam.Count)
                 {
-                    mobElements[i].SetUp(BaseManager.Instance.CurrentTeam[i].mobIcon, BaseManager.Instance.CurrentTeam[i].MobName);
+                    mobElements[i].SetUp(ProgressManager.Instance.CurrentTeam[i]);
                 }
             }
         }

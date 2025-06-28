@@ -26,3 +26,5 @@ MonoBehaviour:
   attackCost: 0
   skillDamage: 0
   skillCost: 0
+  MobPrefab: {fileID: 4133970978171093904, guid: 498fefe996309154085e438200c8cf3e,
+    type: 3}

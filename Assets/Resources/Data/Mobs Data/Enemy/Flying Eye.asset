@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Flying Eye
   m_EditorClassIdentifier: 
   mobName: Flying Eye
+  mobType: 0
+  mobIcon: {fileID: 0}
   vulnerableTo: 3
   immuneTo: 4
   maxHP: 75
@@ -20,7 +22,9 @@ MonoBehaviour:
   defenseCost: 50
   attackType: 1
   maxTargets: 1
-  attack1Damage: 25
-  attack1Cost: 25
-  attack2Damage: 50
-  attack2Cost: 50
+  attackDamage: 0
+  attackCost: 0
+  skillDamage: 0
+  skillCost: 0
+  MobPrefab: {fileID: 4133970978171093904, guid: c7e3d527cb88ec14a8b9ed375dfb224a,
+    type: 3}

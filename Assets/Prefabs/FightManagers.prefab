@@ -379,11 +379,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc7272178f93de341abccbaedf5f2010, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testPrefabs:
-  - {fileID: 4133970978171093904, guid: c7e3d527cb88ec14a8b9ed375dfb224a, type: 3}
-  - {fileID: 4133970978171093904, guid: 71e4beee99fc9974682925c63c019255, type: 3}
-  - {fileID: 4133970978171093904, guid: fabfec77a66d41b4dbc3c7c25537af20, type: 3}
-  - {fileID: 4133970978171093904, guid: 80df389f92ec84547812e698d709ff0d, type: 3}
+  testMobs:
+  - {fileID: 11400000, guid: 25e1f96f531ab784085d36b0a5bdeedb, type: 2}
+  - {fileID: 11400000, guid: 08772855237473a4d88194c927e41800, type: 2}
+  - {fileID: 11400000, guid: 34be2f2574c2c114aa07a4e705a670fa, type: 2}
+  - {fileID: 11400000, guid: dab32124a956e6747be48d717784c7fb, type: 2}
 --- !u!114 &8877621610543104760
 MonoBehaviour:
   m_ObjectHideFlags: 0

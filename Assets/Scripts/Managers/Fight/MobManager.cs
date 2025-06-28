@@ -65,24 +65,24 @@ namespace Managers
         public void SpawnNextWave()
         {
             int currentSpawner = 0;
-            foreach (var currentMob in GameManager.Instance.CurrentLevel.mobWaves[CurrentWave].mobPrefabs)
+            foreach (var currentMob in GameManager.Instance.CurrentLevel.mobWaves[CurrentWave].mobs)
             {
-                AddMob(enemyMobSpawners[currentSpawner].SpawnMob(currentMob, false));
+                AddMob(enemyMobSpawners[currentSpawner].SpawnMob(currentMob.mobPrefab));
                 currentSpawner++;
             }
         }
 
         public void SpawnBoss()
         {
-            AddMob(enemyMobSpawners[3].SpawnMob(GameManager.Instance.CurrentLevel.bossPrefab, true));
+            AddMob(enemyMobSpawners[3].SpawnMob(GameManager.Instance.CurrentLevel.boss.mobPrefab));
         }
 
         public void SpawnPlayerMobs()
         {
             int currentSpawner = 0;
-            foreach (var currentMob in PlayerManager.Instance.MobPrefabs)
+            foreach (var currentMob in PlayerManager.Instance.Mobs)
             {
-                AddMob(playerMobSpawners[currentSpawner].SpawnMob(currentMob, false));
+                AddMob(playerMobSpawners[currentSpawner].SpawnMob(currentMob.mobPrefab));
                 currentSpawner++;
             }
         }

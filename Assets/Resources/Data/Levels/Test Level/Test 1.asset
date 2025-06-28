@@ -17,8 +17,7 @@ MonoBehaviour:
   mobWaves:
   - {fileID: 11400000, guid: 63ac916d17e6060488d476d7ea303710, type: 2}
   - {fileID: 11400000, guid: bcfdbcd403d1fdc4e80dec9548927594, type: 2}
-  bossPrefab: {fileID: 4133970978171093904, guid: 498fefe996309154085e438200c8cf3e,
-    type: 3}
+  boss: {fileID: 11400000, guid: fdef3b7158a58094ea9a13c1784ceb9c, type: 2}
   coinsForWave: 100
   description: Test 1 Scene
   rewardMob: {fileID: 11400000, guid: 25e1f96f531ab784085d36b0a5bdeedb, type: 2}

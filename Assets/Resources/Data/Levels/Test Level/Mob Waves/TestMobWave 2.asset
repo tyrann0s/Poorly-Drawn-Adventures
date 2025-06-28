@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22b9167e2bf48da40ba66bc617fe899d, type: 3}
   m_Name: TestMobWave 2
   m_EditorClassIdentifier: 
-  mobPrefabs:
-  - {fileID: 4133970978171093904, guid: 71e4beee99fc9974682925c63c019255, type: 3}
-  - {fileID: 4133970978171093904, guid: c7e3d527cb88ec14a8b9ed375dfb224a, type: 3}
-  - {fileID: 4133970978171093904, guid: c7e3d527cb88ec14a8b9ed375dfb224a, type: 3}
-  - {fileID: 4133970978171093904, guid: 71e4beee99fc9974682925c63c019255, type: 3}
+  mobs:
+  - {fileID: 11400000, guid: f7e9e8be12dc5004eb8d92959d2908b1, type: 2}
+  - {fileID: 11400000, guid: f8a9d3d19deebf042915a1f763f2f9e7, type: 2}
+  - {fileID: 11400000, guid: f8a9d3d19deebf042915a1f763f2f9e7, type: 2}
+  - {fileID: 11400000, guid: f7e9e8be12dc5004eb8d92959d2908b1, type: 2}

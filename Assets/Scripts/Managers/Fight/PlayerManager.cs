@@ -35,11 +35,11 @@ namespace Managers
 
             instance = this;
             
-            MobPrefabs = new (testPrefabs);
+            Mobs = new (testMobs);
         }
 
-        public List<GameObject> MobPrefabs { get; private set; } = new();
+        public List<MobData> Mobs { get; private set; } = new();
 
-        public List<GameObject> testPrefabs;
+        public List<MobData> testMobs;
     }
 }

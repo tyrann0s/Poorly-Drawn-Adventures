@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
 using Base.UI;
-using Managers.Hub;
-using Mobs;
 using UnityEngine;
 
 namespace Managers.Base
@@ -12,10 +8,6 @@ namespace Managers.Base
         public static BaseManager Instance { get; private set; }
         
         [SerializeField] private BaseScreen screenMain, screenMap, screenHub;
-        
-        public List<MobData> CurrentTeam { get; set; } = new();
-        public List<MobData> AvailableHeroes { get; set; } = new();
-        public List<MobData> AvailableMobs { get; set; } = new();
         
         public int Coins { get; set; }
 

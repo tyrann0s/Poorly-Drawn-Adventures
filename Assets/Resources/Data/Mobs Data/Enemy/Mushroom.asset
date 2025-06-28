@@ -13,12 +13,18 @@ MonoBehaviour:
   m_Name: Mushroom
   m_EditorClassIdentifier: 
   mobName: Mushroom
+  mobType: 0
+  mobIcon: {fileID: 0}
   vulnerableTo: 2
   immuneTo: 5
   maxHP: 125
   maxStamina: 125
   defenseCost: 50
-  attack1Damage: 50
-  attack1Cost: 50
-  attack2Damage: 75
-  attack2Cost: 75
+  attackType: 0
+  maxTargets: 1
+  attackDamage: 0
+  attackCost: 0
+  skillDamage: 0
+  skillCost: 0
+  MobPrefab: {fileID: 4133970978171093904, guid: 80df389f92ec84547812e698d709ff0d,
+    type: 3}

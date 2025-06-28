@@ -1,4 +1,5 @@
 using System;
+using Managers.Base;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ namespace Base.UI
     {
         [SerializeField] private Button returnButton;
         [SerializeField] private CurrentTeamPanel currentTeamPanel;
+        [SerializeField] private MobListPanel heroesPanel, mobsPanel;
 
         private void Start()
         {
@@ -17,6 +19,8 @@ namespace Base.UI
         protected override void UpdateScreen()
         {
             currentTeamPanel.UpdateTeamPanel();
+            heroesPanel.UpdateMobPanel(ProgressManager.Instance.AvailableHeroes);
+            mobsPanel.UpdateMobPanel(ProgressManager.Instance.AvailableMobs);
         }
     }
 }

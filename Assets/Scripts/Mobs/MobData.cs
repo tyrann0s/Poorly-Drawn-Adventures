@@ -73,6 +73,10 @@ namespace Mobs
         [SerializeField]
         private float skillCost;
         public float SkillCost => skillCost;
+        
+        [SerializeField]
+        private GameObject MobPrefab;
+        public GameObject mobPrefab => MobPrefab;
 
         public string GetId()
         {

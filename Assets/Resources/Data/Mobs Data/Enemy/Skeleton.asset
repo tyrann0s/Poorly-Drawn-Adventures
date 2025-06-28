@@ -13,12 +13,18 @@ MonoBehaviour:
   m_Name: Skeleton
   m_EditorClassIdentifier: 
   mobName: Skeleton
+  mobType: 0
+  mobIcon: {fileID: 0}
   vulnerableTo: 1
   immuneTo: 0
   maxHP: 200
   maxStamina: 75
   defenseCost: 50
-  attack1Damage: 50
-  attack1Cost: 50
-  attack2Damage: 75
-  attack2Cost: 75
+  attackType: 0
+  maxTargets: 1
+  attackDamage: 0
+  attackCost: 0
+  skillDamage: 0
+  skillCost: 0
+  MobPrefab: {fileID: 4133970978171093904, guid: fabfec77a66d41b4dbc3c7c25537af20,
+    type: 3}

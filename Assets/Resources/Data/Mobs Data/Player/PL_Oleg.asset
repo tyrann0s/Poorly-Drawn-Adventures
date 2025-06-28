@@ -10,18 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 613072c78cd233649803a6ffd2d0bc9b, type: 3}
-  m_Name: PL_Goblin
+  m_Name: PL_Oleg
   m_EditorClassIdentifier: 
-  mobName: Goblin
-  mobIcon: {fileID: 21300024, guid: 7ab74e659e1f0a34d9cfec21c478fc12, type: 3}
-  vulnerableTo: 2
-  immuneTo: 1
-  maxHP: 100
-  maxStamina: 100
+  mobName: Oleg
+  mobType: 1
+  mobIcon: {fileID: 21300036, guid: 7ab74e659e1f0a34d9cfec21c478fc12, type: 3}
+  vulnerableTo: 1
+  immuneTo: 0
+  maxHP: 200
+  maxStamina: 75
   defenseCost: 50
-  attackType: 2
+  attackType: 4
   maxTargets: 1
-  attackDamage: 25
-  attackCost: 25
-  skillDamage: 50
-  skillCost: 50
+  attackDamage: 50
+  attackCost: 50
+  skillDamage: 75
+  skillCost: 75
+  MobPrefab: {fileID: 4133970978171093904, guid: 7845f0e91517f8c429f4fe4c5e906ebb,
+    type: 3}

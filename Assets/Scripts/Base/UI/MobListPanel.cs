@@ -1,15 +1,25 @@
 using System.Collections.Generic;
+using Mobs;
 using UnityEngine;
 
 namespace Base.UI
 {
     public class MobListPanel : MonoBehaviour
     {
-        private List<MobElement> mobElements = new();
+        [SerializeField] private GameObject mobElementPrefab;
 
-        private void Awake()
+        public void UpdateMobPanel(List<MobData> mobList)
         {
-            mobElements.AddRange(gameObject.GetComponentsInChildren<MobElement>());
+            foreach (var mobData in mobList)
+            {
+                AddMob(mobData);
+            }
+        }
+
+        private void AddMob(MobData mobData)
+        {
+            var element = Instantiate(mobElementPrefab, transform);
+            element.GetComponent<MobElement>().SetUp(mobData);
         }
     }
 }

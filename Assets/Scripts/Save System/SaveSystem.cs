@@ -37,8 +37,6 @@ public class SaveSystem : MonoBehaviour
         {
             mobLookup[mob.GetId()] = mob;
         }
-        
-        Debug.Log($"Загружено мобов в базу данных: {allMobs.Length}");
     }
     
     public void SaveGame()
@@ -58,21 +56,21 @@ public class SaveSystem : MonoBehaviour
         saveData.coins = BaseManager.Instance.Coins;
         
         // Сохраняем текущую команду
-        foreach (var mobData in BaseManager.Instance.CurrentTeam)
+        foreach (var mobData in ProgressManager.Instance.CurrentTeam)
         {
-            saveData.currentTeam.Add(new MobSaveData(mobData.GetId()));
+            saveData.currentTeam.Add(mobData.GetId());
         }
         
         // Сохраняем героев
-        foreach (var mobData in BaseManager.Instance.AvailableHeroes)
+        foreach (var mobData in ProgressManager.Instance.AvailableHeroes)
         {
-            saveData.heroesUnlocked.Add(new MobSaveData(mobData.GetId()));
+            saveData.heroesUnlocked.Add(mobData.GetId());
         }
         
         // Сохраняем обычных мобов
-        foreach (var mobData in BaseManager.Instance.AvailableMobs)
+        foreach (var mobData in ProgressManager.Instance.AvailableMobs)
         {
-            saveData.mobsUnlocked.Add(new MobSaveData(mobData.GetId()));
+            saveData.mobsUnlocked.Add(mobData.GetId());
         }
     }
 
@@ -93,28 +91,28 @@ public class SaveSystem : MonoBehaviour
         // Загружаем текущую команду
         foreach (var mobSaveData in saveData.currentTeam)
         {
-            if (mobLookup.TryGetValue(mobSaveData.mobID, out MobData mobSO))
+            if (mobLookup.TryGetValue(mobSaveData, out MobData mobSO))
             {
-                BaseManager.Instance.CurrentTeam.Add(mobSO);
-            } else Debug.LogError("ШО ЗА ХУЙНЯ");
+                ProgressManager.Instance.CurrentTeam.Add(mobSO);
+            } else Debug.LogError("Не удалось найти мобов текущей команды");
         }
         
         // Загружаем героев
         foreach (var mobSaveData in saveData.heroesUnlocked)
         {
-            if (mobLookup.TryGetValue(mobSaveData.mobID, out MobData mobSO))
+            if (mobLookup.TryGetValue(mobSaveData, out MobData mobSO))
             {
-                BaseManager.Instance.AvailableHeroes.Add(mobSO);
-            } else Debug.LogError("ШО ЗА ХУЙНЯ");
+                ProgressManager.Instance.AvailableHeroes.Add(mobSO);
+            } else Debug.LogError("Не удалось найти героев");
         }
         
         // Загружаем мобов
         foreach (var mobSaveData in saveData.mobsUnlocked)
         {
-            if (mobLookup.TryGetValue(mobSaveData.mobID, out MobData mobSO))
+            if (mobLookup.TryGetValue(mobSaveData, out MobData mobSO))
             {
-                BaseManager.Instance.AvailableMobs.Add(mobSO);
-            } else Debug.LogError("ШО ЗА ХУЙНЯ");
+                ProgressManager.Instance.AvailableMobs.Add(mobSO);
+            } else Debug.LogError("Не удалось найти мобов");
         }
     }
 }

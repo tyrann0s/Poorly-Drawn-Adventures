@@ -11,7 +11,7 @@ namespace Levels
         public SceneAsset scene;
         public string levelName;
         public List<MobWave> mobWaves = new();
-        public GameObject bossPrefab;
+        public MobData boss;
         public float coinsForWave = 100f;
         [TextArea(3, 10)]
         public string description;

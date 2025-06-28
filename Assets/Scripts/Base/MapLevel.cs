@@ -28,6 +28,7 @@ namespace Hub
 
         private void OnMouseDown()
         {
+            SaveSystem.Instance.SaveGame();
             SceneManager.LoadScene(level.scene.name);
         }
 

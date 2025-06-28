@@ -12,7 +12,7 @@ public class MobSpawner : MonoBehaviour, IComparable<MobSpawner>
 
     private Mob currentMob;
 
-    public Mob SpawnMob(GameObject prefab, bool isBoss)
+    public Mob SpawnMob(GameObject prefab)
     {
         ClearCurrentMob();
         var currentMob = InstantiateMob(prefab);

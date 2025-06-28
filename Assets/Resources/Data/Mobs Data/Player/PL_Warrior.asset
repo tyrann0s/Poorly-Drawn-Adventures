@@ -10,18 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 613072c78cd233649803a6ffd2d0bc9b, type: 3}
-  m_Name: PL_Flying Eye
+  m_Name: PL_Warrior
   m_EditorClassIdentifier: 
-  mobName: Flying Eye
-  mobIcon: {fileID: 21300026, guid: 7ab74e659e1f0a34d9cfec21c478fc12, type: 3}
-  vulnerableTo: 3
-  immuneTo: 4
-  maxHP: 75
-  maxStamina: 200
+  mobName: Warrior
+  mobType: 0
+  mobIcon: {fileID: 21300024, guid: 7ab74e659e1f0a34d9cfec21c478fc12, type: 3}
+  vulnerableTo: 2
+  immuneTo: 1
+  maxHP: 100
+  maxStamina: 100
   defenseCost: 50
   attackType: 0
-  maxTargets: 2
+  maxTargets: 1
   attackDamage: 25
   attackCost: 25
   skillDamage: 50
   skillCost: 50
+  MobPrefab: {fileID: 4133970978171093904, guid: 0d7da7211466ef544a084ccc67e950b3,
+    type: 3}

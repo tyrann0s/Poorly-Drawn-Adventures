@@ -13,12 +13,18 @@ MonoBehaviour:
   m_Name: Goblin
   m_EditorClassIdentifier: 
   mobName: Goblin
+  mobType: 0
+  mobIcon: {fileID: 0}
   vulnerableTo: 2
   immuneTo: 1
   maxHP: 100
   maxStamina: 100
   defenseCost: 50
-  attack1Damage: 25
-  attack1Cost: 25
-  attack2Damage: 50
-  attack2Cost: 50
+  attackType: 0
+  maxTargets: 1
+  attackDamage: 0
+  attackCost: 0
+  skillDamage: 0
+  skillCost: 0
+  MobPrefab: {fileID: 4133970978171093904, guid: 71e4beee99fc9974682925c63c019255,
+    type: 3}

@@ -5,21 +5,10 @@ using UnityEngine;
 public class SaveData
 {
     public int coins;
-    public List<MobSaveData> currentTeam = new();
-    public List<MobSaveData> heroesUnlocked = new();
-    public List<MobSaveData> mobsUnlocked = new();
+    public List<string> currentTeam = new();
+    public List<string> heroesUnlocked = new();
+    public List<string> mobsUnlocked = new();
     public List<LevelSaveData> levelsCleared = new();
-}
-
-[System.Serializable]
-public class MobSaveData
-{
-    public string mobID;
-
-    public MobSaveData(string id)
-    {
-        mobID = id;
-    }
 }
 
 [System.Serializable]

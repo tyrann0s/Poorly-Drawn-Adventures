@@ -19,7 +19,9 @@ namespace Base.UI
         private void AddMob(MobData mobData)
         {
             var element = Instantiate(mobElementPrefab, transform);
-            element.GetComponent<MobElement>().SetUp(mobData);
+            var mobElement = element.GetComponent<MobElement>();
+            mobElement.SetUp(mobData);
+            mobElement.ShowPricePanel();
             element.gameObject.AddComponent<DraggedElement>();
         }
     }

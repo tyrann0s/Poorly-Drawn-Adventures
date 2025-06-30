@@ -22,6 +22,7 @@ namespace Mobs
     [CreateAssetMenu(fileName = "Mob's Data", menuName = "Data/Mob's Data", order = 1)]
     public class MobData : ScriptableObject
     {
+        [Header("Mob's Data")]
         [SerializeField]
         private string mobName;
         public string MobName => mobName;
@@ -31,7 +32,11 @@ namespace Mobs
         public MobType Type => mobType;
 
         public Sprite mobIcon;
+
+        [SerializeField] private int hireCost;
+        public int HireCost => hireCost;
     
+        [Header("Mob's Stats")]
         [SerializeField]
         private ElementType vulnerableTo;
         public ElementType VulnerableTo => vulnerableTo;
@@ -74,6 +79,7 @@ namespace Mobs
         private float skillCost;
         public float SkillCost => skillCost;
         
+        [Header("Mob Prefab")]
         [SerializeField]
         private GameObject MobPrefab;
         public GameObject mobPrefab => MobPrefab;

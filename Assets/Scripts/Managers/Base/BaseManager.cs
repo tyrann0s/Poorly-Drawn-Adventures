@@ -8,6 +8,7 @@ namespace Managers.Base
         public static BaseManager Instance { get; private set; }
         
         [SerializeField] private BaseScreen screenMain, screenMap, screenHub;
+        [SerializeField] private CoinsPanel coinsPanel;
         
         private void Awake()
         {
@@ -22,6 +23,8 @@ namespace Managers.Base
         private void Start()
         {
             ShowMainScreen();
+            ProgressManager.Instance.Coins += 666;
+            UpdateCoinsPanel(ProgressManager.Instance.Coins.ToString());
         }
 
         public void ShowMainScreen()
@@ -43,6 +46,16 @@ namespace Managers.Base
             screenMain.HideScreen();
             screenMap.HideScreen();
             screenHub.ShowScreen();
+        }
+
+        public void SpendCoins(int amount)
+        {
+            ProgressManager.Instance.Coins -= amount;
+            UpdateCoinsPanel(ProgressManager.Instance.Coins.ToString());       
+        }
+        private void UpdateCoinsPanel(string text)
+        {
+            coinsPanel.UpdateText(text);
         }
     }
 }

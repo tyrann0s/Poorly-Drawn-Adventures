@@ -12,6 +12,10 @@ namespace Base.UI
         private void Awake()
         {
             mobElements.AddRange(gameObject.GetComponentsInChildren<MobElement>());
+            foreach (var mobElement in mobElements)
+            {
+                mobElement.gameObject.AddComponent<DraggedTarget>();   
+            }
         }
 
         public void UpdateTeamPanel()

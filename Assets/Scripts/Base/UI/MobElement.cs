@@ -1,3 +1,4 @@
+using Managers.Base;
 using Mobs;
 using TMPro;
 using UnityEngine;
@@ -11,6 +12,8 @@ namespace Base.UI
         [SerializeField] private bool isTarget;
         [SerializeField] private Image icon;
         [SerializeField] private TextMeshProUGUI nameText;
+        [SerializeField] private GameObject pricePanel;
+        [SerializeField] private TextMeshProUGUI priceText;
 
         private Transform originalParent;
         private Vector3 originalPosition;
@@ -22,6 +25,7 @@ namespace Base.UI
             MData = mobData;
             icon.sprite = MData.mobIcon;
             nameText.text = MData.MobName;
+            priceText.text = MData.HireCost.ToString();
         }
 
         public Transform GetOriginalParent()
@@ -49,12 +53,26 @@ namespace Base.UI
             // Копируем данные из перетаскиваемого объекта в текущий
             if (draggedElement is MobElement element)
             {
-                SetUp(element.MData);
+                if (element.MData.HireCost <= ProgressManager.Instance.Coins)
+                {
+                    BaseManager.Instance.SpendCoins(element.MData.HireCost);
+                    
+                    SetUp(element.MData);
 
-                // Возвращаем перетаскиваемый объект на исходную позицию
-                element.transform.SetParent(element.GetOriginalParent(), true);
-                element.transform.position = element.GetOriginalPosition();
+                    // Возвращаем перетаскиваемый объект на исходную позицию
+                    element.transform.SetParent(element.GetOriginalParent(), true);
+                    element.transform.position = element.GetOriginalPosition();
+                }
+                else
+                {
+                    Debug.Log("NOT ENOUGH COINS");
+                }
             }
+        }
+        
+        public void ShowPricePanel()
+        {
+            pricePanel.SetActive(true);
         }
     }
 }

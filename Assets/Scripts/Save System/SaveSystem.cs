@@ -53,7 +53,7 @@ public class SaveSystem : MonoBehaviour
     {
         saveData = new SaveData();
         
-        saveData.coins = BaseManager.Instance.Coins;
+        saveData.coins = ProgressManager.Instance.Coins;
         
         // Сохраняем текущую команду
         foreach (var mobData in ProgressManager.Instance.CurrentTeam)
@@ -86,7 +86,7 @@ public class SaveSystem : MonoBehaviour
 
     private void ApplyData()
     {
-        BaseManager.Instance.Coins = saveData.coins;
+        ProgressManager.Instance.Coins = saveData.coins;
         
         // Загружаем текущую команду
         foreach (var mobSaveData in saveData.currentTeam)

@@ -1,87 +1,59 @@
 using Mobs;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 namespace Base.UI
 {
-    public class MobElement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+    public class MobElement : MonoBehaviour, IDraggable
     {
         [SerializeField] private bool isTarget;
         [SerializeField] private Image icon;
         [SerializeField] private TextMeshProUGUI nameText;
-        
-        private MobData mobData;
+
         private Transform originalParent;
         private Vector3 originalPosition;
-        private Canvas canvas;
 
-        private void Awake()
-        {
-            canvas = GetComponentInParent<Canvas>();
-        }
+        public MobData MData { get; set; }
 
         public void SetUp(MobData mobData)
         {
-            this.mobData = mobData;
-            icon.sprite = mobData.mobIcon;
-            nameText.text = mobData.MobName;
+            MData = mobData;
+            icon.sprite = MData.mobIcon;
+            nameText.text = MData.MobName;
         }
 
-        public void OnBeginDrag(PointerEventData eventData)
+        public Transform GetOriginalParent()
         {
-            if (isTarget) return;
-            
-            // Сохраняем исходную позицию и родителя
+            return originalParent;
+        }
+
+        public Vector3 GetOriginalPosition()
+        {
+            return originalPosition;
+        }
+
+        public void SetOriginalParent()
+        {
             originalParent = transform.parent;
+        }
+
+        public void SetOriginalPosition()
+        {
             originalPosition = transform.position;
-            
-            // Перемещаем объект на верхний слой для корректного отображения
-            transform.SetParent(canvas.transform, true);
         }
 
-        public void OnDrag(PointerEventData eventData)
+        public void ApplyDrag(IDraggable draggedElement)
         {
-            if (isTarget) return;
-            // Перемещаем объект за курсором
-            transform.position = eventData.position;
-        }
-
-        public void OnEndDrag(PointerEventData eventData)
-        {
-            if (isTarget) return;
-            
-            // Если объект не был сброшен на подходящую цель, возвращаем на место
-            if (transform.parent == canvas.transform)
+            // Копируем данные из перетаскиваемого объекта в текущий
+            if (draggedElement is MobElement element)
             {
-                transform.SetParent(originalParent, true);
-                transform.position = originalPosition;
-            }
-        }
+                SetUp(element.MData);
 
-        public void OnDrop(PointerEventData eventData)
-        {
-            // Получаем перетаскиваемый объект
-            MobElement draggedElement = eventData.pointerDrag.GetComponent<MobElement>();
-            
-            if (draggedElement && draggedElement != this && isTarget)
-            {
-                // Копируем данные из перетаскиваемого объекта в текущий
-                CopyDataFrom(draggedElement);
-                
                 // Возвращаем перетаскиваемый объект на исходную позицию
-                draggedElement.transform.SetParent(draggedElement.originalParent, true);
-                draggedElement.transform.position = draggedElement.originalPosition;
-            }
-        }
-
-        private void CopyDataFrom(MobElement source)
-        {
-            if (source.mobData)
-            {
-                SetUp(source.mobData);
-                Debug.Log($"Скопированы данные: {source.mobData.MobName} в {gameObject.name}");
+                element.transform.SetParent(element.GetOriginalParent(), true);
+                element.transform.position = element.GetOriginalPosition();
             }
         }
     }

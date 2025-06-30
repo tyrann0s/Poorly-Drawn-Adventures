@@ -9,8 +9,6 @@ namespace Managers.Base
         
         [SerializeField] private BaseScreen screenMain, screenMap, screenHub;
         
-        public int Coins { get; set; }
-
         private void Awake()
         {
             if (Instance && Instance != this)

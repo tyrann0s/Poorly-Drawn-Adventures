@@ -11,6 +11,7 @@ namespace Managers.Base
 
         [SerializeField] private MobData defaultMob;
         
+        public int Coins { get; set; }
         public List<MobData> CurrentTeam { get; set; } = new();
         public List<MobData> AvailableHeroes { get; set; } = new();
         public List<MobData> AvailableMobs { get; set; } = new();

@@ -20,6 +20,7 @@ namespace Base.UI
         {
             var element = Instantiate(mobElementPrefab, transform);
             element.GetComponent<MobElement>().SetUp(mobData);
+            element.gameObject.AddComponent<DraggedElement>();
         }
     }
 }

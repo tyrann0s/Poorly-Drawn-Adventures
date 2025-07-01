@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using Managers.Base;
+using Mobs;
 using UnityEngine;
 
 namespace Base.UI
 {
-    public class CurrentTeamPanel : MonoBehaviour
+    public class CurrentTeamPanel : MonoBehaviour, IMobPanel
     {
         private List<MobElement> mobElements = new();
 
@@ -27,6 +28,19 @@ namespace Base.UI
                     mobElements[i].SetUp(ProgressManager.Instance.CurrentTeam[i]);
                 }
             }
+        }
+
+        public bool CheckForSameHero(MobData data)
+        {
+            foreach (var mobElement in mobElements)
+            {
+                if (mobElement.MData == data)
+                {
+                    return true;
+                }
+            }
+            
+            return false;       
         }
     }
 }

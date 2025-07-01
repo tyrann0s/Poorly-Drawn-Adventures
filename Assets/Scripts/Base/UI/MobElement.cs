@@ -1,3 +1,4 @@
+using System;
 using Managers.Base;
 using Mobs;
 using TMPro;
@@ -17,8 +18,15 @@ namespace Base.UI
 
         private Transform originalParent;
         private Vector3 originalPosition;
+        
+        private IMobPanel mobPanel;
 
         public MobData MData { get; set; }
+
+        private void Awake()
+        {
+            mobPanel = GetComponentInParent<IMobPanel>();
+        }
 
         public void SetUp(MobData mobData)
         {
@@ -53,15 +61,38 @@ namespace Base.UI
             // Копируем данные из перетаскиваемого объекта в текущий
             if (draggedElement is MobElement element)
             {
+                if (element.MData == MData)
+                {
+                    Debug.Log("CAN'T HIRE SAME MOB");
+                    return;
+                }
+
+                if (element.MData.Type == MobType.Hero && mobPanel.CheckForSameHero(element.MData))
+                {
+                    Debug.Log("ALREADY HAVE THIS MOB");
+                    return;
+                }
+                
                 if (element.MData.HireCost <= ProgressManager.Instance.Coins)
                 {
                     BaseManager.Instance.SpendCoins(element.MData.HireCost);
                     
                     SetUp(element.MData);
 
-                    // Возвращаем перетаскиваемый объект на исходную позицию
-                    element.transform.SetParent(element.GetOriginalParent(), true);
-                    element.transform.position = element.GetOriginalPosition();
+                    switch (element.MData.Type)
+                    {
+                        case MobType.Mob:
+                            element.transform.SetParent(element.GetOriginalParent(), true);
+                            element.transform.position = element.GetOriginalPosition();
+                            break;
+                        case MobType.Hero:
+                            Destroy(element.gameObject);
+                            break;
+                        case MobType.Boss:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
                 }
                 else
                 {

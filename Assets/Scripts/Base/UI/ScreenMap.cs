@@ -8,22 +8,24 @@ namespace Base.UI
     public class ScreenMap : BaseScreen
     {
         [SerializeField] private Button returnButton;
-        [SerializeField] private GameObject levelObject;
+        [SerializeField] private GameObject sceneLoaderObject;
+        private AdvancedSceneLoader sceneLoader;
 
         private void Start()
         {
+            sceneLoader = sceneLoaderObject.GetComponent<AdvancedSceneLoader>();
             returnButton.onClick.AddListener(OnReturnButtonClick);
         }
 
-        protected override void OnReturnButtonClick()
+        public void LoadLevel(string level)
         {
-            base.OnReturnButtonClick();
-            levelObject.SetActive(false);       
+            transform.parent.gameObject.SetActive(false);
+            sceneLoader.LoadScene(level);       
         }
 
         protected override void UpdateScreen()
         {
-            levelObject.SetActive(true);
+
         }
     }
 }

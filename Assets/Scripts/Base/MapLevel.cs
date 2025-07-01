@@ -1,4 +1,5 @@
 using System;
+using Base.UI;
 using Hub.UI;
 using Levels;
 using TMPro;
@@ -29,7 +30,8 @@ namespace Hub
         private void OnMouseDown()
         {
             SaveSystem.Instance.SaveGame();
-            SceneManager.LoadScene(level.scene.name);
+            FindAnyObjectByType<ScreenMap>().LoadLevel(level.scene.name);
+            //SceneManager.LoadScene(level.scene.name);
         }
 
         private void OnMouseEnter()

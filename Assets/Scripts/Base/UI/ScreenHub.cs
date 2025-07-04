@@ -13,14 +13,35 @@ namespace Base.UI
 
         private void Start()
         {
-            returnButton.onClick.AddListener(OnReturnButtonClick);       
+            returnButton.onClick.AddListener(OnReturnButtonClick);      
+            currentTeamPanel.UpdateTeamPanel();
+            heroesPanel.UpdateMobPanel(ProgressManager.Instance.AvailableHeroes);
+            mobsPanel.UpdateMobPanel(ProgressManager.Instance.AvailableMobs);
+        }
+
+        protected override void OnReturnButtonClick()
+        {
+            foreach (MobElement element in currentTeamPanel.MobElements)
+            {
+                if (!element.MData)
+                {
+                    Debug.Log("КОМАНДА ДОЛЖА БЫТЬ ПОЛНОЙ");
+                    return;
+                }
+            }
+            
+            ProgressManager.Instance.CurrentTeam.Clear();
+            foreach (MobElement element in currentTeamPanel.MobElements)
+            {
+                ProgressManager.Instance.CurrentTeam.Add(element.MData);
+            }
+            
+            base.OnReturnButtonClick();
         }
 
         protected override void UpdateScreen()
         {
-            currentTeamPanel.UpdateTeamPanel();
-            heroesPanel.UpdateMobPanel(ProgressManager.Instance.AvailableHeroes);
-            mobsPanel.UpdateMobPanel(ProgressManager.Instance.AvailableMobs);
+            
         }
     }
 }

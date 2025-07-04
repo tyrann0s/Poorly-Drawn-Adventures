@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using Cards;
-using DG.Tweening;
 using Levels;
+using Managers.Base;
 using Mobs;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -33,10 +31,10 @@ namespace Managers
         {
             get
             {
-                if (instance == null)
+                if (!instance)
                 {
                     instance = FindFirstObjectByType<GameManager>();
-                    if (instance == null)
+                    if (!instance)
                     {
                         GameObject go = new GameObject("GameManager");
                         instance = go.AddComponent<GameManager>();
@@ -46,16 +44,14 @@ namespace Managers
             }
         }
         
-        [SerializeField]
-        private Level level;
-        public Level CurrentLevel => level;
+        public Level CurrentLevel { get; private set; }
 
         public bool ControlLock { get; set; }
         public SelectingState SelectingState { get; set; }
         public GamePhase CurrentPhase { get; set; }
         public Mob PickingMob { get; set; }
         public Mob ActivatedMob { get; set; }
-        public float CurrentCoins { get; set; }
+        public int CurrentCoins { get; set; }
 
         private IEnumerator calmMusicCoroutine;
 
@@ -68,8 +64,7 @@ namespace Managers
             }
 
             instance = this;
-            
-            if (!level) Debug.LogError("Level is not assigned!");
+            CurrentLevel = ProgressManager.Instance.LevelToLoad;
         }
 
         private void Start()
@@ -186,7 +181,7 @@ namespace Managers
                 if (MobManager.Instance.CurrentWave < MobManager.Instance.MaxWaves - 1)
                 {
                     //DOTween.KillAll();
-                    CurrentCoins += level.coinsForWave;
+                    CurrentCoins += CurrentLevel.coinsForWave;
                     UIManager.Instance.UpdateCoins(CurrentCoins);
                     MobManager.Instance.CurrentWave++;
                     MobManager.Instance.SpawnNextWave();
@@ -210,6 +205,11 @@ namespace Managers
             CurrentPhase = GamePhase.Win;
             UIManager.Instance.GameEndScreen();
             UIManager.Instance.ShowGameEndPanel("VICTORY!");
+            
+            ProgressManager.Instance.Coins += CurrentCoins;
+            ProgressManager.Instance.UnlockMob(CurrentLevel.rewardMob);
+            ProgressManager.Instance.UnlockHero(CurrentLevel.rewardHero);
+            ProgressManager.Instance.UnlockLevel(CurrentLevel.GetNextLevel());
         }
 
         public void Lose()
@@ -220,9 +220,15 @@ namespace Managers
             UIManager.Instance.ShowGameEndPanel("DEFEAT!");
         }
 
-        public void RestartScene()
+        public void BackToBase()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            // TODO Удалить анлоки, они должны анлокаться только в Win
+            ProgressManager.Instance.Coins += CurrentCoins;
+            ProgressManager.Instance.UnlockMob(CurrentLevel.rewardMob);
+            ProgressManager.Instance.UnlockHero(CurrentLevel.rewardHero);
+            ProgressManager.Instance.UnlockLevel(CurrentLevel.GetNextLevel());
+            SaveSystem.Instance.SaveGame();
+            FindAnyObjectByType<AdvancedSceneLoader>(FindObjectsInactive.Include).LoadBase();
         }
     }
 }

@@ -8,12 +8,12 @@ namespace Base.UI
 {
     public class CurrentTeamPanel : MonoBehaviour, IMobPanel
     {
-        private List<MobElement> mobElements = new();
+        public List<MobElement> MobElements { get; set; } = new();
 
         private void Awake()
         {
-            mobElements.AddRange(gameObject.GetComponentsInChildren<MobElement>());
-            foreach (var mobElement in mobElements)
+            MobElements.AddRange(gameObject.GetComponentsInChildren<MobElement>());
+            foreach (var mobElement in MobElements)
             {
                 mobElement.gameObject.AddComponent<DraggedTarget>();   
             }
@@ -21,18 +21,18 @@ namespace Base.UI
 
         public void UpdateTeamPanel()
         {
-            for (int i = 0; i < mobElements.Count; i++)
+            for (int i = 0; i < MobElements.Count; i++)
             {
                 if (i < ProgressManager.Instance.CurrentTeam.Count)
                 {
-                    mobElements[i].SetUp(ProgressManager.Instance.CurrentTeam[i]);
+                    MobElements[i].SetUp(ProgressManager.Instance.CurrentTeam[i]);
                 }
             }
         }
 
         public bool CheckForSameHero(MobData data)
         {
-            foreach (var mobElement in mobElements)
+            foreach (var mobElement in MobElements)
             {
                 if (mobElement.MData == data)
                 {

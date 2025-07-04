@@ -58,19 +58,37 @@ public class SaveSystem : MonoBehaviour
         // Сохраняем текущую команду
         foreach (var mobData in ProgressManager.Instance.CurrentTeam)
         {
-            saveData.currentTeam.Add(mobData.GetId());
+            if (!saveData.currentTeam.Contains(mobData.GetId()))
+            {
+                saveData.currentTeam.Add(mobData.GetId());
+            }
         }
         
         // Сохраняем героев
         foreach (var mobData in ProgressManager.Instance.AvailableHeroes)
         {
-            saveData.heroesUnlocked.Add(mobData.GetId());
+            if (!saveData.heroesUnlocked.Contains(mobData.GetId()))
+            {
+                saveData.heroesUnlocked.Add(mobData.GetId());
+            }
         }
         
         // Сохраняем обычных мобов
         foreach (var mobData in ProgressManager.Instance.AvailableMobs)
         {
-            saveData.mobsUnlocked.Add(mobData.GetId());
+            if (!saveData.mobsUnlocked.Contains(mobData.GetId()))
+            {
+                saveData.mobsUnlocked.Add(mobData.GetId());
+            }
+        }
+        
+        // Сохраняем прогресс пройденных уровней
+        foreach (var level in ProgressManager.Instance.MapLevelsUnlocked)
+        {
+            if (!saveData.levelsCleared.Contains(level))
+            {
+                saveData.levelsCleared.Add(level);
+            }
         }
     }
 
@@ -113,6 +131,12 @@ public class SaveSystem : MonoBehaviour
             {
                 ProgressManager.Instance.AvailableMobs.Add(mobSO);
             } else Debug.LogError("Не удалось найти мобов");
+        }
+        
+        // Загружаем пройденные уровни
+        foreach (var level in saveData.levelsCleared)
+        {
+            ProgressManager.Instance.MapLevelsUnlocked.Add(level);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -28,10 +29,21 @@ public class AdvancedSceneLoader : MonoBehaviour
     
     public void LoadScene(string sceneName)
     {
+        DOTween.KillAll();
         gameObject.SetActive(true);
         if (!isLoading)
         {
             StartCoroutine(LoadSceneWithTransition(sceneName));
+        }
+    }
+
+    public void LoadBase()
+    {
+        DOTween.KillAll();
+        gameObject.SetActive(true);
+        if (!isLoading)
+        {
+            StartCoroutine(LoadSceneWithTransition("BaseScene"));
         }
     }
 

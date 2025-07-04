@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Levels;
 using Mobs;
 using UnityEngine;
 
@@ -15,32 +16,38 @@ namespace Managers.Base
         public List<MobData> CurrentTeam { get; set; } = new();
         public List<MobData> AvailableHeroes { get; set; } = new();
         public List<MobData> AvailableMobs { get; set; } = new();
+        
+        public List<string> MapLevelsUnlocked { get; set; } = new();
+        public Level LevelToLoad { get; set; }
     
         private void Awake()
         {
             if (Instance && Instance != this)
             {
                 Destroy(gameObject);
-                DontDestroyOnLoad(gameObject);
                 return;
             }
+            
+            DontDestroyOnLoad(this);
             Instance = this;
-        }
-
-        private void Start()
-        {
-            AvailableMobs.Add(defaultMob);
+            
             SaveSystem.Instance.LoadGame();
+            if (!AvailableMobs.Contains(defaultMob)) AvailableMobs.Add(defaultMob);
         }
         
         public void UnlockHero(MobData mobData)
         {
-            AvailableHeroes.Remove(mobData);
+            AvailableHeroes.Add(mobData);
         }
 
         public void UnlockMob(MobData mobData)
         {
-            AvailableMobs.Remove(mobData);
+            AvailableMobs.Add(mobData);
+        }
+        
+        public void UnlockLevel(string levelID)
+        {
+            MapLevelsUnlocked.Add(levelID);
         }
     }
 }

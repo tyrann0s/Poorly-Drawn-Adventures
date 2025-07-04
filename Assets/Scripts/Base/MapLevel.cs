@@ -1,10 +1,10 @@
-using System;
+using System.Collections.Generic;
 using Base.UI;
 using Hub.UI;
 using Levels;
+using Managers.Base;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Hub
 {
@@ -27,11 +27,22 @@ namespace Hub
             mapLevelPanel.SetupPanel(level.description, level.GetTotalCoins().ToString(), level.rewardMob.MobName, level.rewardMob.mobIcon);
         }
 
+        
+        public string GetLevelID()
+        {
+            return level ? level.GetId() : null;
+        }
+
+        public bool IsUnlockedByDefault()
+        {
+            return level.IsUnlocked;
+        }
+
         private void OnMouseDown()
         {
             SaveSystem.Instance.SaveGame();
+            ProgressManager.Instance.LevelToLoad = level;
             FindAnyObjectByType<ScreenMap>().LoadLevel(level.scene.name);
-            //SceneManager.LoadScene(level.scene.name);
         }
 
         private void OnMouseEnter()

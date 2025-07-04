@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d5b205137b838e489d6e80e5fb62da9, type: 3}
   m_Name: Test 1
   m_EditorClassIdentifier: 
+  IsUnlocked: 0
   scene: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
   levelName: Test 1
   mobWaves:
@@ -21,3 +22,5 @@ MonoBehaviour:
   coinsForWave: 100
   description: Test 1 Scene
   rewardMob: {fileID: 11400000, guid: 25e1f96f531ab784085d36b0a5bdeedb, type: 2}
+  rewardHero: {fileID: 11400000, guid: dab32124a956e6747be48d717784c7fb, type: 2}
+  nextLevel: {fileID: 11400000, guid: 9f3184e9d98b99643816fd9f7897d9df, type: 2}

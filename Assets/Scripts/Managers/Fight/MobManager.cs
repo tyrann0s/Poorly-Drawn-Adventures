@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Managers.Base;
 using Mobs;
 using UnityEngine;
 
@@ -80,7 +81,7 @@ namespace Managers
         public void SpawnPlayerMobs()
         {
             int currentSpawner = 0;
-            foreach (var currentMob in PlayerManager.Instance.Mobs)
+            foreach (var currentMob in ProgressManager.Instance.CurrentTeam)
             {
                 AddMob(playerMobSpawners[currentSpawner].SpawnMob(currentMob.mobPrefab));
                 currentSpawner++;

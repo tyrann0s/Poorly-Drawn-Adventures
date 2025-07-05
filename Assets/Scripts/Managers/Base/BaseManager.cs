@@ -23,7 +23,6 @@ namespace Managers.Base
         private void Start()
         {
             ShowMainScreen();
-            ProgressManager.Instance.Coins += 666;
             UpdateCoinsPanel(ProgressManager.Instance.Coins.ToString());
         }
 

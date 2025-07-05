@@ -86,6 +86,7 @@ namespace Base.UI
                             element.transform.position = element.GetOriginalPosition();
                             break;
                         case MobType.Hero:
+                            ProgressManager.Instance.AvailableHeroes.Remove(element.MData);
                             Destroy(element.gameObject);
                             break;
                         case MobType.Boss:

@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Mobs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -10,15 +11,17 @@ namespace Hub.UI
     {
         [SerializeField] private TMP_Text description;
         [SerializeField] private TMP_Text goldReward;
-        [SerializeField] private TMP_Text mobReward;
-        [SerializeField] private Image mobRewardIcon;
+        [SerializeField] private TMP_Text mobReward, heroReward;
+        [SerializeField] private Image mobRewardIcon, heroRewardIcon;
 
-        public void SetupPanel(string description, string goldReward, string mobReward, Sprite mobRewardIcon)
+        public void SetupPanel(string description, string goldReward, MobData mob, MobData hero)
         {
             this.description.text = description;
             this.goldReward.text = goldReward;
-            this.mobReward.text = mobReward;
-            this.mobRewardIcon.sprite = mobRewardIcon;
+            mobReward.text = mob.MobName;
+            mobRewardIcon.sprite = mob.mobIcon;
+            heroReward.text = hero.MobName;
+            heroRewardIcon.sprite = hero.mobIcon;
         }
 
         public void ShowPanel()

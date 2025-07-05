@@ -24,7 +24,7 @@ namespace Hub
         private void Start()
         {
             levelName.text = level.levelName;
-            mapLevelPanel.SetupPanel(level.description, level.GetTotalCoins().ToString(), level.rewardMob.MobName, level.rewardMob.mobIcon);
+            mapLevelPanel.SetupPanel(level.description, level.GetTotalCoins().ToString(), level.rewardMob, level.rewardHero);
         }
 
         
@@ -40,6 +40,8 @@ namespace Hub
 
         private void OnMouseDown()
         {
+            if (!ProgressManager.Instance.CheckIfTeamIsFull()) return;
+            
             SaveSystem.Instance.SaveGame();
             ProgressManager.Instance.LevelToLoad = level;
             FindAnyObjectByType<ScreenMap>().LoadLevel(level.scene.name);

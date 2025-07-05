@@ -21,20 +21,13 @@ namespace Base.UI
 
         protected override void OnReturnButtonClick()
         {
-            foreach (MobElement element in currentTeamPanel.MobElements)
-            {
-                if (!element.MData)
-                {
-                    Debug.Log("КОМАНДА ДОЛЖА БЫТЬ ПОЛНОЙ");
-                    return;
-                }
-            }
-            
             ProgressManager.Instance.CurrentTeam.Clear();
             foreach (MobElement element in currentTeamPanel.MobElements)
             {
-                ProgressManager.Instance.CurrentTeam.Add(element.MData);
+                if (element.MData) ProgressManager.Instance.CurrentTeam.Add(element.MData);
             }
+            
+            if (!ProgressManager.Instance.CheckIfTeamIsFull()) return;
             
             base.OnReturnButtonClick();
         }

@@ -58,10 +58,7 @@ public class SaveSystem : MonoBehaviour
         // Сохраняем текущую команду
         foreach (var mobData in ProgressManager.Instance.CurrentTeam)
         {
-            if (!saveData.currentTeam.Contains(mobData.GetId()))
-            {
-                saveData.currentTeam.Add(mobData.GetId());
-            }
+            saveData.currentTeam.Add(mobData.GetId());
         }
         
         // Сохраняем героев

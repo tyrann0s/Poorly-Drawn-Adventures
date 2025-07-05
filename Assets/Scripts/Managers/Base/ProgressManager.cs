@@ -49,5 +49,16 @@ namespace Managers.Base
         {
             MapLevelsUnlocked.Add(levelID);
         }
+        
+        public bool CheckIfTeamIsFull()
+        {
+            if (CurrentTeam.Count < 4)
+            {
+                Debug.Log("КОМАНДА ДОЛЖА БЫТЬ ПОЛНОЙ");
+                return false;
+            }
+            
+            return true;
+        }
     }
 }

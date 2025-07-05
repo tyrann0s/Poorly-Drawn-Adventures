@@ -1,9 +1,8 @@
 {
-    "coins": 200,
+    "coins": 500,
     "currentTeam": [
         "PL_Warrior",
-        "PL_Warrior",
-        "PL_Warrior",
+        "PL_Archer",
         "PL_Warrior"
     ],
     "heroesUnlocked": [
@@ -11,10 +10,12 @@
     ],
     "mobsUnlocked": [
         "PL_Warrior",
-        "PL_Archer"
+        "PL_Archer",
+        "PL_Paladin"
     ],
     "levelsCleared": [
         "Test 1",
-        "Test 2"
+        "Test 2",
+        "Test 3"
     ]
 }

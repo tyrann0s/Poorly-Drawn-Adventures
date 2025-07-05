@@ -155,6 +155,7 @@ namespace Managers
                 if (PlayerMobs.Contains(mob))
                 {
                     PlayerMobs.Remove(mob);
+                    ProgressManager.Instance.CurrentTeam.Remove(mob.MobData);
                 }
                 else
                 {

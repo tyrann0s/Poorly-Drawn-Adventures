@@ -70,7 +70,7 @@ namespace Mobs
 
         public void HideUI()
         {
-            MobCursor.Deactivate();
+            cursor.Deactivate();
             buttons.HideButtons();
         }
 

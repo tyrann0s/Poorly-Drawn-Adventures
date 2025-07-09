@@ -38,11 +38,12 @@ namespace Cards
         private CardCombination combinationSystem;
         public ElementCombo CurrentCombination { get; private set; }
 
-        public List<Card> Cards { get; private set; } = new List<Card>();
+        public List<Card> Cards { get; private set; } = new();
 
         private Vector3 originTransform;
 
         public bool CardChangeMode { get; set; }
+        private List<Card> cardsToDelete = new(); 
         public int ChangeIndex { get; private set; }
         private int changesMadeThisRound;
         private const int MaxChangesPerRound = 1; // Максимальное количество изменений за раунд
@@ -80,7 +81,7 @@ namespace Cards
             originTransform = transform.position;
         }
 
-        public void GenereteCards()
+        public void GenereteCards(bool isChanging)
         {
             for (int i = 0; i < spawnPositions.Count; i++)
             {
@@ -88,6 +89,36 @@ namespace Cards
                 {
                     GameObject go = Instantiate(cardPrefab, spawnPositions[i]);
                     Cards[i] = go.GetComponent<Card>();
+                    
+                    if (isChanging)
+                    {
+                        // Генерируем карты до тех пор, пока не получим уникальную
+                        while (true)
+                        {
+                            Cards[i].InitializeCard();
+                            
+                            bool isDuplicate = false;
+                            
+                            // Проверяем, есть ли уже такая карта в списке удаляемых
+                            foreach (Card cardToDelete in cardsToDelete)
+                            {
+                                if (cardToDelete.GetRank() == Cards[i].GetRank() && 
+                                    cardToDelete.GetElement() == Cards[i].GetElement())
+                                {
+                                    isDuplicate = true;
+                                }
+                            }
+                            
+                            // Если карта уникальна, выходим из цикла генерации
+                            if (!isDuplicate)
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        Cards[i].InitializeCard();
+                    }
+
                     Cards[i].ParentCardPanel = this;
                 }
             }
@@ -113,22 +144,18 @@ namespace Cards
 
         public void DeleteCards()
         {
-            List<Card> cardsToDelete = new List<Card>(); 
-            foreach (Card card in Cards)
+            // Очищаем список перед заполнением
+            cardsToDelete.Clear();
+            
+            for (int i = 0; i < Cards.Count; i++)
             {
-                if (card)
+                if (Cards[i] != null && (Cards[i].IsPicked || Cards[i].IsForChange))
                 {
-                    if (card.IsPicked || card.IsForChange)
-                    {
-                        cardsToDelete.Add(card);
-                        Destroy(card.gameObject);
-                    }
+                    // Добавляем карту в список для удаления ДО уничтожения объекта
+                    cardsToDelete.Add(Cards[i]);
+                    Destroy(Cards[i].gameObject);
+                    Cards[i] = null;
                 }
-            }
-
-            foreach (Card card in cardsToDelete)
-            {
-                Cards[Cards.IndexOf(card)] = null;
             }
         }
 
@@ -198,7 +225,8 @@ namespace Cards
             }
 
             DeleteCards();
-            GenereteCards();
+            GenereteCards(true);
+            
             UIManager.Instance.HideConfirmChangeButton();
             UIManager.Instance.HideChangeCardsButton();
             DisableInteraction();

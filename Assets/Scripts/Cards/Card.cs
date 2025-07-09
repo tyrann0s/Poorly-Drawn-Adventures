@@ -25,7 +25,7 @@ namespace Cards
 
         private Vector3 originTransform, originScale;
 
-        private void Awake()
+        public void InitializeCard()
         {
             if (fireSprite == null || waterSprite == null || airSprite == null || earthSprite == null)
             {

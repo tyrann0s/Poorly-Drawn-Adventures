@@ -76,11 +76,11 @@ namespace Mobs
             {
                 if (mob != this)
                 {
-                    GameManager.Instance.ActivatedMob = this;
-                    mob.UI.HideUI();
+                    mob.Deactivate();
                 }
             }
 
+            GameManager.Instance.ActivatedMob = this;
             SoundController.Pick();
             UI.Activate();
             State = MobState.Activated;
@@ -88,8 +88,9 @@ namespace Mobs
 
         public void Deactivate()
         {
+            if (State == MobState.Activated) State = MobState.Idle;
             UI.HideUI();
-            GameManager.Instance.ActivatedMob = null;
+            //GameManager.Instance.ActivatedMob = null;
         }
     }
 }

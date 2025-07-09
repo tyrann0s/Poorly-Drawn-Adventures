@@ -81,7 +81,7 @@ namespace Managers
 
             ResetMobs();
             CardPanel.Instance.ResetRound();
-            CardPanel.Instance.GenereteCards();
+            CardPanel.Instance.GenereteCards(false);
             UIManager.Instance.ShowChangeCardsButton();
         }
 

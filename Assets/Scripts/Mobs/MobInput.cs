@@ -9,7 +9,8 @@ namespace Mobs
     {
         private void OnMouseEnter()
         {
-            if (!ParentMob.IsHostile && ParentMob.State == MobState.Idle && !GameManager.Instance.ControlLock && GameManager.Instance.CurrentPhase == GamePhase.AssignActions)
+            Debug.Log($"Is Hostile - {ParentMob.IsHostile}, State - {ParentMob.State}, Phase - {GameManager.Instance.CurrentPhase}");
+            if (!ParentMob.IsHostile && ParentMob.State == MobState.Idle && GameManager.Instance.CurrentPhase == GamePhase.AssignActions)
             {
                 if (ParentMob.UI.MobCursor)
                 {

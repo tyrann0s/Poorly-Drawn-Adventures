@@ -29,7 +29,7 @@ namespace Mobs
 
         public void Hide()
         {
-            if (spriteRenderer != null) spriteRenderer.enabled = false;
+            spriteRenderer.enabled = false;
         }
 
         public void HideTarget()
@@ -47,10 +47,9 @@ namespace Mobs
 
         public void Deactivate()
         {
-            if (spriteRenderer != null)
-            {
-                spriteRenderer.color = new Color(1f, 1f, 1f, 0f); // Сделать прозрачным
-            }
+            Hide();
+            spriteRenderer.color = Color.white;
+            pulseTween.Kill(true);
         }
 
         public void PulseTween()

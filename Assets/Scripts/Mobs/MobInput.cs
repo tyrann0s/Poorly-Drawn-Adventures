@@ -9,8 +9,10 @@ namespace Mobs
     {
         private void OnMouseEnter()
         {
-            Debug.Log($"Is Hostile - {ParentMob.IsHostile}, State - {ParentMob.State}, Phase - {GameManager.Instance.CurrentPhase}");
-            if (!ParentMob.IsHostile && ParentMob.State == MobState.Idle && GameManager.Instance.CurrentPhase == GamePhase.AssignActions)
+            if (!ParentMob.IsHostile &&
+                !GameManager.Instance.ControlLock &&
+                ParentMob.State == MobState.Idle &&
+                GameManager.Instance.CurrentPhase == GamePhase.AssignActions)
             {
                 if (ParentMob.UI.MobCursor)
                 {
@@ -19,7 +21,7 @@ namespace Mobs
                 }
             }
 
-            if (ParentMob.IsHostile && GameManager.Instance.ControlLock && ParentMob.UI.MobCursor)
+            if (ParentMob.IsHostile && GameManager.Instance.SelectingState == SelectingState.Enemy)
             {
                 ParentMob.UI.MobCursor.ZoomIn();
             }
@@ -27,12 +29,12 @@ namespace Mobs
 
         private void OnMouseExit()
         {
-            if (ParentMob.State == MobState.Idle && !GameManager.Instance.ControlLock && GameManager.Instance.CurrentPhase == GamePhase.AssignActions)
+            if (!ParentMob.IsHostile && ParentMob.State == MobState.Idle && GameManager.Instance.CurrentPhase == GamePhase.AssignActions)
             {
                 ParentMob.UI.MobCursor.Hide();
             }
 
-            if (GameManager.Instance.ControlLock)
+            if (ParentMob.IsHostile && GameManager.Instance.SelectingState == SelectingState.Enemy)
             {
                 ParentMob.UI.MobCursor.ZoomOut();
             }

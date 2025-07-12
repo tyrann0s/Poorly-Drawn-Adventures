@@ -1,6 +1,7 @@
 using Cards;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Managers
@@ -24,9 +25,12 @@ namespace Managers
                 return instance;
             }
         }
-    
+
         [SerializeField]
-        private PopUpPanel gameEndPanel, anouncerPanel;
+        private PopUpPanel gameEndPanel;
+
+        [SerializeField]
+        private PopUpPanel announcerPanel;
 
         [SerializeField]
         private Button assignActionsButton;
@@ -52,10 +56,10 @@ namespace Managers
             changeCardButtonText = changeCardButton.GetComponentInChildren<Text>();
         }
 
-        public void ShowAnouncerPanel(bool isAnimated, string value)
+        public void ShowAnnouncerPanel(bool isAnimated, string value)
         {
-            if (isAnimated) anouncerPanel.ShowAnimated(value);
-            else anouncerPanel.Show(value);
+            if (isAnimated) announcerPanel.ShowAnimated(value);
+            else announcerPanel.Show(value);
         }
 
         public void ShowGameEndPanel(string value)
@@ -93,6 +97,7 @@ namespace Managers
 
         public void ShowChangeCardsButton()
         {
+            SetChangeCardButtonText(true);
             DOTween.Sequence()
                 .Append(changeCardButton.gameObject.transform.DOScale(.5f, .5f))
                 .SetEase(Ease.InOutQuint);

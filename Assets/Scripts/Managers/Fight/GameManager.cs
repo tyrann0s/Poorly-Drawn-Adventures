@@ -222,11 +222,6 @@ namespace Managers
 
         public void BackToBase()
         {
-            // TODO Удалить анлоки, они должны анлокаться только в Win
-            ProgressManager.Instance.Coins += CurrentCoins;
-            ProgressManager.Instance.UnlockMob(CurrentLevel.rewardMob);
-            ProgressManager.Instance.UnlockHero(CurrentLevel.rewardHero);
-            ProgressManager.Instance.UnlockLevel(CurrentLevel.GetNextLevel());
             SaveSystem.Instance.SaveGame();
             FindAnyObjectByType<AdvancedSceneLoader>(FindObjectsInactive.Include).LoadBase();
         }

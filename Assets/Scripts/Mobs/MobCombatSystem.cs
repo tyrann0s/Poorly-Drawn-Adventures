@@ -76,6 +76,7 @@ namespace Mobs
 
             float resultDamage;
 
+            // Логика атаки с комбо
             if (enemyCombo)
             {
                 Color color;
@@ -130,6 +131,7 @@ namespace Mobs
                     ParentMob.UI.ShowText($"Stunned for {enemyCombo.stunTime} turns!", Color.white);
                 }
             }
+            // Логика атаки без комбо
             else
             {
                 if (ParentMob.MobData.ImmuneTo == ElementType.Physical)

@@ -102,7 +102,7 @@ namespace Cards
                             // Проверяем, есть ли уже такая карта в списке удаляемых
                             foreach (Card cardToDelete in cardsToDelete)
                             {
-                                if (cardToDelete.GetRank() == Cards[i].GetRank() && 
+                                if (cardToDelete.GetRank() == Cards[i].GetRank() || 
                                     cardToDelete.GetElement() == Cards[i].GetElement())
                                 {
                                     isDuplicate = true;
@@ -188,6 +188,7 @@ namespace Cards
             DisableInteraction();
             UIManager.Instance.HideConfirmChangeButton();
             UIManager.Instance.HideChangeCardsButton();
+            UIManager.Instance.SetChangeCardButtonText(CardChangeMode);
         }
 
         public void IncreaseCardsForChange()

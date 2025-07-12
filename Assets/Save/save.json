@@ -1,9 +1,9 @@
 {
-    "coins": 400,
+    "coins": 500,
     "currentTeam": [
-        "PL_Archer",
         "PL_Warrior",
-        "PL_Paladin"
+        "PL_Warrior",
+        "PL_Warrior"
     ],
     "heroesUnlocked": [
         "PL_Oleg"

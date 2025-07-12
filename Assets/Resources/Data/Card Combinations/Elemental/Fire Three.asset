@@ -15,14 +15,15 @@ MonoBehaviour:
   specificConditions: []
   mixedConditions: []
   elementConditions:
-  - elementType: 2
-  - elementType: 2
-  - elementType: 2
+  - elementType: 3
+  - elementType: 3
+  - elementType: 3
   rankConditions: []
   damageType: 3
   damageMultiplier: 2
   comboName: Fire Three
   description: 
   stun: 0
+  stunTime: 0
   ignoreDefense: 1
   aoeAttack: 0

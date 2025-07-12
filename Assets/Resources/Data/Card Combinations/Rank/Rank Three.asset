@@ -17,10 +17,11 @@ MonoBehaviour:
   elementConditions: []
   rankConditions:
   - amount: 3
-  damageType: 0
+  damageType: 1
   damageMultiplier: 2
   comboName: Rank Three
   description: 
   stun: 0
+  stunTime: 0
   ignoreDefense: 1
   aoeAttack: 0

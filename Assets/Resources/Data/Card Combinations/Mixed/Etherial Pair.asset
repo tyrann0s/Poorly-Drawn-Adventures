@@ -17,10 +17,11 @@ MonoBehaviour:
   - amount: 2
   elementConditions: []
   rankConditions: []
-  damageType: 1
+  damageType: 2
   damageMultiplier: 1.5
   comboName: Etherial Pair
   description: 
   stun: 0
+  stunTime: 0
   ignoreDefense: 0
   aoeAttack: 0

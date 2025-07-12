@@ -15,17 +15,18 @@ MonoBehaviour:
   specificConditions: []
   mixedConditions: []
   elementConditions:
-  - elementType: 3
-  - elementType: 3
-  - elementType: 3
-  - elementType: 3
-  - elementType: 3
-  - elementType: 3
+  - elementType: 4
+  - elementType: 4
+  - elementType: 4
+  - elementType: 4
+  - elementType: 4
+  - elementType: 4
   rankConditions: []
-  damageType: 3
+  damageType: 4
   damageMultiplier: 2
   comboName: Water Total
   description: 
   stun: 0
+  stunTime: 0
   ignoreDefense: 1
   aoeAttack: 1

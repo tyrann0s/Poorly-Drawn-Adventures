@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Fireball
   m_EditorClassIdentifier: 
   specificConditions:
-  - elementType: 2
+  - elementType: 3
     rank: 3
-  - elementType: 5
+  - elementType: 6
     rank: 3
   mixedConditions: []
   elementConditions: []
   rankConditions: []
-  damageType: 2
+  damageType: 3
   damageMultiplier: 2
   comboName: Fireball
   description: 

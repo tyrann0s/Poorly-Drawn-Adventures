@@ -15,17 +15,18 @@ MonoBehaviour:
   specificConditions: []
   mixedConditions: []
   elementConditions:
-  - elementType: 4
-  - elementType: 4
-  - elementType: 4
-  - elementType: 4
-  - elementType: 4
-  - elementType: 4
+  - elementType: 5
+  - elementType: 5
+  - elementType: 5
+  - elementType: 5
+  - elementType: 5
+  - elementType: 5
   rankConditions: []
-  damageType: 4
+  damageType: 5
   damageMultiplier: 2
   comboName: Air Total
   description: 
   stun: 0
+  stunTime: 0
   ignoreDefense: 1
   aoeAttack: 1

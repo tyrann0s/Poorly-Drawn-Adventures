@@ -1,13 +1,12 @@
 {
-    "coins": 500,
+    "coins": 0,
     "currentTeam": [
         "PL_Warrior",
         "PL_Warrior",
-        "PL_Warrior"
-    ],
-    "heroesUnlocked": [
+        "PL_Warrior",
         "PL_Oleg"
     ],
+    "heroesUnlocked": [],
     "mobsUnlocked": [
         "PL_Warrior",
         "PL_Archer",

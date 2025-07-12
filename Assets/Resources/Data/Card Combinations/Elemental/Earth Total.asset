@@ -15,17 +15,18 @@ MonoBehaviour:
   specificConditions: []
   mixedConditions: []
   elementConditions:
-  - elementType: 5
-  - elementType: 5
-  - elementType: 5
-  - elementType: 5
-  - elementType: 5
-  - elementType: 5
+  - elementType: 6
+  - elementType: 6
+  - elementType: 6
+  - elementType: 6
+  - elementType: 6
+  - elementType: 6
   rankConditions: []
-  damageType: 5
+  damageType: 6
   damageMultiplier: 2
   comboName: Earth Total
   description: 
   stun: 0
+  stunTime: 0
   ignoreDefense: 1
   aoeAttack: 1

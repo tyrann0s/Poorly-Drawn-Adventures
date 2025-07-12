@@ -12,19 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29c92791fd514019bc4dbc9cb3aa8ee0, type: 3}
   m_Name: Hellfire
   m_EditorClassIdentifier: 
+  specificConditions:
+  - elementType: 3
+    rank: 6
+  - elementType: 3
+    rank: 6
+  - elementType: 3
+    rank: 6
+  mixedConditions: []
   elementConditions: []
   rankConditions: []
-  specificConditions:
-  - elementType: 2
-    rank: 6
-  - elementType: 2
-    rank: 6
-  - elementType: 2
-    rank: 6
-  damageType: 2
+  damageType: 3
   damageMultiplier: 2
   comboName: Hellfire
   description: 
   stun: 0
+  stunTime: 0
   ignoreDefense: 0
   aoeAttack: 1

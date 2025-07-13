@@ -16,7 +16,7 @@ MonoBehaviour:
   mobType: 1
   mobIcon: {fileID: 21300036, guid: 7ab74e659e1f0a34d9cfec21c478fc12, type: 3}
   hireCost: 500
-  vulnerableTo: 1
+  vulnerableTo: 0
   immuneTo: 0
   maxHP: 200
   maxStamina: 75

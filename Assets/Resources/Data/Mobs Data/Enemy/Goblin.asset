@@ -16,7 +16,7 @@ MonoBehaviour:
   mobType: 0
   mobIcon: {fileID: 0}
   hireCost: 0
-  vulnerableTo: 2
+  vulnerableTo: 3
   immuneTo: 0
   maxHP: 100
   maxStamina: 100

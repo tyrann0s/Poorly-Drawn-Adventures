@@ -317,6 +317,7 @@ GameObject:
   - component: {fileID: 8877621610543104760}
   - component: {fileID: 6333396259607724139}
   - component: {fileID: 4994462170842151346}
+  - component: {fileID: 341665404576560720}
   m_Layer: 0
   m_Name: FightManagers
   m_TagString: Untagged
@@ -378,7 +379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameEndPanel: {fileID: 0}
-  anouncerPanel: {fileID: 0}
+  announcerPanel: {fileID: 0}
   assignActionsButton: {fileID: 0}
   startFightButton: {fileID: 0}
   changeCardButton: {fileID: 0}
@@ -414,6 +415,19 @@ MonoBehaviour:
   win: {fileID: 7414489904664598981}
   lose: {fileID: 158513029446218512}
   fadeTime: 2
+--- !u!114 &341665404576560720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2338758869280481909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3784c8bc6e86884eb0c98083da61a05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iconData: {fileID: 11400000, guid: 6ec987a62f9e1614fa08d8b3c5c209e3, type: 2}
 --- !u!1 &2583999762591649191
 GameObject:
   m_ObjectHideFlags: 0

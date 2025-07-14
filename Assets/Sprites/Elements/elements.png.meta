@@ -118,11 +118,37 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: elements_0
+      name: elements_Fire
       rect:
         serializedVersion: 2
         x: 135
@@ -144,7 +170,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: elements_1
+      name: elements_Water
       rect:
         serializedVersion: 2
         x: 606
@@ -166,7 +192,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: elements_2
+      name: elements_Air
       rect:
         serializedVersion: 2
         x: 135
@@ -188,7 +214,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: elements_3
+      name: elements_Earth
       rect:
         serializedVersion: 2
         x: 583
@@ -223,10 +249,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      elements_0: 869762779325548650
-      elements_1: -5391307981071726051
-      elements_2: -3293433503042108997
-      elements_3: -8115037194750826008
+      elements_Air: -3293433503042108997
+      elements_Earth: -8115037194750826008
+      elements_Fire: 869762779325548650
+      elements_Water: -5391307981071726051
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

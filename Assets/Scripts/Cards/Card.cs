@@ -1,3 +1,4 @@
+using Managers;
 using TMPro;
 using UnityEngine;
 
@@ -10,9 +11,6 @@ namespace Cards
 
         [SerializeField]
         private SpriteRenderer spriteRenderer;
-
-        [SerializeField]
-        private Sprite fireSprite, waterSprite, airSprite, earthSprite;
 
         private Element cardElement = new ();
         private int cardRank;
@@ -27,12 +25,6 @@ namespace Cards
 
         public void InitializeCard()
         {
-            if (fireSprite == null || waterSprite == null || airSprite == null || earthSprite == null)
-            {
-                Debug.LogError("Missing card element sprites!");
-                return;
-            }
-
             cardElement.CurrentElementType = GetRandomElementType();
             cardRank = Random.Range(1, 7);
             originTransform = transform.position;
@@ -58,21 +50,7 @@ namespace Cards
 
             rankText.text = cardRank.ToString();
 
-            switch (cardElement.CurrentElementType)
-            {
-                case ElementType.Fire:
-                    spriteRenderer.sprite = fireSprite;
-                    break;
-                case ElementType.Water:
-                    spriteRenderer.sprite = waterSprite;
-                    break;
-                case ElementType.Air:
-                    spriteRenderer.sprite = airSprite;
-                    break;
-                case ElementType.Earth:
-                    spriteRenderer.sprite = earthSprite;
-                    break;
-            }
+            spriteRenderer.sprite = ResourceManager.Instance.Icons.GetIcon(cardElement.CurrentElementType);
         }
 
         private void OnMouseEnter()

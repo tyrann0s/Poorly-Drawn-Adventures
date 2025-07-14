@@ -1,27 +1,32 @@
 using Cards;
+using Mobs;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class RecordsPanel : MonoBehaviour
 {
-    [SerializeField] private GameObject comboRecordPrefab, mobRecordPrefab;
-    [SerializeField] private ElementCombo combo;
+    [SerializeField] private GameObject recordPrefab;
+    [SerializeField] private MobData mobData;
     
-    private void ClearRecords()
+    public void ClearRecords()
     {
         foreach (Transform child in transform)
         {
             Destroy(child.gameObject);
         }
     }
+
+    private Record CreateRecord()
+    {
+        GameObject go = Instantiate(recordPrefab, transform);
+        return go.GetComponent<Record>();
+    }
     
     public void ShowElementalCombos()
     {
         ClearRecords();
-        
-        GameObject go = Instantiate(comboRecordPrefab, transform);
-        var record = go.GetComponent<RecordCombo>();
-        record.Initialize(combo);
+
+        //CreateRecord<RecordCombo>().Initialize(combo);
     }
 
     public void ShowRankCombos()
@@ -42,7 +47,7 @@ public class RecordsPanel : MonoBehaviour
     {
         ClearRecords();
         
-        Debug.Log("ShowEnemies");
+        CreateRecord().Initialize(mobData);
     }
 
     public void ShowBosses()

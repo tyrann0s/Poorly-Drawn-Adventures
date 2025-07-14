@@ -1,22 +1,35 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI
 {
     public class Journal : MonoBehaviour
     {
+        [SerializeField] private GameObject mainWindow;
+        [SerializeField] private GameObject openButton;
+        
         [SerializeField] private GameObject pageButtonPrefab;
         [SerializeField] private Transform subPageContainer;
         [SerializeField] private RecordsPanel recordsPanel;
 
-        private void Start()
+        public void ShowJournal()
         {
+            openButton.SetActive(false);  
+            mainWindow.SetActive(true);
             AddComboButtons();
+        }
+        
+        public void HideJournal()
+        {
+            mainWindow.SetActive(false);  
+            openButton.SetActive(true);       
         }
 
         public void AddComboButtons()
         {
             ClearButtons();
+            recordsPanel.ClearRecords();
             
             CreateButton().Initialize("Elemental", recordsPanel.ShowElementalCombos);
             CreateButton().Initialize("Rank", recordsPanel.ShowRankCombos);
@@ -26,6 +39,7 @@ namespace UI
         public void AddMobsButtons()
         {
             ClearButtons();
+            recordsPanel.ClearRecords();
             
             CreateButton().Initialize("Enemies", recordsPanel.ShowEnemies);
             CreateButton().Initialize("Bosses", recordsPanel.ShowBosses);

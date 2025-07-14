@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2992e0291eb1f3949b718813f7479ae5, type: 3}
+  m_Name: Icons Data
+  m_EditorClassIdentifier: 
+  physicalIcon: {fileID: 21300000, guid: 7ab74e659e1f0a34d9cfec21c478fc12, type: 3}
+  etherialIcon: {fileID: 21300002, guid: 7ab74e659e1f0a34d9cfec21c478fc12, type: 3}
+  fireIcon: {fileID: 869762779325548650, guid: 3ee369d611550804dbca26085edefa89, type: 3}
+  waterIcon: {fileID: -5391307981071726051, guid: 3ee369d611550804dbca26085edefa89,
+    type: 3}
+  airIcon: {fileID: -3293433503042108997, guid: 3ee369d611550804dbca26085edefa89,
+    type: 3}
+  earthIcon: {fileID: -8115037194750826008, guid: 3ee369d611550804dbca26085edefa89,
+    type: 3}

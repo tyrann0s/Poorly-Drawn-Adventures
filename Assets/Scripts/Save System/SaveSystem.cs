@@ -22,12 +22,10 @@ public class SaveSystem : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(this);
+        DontDestroyOnLoad(gameObject);
         
         savePath = Path.Combine(Application.dataPath + "/Save", "save.json");
     }
-    
-    
     
     public void SaveGame()
     {

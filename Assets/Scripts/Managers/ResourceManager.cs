@@ -25,7 +25,7 @@ namespace Managers
             }
         }
 
-        public IconData Icons;
+        public IconData Icons {get; private set;}
         private Dictionary<string, MobData> mobLookup;
         private Dictionary<string, ElementCombo> comboLookup;
 

@@ -1,6 +1,6 @@
 using System;
+using Managers.Base;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace UI
 {
@@ -12,6 +12,18 @@ namespace UI
         [SerializeField] private GameObject pageButtonPrefab;
         [SerializeField] private Transform subPageContainer;
         [SerializeField] private RecordsPanel recordsPanel;
+        
+        [SerializeField] private NotificationPanel notificationPanel;
+
+        private void OnEnable()
+        {
+            ProgressManager.Instance.OnRecordChanged += ShowNotification;
+        }
+        
+        private void OnDestroy()
+        {
+            ProgressManager.Instance.OnRecordChanged -= ShowNotification;
+        }
 
         public void ShowJournal()
         {
@@ -63,6 +75,12 @@ namespace UI
         {
             GameObject elementButtonGO = Instantiate(pageButtonPrefab, subPageContainer);
             return elementButtonGO.GetComponent<JournalPageButton>();
+        }
+        
+        private void ShowNotification(string text)
+        {
+            notificationPanel.gameObject.SetActive(true);
+            notificationPanel.ShowNotification(text);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cards;
 using Levels;
 using Mobs;
+using UI;
 using UnityEngine;
 
 namespace Managers.Base
@@ -23,6 +24,8 @@ namespace Managers.Base
         
         public List<ElementCombo> RecordsCombo { get; set; } = new();
         public List<MobRecord> RecordsMob { get; set; } = new();
+        
+        public event Action<string> OnRecordChanged;
     
         private void Awake()
         {
@@ -32,8 +35,8 @@ namespace Managers.Base
                 return;
             }
             
-            DontDestroyOnLoad(this);
             Instance = this;
+            DontDestroyOnLoad(gameObject);
             
             SaveSystem.Instance.LoadGame();
             if (!AvailableAllies.Contains(defaultMob)) UnlockAlly(defaultMob);
@@ -61,7 +64,7 @@ namespace Managers.Base
             if (!Instance.RecordsCombo.Contains(combo))
             {
                 RecordsCombo.Add(combo);
-                Debug.Log($"{combo} unlocked!");
+                OnRecordChanged?.Invoke($"{combo.name} unlocked!");
             }
         }
 
@@ -76,13 +79,16 @@ namespace Managers.Base
                     if (RecordsMob.Find(x=>x.mobData == record.mobData) == null)
                     {
                         RecordsMob.Add(record);
-                        Debug.Log($"{mobData.MobName} unlocked!");
+                        OnRecordChanged?.Invoke($"{mobData.MobName} unlocked!");
                     }
                     else
                     {
                         int index = RecordsMob.FindIndex(x => x.mobData == record.mobData);
-                        RecordsMob[index] = record;  
-                        Debug.Log($"{mobData.MobName} updated!");
+                        if (RecordsMob[index].unlockImmune != record.unlockImmune || RecordsMob[index].unlockVulnerabilty != record.unlockVulnerabilty)
+                        {
+                            RecordsMob[index] = record;  
+                            OnRecordChanged?.Invoke($"{mobData.MobName} changed!");
+                        }
                     }
                     break;
                 case MobType.Ally:
@@ -90,7 +96,7 @@ namespace Managers.Base
                     if (!RecordsMob.Contains(record))
                     {
                         RecordsMob.Add(record);
-                        Debug.Log($"{mobData.MobName} unlocked!");
+                        OnRecordChanged?.Invoke($"{mobData.MobName} unlocked!");
                     }
                     break;
                 default:

@@ -207,7 +207,7 @@ namespace Managers
             UIManager.Instance.ShowGameEndPanel("VICTORY!");
             
             ProgressManager.Instance.Coins += CurrentCoins;
-            ProgressManager.Instance.UnlockMob(CurrentLevel.rewardMob);
+            ProgressManager.Instance.UnlockAlly(CurrentLevel.rewardMob);
             ProgressManager.Instance.UnlockHero(CurrentLevel.rewardHero);
             ProgressManager.Instance.UnlockLevel(CurrentLevel.GetNextLevel());
         }

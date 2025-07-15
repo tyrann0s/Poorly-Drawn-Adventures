@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Skeleton BOSS
   m_EditorClassIdentifier: 
   mobName: Skeleton
-  mobType: 2
+  mobType: 1
   mobIcon: {fileID: 0}
   hireCost: 0
   vulnerableTo: 2

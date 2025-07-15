@@ -1,29 +1,22 @@
 {
-    "coins": 100,
+    "coins": 0,
     "currentTeam": [
+        "PL_Warrior",
         "PL_Warrior",
         "PL_Warrior",
         "PL_Warrior"
     ],
-    "heroesUnlocked": [
-        "PL_Oleg"
-    ],
+    "heroesUnlocked": [],
     "mobsUnlocked": [
-        "PL_Warrior",
-        "PL_Archer",
-        "PL_Paladin"
+        "PL_Warrior"
     ],
-    "levelsCleared": [
-        "Test 1",
-        "Test 2",
-        "Test 3"
-    ],
-    "recordsCombo": [
-        "Air Pair",
-        "Water Three",
-        "Water Pair",
-        "Fire Total",
-        "Etherial Pair"
-    ],
-    "recordsMobs": []
+    "levelsCleared": [],
+    "recordsCombo": [],
+    "recordsMobs": [
+        {
+            "mobData": "PL_Warrior",
+            "unlockVulnerabilty": true,
+            "unlockImmune": true
+        }
+    ]
 }

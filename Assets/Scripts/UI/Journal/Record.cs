@@ -44,8 +44,10 @@ public class Record : MonoBehaviour
         if (combo.aoeAttack) descriptionText.text += "\tAOE Attack \n";
     }
     
-    public void Initialize(MobData mob)
+    public void Initialize(MobRecord mobRecord)
     {
+        var mob = ResourceManager.Instance.GetMobData(mobRecord.mobData);
+        
         nameText.text = mob.MobName;
         icon.sprite = mob.mobIcon;
         descriptionText.text = "";
@@ -71,7 +73,7 @@ public class Record : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        descriptionText.text += "Vulnerable To: " + mob.VulnerableTo + "\n";
-        descriptionText.text += "Immune To: " + mob.ImmuneTo + "\n";
+        descriptionText.text += "Vulnerable To: " + (mobRecord.unlockVulnerabilty ? mob.VulnerableTo : "Unknown") + "\n";
+        descriptionText.text += "Immune To: " + (mobRecord.unlockImmune ? mob.ImmuneTo : "Unknown")  + "\n";
     }
 }

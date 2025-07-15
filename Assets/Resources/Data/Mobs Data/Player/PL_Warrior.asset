@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: PL_Warrior
   m_EditorClassIdentifier: 
   mobName: Warrior
-  mobType: 0
+  mobType: 2
   mobIcon: {fileID: 21300024, guid: 7ab74e659e1f0a34d9cfec21c478fc12, type: 3}
   hireCost: 0
-  vulnerableTo: 2
-  immuneTo: 1
+  vulnerableTo: 3
+  immuneTo: 0
   maxHP: 100
   maxStamina: 100
   defenseCost: 50

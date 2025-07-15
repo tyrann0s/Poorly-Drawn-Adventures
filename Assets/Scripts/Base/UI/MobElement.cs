@@ -81,7 +81,7 @@ namespace Base.UI
 
                     switch (element.MData.Type)
                     {
-                        case MobType.Mob:
+                        case MobType.Ally:
                             element.transform.SetParent(element.GetOriginalParent(), true);
                             element.transform.position = element.GetOriginalPosition();
                             break;
@@ -89,6 +89,7 @@ namespace Base.UI
                             ProgressManager.Instance.AvailableHeroes.Remove(element.MData);
                             Destroy(element.gameObject);
                             break;
+                        case MobType.Enemy:
                         case MobType.Boss:
                             break;
                         default:

@@ -36,17 +36,19 @@ namespace Managers.Base
             Instance = this;
             
             SaveSystem.Instance.LoadGame();
-            if (!AvailableAllies.Contains(defaultMob)) AvailableAllies.Add(defaultMob);
+            if (!AvailableAllies.Contains(defaultMob)) UnlockAlly(defaultMob);
         }
         
         public void UnlockHero(MobData mobData)
         {
             AvailableHeroes.Add(mobData);
+            UnlockRecord(mobData, true, true);
         }
 
-        public void UnlockMob(MobData mobData)
+        public void UnlockAlly(MobData mobData)
         {
             AvailableAllies.Add(mobData);
+            UnlockRecord(mobData, true, true);
         }
         
         public void UnlockLevel(string levelID)
@@ -56,13 +58,44 @@ namespace Managers.Base
 
         public void UnlockRecord(ElementCombo combo)
         {
-            RecordsCombo.Add(combo);
-            Debug.Log($"{combo} unlocked!");
+            if (!Instance.RecordsCombo.Contains(combo))
+            {
+                RecordsCombo.Add(combo);
+                Debug.Log($"{combo} unlocked!");
+            }
         }
 
-        public void UnlockRecord(MobData mobData)
+        public void UnlockRecord(MobData mobData, bool vulnerableTo, bool immuneTo)
         {
-            RecordsMob.Add(new MobRecord(mobData.name, mobData.VulnerableTo, mobData.ImmuneTo));
+            var record = new MobRecord(mobData.name, vulnerableTo, immuneTo);
+            
+            switch (mobData.Type)
+            {
+                case MobType.Enemy:
+                case MobType.Boss:
+                    if (RecordsMob.Find(x=>x.mobData == record.mobData) == null)
+                    {
+                        RecordsMob.Add(record);
+                        Debug.Log($"{mobData.MobName} unlocked!");
+                    }
+                    else
+                    {
+                        int index = RecordsMob.FindIndex(x => x.mobData == record.mobData);
+                        RecordsMob[index] = record;  
+                        Debug.Log($"{mobData.MobName} updated!");
+                    }
+                    break;
+                case MobType.Ally:
+                case MobType.Hero:
+                    if (!RecordsMob.Contains(record))
+                    {
+                        RecordsMob.Add(record);
+                        Debug.Log($"{mobData.MobName} unlocked!");
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

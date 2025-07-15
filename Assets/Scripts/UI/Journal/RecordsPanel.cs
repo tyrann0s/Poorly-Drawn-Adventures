@@ -1,4 +1,5 @@
 using Cards;
+using Managers;
 using Managers.Base;
 using Mobs;
 using UnityEngine;
@@ -37,9 +38,9 @@ public class RecordsPanel : MonoBehaviour
     {
         ClearRecords();
         
-        foreach (var comboombo in ProgressManager.Instance.RecordsCombo)
+        foreach (var combo in ProgressManager.Instance.RecordsCombo)
         {
-            if (comboombo.rankConditions.Count > 0) CreateRecord().Initialize(comboombo);
+            if (combo.rankConditions.Count > 0) CreateRecord().Initialize(combo);
         }
     }
 
@@ -47,9 +48,9 @@ public class RecordsPanel : MonoBehaviour
     {
         ClearRecords();
         
-        foreach (var comboombo in ProgressManager.Instance.RecordsCombo)
+        foreach (var combo in ProgressManager.Instance.RecordsCombo)
         {
-            if (comboombo.specificConditions.Count > 0) CreateRecord().Initialize(comboombo);
+            if (combo.specificConditions.Count > 0) CreateRecord().Initialize(combo);
         }
     }
     
@@ -57,27 +58,42 @@ public class RecordsPanel : MonoBehaviour
     {
         ClearRecords();
         
-        CreateRecord().Initialize(mobData);
+        foreach (var mob in ProgressManager.Instance.RecordsMob)
+        {
+            var data = ResourceManager.Instance.GetMobData(mob.mobData);
+            if (data.Type == MobType.Enemy) CreateRecord().Initialize(mob);
+        }
     }
 
     public void ShowBosses()
     {
         ClearRecords();
         
-        Debug.Log("ShowBosses");
+        foreach (var mob in ProgressManager.Instance.RecordsMob)
+        {
+            var data = ResourceManager.Instance.GetMobData(mob.mobData);
+            if (data.Type == MobType.Boss) CreateRecord().Initialize(mob);
+        }
     }
     
     public void ShowAllies()
     {
         ClearRecords();
-        
-        Debug.Log("ShowAllies");
+        foreach (var mob in ProgressManager.Instance.RecordsMob)
+        {
+            var data = ResourceManager.Instance.GetMobData(mob.mobData);
+            if (data.Type == MobType.Ally) CreateRecord().Initialize(mob);
+        }
     }
 
     public void ShowHeroes()
     {
         ClearRecords();
         
-        Debug.Log("ShowHeroes");
+        foreach (var mob in ProgressManager.Instance.RecordsMob)
+        {
+            var data = ResourceManager.Instance.GetMobData(mob.mobData);
+            if (data.Type == MobType.Hero) CreateRecord().Initialize(mob);
+        }
     }
 }

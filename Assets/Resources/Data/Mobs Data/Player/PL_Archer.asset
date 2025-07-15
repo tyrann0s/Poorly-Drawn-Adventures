@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: PL_Archer
   m_EditorClassIdentifier: 
   mobName: Archer
-  mobType: 0
+  mobType: 2
   mobIcon: {fileID: 21300026, guid: 7ab74e659e1f0a34d9cfec21c478fc12, type: 3}
   hireCost: 150
   vulnerableTo: 3
-  immuneTo: 4
+  immuneTo: 6
   maxHP: 75
   maxStamina: 200
   defenseCost: 50

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Mobs;
 using UnityEngine;
 
 [System.Serializable]
@@ -16,14 +17,14 @@ public class SaveData
 [System.Serializable]
 public class MobRecord
 {
-    public string name;
-    public ElementType vulnerabiltyType;
-    public ElementType immuneType;
-    
-    public MobRecord(string name, ElementType vulnerabiltyType, ElementType immuneType)
+    public string mobData;
+    public bool unlockVulnerabilty;
+    public bool unlockImmune;
+
+    public MobRecord(string mobData, bool unlockVulnerabilty, bool unlockImmune)
     {
-        this.name = name;
-        this.vulnerabiltyType = vulnerabiltyType;
-        this.immuneType = immuneType;
+        this.mobData = mobData;
+        this.unlockVulnerabilty = unlockVulnerabilty;
+        this.unlockImmune = unlockImmune;
     }
 }

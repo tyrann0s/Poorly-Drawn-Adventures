@@ -14,9 +14,10 @@ namespace Mobs
 
     public enum MobType
     {
-        Mob,
-        Hero,
-        Boss
+        Enemy,
+        Boss,
+        Ally,
+        Hero
     }
     
     [CreateAssetMenu(fileName = "Mob's Data", menuName = "Data/Mob's Data", order = 1)]

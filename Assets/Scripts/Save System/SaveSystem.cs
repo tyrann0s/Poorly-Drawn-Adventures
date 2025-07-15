@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Cards;
+using Managers;
 using Managers.Base;
 using Mobs;
 using UnityEngine;
@@ -11,9 +13,6 @@ public class SaveSystem : MonoBehaviour
     
     private SaveData saveData = new();
     private string savePath;
-    
-    private Dictionary<string, MobData> mobLookup;
-    private Dictionary<string, ElementCombo> comboLookup;
     
     private void Awake()
     {
@@ -26,33 +25,9 @@ public class SaveSystem : MonoBehaviour
         DontDestroyOnLoad(this);
         
         savePath = Path.Combine(Application.dataPath + "/Save", "save.json");
-        CreateMobDB();
-        CreateComboDB();
     }
     
-    private void CreateMobDB()
-    {
-        MobData[] allMobs = Resources.LoadAll<MobData>("Data/Mobs Data");
-        
-        mobLookup = new Dictionary<string, MobData>();
-        
-        foreach (var mob in allMobs)
-        {
-            mobLookup[mob.GetId()] = mob;
-        }
-    }
     
-    private void CreateComboDB()
-    {
-        ElementCombo[] allCombos = Resources.LoadAll<ElementCombo>("Data/Card Combinations");
-        
-        comboLookup = new Dictionary<string, ElementCombo>();
-        
-        foreach (var combo in allCombos)
-        {
-            comboLookup[combo.GetId()] = combo;
-        }
-    }
     
     public void SaveGame()
     {
@@ -121,7 +96,7 @@ public class SaveSystem : MonoBehaviour
             }
             else
             {
-                int index = saveData.recordsMobs.FindIndex(x => x.name == record.name);
+                int index = saveData.recordsMobs.FindIndex(x => x.mobData == record.mobData);
                 saveData.recordsMobs[index] = record;  
             }
         }
@@ -144,28 +119,43 @@ public class SaveSystem : MonoBehaviour
         // Загружаем текущую команду
         foreach (var mobSaveData in saveData.currentTeam)
         {
-            if (mobLookup.TryGetValue(mobSaveData, out MobData mobSO))
+            try
             {
-                ProgressManager.Instance.CurrentTeam.Add(mobSO);
-            } else Debug.LogError("Не удалось найти мобов текущей команды");
+                ProgressManager.Instance.CurrentTeam.Add(ResourceManager.Instance.GetMobData(mobSaveData));
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Не удалось найти мобов текущей команды");
+                throw;
+            }
         }
         
         // Загружаем героев
         foreach (var mobSaveData in saveData.heroesUnlocked)
         {
-            if (mobLookup.TryGetValue(mobSaveData, out MobData mobSO))
+            try
             {
-                ProgressManager.Instance.AvailableHeroes.Add(mobSO);
-            } else Debug.LogError("Не удалось найти героев");
+                ProgressManager.Instance.AvailableHeroes.Add(ResourceManager.Instance.GetMobData(mobSaveData));
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Не удалось найти героя");
+                throw;
+            }
         }
         
         // Загружаем мобов
         foreach (var mobSaveData in saveData.mobsUnlocked)
         {
-            if (mobLookup.TryGetValue(mobSaveData, out MobData mobSO))
+            try
             {
-                ProgressManager.Instance.AvailableAllies.Add(mobSO);
-            } else Debug.LogError("Не удалось найти мобов");
+                ProgressManager.Instance.AvailableAllies.Add(ResourceManager.Instance.GetMobData(mobSaveData));
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Не удалось найти мобов");
+                throw;
+            }
         }
         
         // Загружаем пройденные уровни
@@ -177,19 +167,21 @@ public class SaveSystem : MonoBehaviour
         // Загружаем открытые комбо в журнале
         foreach (var combo in saveData.recordsCombo)
         {
-            if (comboLookup.TryGetValue(combo, out ElementCombo comboSO))
+            try
             {
-                ProgressManager.Instance.RecordsCombo.Add(comboSO);
-            } else Debug.LogError("Не удалось найти комбо");
+                ProgressManager.Instance.RecordsCombo.Add(ResourceManager.Instance.GetComboData(combo));
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Не удалось найти комбо");
+                throw;
+            }
         }
         
         // Загружаем открытых мобов в журнале
         foreach (var mob in saveData.recordsMobs)
         {
-            if (mobLookup.TryGetValue(mob.name, out MobData mobSO))
-            {
-                ProgressManager.Instance.RecordsMob.Add(mob);
-            } else Debug.LogError("Не удалось найти запись с мобом");
+            ProgressManager.Instance.RecordsMob.Add(mob);
         }
     }
 }

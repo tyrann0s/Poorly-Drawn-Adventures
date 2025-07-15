@@ -69,6 +69,7 @@ namespace Managers
             foreach (var currentMob in GameManager.Instance.CurrentLevel.mobWaves[CurrentWave].mobs)
             {
                 AddMob(enemyMobSpawners[currentSpawner].SpawnMob(currentMob.mobPrefab));
+                ProgressManager.Instance.UnlockRecord(currentMob, false, false);
                 currentSpawner++;
             }
         }

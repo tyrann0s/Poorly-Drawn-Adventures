@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using Cards;
+using Mobs;
 using UnityEngine;
 
 namespace Managers
@@ -23,6 +26,8 @@ namespace Managers
         }
 
         public IconData Icons;
+        private Dictionary<string, MobData> mobLookup;
+        private Dictionary<string, ElementCombo> comboLookup;
 
         private void Awake()
         {
@@ -36,6 +41,44 @@ namespace Managers
             DontDestroyOnLoad(gameObject);
             
             Icons = Resources.Load<IconData>("Settings/Icons Data");
+            CreateMobDB();
+            CreateComboDB();
+        }
+        
+        private void CreateMobDB()
+        {
+            MobData[] allMobs = Resources.LoadAll<MobData>("Data/Mobs Data");
+        
+            mobLookup = new Dictionary<string, MobData>();
+        
+            foreach (var mob in allMobs)
+            {
+                mobLookup[mob.GetId()] = mob;
+            }
+        }
+    
+        private void CreateComboDB()
+        {
+            ElementCombo[] allCombos = Resources.LoadAll<ElementCombo>("Data/Card Combinations");
+        
+            comboLookup = new Dictionary<string, ElementCombo>();
+        
+            foreach (var combo in allCombos)
+            {
+                comboLookup[combo.GetId()] = combo;
+            }
+        }
+
+        public MobData GetMobData(string id)
+        {
+            mobLookup.TryGetValue(id, out MobData mobSO);
+            return mobSO;
+        }
+
+        public ElementCombo GetComboData(string id)
+        {
+            comboLookup.TryGetValue(id, out ElementCombo comboSO);
+            return comboSO;
         }
     }
 }

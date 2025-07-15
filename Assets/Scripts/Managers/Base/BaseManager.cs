@@ -52,9 +52,21 @@ namespace Managers.Base
             ProgressManager.Instance.Coins -= amount;
             UpdateCoinsPanel(ProgressManager.Instance.Coins.ToString());       
         }
+        
         private void UpdateCoinsPanel(string text)
         {
             coinsPanel.UpdateText(text);
+        }
+        
+        public bool CheckIfTeamIsFull()
+        {
+            if (ProgressManager.Instance.CurrentTeam.Count < 4)
+            {
+                Debug.Log("КОМАНДА ДОЛЖА БЫТЬ ПОЛНОЙ");
+                return false;
+            }
+            
+            return true;
         }
     }
 }

@@ -34,6 +34,8 @@ namespace UI
             CreateButton().Initialize("Elemental", recordsPanel.ShowElementalCombos);
             CreateButton().Initialize("Rank", recordsPanel.ShowRankCombos);
             CreateButton().Initialize("Special", recordsPanel.ShowSpecialCombos);
+            
+            recordsPanel.ShowElementalCombos();
         }
 
         public void AddMobsButtons()
@@ -45,6 +47,8 @@ namespace UI
             CreateButton().Initialize("Bosses", recordsPanel.ShowBosses);
             CreateButton().Initialize("Allies", recordsPanel.ShowAllies);
             CreateButton().Initialize("Heroes", recordsPanel.ShowHeroes);
+            
+            recordsPanel.ShowEnemies();
         }
 
         private void ClearButtons()

@@ -40,7 +40,7 @@ namespace Hub
 
         private void OnMouseDown()
         {
-            if (!ProgressManager.Instance.CheckIfTeamIsFull()) return;
+            if (!BaseManager.Instance.CheckIfTeamIsFull()) return;
             
             SaveSystem.Instance.SaveGame();
             ProgressManager.Instance.LevelToLoad = level;

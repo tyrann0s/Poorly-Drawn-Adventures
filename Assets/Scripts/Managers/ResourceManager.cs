@@ -21,9 +21,8 @@ namespace Managers
                 return instance;
             }
         }
-        
-        [SerializeField] private IconData iconData;
-        public IconData Icons => iconData;
+
+        public IconData Icons;
 
         private void Awake()
         {
@@ -35,6 +34,8 @@ namespace Managers
 
             instance = this;
             DontDestroyOnLoad(gameObject);
+            
+            Icons = Resources.Load<IconData>("Settings/Icons Data");
         }
     }
 }

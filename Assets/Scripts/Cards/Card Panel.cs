@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Managers;
+using Managers.Base;
 
 namespace Cards
 {
@@ -269,7 +270,7 @@ namespace Cards
             var pickedCards = Cards.Where(card => card != null && card.IsPicked).ToList();
             CurrentCombination = combinationSystem.CheckCombination(pickedCards);
 
-            UIManager.Instance.ShowCombination(CurrentCombination);
+            if (ProgressManager.Instance.RecordsCombo.Contains(CurrentCombination)) UIManager.Instance.ShowCombination(CurrentCombination);
         }
 
         public ElementCombo GetCombo()

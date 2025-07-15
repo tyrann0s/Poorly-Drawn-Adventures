@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using Cards;
 using Managers.Base;
 using Mobs;
 using UnityEngine;
@@ -12,6 +13,7 @@ public class SaveSystem : MonoBehaviour
     private string savePath;
     
     private Dictionary<string, MobData> mobLookup;
+    private Dictionary<string, ElementCombo> comboLookup;
     
     private void Awake()
     {
@@ -25,6 +27,7 @@ public class SaveSystem : MonoBehaviour
         
         savePath = Path.Combine(Application.dataPath + "/Save", "save.json");
         CreateMobDB();
+        CreateComboDB();
     }
     
     private void CreateMobDB()
@@ -36,6 +39,18 @@ public class SaveSystem : MonoBehaviour
         foreach (var mob in allMobs)
         {
             mobLookup[mob.GetId()] = mob;
+        }
+    }
+    
+    private void CreateComboDB()
+    {
+        ElementCombo[] allCombos = Resources.LoadAll<ElementCombo>("Data/Card Combinations");
+        
+        comboLookup = new Dictionary<string, ElementCombo>();
+        
+        foreach (var combo in allCombos)
+        {
+            comboLookup[combo.GetId()] = combo;
         }
     }
     
@@ -71,7 +86,7 @@ public class SaveSystem : MonoBehaviour
         }
         
         // Сохраняем обычных мобов
-        foreach (var mobData in ProgressManager.Instance.AvailableMobs)
+        foreach (var mobData in ProgressManager.Instance.AvailableAllies)
         {
             if (!saveData.mobsUnlocked.Contains(mobData.GetId()))
             {
@@ -85,6 +100,29 @@ public class SaveSystem : MonoBehaviour
             if (!saveData.levelsCleared.Contains(level))
             {
                 saveData.levelsCleared.Add(level);
+            }
+        }
+        
+        // Сохраняем открытые комбо в журнале
+        foreach (var record in ProgressManager.Instance.RecordsCombo)
+        {
+            if (!saveData.recordsCombo.Contains(record.GetId()))
+            {
+                saveData.recordsCombo.Add(record.GetId());
+            }
+        }
+
+        // Сохраняем открытых мобов в журнале
+        foreach (var record in ProgressManager.Instance.RecordsMob)
+        {
+            if (!saveData.recordsMobs.Contains(record))
+            {
+                saveData.recordsMobs.Add(record);   
+            }
+            else
+            {
+                int index = saveData.recordsMobs.FindIndex(x => x.name == record.name);
+                saveData.recordsMobs[index] = record;  
             }
         }
     }
@@ -126,7 +164,7 @@ public class SaveSystem : MonoBehaviour
         {
             if (mobLookup.TryGetValue(mobSaveData, out MobData mobSO))
             {
-                ProgressManager.Instance.AvailableMobs.Add(mobSO);
+                ProgressManager.Instance.AvailableAllies.Add(mobSO);
             } else Debug.LogError("Не удалось найти мобов");
         }
         
@@ -134,6 +172,24 @@ public class SaveSystem : MonoBehaviour
         foreach (var level in saveData.levelsCleared)
         {
             ProgressManager.Instance.MapLevelsUnlocked.Add(level);
+        }
+        
+        // Загружаем открытые комбо в журнале
+        foreach (var combo in saveData.recordsCombo)
+        {
+            if (comboLookup.TryGetValue(combo, out ElementCombo comboSO))
+            {
+                ProgressManager.Instance.RecordsCombo.Add(comboSO);
+            } else Debug.LogError("Не удалось найти комбо");
+        }
+        
+        // Загружаем открытых мобов в журнале
+        foreach (var mob in saveData.recordsMobs)
+        {
+            if (mobLookup.TryGetValue(mob.name, out MobData mobSO))
+            {
+                ProgressManager.Instance.RecordsMob.Add(mob);
+            } else Debug.LogError("Не удалось найти запись с мобом");
         }
     }
 }

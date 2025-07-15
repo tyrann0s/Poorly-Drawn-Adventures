@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using Cards;
 using Managers;
+using Managers.Base;
 using Mobs.Status_Effects;
 using UnityEngine;
 
@@ -79,6 +80,8 @@ namespace Mobs
             // Логика атаки с комбо
             if (enemyCombo)
             {
+                if (!ProgressManager.Instance.RecordsCombo.Contains(enemyCombo)) ProgressManager.Instance.UnlockRecord(enemyCombo);
+                
                 Color color;
                 switch (enemyCombo.damageType)
                 {

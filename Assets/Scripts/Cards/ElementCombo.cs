@@ -24,5 +24,10 @@ namespace Cards
         public bool ignoreDefense;
         [Tooltip("Дамажит всех мобов на арене")]
         public bool aoeAttack;
+        
+        public string GetId()
+        {
+            return name;
+        }
     }
 }

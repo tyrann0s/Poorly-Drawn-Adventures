@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Cards;
 using Levels;
 using Mobs;
 using UnityEngine;
@@ -15,10 +16,13 @@ namespace Managers.Base
         public int Coins { get; set; }
         public List<MobData> CurrentTeam { get; set; } = new();
         public List<MobData> AvailableHeroes { get; set; } = new();
-        public List<MobData> AvailableMobs { get; set; } = new();
+        public List<MobData> AvailableAllies { get; set; } = new();
         
         public List<string> MapLevelsUnlocked { get; set; } = new();
         public Level LevelToLoad { get; set; }
+        
+        public List<ElementCombo> RecordsCombo { get; set; } = new();
+        public List<MobRecord> RecordsMob { get; set; } = new();
     
         private void Awake()
         {
@@ -32,7 +36,7 @@ namespace Managers.Base
             Instance = this;
             
             SaveSystem.Instance.LoadGame();
-            if (!AvailableMobs.Contains(defaultMob)) AvailableMobs.Add(defaultMob);
+            if (!AvailableAllies.Contains(defaultMob)) AvailableAllies.Add(defaultMob);
         }
         
         public void UnlockHero(MobData mobData)
@@ -42,23 +46,23 @@ namespace Managers.Base
 
         public void UnlockMob(MobData mobData)
         {
-            AvailableMobs.Add(mobData);
+            AvailableAllies.Add(mobData);
         }
         
         public void UnlockLevel(string levelID)
         {
             MapLevelsUnlocked.Add(levelID);
         }
-        
-        public bool CheckIfTeamIsFull()
+
+        public void UnlockRecord(ElementCombo combo)
         {
-            if (CurrentTeam.Count < 4)
-            {
-                Debug.Log("КОМАНДА ДОЛЖА БЫТЬ ПОЛНОЙ");
-                return false;
-            }
-            
-            return true;
+            RecordsCombo.Add(combo);
+            Debug.Log($"{combo} unlocked!");
+        }
+
+        public void UnlockRecord(MobData mobData)
+        {
+            RecordsMob.Add(new MobRecord(mobData.name, mobData.VulnerableTo, mobData.ImmuneTo));
         }
     }
 }

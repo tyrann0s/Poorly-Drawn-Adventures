@@ -1,4 +1,5 @@
 using Cards;
+using Managers.Base;
 using Mobs;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,21 +27,30 @@ public class RecordsPanel : MonoBehaviour
     {
         ClearRecords();
 
-        //CreateRecord<RecordCombo>().Initialize(combo);
+        foreach (var combo in ProgressManager.Instance.RecordsCombo)
+        {
+            if (combo.elementConditions.Count > 0 || combo.mixedConditions.Count > 0) CreateRecord().Initialize(combo);
+        }
     }
 
     public void ShowRankCombos()
     {
         ClearRecords();
         
-        Debug.Log("ShowRankCombos");
+        foreach (var comboombo in ProgressManager.Instance.RecordsCombo)
+        {
+            if (comboombo.rankConditions.Count > 0) CreateRecord().Initialize(comboombo);
+        }
     }
 
     public void ShowSpecialCombos()
     {
         ClearRecords();
         
-        Debug.Log("ShowSpecialCombos");
+        foreach (var comboombo in ProgressManager.Instance.RecordsCombo)
+        {
+            if (comboombo.specificConditions.Count > 0) CreateRecord().Initialize(comboombo);
+        }
     }
     
     public void ShowEnemies()

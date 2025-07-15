@@ -16,7 +16,7 @@ namespace Base.UI
             returnButton.onClick.AddListener(OnReturnButtonClick);      
             currentTeamPanel.UpdateTeamPanel();
             heroesPanel.UpdateMobPanel(ProgressManager.Instance.AvailableHeroes);
-            mobsPanel.UpdateMobPanel(ProgressManager.Instance.AvailableMobs);
+            mobsPanel.UpdateMobPanel(ProgressManager.Instance.AvailableAllies);
         }
 
         protected override void OnReturnButtonClick()
@@ -27,7 +27,7 @@ namespace Base.UI
                 if (element.MData) ProgressManager.Instance.CurrentTeam.Add(element.MData);
             }
             
-            if (!ProgressManager.Instance.CheckIfTeamIsFull()) return;
+            if (!BaseManager.Instance.CheckIfTeamIsFull()) return;
             
             base.OnReturnButtonClick();
         }

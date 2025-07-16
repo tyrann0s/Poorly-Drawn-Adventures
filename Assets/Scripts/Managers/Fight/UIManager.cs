@@ -6,26 +6,8 @@ using UnityEngine.UI;
 
 namespace Managers
 {
-    public class UIManager : MonoBehaviour
+    public class UIManager : MonoBehaviour, IManager
     {
-        private static UIManager instance;
-        public static UIManager Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = FindFirstObjectByType<UIManager>();
-                    if (instance == null)
-                    {
-                        GameObject go = new GameObject("UI Manager");
-                        instance = go.AddComponent<UIManager>();
-                    }
-                }
-                return instance;
-            }
-        }
-
         [SerializeField]
         private PopUpPanel gameEndPanel;
 
@@ -49,8 +31,8 @@ namespace Managers
         [SerializeField] private Text coinsText;
     
         public UISounds UISounds { get; private set; }
-
-        private void Start()
+        
+        public void Initialize()
         {
             UISounds = GetComponentInChildren<UISounds>();
             changeCardButtonText = changeCardButton.GetComponentInChildren<Text>();

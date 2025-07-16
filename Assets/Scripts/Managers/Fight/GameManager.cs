@@ -24,27 +24,9 @@ namespace Managers
         Lose
     }
     
-    public class GameManager : MonoBehaviour
+    public class GameManager : MonoBehaviour, IManager
     {
-        private static GameManager instance;
-        public static GameManager Instance
-        {
-            get
-            {
-                if (!instance)
-                {
-                    instance = FindFirstObjectByType<GameManager>();
-                    if (!instance)
-                    {
-                        GameObject go = new GameObject("GameManager");
-                        instance = go.AddComponent<GameManager>();
-                    }
-                }
-                return instance;
-            }
-        }
-        
-        public Level CurrentLevel { get; private set; }
+        public Level CurrentLevel { get; set; }
 
         public bool ControlLock { get; set; }
         public SelectingState SelectingState { get; set; }
@@ -54,55 +36,44 @@ namespace Managers
         public int CurrentCoins { get; set; }
 
         private IEnumerator calmMusicCoroutine;
-
-        private void Awake()
+        
+        public void Initialize()
         {
-            if (instance != null && instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            instance = this;
-            CurrentLevel = ProgressManager.Instance.LevelToLoad;
-        }
-
-        private void Start()
-        {
+            if (!CurrentLevel) CurrentLevel = ProgressManager.Instance.LevelToLoad;
             PreparationPhase();
         }
 
         public void PreparationPhase()
         {
             CurrentPhase = GamePhase.Prepare;
-            UIManager.Instance.ShowAssignActionsButton();
-            calmMusicCoroutine = MusicManager.Instance.FadeTrackToZero(MusicManager.Instance.Calm);
-            MusicManager.Instance.StartCalmMusic();
+            ServiceLocator.Get<UIManager>().ShowAssignActionsButton();
+            calmMusicCoroutine = ServiceLocator.Get<MusicManager>().FadeTrackToZero(ServiceLocator.Get<MusicManager>().Calm);
+            ServiceLocator.Get<MusicManager>().StartCalmMusic();
 
             ResetMobs();
-            CardPanel.Instance.ResetRound();
-            CardPanel.Instance.GenereteCards(false);
-            UIManager.Instance.ShowChangeCardsButton();
+            ServiceLocator.Get<CardPanel>().ResetRound();
+            ServiceLocator.Get<CardPanel>().GenereteCards(false);
+            ServiceLocator.Get<UIManager>().ShowChangeCardsButton();
         }
 
         public void AssignActionsPhase()
         {
             CurrentPhase = GamePhase.AssignActions;
-            CardPanel.Instance.StopChangeMode();
-            UIManager.Instance.HideChangeCardsButton();
-            UIManager.Instance.HideAssignActionsButton();
+            ServiceLocator.Get<CardPanel>().StopChangeMode();
+            ServiceLocator.Get<UIManager>().HideChangeCardsButton();
+            ServiceLocator.Get<UIManager>().HideAssignActionsButton();
         }
 
         public void ReadyToFight()
         {
-            if (MobManager.Instance.PlayerMobs == null || MobManager.Instance.PlayerMobs.Count == 0)
+            if (ServiceLocator.Get<MobManager>().PlayerMobs == null || ServiceLocator.Get<MobManager>().PlayerMobs.Count == 0)
             {
                 Debug.LogError("No player mobs available!");
                 return;
             }
             
             bool allActionsAssigned = true;
-            foreach (Mob mob in MobManager.Instance.PlayerMobs)
+            foreach (Mob mob in ServiceLocator.Get<MobManager>().PlayerMobs)
             {
                 if (mob.State == MobState.Idle)
                 {
@@ -122,24 +93,24 @@ namespace Managers
                 StartCoroutine(calmMusicCoroutine);
             }
 
-            UIManager.Instance.ShowStartBattleButton();
+            ServiceLocator.Get<UIManager>().ShowStartBattleButton();
         }
 
         public void StartFight()
         {
             CurrentPhase = GamePhase.Fight;
-            UIManager.Instance.HideStartBattleButton();
-            QueueManager.Instance.CreateQueue();
-            QueueManager.Instance.RunQueue();
-            MusicManager.Instance.StartBattleMusic();
+            ServiceLocator.Get<UIManager>().HideStartBattleButton();
+            ServiceLocator.Get<QueueManager>().CreateQueue();
+            ServiceLocator.Get<QueueManager>().RunQueue();
+            ServiceLocator.Get<MusicManager>().StartBattleMusic();
         }
 
         public void EndFight()
         {
-            if (MusicManager.Instance) StartCoroutine(MusicManager.Instance.FadeTrackToZero(MusicManager.Instance.Battle));
+            if (ServiceLocator.Get<MusicManager>()) StartCoroutine(ServiceLocator.Get<MusicManager>().FadeTrackToZero(ServiceLocator.Get<MusicManager>().Battle));
             
-            QueueManager.Instance.StopQueue();
-            foreach (Mob mob in MobManager.Instance.PlayerMobs)
+            ServiceLocator.Get<QueueManager>().StopQueue();
+            foreach (Mob mob in ServiceLocator.Get<MobManager>().PlayerMobs)
             { 
                 if (!mob.MobMovement.IsOnOriginPosition()) mob.MobMovement.GoToOriginPosition(false);
                 
@@ -149,7 +120,7 @@ namespace Managers
                 mob.UI.HideShield();
             }
 
-            foreach (Mob mob in MobManager.Instance.EnemyMobs)
+            foreach (Mob mob in ServiceLocator.Get<MobManager>().EnemyMobs)
             {
                 mob.State = MobState.Idle;
                 mob.MobStatusEffects.UpdateEffectsDuration();
@@ -163,12 +134,12 @@ namespace Managers
 
         public void ResetMobs()
         {
-            foreach (Mob mob in MobManager.Instance.PlayerMobs)
+            foreach (Mob mob in ServiceLocator.Get<MobManager>().PlayerMobs)
             {
                 mob.State = MobState.Idle;
             }
 
-            foreach (Mob mob in MobManager.Instance.EnemyMobs)
+            foreach (Mob mob in ServiceLocator.Get<MobManager>().EnemyMobs)
             {
                 mob.State = MobState.Idle;
             }
@@ -176,24 +147,24 @@ namespace Managers
 
         public void CheckWinCondition()
         {
-            if (MobManager.Instance.EnemyMobs.Count <= 0)
+            if (ServiceLocator.Get<MobManager>().EnemyMobs.Count <= 0)
             {
-                if (MobManager.Instance.CurrentWave < MobManager.Instance.MaxWaves - 1)
+                if (ServiceLocator.Get<MobManager>().CurrentWave < ServiceLocator.Get<MobManager>().MaxWaves - 1)
                 {
                     //DOTween.KillAll();
                     CurrentCoins += CurrentLevel.coinsForWave;
-                    UIManager.Instance.UpdateCoins(CurrentCoins);
-                    MobManager.Instance.CurrentWave++;
-                    MobManager.Instance.SpawnNextWave();
+                    ServiceLocator.Get<UIManager>().UpdateCoins(CurrentCoins);
+                    ServiceLocator.Get<MobManager>().CurrentWave++;
+                    ServiceLocator.Get<MobManager>().SpawnNextWave();
                     EndFight();
                     return;
                 }
 
-                MobManager.Instance.SpawnBoss();
+                ServiceLocator.Get<MobManager>().SpawnBoss();
                 return;
             }
 
-            if (MobManager.Instance.PlayerMobs.Count <= 0)
+            if (ServiceLocator.Get<MobManager>().PlayerMobs.Count <= 0)
             {
                 Lose();
             }
@@ -201,10 +172,10 @@ namespace Managers
 
         public void Win()
         {
-            MusicManager.Instance.StartWinMusic();
+            ServiceLocator.Get<MusicManager>().StartWinMusic();
             CurrentPhase = GamePhase.Win;
-            UIManager.Instance.GameEndScreen();
-            UIManager.Instance.ShowGameEndPanel("VICTORY!");
+            ServiceLocator.Get<UIManager>().GameEndScreen();
+            ServiceLocator.Get<UIManager>().ShowGameEndPanel("VICTORY!");
             
             ProgressManager.Instance.Coins += CurrentCoins;
             ProgressManager.Instance.UnlockAlly(CurrentLevel.rewardMob);
@@ -214,10 +185,10 @@ namespace Managers
 
         public void Lose()
         {
-            MusicManager.Instance.StartLoseMusic();
+            ServiceLocator.Get<MusicManager>().StartLoseMusic();
             CurrentPhase = GamePhase.Lose;
-            UIManager.Instance.GameEndScreen();
-            UIManager.Instance.ShowGameEndPanel("DEFEAT!");
+            ServiceLocator.Get<UIManager>().GameEndScreen();
+            ServiceLocator.Get<UIManager>().ShowGameEndPanel("DEFEAT!");
         }
 
         public void BackToBase()

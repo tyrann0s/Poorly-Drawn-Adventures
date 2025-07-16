@@ -18,7 +18,7 @@ namespace Base.UI
 
         protected virtual void OnReturnButtonClick()
         {
-            BaseManager.Instance.ShowMainScreen();
+            ServiceLocator.Get<BaseManager>().ShowMainScreen();
         }
         
         protected abstract void UpdateScreen();

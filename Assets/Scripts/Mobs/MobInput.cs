@@ -10,18 +10,18 @@ namespace Mobs
         private void OnMouseEnter()
         {
             if (!ParentMob.IsHostile &&
-                !GameManager.Instance.ControlLock &&
+                !ServiceLocator.Get<GameManager>().ControlLock &&
                 ParentMob.State == MobState.Idle &&
-                GameManager.Instance.CurrentPhase == GamePhase.AssignActions)
+                ServiceLocator.Get<GameManager>().CurrentPhase == GamePhase.AssignActions)
             {
                 if (ParentMob.UI.MobCursor)
                 {
                     ParentMob.UI.MobCursor.Show();
-                    UIManager.Instance.UISounds.ButtonHover();
+                    ServiceLocator.Get<UIManager>().UISounds.ButtonHover();
                 }
             }
 
-            if (ParentMob.IsHostile && GameManager.Instance.SelectingState == SelectingState.Enemy)
+            if (ParentMob.IsHostile && ServiceLocator.Get<GameManager>().SelectingState == SelectingState.Enemy)
             {
                 ParentMob.UI.MobCursor.ZoomIn();
             }
@@ -29,12 +29,12 @@ namespace Mobs
 
         private void OnMouseExit()
         {
-            if (!ParentMob.IsHostile && ParentMob.State == MobState.Idle && GameManager.Instance.CurrentPhase == GamePhase.AssignActions)
+            if (!ParentMob.IsHostile && ParentMob.State == MobState.Idle && ServiceLocator.Get<GameManager>().CurrentPhase == GamePhase.AssignActions)
             {
                 ParentMob.UI.MobCursor.Hide();
             }
 
-            if (ParentMob.IsHostile && GameManager.Instance.SelectingState == SelectingState.Enemy)
+            if (ParentMob.IsHostile && ServiceLocator.Get<GameManager>().SelectingState == SelectingState.Enemy)
             {
                 ParentMob.UI.MobCursor.ZoomOut();
             }
@@ -44,7 +44,7 @@ namespace Mobs
         {
             if (Input.GetMouseButtonUp(0))
             {
-                if (ParentMob.State == MobState.Idle && !ParentMob.IsHostile && !GameManager.Instance.ControlLock && GameManager.Instance.CurrentPhase == GamePhase.AssignActions)
+                if (ParentMob.State == MobState.Idle && !ParentMob.IsHostile && !ServiceLocator.Get<GameManager>().ControlLock && ServiceLocator.Get<GameManager>().CurrentPhase == GamePhase.AssignActions)
                 {
                     if (ParentMob.State == MobState.Activated)
                     {
@@ -58,18 +58,18 @@ namespace Mobs
 
                 // Выбираем врагов
                 if (ParentMob.IsHostile 
-                    && GameManager.Instance.ControlLock
-                    && GameManager.Instance.SelectingState == SelectingState.Enemy
-                    && GameManager.Instance.PickingMob.CurrentAction.Targets.Count < GameManager.Instance.PickingMob.MobData.MaxTargets)
+                    && ServiceLocator.Get<GameManager>().ControlLock
+                    && ServiceLocator.Get<GameManager>().SelectingState == SelectingState.Enemy
+                    && ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.Targets.Count < ServiceLocator.Get<GameManager>().PickingMob.MobData.MaxTargets)
                 {
                     PickEnemyMob();
                 }
                 
                 // Выбираем союзников
                 if (!ParentMob.IsHostile 
-                    && GameManager.Instance.ControlLock
-                    && GameManager.Instance.SelectingState == SelectingState.Player
-                    && GameManager.Instance.PickingMob.CurrentAction.Targets.Count < GameManager.Instance.PickingMob.MobData.MaxTargets)
+                    && ServiceLocator.Get<GameManager>().ControlLock
+                    && ServiceLocator.Get<GameManager>().SelectingState == SelectingState.Player
+                    && ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.Targets.Count < ServiceLocator.Get<GameManager>().PickingMob.MobData.MaxTargets)
                 {
                     PickPlayerMob();
                 }
@@ -79,40 +79,40 @@ namespace Mobs
         private void PickEnemyMob()
         {
             ParentMob.UI.MobCursor.PickTarget();
-            GameManager.Instance.PickingMob.CurrentAction.Targets.Add(ParentMob);
-            if (GameManager.Instance.PickingMob.CurrentAction.MobActionType == ActionType.Attack)
+            ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.Targets.Add(ParentMob);
+            if (ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.MobActionType == ActionType.Attack)
             {
-                CompletePicking(MobManager.Instance.EnemyMobs);
+                CompletePicking(ServiceLocator.Get<MobManager>().EnemyMobs);
                 return;
             }
             
-            if (GameManager.Instance.PickingMob.CurrentAction.Targets.Count < GameManager.Instance.PickingMob.MobData.MaxTargets) return;
-            CompletePicking(MobManager.Instance.EnemyMobs);
+            if (ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.Targets.Count < ServiceLocator.Get<GameManager>().PickingMob.MobData.MaxTargets) return;
+            CompletePicking(ServiceLocator.Get<MobManager>().EnemyMobs);
         }
 
         private void PickPlayerMob()
         {
             ParentMob.UI.MobCursor.PickTarget();
-            GameManager.Instance.PickingMob.CurrentAction.Targets.Add(ParentMob);
+            ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.Targets.Add(ParentMob);
             
-            if (GameManager.Instance.PickingMob.CurrentAction.Targets.Count < GameManager.Instance.PickingMob.MobData.MaxTargets) return;
+            if (ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.Targets.Count < ServiceLocator.Get<GameManager>().PickingMob.MobData.MaxTargets) return;
             
-            CompletePicking(MobManager.Instance.PlayerMobs);
+            CompletePicking(ServiceLocator.Get<MobManager>().PlayerMobs);
         }
 
         private void CompletePicking(List<Mob> mobList)
         {
-            GameManager.Instance.PickingMob.MobActions.ActionPrepared();
-            GameManager.Instance.PickingMob.Deactivate();
-            GameManager.Instance.PickingMob.CurrentCombo = CardPanel.Instance.GetCombo();
+            ServiceLocator.Get<GameManager>().PickingMob.MobActions.ActionPrepared();
+            ServiceLocator.Get<GameManager>().PickingMob.Deactivate();
+            ServiceLocator.Get<GameManager>().PickingMob.CurrentCombo = ServiceLocator.Get<CardPanel>().GetCombo();
                 
             foreach (Mob mob in mobList)
             {
                 if (mob != ParentMob) mob.Deactivate();
             }
-            GameManager.Instance.ControlLock = false;
-            GameManager.Instance.SelectingState = SelectingState.None;
-            CardPanel.Instance.DisableInteraction();
+            ServiceLocator.Get<GameManager>().ControlLock = false;
+            ServiceLocator.Get<GameManager>().SelectingState = SelectingState.None;
+            ServiceLocator.Get<CardPanel>().DisableInteraction();
         }
     }
 }

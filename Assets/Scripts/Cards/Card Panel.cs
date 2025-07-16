@@ -6,26 +6,8 @@ using Managers.Base;
 
 namespace Cards
 {
-    public class CardPanel : MonoBehaviour
+    public class CardPanel : MonoBehaviour, IManager
     {
-        private static CardPanel instance;
-        public static CardPanel Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = FindFirstObjectByType<CardPanel>();
-                    if (instance == null)
-                    {
-                        GameObject go = new GameObject("CardPanel");
-                        instance = go.AddComponent<CardPanel>();
-                    }
-                }
-                return instance;
-            }
-        }
-        
         [SerializeField]
         private GameObject cardPrefab;
 
@@ -48,19 +30,8 @@ namespace Cards
         public int ChangeIndex { get; private set; }
         private int changesMadeThisRound;
         private const int MaxChangesPerRound = 1; // Максимальное количество изменений за раунд
-
-        private void Awake()
-        {
-            if (instance != null && instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            instance = this;
-        }
-
-        private void Start()
+        
+        public void Initialize()
         {
             if (!cardPrefab)
             {
@@ -179,7 +150,7 @@ namespace Cards
                 EnableInteraction();
             }
             
-            UIManager.Instance.SetChangeCardButtonText(!CardChangeMode);
+            ServiceLocator.Get<UIManager>().SetChangeCardButtonText(!CardChangeMode);
         }
 
         public void StopChangeMode()
@@ -187,9 +158,9 @@ namespace Cards
             CardChangeMode = false;
             ChangeIndex = 0;
             DisableInteraction();
-            UIManager.Instance.HideConfirmChangeButton();
-            UIManager.Instance.HideChangeCardsButton();
-            UIManager.Instance.SetChangeCardButtonText(CardChangeMode);
+            ServiceLocator.Get<UIManager>().HideConfirmChangeButton();
+            ServiceLocator.Get<UIManager>().HideChangeCardsButton();
+            ServiceLocator.Get<UIManager>().SetChangeCardButtonText(CardChangeMode);
         }
 
         public void IncreaseCardsForChange()
@@ -197,7 +168,7 @@ namespace Cards
             if (ChangeIndex < 2)
             {
                 ChangeIndex++;
-                UIManager.Instance.ShowConfirmChangeButton();
+                ServiceLocator.Get<UIManager>().ShowConfirmChangeButton();
             }
         }
 
@@ -208,7 +179,7 @@ namespace Cards
                 ChangeIndex--;
                 if (ChangeIndex == 0)
                 {
-                    UIManager.Instance.HideConfirmChangeButton();
+                    ServiceLocator.Get<UIManager>().HideConfirmChangeButton();
                 }
             }
         }
@@ -229,14 +200,14 @@ namespace Cards
             DeleteCards();
             GenereteCards(true);
             
-            UIManager.Instance.HideConfirmChangeButton();
-            UIManager.Instance.HideChangeCardsButton();
+            ServiceLocator.Get<UIManager>().HideConfirmChangeButton();
+            ServiceLocator.Get<UIManager>().HideChangeCardsButton();
             DisableInteraction();
             ResetCardState();
             changesMadeThisRound++;
         
             // Сбрасываем ControlLock и  после изменения карт
-            GameManager.Instance.ControlLock = false;
+            ServiceLocator.Get<GameManager>().ControlLock = false;
         }
 
         public void ResetRound()
@@ -245,7 +216,7 @@ namespace Cards
             CardChangeMode = false;
             ChangeIndex = 0;
             DisableInteraction();
-            UIManager.Instance.ShowChangeCardsButton();
+            ServiceLocator.Get<UIManager>().ShowChangeCardsButton();
         }
 
         private void ResetCardState()
@@ -270,7 +241,7 @@ namespace Cards
             var pickedCards = Cards.Where(card => card != null && card.IsPicked).ToList();
             CurrentCombination = combinationSystem.CheckCombination(pickedCards);
 
-            if (ProgressManager.Instance.RecordsCombo.Contains(CurrentCombination)) UIManager.Instance.ShowCombination(CurrentCombination);
+            if (ProgressManager.Instance.RecordsCombo.Contains(CurrentCombination)) ServiceLocator.Get<UIManager>().ShowCombination(CurrentCombination);
         }
 
         public ElementCombo GetCombo()

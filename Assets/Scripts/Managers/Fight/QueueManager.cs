@@ -9,39 +9,9 @@ namespace Managers
 {
     public class QueueManager : MonoBehaviour
     {
-        private static QueueManager instance;
-        public static QueueManager Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = FindFirstObjectByType<QueueManager>();
-                    if (instance == null)
-                    {
-                        GameObject go = new GameObject("Queue Manager");
-                        instance = go.AddComponent<QueueManager>();
-                    }
-                }
-
-                return instance;
-            }
-        }
-        
         private List<MobAction> actionList = new List<MobAction>();
 
         private int currentActionIndex;
-
-        private void Awake()
-        {
-            if (instance != null && instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            instance = this;
-        }
 
         public void CreateQueue()
         {
@@ -50,43 +20,43 @@ namespace Managers
             GenerateEnemyActions();
 
             // Фаза защиты
-            actionList.AddRange(GetDefenseActions(MobManager.Instance.PlayerMobs));
-            actionList.AddRange(GetDefenseActions(MobManager.Instance.EnemyMobs));
+            actionList.AddRange(GetDefenseActions(ServiceLocator.Get<MobManager>().PlayerMobs));
+            actionList.AddRange(GetDefenseActions(ServiceLocator.Get<MobManager>().EnemyMobs));
 
             // Фаза скиллов поддержки
-            actionList.AddRange(GetSupportActions(MobManager.Instance.PlayerMobs));
-            actionList.AddRange(GetSupportActions(MobManager.Instance.EnemyMobs));
+            actionList.AddRange(GetSupportActions(ServiceLocator.Get<MobManager>().PlayerMobs));
+            actionList.AddRange(GetSupportActions(ServiceLocator.Get<MobManager>().EnemyMobs));
             
             // Фаза атаки
-            actionList.AddRange(GetAttackActions(MobManager.Instance.PlayerMobs));
-            actionList.AddRange(GetAttackActions(MobManager.Instance.EnemyMobs));
+            actionList.AddRange(GetAttackActions(ServiceLocator.Get<MobManager>().PlayerMobs));
+            actionList.AddRange(GetAttackActions(ServiceLocator.Get<MobManager>().EnemyMobs));
 
             // Фаза пропуска хода
-            actionList.AddRange(GetSkipTurnActions(MobManager.Instance.PlayerMobs));
-            actionList.AddRange(GetSkipTurnActions(MobManager.Instance.EnemyMobs));
+            actionList.AddRange(GetSkipTurnActions(ServiceLocator.Get<MobManager>().PlayerMobs));
+            actionList.AddRange(GetSkipTurnActions(ServiceLocator.Get<MobManager>().EnemyMobs));
         }
 
         private void GenerateEnemyActions()
         {
-            if (!GameManager.Instance)
+            if (!ServiceLocator.Get<GameManager>())
             {
                 Debug.LogError("Game Manager is null!");
                 return;
             }
 
-            if (MobManager.Instance.EnemyMobs == null)
+            if (ServiceLocator.Get<MobManager>().EnemyMobs == null)
             {
                 Debug.LogError("EnemyMobs list is null!");
                 return;
             }
 
-            if (MobManager.Instance.PlayerMobs == null)
+            if (ServiceLocator.Get<MobManager>().PlayerMobs == null)
             {
                 Debug.LogError("PlayerMobs list is null!");
                 return;
             }
 
-            foreach (Mob mob in MobManager.Instance.EnemyMobs)
+            foreach (Mob mob in ServiceLocator.Get<MobManager>().EnemyMobs)
             {
                 if (!mob || mob.State == MobState.Dead) continue;
 
@@ -101,10 +71,10 @@ namespace Managers
                 {
                     if (mob.CurrentAction.MobActionType is ActionType.Attack or ActionType.Skill)
                     {
-                        if (MobManager.Instance.PlayerMobs.Count > 0)
+                        if (ServiceLocator.Get<MobManager>().PlayerMobs.Count > 0)
                         {
-                            int randMob = UnityEngine.Random.Range(0, MobManager.Instance.PlayerMobs.Count);
-                            mob.CurrentAction.Targets.Add(MobManager.Instance.PlayerMobs[randMob]); 
+                            int randMob = UnityEngine.Random.Range(0, ServiceLocator.Get<MobManager>().PlayerMobs.Count);
+                            mob.CurrentAction.Targets.Add(ServiceLocator.Get<MobManager>().PlayerMobs[randMob]); 
                         }
                     }
                 }
@@ -243,14 +213,14 @@ namespace Managers
 
             if (currentActionIndex >= actionList.Count)
             {
-                GameManager.Instance.EndFight();
+                ServiceLocator.Get<GameManager>().EndFight();
             }
             else PerformAction(actionList[currentActionIndex]);
         }
 
         private void PerformAction(MobAction action)
         {
-            if (GameManager.Instance.CurrentPhase != GamePhase.Fight) return;
+            if (ServiceLocator.Get<GameManager>().CurrentPhase != GamePhase.Fight) return;
             
             if (action == null || !action.MobInstance)
             {

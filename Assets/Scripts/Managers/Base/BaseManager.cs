@@ -1,26 +1,15 @@
+using System.Threading.Tasks;
 using Base.UI;
 using UnityEngine;
 
 namespace Managers.Base
 {
-    public class BaseManager : MonoBehaviour
+    public class BaseManager : MonoBehaviour, IManager
     {
-        public static BaseManager Instance { get; private set; }
-        
         [SerializeField] private BaseScreen screenMain, screenMap, screenHub;
         [SerializeField] private CoinsPanel coinsPanel;
-        
-        private void Awake()
-        {
-            if (Instance && Instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-            Instance = this;
-        }
 
-        private void Start()
+        public void Initialize()
         {
             ShowMainScreen();
             UpdateCoinsPanel(ProgressManager.Instance.Coins.ToString());

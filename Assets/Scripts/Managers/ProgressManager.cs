@@ -1,18 +1,20 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cards;
 using Levels;
 using Mobs;
 using UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace Managers.Base
+namespace Managers
 {
-    public class ProgressManager : MonoBehaviour
+    public class ProgressManager : MonoBehaviour, IService
     {
         public static ProgressManager Instance { get; private set; }
 
-        [SerializeField] private MobData defaultMob;
+        public MobData DefaultMob { get; set; }
         
         public int Coins { get; set; }
         public List<MobData> CurrentTeam { get; set; } = new();
@@ -37,9 +39,13 @@ namespace Managers.Base
             
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            
+        }
+        
+        public Task InitializeAsync()
+        {
             SaveSystem.Instance.LoadGame();
-            if (!AvailableAllies.Contains(defaultMob)) UnlockAlly(defaultMob);
+            if (!AvailableAllies.Contains(DefaultMob)) UnlockAlly(DefaultMob);
+            return Task.CompletedTask;
         }
         
         public void UnlockHero(MobData mobData)

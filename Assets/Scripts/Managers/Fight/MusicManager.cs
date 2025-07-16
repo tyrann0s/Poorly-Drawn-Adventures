@@ -5,24 +5,6 @@ namespace Managers
 {
     public class MusicManager : MonoBehaviour
     {
-        private static MusicManager instance;
-        public static MusicManager Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = FindFirstObjectByType<MusicManager>();
-                    if (instance == null)
-                    {
-                        GameObject go = new GameObject("Music Manager");
-                        instance = go.AddComponent<MusicManager>();
-                    }
-                }
-                return instance;
-            }
-        }
-    
         [SerializeField]
         private AudioSource calm, battle, win, lose;
         public AudioSource Calm => calm;
@@ -37,14 +19,6 @@ namespace Managers
 
         private void Awake()
         {
-            if (instance != null && instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            instance = this;
-        
             calmVolume = calm.volume;
             battleVolume = battle.volume;
             winVolume = win.volume;

@@ -83,12 +83,12 @@ namespace Mobs
 
         public void ShowTargetCursor()
         {
-            switch (GameManager.Instance.SelectingState)
+            switch (ServiceLocator.Get<GameManager>().SelectingState)
             {
                 case SelectingState.None:
                     break;
                 case SelectingState.Enemy:
-                    foreach (Mob mob in MobManager.Instance.EnemyMobs)
+                    foreach (Mob mob in ServiceLocator.Get<MobManager>().EnemyMobs)
                     {
                         if (!mob || !mob.IsHostile || mob.State == MobState.Dead)
                             continue;
@@ -104,19 +104,17 @@ namespace Mobs
                     }
                     break;
                 case SelectingState.Player:
-                    foreach (Mob mob in MobManager.Instance.PlayerMobs)
+                    foreach (Mob mob in ServiceLocator.Get<MobManager>().PlayerMobs)
                     {
                         if (!mob || mob.IsHostile || mob.State == MobState.Dead)
                             continue;
 
-                        if (mob.UI && mob.UI.MobCursor && mob != GameManager.Instance.ActivatedMob)
+                        if (mob.UI && mob.UI.MobCursor && mob != ServiceLocator.Get<GameManager>().ActivatedMob)
                         {
                             mob.UI.MobCursor.ShowTarget();
                         }
                     }
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(GameManager.Instance.SelectingState), GameManager.Instance.SelectingState, null);
             }
         }
 

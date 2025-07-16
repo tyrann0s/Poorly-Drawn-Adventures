@@ -38,12 +38,12 @@ public class PopUpPanel : MonoBehaviour
 
     private void ControlLockOn()
     {
-        GameManager.Instance.ControlLock = true;
+        ServiceLocator.Get<GameManager>().ControlLock = true;
     }
 
     private void ControlLockOff()
     {
-        GameManager.Instance.ControlLock = false;
+        ServiceLocator.Get<GameManager>().ControlLock = false;
     }
     
     private void OnDestroy()

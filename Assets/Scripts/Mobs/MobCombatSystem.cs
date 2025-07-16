@@ -17,7 +17,7 @@ namespace Mobs
 
             if (enemyCombo && enemyCombo.aoeAttack)
             {
-                var mobsToDamage = MobManager.Instance.EnemyMobs.ToList();
+                var mobsToDamage = ServiceLocator.Get<MobManager>().EnemyMobs.ToList();
                 foreach (var enemyMob in mobsToDamage)
                 {
                     enemyMob.MobCombatSystem.ApplyDamage(damage, enemyCombo);
@@ -188,7 +188,7 @@ namespace Mobs
                 ParentMob.UI.MobDeath();
             }
 
-            MobManager.Instance.MobDied(ParentMob);
+            ServiceLocator.Get<MobManager>().MobDied(ParentMob);
             ParentMob.AnimationController.PlayDie_Animation();
             ParentMob.MobVFX.PlayDeathVFX();
         }

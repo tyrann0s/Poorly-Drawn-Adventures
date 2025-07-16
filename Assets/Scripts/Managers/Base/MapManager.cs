@@ -1,27 +1,11 @@
-using System;
-using System.Collections.Generic;
 using Hub;
-using Managers.Base;
 using UnityEngine;
 
 namespace Managers.Hub
 {
     public class MapManager : MonoBehaviour
     {
-        public static MapManager Instance { get; private set; }
-
         [SerializeField] private GameObject levels;
-
-        private void Awake()
-        {
-            if (Instance && Instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            Instance = this;
-        }
 
         private void Start()
         {

@@ -7,26 +7,8 @@ using UnityEngine;
 
 namespace Managers
 {
-    public class MobManager : MonoBehaviour
+    public class MobManager : MonoBehaviour, IManager
     {
-        private static MobManager instance;
-        public static MobManager Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = FindFirstObjectByType<MobManager>();
-                    if (instance == null)
-                    {
-                        GameObject go = new GameObject("Mob Manager");
-                        instance = go.AddComponent<MobManager>();
-                    }
-                }
-                return instance;
-            }
-        }
-        
         public int CurrentWave { get; set; }
         public int MaxWaves { get; set; }
 
@@ -36,21 +18,10 @@ namespace Managers
         public List<Mob> PlayerMobs { get; set; } = new ();
         public List<Mob> EnemyMobs { get; set; } = new ();
         
-        private void Awake()
-        {
-            if (instance && instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            instance = this;
-        }
-
-        private void Start()
+        public void Initialize()
         {
             // Готовим спавнеры мобов
-            MaxWaves = GameManager.Instance.CurrentLevel.mobWaves.Count;
+            MaxWaves = ServiceLocator.Get<GameManager>().CurrentLevel.mobWaves.Count;
             foreach (var mobSpawner in FindObjectsByType<MobSpawner>(sortMode: FindObjectsSortMode.None)
                          .OrderBy(spawner => spawner.name)
                          .ToList())
@@ -66,7 +37,7 @@ namespace Managers
         public void SpawnNextWave()
         {
             int currentSpawner = 0;
-            foreach (var currentMob in GameManager.Instance.CurrentLevel.mobWaves[CurrentWave].mobs)
+            foreach (var currentMob in ServiceLocator.Get<GameManager>().CurrentLevel.mobWaves[CurrentWave].mobs)
             {
                 AddMob(enemyMobSpawners[currentSpawner].SpawnMob(currentMob.mobPrefab));
                 ProgressManager.Instance.UnlockRecord(currentMob, false, false);
@@ -76,7 +47,7 @@ namespace Managers
 
         public void SpawnBoss()
         {
-            AddMob(enemyMobSpawners[3].SpawnMob(GameManager.Instance.CurrentLevel.boss.mobPrefab));
+            AddMob(enemyMobSpawners[3].SpawnMob(ServiceLocator.Get<GameManager>().CurrentLevel.boss.mobPrefab));
         }
 
         public void SpawnPlayerMobs()
@@ -131,7 +102,7 @@ namespace Managers
 
             if (mob.MobData.Type == MobType.Boss)
             {
-                GameManager.Instance.Win();
+                ServiceLocator.Get<GameManager>().Win();
                 return;
             }
 

@@ -1,29 +1,14 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cards;
 using Mobs;
 using UnityEngine;
 
 namespace Managers
 {
-    public class ResourceManager : MonoBehaviour
+    public class ResourceManager : MonoBehaviour, IService
     {
-        private static ResourceManager instance;
-        public static ResourceManager Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = FindObjectOfType<ResourceManager>();
-                    if (instance == null)
-                    {
-                        GameObject go = new GameObject("ResourceManager");
-                        instance = go.AddComponent<ResourceManager>();
-                    }
-                }
-                return instance;
-            }
-        }
+        public static ResourceManager Instance { get; private set; }
 
         public IconData Icons {get; private set;}
         private Dictionary<string, MobData> mobLookup;
@@ -31,18 +16,24 @@ namespace Managers
 
         private void Awake()
         {
-            if (instance != null && instance != this)
+            if (!Instance)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            
+            } 
+            else if (Instance != this)
             {
                 Destroy(gameObject);
-                return;
             }
-
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-            
+        }
+        
+        public Task InitializeAsync()
+        {
             Icons = Resources.Load<IconData>("Settings/Icons Data");
             CreateMobDB();
             CreateComboDB();
+            return Task.CompletedTask;
         }
         
         private void CreateMobDB()

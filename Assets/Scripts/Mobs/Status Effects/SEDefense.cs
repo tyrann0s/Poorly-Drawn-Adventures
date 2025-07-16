@@ -7,7 +7,7 @@ namespace Mobs.Status_Effects
         public override void ApplyEffect()
         {
             ParentMob.UI.ShowText("Defense!", Color.blue);
-            UIManager.Instance.UISounds.ShieldActivation();
+            ServiceLocator.Get<UIManager>().UISounds.ShieldActivation();
             ParentMob.UI.ShowShield();
         }
     }

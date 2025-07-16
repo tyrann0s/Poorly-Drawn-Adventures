@@ -18,12 +18,12 @@ namespace Base.UI
         
         private void OnHubButtonClick()
         {
-            BaseManager.Instance.ShowHubScreen();
+            ServiceLocator.Get<BaseManager>().ShowHubScreen();
         }
         
         private void OnMapButtonClick()
         {
-            BaseManager.Instance.ShowMapScreen();       
+            ServiceLocator.Get<BaseManager>().ShowMapScreen();       
         }
 
         protected override void UpdateScreen()

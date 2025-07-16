@@ -72,7 +72,7 @@ namespace Mobs
         
         public void Activate()
         {
-            foreach (Mob mob in MobManager.Instance.PlayerMobs)
+            foreach (Mob mob in ServiceLocator.Get<MobManager>().PlayerMobs)
             {
                 if (mob != this)
                 {
@@ -80,7 +80,7 @@ namespace Mobs
                 }
             }
 
-            GameManager.Instance.ActivatedMob = this;
+            ServiceLocator.Get<GameManager>().ActivatedMob = this;
             SoundController.Pick();
             UI.Activate();
             State = MobState.Activated;
@@ -90,7 +90,7 @@ namespace Mobs
         {
             if (State == MobState.Activated) State = MobState.Idle;
             UI.HideUI();
-            //GameManager.Instance.ActivatedMob = null;
+            //ServiceLocator.Get<MobManager>().ActivatedMob = null;
         }
     }
 }

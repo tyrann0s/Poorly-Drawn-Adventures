@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4777938657792303808}
   - component: {fileID: 7666979363742467422}
-  - component: {fileID: 2842493340932694446}
   m_Layer: 0
   m_Name: BaseManagers
   m_TagString: Untagged
@@ -49,16 +48,3 @@ MonoBehaviour:
   screenMap: {fileID: 0}
   screenHub: {fileID: 0}
   coinsPanel: {fileID: 0}
---- !u!114 &2842493340932694446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7094685526759621222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a22ad52810a91145a33b36cf0f31b42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levels: {fileID: 0}

@@ -1,4 +1,5 @@
 using System;
+using Managers;
 using Managers.Base;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,7 +28,7 @@ namespace Base.UI
                 if (element.MData) ProgressManager.Instance.CurrentTeam.Add(element.MData);
             }
             
-            if (!BaseManager.Instance.CheckIfTeamIsFull()) return;
+            if (!ServiceLocator.Get<BaseManager>().CheckIfTeamIsFull()) return;
             
             base.OnReturnButtonClick();
         }

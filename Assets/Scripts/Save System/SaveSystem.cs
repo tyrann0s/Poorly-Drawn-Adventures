@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Cards;
 using Managers;
 using Managers.Base;
 using Mobs;
 using UnityEngine;
 
-public class SaveSystem : MonoBehaviour
+public class SaveSystem : MonoBehaviour, IService
 {
     public static SaveSystem Instance { get; private set; }
     
@@ -16,15 +17,22 @@ public class SaveSystem : MonoBehaviour
     
     private void Awake()
     {
-        if (Instance && Instance != this)
+        if (!Instance)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            
+        } 
+        else if (Instance != this)
         {
             Destroy(gameObject);
-            return;
         }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-        
+    }
+    
+    public Task InitializeAsync()
+    {
         savePath = Path.Combine(Application.dataPath + "/Save", "save.json");
+        return Task.CompletedTask;
     }
     
     public void SaveGame()

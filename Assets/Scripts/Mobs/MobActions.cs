@@ -41,33 +41,33 @@ namespace Mobs
         {
             ParentMob.CurrentAction.MobActionType = action;
             ParentMob.CurrentAction.MobInstance = ParentMob;
-            GameManager.Instance.ControlLock = true;
+            ServiceLocator.Get<GameManager>().ControlLock = true;
 
             switch (action)
             {
                 case ActionType.Attack:
-                    GameManager.Instance.SelectingState = SelectingState.Enemy;
-                    CardPanel.Instance.EnableInteraction();
+                    ServiceLocator.Get<GameManager>().SelectingState = SelectingState.Enemy;
+                    ServiceLocator.Get<CardPanel>().EnableInteraction();
                     break;
                 case ActionType.Skill:
                     switch (ParentMob.MobData.AttackType)
                     {
                         case AttackType.Melee:
-                            GameManager.Instance.SelectingState = SelectingState.Enemy;
-                            CardPanel.Instance.EnableInteraction();
+                            ServiceLocator.Get<GameManager>().SelectingState = SelectingState.Enemy;
+                            ServiceLocator.Get<CardPanel>().EnableInteraction();
                             break;
                         case AttackType.Ranged:
-                            GameManager.Instance.SelectingState = SelectingState.Enemy;
-                            CardPanel.Instance.EnableInteraction();
+                            ServiceLocator.Get<GameManager>().SelectingState = SelectingState.Enemy;
+                            ServiceLocator.Get<CardPanel>().EnableInteraction();
                             break;
                         case AttackType.Heal:
-                            GameManager.Instance.SelectingState = SelectingState.Player;
+                            ServiceLocator.Get<GameManager>().SelectingState = SelectingState.Player;
                             break;
                         case AttackType.UnStun:
-                            GameManager.Instance.SelectingState = SelectingState.Player;
+                            ServiceLocator.Get<GameManager>().SelectingState = SelectingState.Player;
                             break;
                         case AttackType.CastShield:
-                            GameManager.Instance.SelectingState = SelectingState.Player;
+                            ServiceLocator.Get<GameManager>().SelectingState = SelectingState.Player;
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -78,18 +78,18 @@ namespace Mobs
             }
             
             ParentMob.UI.ShowTargetCursor();
-            GameManager.Instance.PickingMob = ParentMob;
+            ServiceLocator.Get<GameManager>().PickingMob = ParentMob;
         }
         
         public void ActionPrepared()
         {
             ParentMob.State = MobState.Ready;
             ParentMob.MobMovement.MoveToRivalPosition();
-            GameManager.Instance.ReadyToFight();
-            UIManager.Instance.UISounds.ActionConfirm();
+            ServiceLocator.Get<GameManager>().ReadyToFight();
+            ServiceLocator.Get<UIManager>().UISounds.ActionConfirm();
 
-            CardPanel.Instance.DisableInteraction();
-            CardPanel.Instance.DeleteCards();
+            ServiceLocator.Get<CardPanel>().DisableInteraction();
+            ServiceLocator.Get<CardPanel>().DeleteCards();
             
             Debug.Log($"Action {ParentMob.CurrentAction.MobActionType} is prepared {ParentMob} is {ParentMob.State}");
         }
@@ -99,7 +99,7 @@ namespace Mobs
             ParentMob.UI.ShowText("+" + ParentMob.StaminaRestoreAmount + " stamina!", Color.green);
             ParentMob.MobStamina += ParentMob.StaminaRestoreAmount;
             if (ParentMob.MobStamina > ParentMob.MobData.MaxStamina) ParentMob.MobStamina = ParentMob.MobData.MaxStamina;
-            QueueManager.Instance.NextAction();
+            ServiceLocator.Get<QueueManager>().NextAction();
         }
 
         public void PerformDefense()
@@ -181,7 +181,7 @@ namespace Mobs
             ParentMob.MobMovement.GoToOriginPosition(true);
 
             yield return new WaitForSeconds(1);
-            QueueManager.Instance.NextAction();
+            ServiceLocator.Get<QueueManager>().NextAction();
         }
 
         private IEnumerator SkillCoroutine(float damage, float cost)
@@ -207,7 +207,7 @@ namespace Mobs
             ParentMob.MobMovement.GoToOriginPosition(true);
 
             yield return new WaitForSeconds(1);
-            QueueManager.Instance.NextAction();
+            ServiceLocator.Get<QueueManager>().NextAction();
         }
 
         private IEnumerator DefenseCoroutine()
@@ -216,7 +216,7 @@ namespace Mobs
             ParentMob.MobStatusEffects.AddEffect(ParentMob, StatusEffectType.Defense, 1);
             
             yield return new WaitForSeconds(1);
-            QueueManager.Instance.NextAction();
+            ServiceLocator.Get<QueueManager>().NextAction();
         }
         
         public bool CheckStamina()

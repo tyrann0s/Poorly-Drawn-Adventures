@@ -1,4 +1,5 @@
 using System;
+using Managers;
 using Managers.Base;
 using Mobs;
 using TMPro;
@@ -75,7 +76,7 @@ namespace Base.UI
                 
                 if (element.MData.HireCost <= ProgressManager.Instance.Coins)
                 {
-                    BaseManager.Instance.SpendCoins(element.MData.HireCost);
+                    ServiceLocator.Get<BaseManager>().SpendCoins(element.MData.HireCost);
                     
                     SetUp(element.MData);
 

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Base.UI;
 using Hub.UI;
 using Levels;
+using Managers;
 using Managers.Base;
 using TMPro;
 using UnityEngine;
@@ -40,7 +41,7 @@ namespace Hub
 
         private void OnMouseDown()
         {
-            if (!BaseManager.Instance.CheckIfTeamIsFull()) return;
+            if (!ServiceLocator.Get<BaseManager>().CheckIfTeamIsFull()) return;
             
             SaveSystem.Instance.SaveGame();
             ProgressManager.Instance.LevelToLoad = level;

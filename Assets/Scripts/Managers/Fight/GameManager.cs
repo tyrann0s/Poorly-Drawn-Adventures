@@ -39,7 +39,7 @@ namespace Managers
         
         public void Initialize()
         {
-            if (!CurrentLevel) CurrentLevel = ProgressManager.Instance.LevelToLoad;
+            CurrentLevel = ProgressManager.Instance.LevelToLoad;
             PreparationPhase();
         }
 
@@ -194,7 +194,7 @@ namespace Managers
         public void BackToBase()
         {
             SaveSystem.Instance.SaveGame();
-            FindAnyObjectByType<AdvancedSceneLoader>(FindObjectsInactive.Include).LoadBase();
+            FindAnyObjectByType<LoadingScreen>(FindObjectsInactive.Include).LoadBase();
         }
     }
 }

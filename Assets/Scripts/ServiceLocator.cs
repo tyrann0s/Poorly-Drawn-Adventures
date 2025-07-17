@@ -28,5 +28,6 @@ public static class ServiceLocator
     public static void Clear()
     {
         services.Clear();
+        // Service Locator очищен
     }
 }

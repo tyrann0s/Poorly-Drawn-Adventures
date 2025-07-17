@@ -80,7 +80,7 @@ namespace Mobs
             // Логика атаки с комбо
             if (enemyCombo)
             {
-                ProgressManager.Instance.UnlockRecord(enemyCombo);
+                if (ParentMob.IsHostile) ProgressManager.Instance.UnlockRecord(enemyCombo);
                 
                 Color color;
                 switch (enemyCombo.damageType)
@@ -109,7 +109,7 @@ namespace Mobs
 
                 if (ParentMob.MobData.ImmuneTo == enemyCombo.damageType)
                 {
-                    ProgressManager.Instance.UnlockRecord(ParentMob.MobData, false, true);
+                    if (ParentMob.IsHostile) ProgressManager.Instance.UnlockRecord(ParentMob.MobData, false, true);
                     ParentMob.UI.ShowText("Immune!", Color.white);
                     return;
                 }
@@ -117,7 +117,7 @@ namespace Mobs
                 {
                     if (ParentMob.MobData.VulnerableTo == enemyCombo.damageType)
                     {
-                        ProgressManager.Instance.UnlockRecord(ParentMob.MobData, true, false);
+                        if (ParentMob.IsHostile) ProgressManager.Instance.UnlockRecord(ParentMob.MobData, true, false);
                         resultDamage = damage * (enemyCombo.damageMultiplier * 2f);
                         ParentMob.SoundController.PlayGetDamageSound(true);
                         ParentMob.UI.ShowText("CRITICAL! " + resultDamage, color);
@@ -141,7 +141,7 @@ namespace Mobs
             {
                 if (ParentMob.MobData.ImmuneTo == ElementType.Physical)
                 {
-                    ProgressManager.Instance.UnlockRecord(ParentMob.MobData, false, true);
+                    if (ParentMob.IsHostile) ProgressManager.Instance.UnlockRecord(ParentMob.MobData, false, true);
                     ParentMob.UI.ShowText("Immune!", Color.white);
                     return;
                 }
@@ -149,7 +149,7 @@ namespace Mobs
                 {
                     if (ParentMob.MobData.VulnerableTo == ElementType.Physical)
                     {
-                        ProgressManager.Instance.UnlockRecord(ParentMob.MobData, true, false);
+                        if (ParentMob.IsHostile) ProgressManager.Instance.UnlockRecord(ParentMob.MobData, true, false);
                         resultDamage = damage * 2f;
                         ParentMob.SoundController.PlayGetDamageSound(true);
                         ParentMob.UI.ShowText("CRITICAL! " + resultDamage, Color.white);

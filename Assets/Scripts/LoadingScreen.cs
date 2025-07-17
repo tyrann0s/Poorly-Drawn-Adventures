@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class AdvancedSceneLoader : MonoBehaviour
+public class LoadingScreen : MonoBehaviour
 {
     [Header("UI Elements")] 
     private CanvasGroup loadingCanvasGroup;
@@ -49,6 +49,9 @@ public class AdvancedSceneLoader : MonoBehaviour
 
     private IEnumerator LoadSceneWithTransition(string sceneName)
     {
+        // Чистим Service Locator
+        ServiceLocator.Clear();
+        
         isLoading = true;
         float startTime = Time.time;
         

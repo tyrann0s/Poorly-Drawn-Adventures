@@ -70,6 +70,7 @@ namespace Managers
             if (!Instance.RecordsCombo.Contains(combo))
             {
                 RecordsCombo.Add(combo);
+                RecordsCombo.Sort();
                 OnRecordChanged?.Invoke($"{combo.name} unlocked!");
             }
         }
@@ -90,11 +91,10 @@ namespace Managers
                     else
                     {
                         int index = RecordsMob.FindIndex(x => x.mobData == record.mobData);
-                        if (RecordsMob[index].unlockImmune != record.unlockImmune || RecordsMob[index].unlockVulnerabilty != record.unlockVulnerabilty)
-                        {
-                            RecordsMob[index] = record;  
-                            OnRecordChanged?.Invoke($"{mobData.MobName} changed!");
-                        }
+                        if (!RecordsMob[index].unlockImmune) RecordsMob[index].unlockImmune = immuneTo;
+                        if (!RecordsMob[index].unlockVulnerabilty) RecordsMob[index].unlockVulnerabilty = vulnerableTo;
+                        
+                        OnRecordChanged?.Invoke($"{mobData.MobName} changed!");
                     }
                     break;
                 case MobType.Ally:
@@ -108,6 +108,8 @@ namespace Managers
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            
+            RecordsMob.Sort();
         }
     }
 }

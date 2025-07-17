@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Cards
 {
     [CreateAssetMenu(fileName = "Card Combo", menuName = "Data/Card Combo", order = 2)]
-    public class ElementCombo : ScriptableObject
+    public class ElementCombo : ScriptableObject, IComparable<ElementCombo>
     {
         public List<SpecificCondition> specificConditions = new();
         public List<MixedCondition> mixedConditions = new();
@@ -28,6 +29,12 @@ namespace Cards
         public string GetId()
         {
             return name;
+        }
+
+        public int CompareTo(ElementCombo other)
+        {
+            if (other == null) return 1;
+            return string.Compare(comboName, other.comboName, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

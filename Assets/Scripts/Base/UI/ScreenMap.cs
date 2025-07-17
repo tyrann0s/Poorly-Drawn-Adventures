@@ -9,11 +9,11 @@ namespace Base.UI
     {
         [SerializeField] private Button returnButton;
         [SerializeField] private GameObject sceneLoaderObject;
-        private AdvancedSceneLoader sceneLoader;
+        private LoadingScreen sceneLoader;
 
         private void Start()
         {
-            sceneLoader = sceneLoaderObject.GetComponent<AdvancedSceneLoader>();
+            sceneLoader = sceneLoaderObject.GetComponent<LoadingScreen>();
             returnButton.onClick.AddListener(OnReturnButtonClick);
         }
 

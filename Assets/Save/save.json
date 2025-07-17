@@ -1,18 +1,80 @@
 {
-    "coins": 0,
+    "coins": 300,
     "currentTeam": [
         "PL_Warrior",
-        "PL_Warrior",
-        "PL_Warrior",
         "PL_Warrior"
     ],
-    "heroesUnlocked": [],
+    "heroesUnlocked": [
+        "PL_Oleg"
+    ],
     "mobsUnlocked": [
-        "PL_Warrior"
+        "PL_Warrior",
+        "PL_Archer",
+        "PL_Paladin"
     ],
-    "levelsCleared": [],
-    "recordsCombo": [],
+    "levelsCleared": [
+        "Test 1",
+        "Test 2",
+        "Test 3"
+    ],
+    "recordsCombo": [
+        "Air Pair",
+        "Earth Pair",
+        "Earth Three",
+        "Earth Total",
+        "Fire Pair",
+        "Fire Three",
+        "Rank Pair",
+        "Rank Three",
+        "Water Pair",
+        "Water Three"
+    ],
     "recordsMobs": [
+        {
+            "mobData": "Flying Eye",
+            "unlockVulnerabilty": false,
+            "unlockImmune": false
+        },
+        {
+            "mobData": "Goblin",
+            "unlockVulnerabilty": false,
+            "unlockImmune": false
+        },
+        {
+            "mobData": "Mushroom",
+            "unlockVulnerabilty": false,
+            "unlockImmune": false
+        },
+        {
+            "mobData": "PL_Archer",
+            "unlockVulnerabilty": true,
+            "unlockImmune": true
+        },
+        {
+            "mobData": "PL_Oleg",
+            "unlockVulnerabilty": true,
+            "unlockImmune": true
+        },
+        {
+            "mobData": "PL_Oleg",
+            "unlockVulnerabilty": true,
+            "unlockImmune": true
+        },
+        {
+            "mobData": "PL_Oleg",
+            "unlockVulnerabilty": true,
+            "unlockImmune": true
+        },
+        {
+            "mobData": "PL_Paladin",
+            "unlockVulnerabilty": true,
+            "unlockImmune": true
+        },
+        {
+            "mobData": "PL_Warrior",
+            "unlockVulnerabilty": true,
+            "unlockImmune": true
+        },
         {
             "mobData": "PL_Warrior",
             "unlockVulnerabilty": true,

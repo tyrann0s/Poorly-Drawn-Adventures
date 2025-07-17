@@ -28,6 +28,6 @@ public class Bootstrap : EntryPoint
 
     protected override void OnFinish()
     {
-        FindAnyObjectByType<AdvancedSceneLoader>(findObjectsInactive: FindObjectsInactive.Include).LoadBase();
+        FindAnyObjectByType<LoadingScreen>(findObjectsInactive: FindObjectsInactive.Include).LoadBase();
     }
 }

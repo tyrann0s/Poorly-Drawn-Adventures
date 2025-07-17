@@ -3318,6 +3318,11 @@ MonoBehaviour:
   musicManager: {fileID: 2027127991}
   cardPanel: {fileID: 1956918910}
   defaultMob: {fileID: 11400000, guid: 08772855237473a4d88194c927e41800, type: 2}
+  defaultTeam:
+  - {fileID: 11400000, guid: 25e1f96f531ab784085d36b0a5bdeedb, type: 2}
+  - {fileID: 11400000, guid: dab32124a956e6747be48d717784c7fb, type: 2}
+  - {fileID: 11400000, guid: 34be2f2574c2c114aa07a4e705a670fa, type: 2}
+  - {fileID: 11400000, guid: 08772855237473a4d88194c927e41800, type: 2}
   defaultLevel: {fileID: 11400000, guid: 32d6806ca76130c4ba0370c66eaf8eb8, type: 2}
   journalPrefab: {fileID: 4841931527949272808, guid: 83867537b067b39489d2b630a08b451d,
     type: 3}

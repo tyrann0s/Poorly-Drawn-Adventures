@@ -16,10 +16,14 @@ namespace UI
         
         public void ShowNotification(string text)
         {
+            Debug.Log("Notification Shown");
+            transform.DOKill();
+            transform.localScale = Vector3.one;
+            
             notificationText.text = text;
             
             DOTween.Sequence()
-                .SetDelay(5f)
+                .SetDelay(2f)
                 .Append(transform.DOScale(0f, .3f))
                 .OnComplete(HidePanel);
         }

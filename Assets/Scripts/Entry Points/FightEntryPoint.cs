@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Cards;
 using Levels;
 using Managers;
@@ -6,18 +7,20 @@ using UnityEngine;
 
 public class FightEntryPoint : EntryPoint
 {
+    [Header("Менеджеры")]
     [SerializeField] private GameManager gameManager;
     [SerializeField] private MobManager mobManager;
     [SerializeField] private UIManager uiManager;
     [SerializeField] private QueueManager queueManager;
     [SerializeField] private MusicManager musicManager;
-    
     [SerializeField] private CardPanel cardPanel;
     
+    [Header("Параметры по-умолчанию")]
     [SerializeField] private MobData defaultMob;
+    [SerializeField] private List<MobData> defaultTeam;
     [SerializeField] private Level defaultLevel;
     
-    
+    [Header("Журнал")]
     [SerializeField] private GameObject journalPrefab;
     
     protected override async void CheckDependencies()
@@ -39,7 +42,11 @@ public class FightEntryPoint : EntryPoint
         if (!ProgressManager.Instance)
         {
             var progressManager = fightEntry.AddComponent<ProgressManager>();
+            
             progressManager.DefaultMob = defaultMob;
+            progressManager.CurrentTeam.AddRange(defaultTeam);
+            progressManager.LevelToLoad = defaultLevel;
+            
             await InitializeService(progressManager);       
         }
         

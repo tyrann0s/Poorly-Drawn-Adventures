@@ -1,5 +1,5 @@
 {
-    "coins": 300,
+    "coins": 200,
     "currentTeam": [
         "PL_Warrior",
         "PL_Warrior"
@@ -9,25 +9,23 @@
     ],
     "mobsUnlocked": [
         "PL_Warrior",
-        "PL_Archer",
-        "PL_Paladin"
+        "PL_Archer"
     ],
     "levelsCleared": [
         "Test 1",
-        "Test 2",
-        "Test 3"
+        "Test 2"
     ],
     "recordsCombo": [
         "Air Pair",
+        "Air Three",
         "Earth Pair",
         "Earth Three",
         "Earth Total",
+        "Etherial Pair",
         "Fire Pair",
         "Fire Three",
         "Rank Pair",
-        "Rank Three",
-        "Water Pair",
-        "Water Three"
+        "Water Pair"
     ],
     "recordsMobs": [
         {
@@ -37,12 +35,7 @@
         },
         {
             "mobData": "Goblin",
-            "unlockVulnerabilty": false,
-            "unlockImmune": false
-        },
-        {
-            "mobData": "Mushroom",
-            "unlockVulnerabilty": false,
+            "unlockVulnerabilty": true,
             "unlockImmune": false
         },
         {
@@ -56,27 +49,12 @@
             "unlockImmune": true
         },
         {
-            "mobData": "PL_Oleg",
-            "unlockVulnerabilty": true,
-            "unlockImmune": true
-        },
-        {
-            "mobData": "PL_Oleg",
-            "unlockVulnerabilty": true,
-            "unlockImmune": true
-        },
-        {
-            "mobData": "PL_Paladin",
-            "unlockVulnerabilty": true,
-            "unlockImmune": true
-        },
-        {
             "mobData": "PL_Warrior",
             "unlockVulnerabilty": true,
             "unlockImmune": true
         },
         {
-            "mobData": "PL_Warrior",
+            "mobData": "Skeleton BOSS",
             "unlockVulnerabilty": true,
             "unlockImmune": true
         }

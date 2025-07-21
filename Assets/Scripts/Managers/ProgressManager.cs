@@ -99,7 +99,7 @@ namespace Managers
                     break;
                 case MobType.Ally:
                 case MobType.Hero:
-                    if (!RecordsMob.Contains(record))
+                    if (RecordsMob.Find(x=>x.mobData == record.mobData) == null)
                     {
                         RecordsMob.Add(record);
                         OnRecordChanged?.Invoke($"{mobData.MobName} unlocked!");

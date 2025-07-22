@@ -121,9 +121,9 @@ namespace Managers
             startFightButton.gameObject.SetActive(false);
         }
 
-        public void ShowCombination(ElementCombo currentCombination)
+        public void ShowCombination(string text)
         {
-            combinationText.text = currentCombination == null ? "" : currentCombination.comboName;
+            combinationText.text = text;
         }
     
         private void OnDestroy()

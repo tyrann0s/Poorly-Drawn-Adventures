@@ -129,7 +129,6 @@ namespace Managers
             }
             
             CheckWinCondition();
-            PreparationPhase();
         }
 
         public void ResetMobs()
@@ -151,23 +150,27 @@ namespace Managers
             {
                 if (ServiceLocator.Get<MobManager>().CurrentWave < ServiceLocator.Get<MobManager>().MaxWaves - 1)
                 {
-                    //DOTween.KillAll();
                     CurrentCoins += CurrentLevel.coinsForWave;
                     ServiceLocator.Get<UIManager>().UpdateCoins(CurrentCoins);
                     ServiceLocator.Get<MobManager>().CurrentWave++;
                     ServiceLocator.Get<MobManager>().SpawnNextWave();
-                    EndFight();
+                    PreparationPhase();
                     return;
                 }
 
+                CurrentCoins += CurrentLevel.coinsForWave;
                 ServiceLocator.Get<MobManager>().SpawnBoss();
+                PreparationPhase();
                 return;
             }
 
             if (ServiceLocator.Get<MobManager>().PlayerMobs.Count <= 0)
             {
                 Lose();
+                return;
             }
+            
+            PreparationPhase();
         }
 
         public void Win()

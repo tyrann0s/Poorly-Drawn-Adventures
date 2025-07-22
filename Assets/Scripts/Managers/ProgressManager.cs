@@ -50,12 +50,14 @@ namespace Managers
         
         public void UnlockHero(MobData mobData)
         {
+            if (AvailableHeroes.Contains(mobData)) return;
             AvailableHeroes.Add(mobData);
             UnlockRecord(mobData, true, true);
         }
 
         public void UnlockAlly(MobData mobData)
         {
+            if (AvailableAllies.Contains(mobData)) return;
             AvailableAllies.Add(mobData);
             UnlockRecord(mobData, true, true);
         }
@@ -91,10 +93,17 @@ namespace Managers
                     else
                     {
                         int index = RecordsMob.FindIndex(x => x.mobData == record.mobData);
-                        if (!RecordsMob[index].unlockImmune) RecordsMob[index].unlockImmune = immuneTo;
-                        if (!RecordsMob[index].unlockVulnerabilty) RecordsMob[index].unlockVulnerabilty = vulnerableTo;
-                        
-                        OnRecordChanged?.Invoke($"{mobData.MobName} changed!");
+                        if (!RecordsMob[index].unlockImmune && immuneTo)
+                        {
+                            RecordsMob[index].unlockImmune = immuneTo;
+                            OnRecordChanged?.Invoke($"{mobData.MobName} immunity discovered!");
+                        }
+
+                        if (!RecordsMob[index].unlockVulnerabilty && vulnerableTo)
+                        {
+                            RecordsMob[index].unlockVulnerabilty = vulnerableTo;
+                            OnRecordChanged?.Invoke($"{mobData.MobName} vulnerability discovered!");
+                        }
                     }
                     break;
                 case MobType.Ally:

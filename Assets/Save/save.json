@@ -1,41 +1,49 @@
 {
-    "coins": 200,
+    "coins": 300,
     "currentTeam": [
         "PL_Warrior",
-        "PL_Warrior"
+        "PL_Paladin"
     ],
     "heroesUnlocked": [
         "PL_Oleg"
     ],
     "mobsUnlocked": [
         "PL_Warrior",
-        "PL_Archer"
+        "PL_Archer",
+        "PL_Paladin"
     ],
     "levelsCleared": [
         "Test 1",
-        "Test 2"
+        "Test 2",
+        "Test 3"
     ],
     "recordsCombo": [
         "Air Pair",
         "Air Three",
         "Earth Pair",
         "Earth Three",
-        "Earth Total",
         "Etherial Pair",
         "Fire Pair",
         "Fire Three",
         "Rank Pair",
-        "Water Pair"
+        "Rank Three",
+        "Water Pair",
+        "Water Three"
     ],
     "recordsMobs": [
         {
             "mobData": "Flying Eye",
-            "unlockVulnerabilty": false,
+            "unlockVulnerabilty": true,
             "unlockImmune": false
         },
         {
             "mobData": "Goblin",
             "unlockVulnerabilty": true,
+            "unlockImmune": false
+        },
+        {
+            "mobData": "Mushroom",
+            "unlockVulnerabilty": false,
             "unlockImmune": false
         },
         {
@@ -49,13 +57,18 @@
             "unlockImmune": true
         },
         {
+            "mobData": "PL_Paladin",
+            "unlockVulnerabilty": true,
+            "unlockImmune": true
+        },
+        {
             "mobData": "PL_Warrior",
             "unlockVulnerabilty": true,
             "unlockImmune": true
         },
         {
             "mobData": "Skeleton BOSS",
-            "unlockVulnerabilty": true,
+            "unlockVulnerabilty": false,
             "unlockImmune": true
         }
     ]

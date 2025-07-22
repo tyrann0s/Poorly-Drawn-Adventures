@@ -241,7 +241,8 @@ namespace Cards
             var pickedCards = Cards.Where(card => card != null && card.IsPicked).ToList();
             CurrentCombination = combinationSystem.CheckCombination(pickedCards);
 
-            if (ProgressManager.Instance.RecordsCombo.Contains(CurrentCombination)) ServiceLocator.Get<UIManager>().ShowCombination(CurrentCombination);
+            if (ProgressManager.Instance.RecordsCombo.Contains(CurrentCombination)) ServiceLocator.Get<UIManager>().ShowCombination(CurrentCombination.comboName);
+            else ServiceLocator.Get<UIManager>().ShowCombination("");
         }
 
         public ElementCombo GetCombo()

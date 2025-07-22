@@ -44,7 +44,7 @@ public class FightEntryPoint : EntryPoint
             var progressManager = fightEntry.AddComponent<ProgressManager>();
             
             progressManager.DefaultMob = defaultMob;
-            progressManager.CurrentTeam.AddRange(defaultTeam);
+            progressManager.CurrentTeam = defaultTeam;
             progressManager.LevelToLoad = defaultLevel;
             
             await InitializeService(progressManager);       

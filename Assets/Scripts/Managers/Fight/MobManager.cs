@@ -47,7 +47,9 @@ namespace Managers
 
         public void SpawnBoss()
         {
-            AddMob(enemyMobSpawners[3].SpawnMob(ServiceLocator.Get<GameManager>().CurrentLevel.boss.mobPrefab));
+            var bossData = ServiceLocator.Get<GameManager>().CurrentLevel.boss;
+            ProgressManager.Instance.UnlockRecord(bossData, false, false);
+            AddMob(enemyMobSpawners[3].SpawnMob(bossData.mobPrefab));
         }
 
         public void SpawnPlayerMobs()

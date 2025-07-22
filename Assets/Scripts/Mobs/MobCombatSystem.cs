@@ -73,6 +73,8 @@ namespace Mobs
     
         private void ApplyDamage(float damage, ElementCombo enemyCombo)
         {
+            if (ParentMob.IsHostile && enemyCombo) ProgressManager.Instance.UnlockRecord(enemyCombo);
+            
             if (HandleShieldAttack(enemyCombo)) return;
 
             float resultDamage;
@@ -80,8 +82,6 @@ namespace Mobs
             // Логика атаки с комбо
             if (enemyCombo)
             {
-                if (ParentMob.IsHostile) ProgressManager.Instance.UnlockRecord(enemyCombo);
-                
                 Color color;
                 switch (enemyCombo.damageType)
                 {

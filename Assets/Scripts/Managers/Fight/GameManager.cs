@@ -150,15 +150,14 @@ namespace Managers
             {
                 if (ServiceLocator.Get<MobManager>().CurrentWave < ServiceLocator.Get<MobManager>().MaxWaves - 1)
                 {
-                    CurrentCoins += CurrentLevel.coinsForWave;
-                    ServiceLocator.Get<UIManager>().UpdateCoins(CurrentCoins);
+                    AddCoins();
                     ServiceLocator.Get<MobManager>().CurrentWave++;
                     ServiceLocator.Get<MobManager>().SpawnNextWave();
                     PreparationPhase();
                     return;
                 }
 
-                CurrentCoins += CurrentLevel.coinsForWave;
+                AddCoins();
                 ServiceLocator.Get<MobManager>().SpawnBoss();
                 PreparationPhase();
                 return;
@@ -198,6 +197,12 @@ namespace Managers
         {
             SaveSystem.Instance.SaveGame();
             FindAnyObjectByType<LoadingScreen>(FindObjectsInactive.Include).LoadBase();
+        }
+
+        private void AddCoins()
+        {
+            CurrentCoins += CurrentLevel.coinsForWave;
+            ServiceLocator.Get<UIManager>().UpdateCoins(CurrentCoins);
         }
     }
 }

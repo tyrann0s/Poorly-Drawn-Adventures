@@ -2,6 +2,8 @@
     "coins": 300,
     "currentTeam": [
         "PL_Warrior",
+        "PL_Paladin",
+        "PL_Archer",
         "PL_Paladin"
     ],
     "heroesUnlocked": [
@@ -44,7 +46,7 @@
         {
             "mobData": "Mushroom",
             "unlockVulnerabilty": false,
-            "unlockImmune": false
+            "unlockImmune": true
         },
         {
             "mobData": "PL_Archer",
@@ -68,7 +70,7 @@
         },
         {
             "mobData": "Skeleton BOSS",
-            "unlockVulnerabilty": false,
+            "unlockVulnerabilty": true,
             "unlockImmune": true
         }
     ]

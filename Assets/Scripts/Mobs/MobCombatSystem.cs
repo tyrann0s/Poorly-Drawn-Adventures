@@ -107,27 +107,25 @@ namespace Mobs
                         throw new ArgumentOutOfRangeException();
                 }
 
-                if (ParentMob.MobData.ImmuneTo == enemyCombo.damageType)
+                if (CheckImmune(enemyCombo.damageType))
                 {
                     if (ParentMob.IsHostile) ProgressManager.Instance.UnlockRecord(ParentMob.MobData, false, true);
                     ParentMob.UI.ShowText("Immune!", Color.white);
                     return;
                 }
+
+                if (ParentMob.MobData.VulnerableTo == enemyCombo.damageType)
+                {
+                    if (ParentMob.IsHostile) ProgressManager.Instance.UnlockRecord(ParentMob.MobData, true, false);
+                    resultDamage = damage * (enemyCombo.damageMultiplier * 2f);
+                    ParentMob.SoundController.PlayGetDamageSound(true);
+                    ParentMob.UI.ShowText("CRITICAL! " + resultDamage, color);
+                }
                 else
                 {
-                    if (ParentMob.MobData.VulnerableTo == enemyCombo.damageType)
-                    {
-                        if (ParentMob.IsHostile) ProgressManager.Instance.UnlockRecord(ParentMob.MobData, true, false);
-                        resultDamage = damage * (enemyCombo.damageMultiplier * 2f);
-                        ParentMob.SoundController.PlayGetDamageSound(true);
-                        ParentMob.UI.ShowText("CRITICAL! " + resultDamage, color);
-                    }
-                    else
-                    {
-                        resultDamage = damage * enemyCombo.damageMultiplier;
-                        ParentMob.SoundController.PlayGetDamageSound(false);
-                        ParentMob.UI.ShowText(resultDamage.ToString(CultureInfo.CurrentCulture), color);
-                    }
+                    resultDamage = damage * enemyCombo.damageMultiplier;
+                    ParentMob.SoundController.PlayGetDamageSound(false);
+                    ParentMob.UI.ShowText(resultDamage.ToString(CultureInfo.CurrentCulture), color);
                 }
 
                 if (enemyCombo.stun)
@@ -139,7 +137,7 @@ namespace Mobs
             // Логика атаки без комбо
             else
             {
-                if (ParentMob.MobData.ImmuneTo == ElementType.Physical)
+                if (CheckImmune(ElementType.Physical))
                 {
                     if (ParentMob.IsHostile) ProgressManager.Instance.UnlockRecord(ParentMob.MobData, false, true);
                     ParentMob.UI.ShowText("Immune!", Color.white);
@@ -191,6 +189,14 @@ namespace Mobs
             ServiceLocator.Get<MobManager>().MobDied(ParentMob);
             ParentMob.AnimationController.PlayDie_Animation();
             ParentMob.MobVFX.PlayDeathVFX();
+        }
+
+        private bool CheckImmune(ElementType elementType)
+        {
+            if (ParentMob.MobData.TotalImmune && elementType != ParentMob.MobData.VulnerableTo) return true;
+            if (ParentMob.MobData.ImmuneTo == elementType) return true;
+            
+            return false;
         }
     }
 }

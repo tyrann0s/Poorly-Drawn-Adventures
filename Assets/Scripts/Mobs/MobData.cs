@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Mobs
 {
@@ -45,6 +44,11 @@ namespace Mobs
         [SerializeField]
         private ElementType immuneTo;
         public ElementType ImmuneTo => immuneTo;
+        
+        [Tooltip("Если включено, то моб будет невосприимчив к любому урону, кроме VulnerableTo")]
+        [SerializeField]
+        private bool totalImmune;
+        public bool TotalImmune => totalImmune;
 
         [SerializeField]
         private float maxHP;

@@ -14,7 +14,8 @@ namespace UI
         [SerializeField] private Transform subPageContainer;
         [SerializeField] private RecordsPanel recordsPanel;
         
-        [SerializeField] private NotificationPanel notificationPanel;
+        [SerializeField] private NotificationPanel notificationPanelPrefab;
+        [SerializeField] private Transform notifications;
 
         private void OnEnable()
         {
@@ -80,7 +81,7 @@ namespace UI
         
         private void ShowNotification(string text)
         {
-            notificationPanel.gameObject.SetActive(true);
+            var notificationPanel = Instantiate(notificationPanelPrefab, notifications);
             notificationPanel.ShowNotification(text);
         }
     }

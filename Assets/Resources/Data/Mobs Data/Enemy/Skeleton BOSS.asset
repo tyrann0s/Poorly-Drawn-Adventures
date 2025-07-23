@@ -18,6 +18,7 @@ MonoBehaviour:
   hireCost: 0
   vulnerableTo: 2
   immuneTo: 1
+  totalImmune: 1
   maxHP: 200
   maxStamina: 75
   defenseCost: 50

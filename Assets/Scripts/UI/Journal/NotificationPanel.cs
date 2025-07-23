@@ -30,7 +30,7 @@ namespace UI
 
         private void HidePanel()
         {
-            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 }

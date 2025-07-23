@@ -74,6 +74,11 @@ public class Record : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
         descriptionText.text += "Vulnerable To: " + (mobRecord.unlockVulnerabilty ? mob.VulnerableTo : "Unknown") + "\n";
-        descriptionText.text += "Immune To: " + (mobRecord.unlockImmune ? mob.ImmuneTo : "Unknown")  + "\n";
+        
+        var immune = "";
+        if (mob.TotalImmune) immune = "All";
+        else immune = mob.ImmuneTo.ToString();
+        
+        descriptionText.text += "Immune To: " + (mobRecord.unlockImmune ? immune : "Unknown")  + "\n";
     }
 }

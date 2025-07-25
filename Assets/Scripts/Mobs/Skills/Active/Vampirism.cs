@@ -1,12 +1,12 @@
 using Mobs;
 using UnityEngine;
 
-[ CreateAssetMenu (fileName = "Enhanced Range Skill", menuName = "Data/Skills/Active Skills/Enhanced Range Skill", order = 1)]
-public class EnhancedRangeSkill : ActiveSkill
+[ CreateAssetMenu (fileName = "Vampirism", menuName = "Data/Skills/Active Skills/Vampirism", order = 1)]
+public class Vampirism : ActiveSkill
 {
     private void Reset()
     {
-        SkillName = "Enhanced Range Skill";
+        SkillName = "Vampirism";
         
         IsAttack = true;
         IsRanged = true;
@@ -15,6 +15,8 @@ public class EnhancedRangeSkill : ActiveSkill
     public override void Use(Mob parentMob, Mob targetMob)
     {
         base.Use(parentMob, targetMob);
+        
         targetMob.MobCombatSystem.GetDamage(Amount, targetMob.CurrentCombo);
+        if (!targetMob.MobCombatSystem.HandleShieldAttack(targetMob.CurrentCombo)) parentMob.MobCombatSystem.Heal(Amount);
     }
 }

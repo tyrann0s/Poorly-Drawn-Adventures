@@ -32,5 +32,5 @@ public abstract class Skill : ScriptableObject
         set => isRanged = value;
     }
 
-    public abstract void Use(Mob targetMob);
+    public abstract void Use(Mob parentMob, Mob targetMob);
 }

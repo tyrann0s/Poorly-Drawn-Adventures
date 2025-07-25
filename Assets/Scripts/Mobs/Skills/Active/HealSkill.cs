@@ -14,13 +14,9 @@ public class HealSkill : ActiveSkill
         IsRanged = true;
     }
 
-    public override void Use(Mob targetMob)
+    public override void Use(Mob parentMob, Mob targetMob)
     {
-        base.Use(targetMob);
-        if (targetMob.State == MobState.Dead) return;
-        targetMob.MobHP += Amount;
-        if (targetMob.MobHP > targetMob.MobData.MaxHP) targetMob.MobHP = targetMob.MobData.MaxHP;
-        targetMob.UI.UpdateHP(targetMob.MobHP);
-        targetMob.UI.ShowText("Healed!", Color.green);
+        base.Use(parentMob, targetMob);
+        targetMob.MobCombatSystem.Heal(Amount);
     }
 }

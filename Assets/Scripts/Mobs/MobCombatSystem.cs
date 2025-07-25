@@ -25,7 +25,7 @@ namespace Mobs
             } else ApplyDamage(damage, enemyCombo);
         }
     
-        private bool HandleShieldAttack(ElementCombo enemyCombo)
+        public bool HandleShieldAttack(ElementCombo enemyCombo)
         {
             if (enemyCombo)
             {
@@ -160,6 +160,15 @@ namespace Mobs
             ParentMob.UI.UpdateHP(ParentMob.MobHP);
 
             if (ParentMob.MobHP <= 0) Die();
+        }
+
+        public void Heal(float healAmount)
+        {
+            if (ParentMob.State == MobState.Dead) return;
+            ParentMob.MobHP += healAmount;
+            if (ParentMob.MobHP > ParentMob.MobData.MaxHP) ParentMob.MobHP = ParentMob.MobData.MaxHP;
+            ParentMob.UI.UpdateHP(ParentMob.MobHP);
+            ParentMob.UI.ShowText("Healed!", Color.green);
         }
     
         private void Die()

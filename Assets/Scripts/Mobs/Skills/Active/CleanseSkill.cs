@@ -12,9 +12,9 @@ public class CleanseSkill : ActiveSkill
         IsRanged = true;
     }
     
-    public override void Use(Mob targetMob)
+    public override void Use(Mob parentMob, Mob targetMob)
     {
-        base.Use(targetMob);
+        base.Use(parentMob, targetMob);
         targetMob.MobStatusEffects.StatusEffects.RemoveAll(x => x.IsNegative);
         targetMob.UI.ShowText("Cleansed!", Color.green);
     }

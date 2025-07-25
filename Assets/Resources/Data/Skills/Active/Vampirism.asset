@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24216d5e5ba01b641a5ff8425b49db5f, type: 3}
-  m_Name: Cast Shield
+  m_Script: {fileID: 11500000, guid: f6f5af0780587ca438fb9531a518ff03, type: 3}
+  m_Name: Vampirism
   m_EditorClassIdentifier: 
-  skillName: Cast Shield
+  skillName: Vampirism
   amount: 50
   cost: 50
-  isAttack: 0
+  isAttack: 1
   isRanged: 1

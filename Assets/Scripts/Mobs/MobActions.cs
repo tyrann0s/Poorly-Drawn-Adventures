@@ -144,7 +144,7 @@ namespace Mobs
         {
             ParentMob.MobStamina -= ParentMob.MobData.ActiveSkill.Cost;
 
-            ParentMob.MobData.ActiveSkill.Use(ParentMob.CurrentAction.TargetInstance);
+            ParentMob.MobData.ActiveSkill.Use(ParentMob, ParentMob.CurrentAction.TargetInstance);
             
             yield return new WaitForSeconds(.5f);
             ParentMob.MobMovement.GoToOriginPosition(true);

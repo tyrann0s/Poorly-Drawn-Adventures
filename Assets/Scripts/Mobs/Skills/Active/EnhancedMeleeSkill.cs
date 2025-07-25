@@ -12,9 +12,9 @@ public class EnhancedMeleeSkill : ActiveSkill
         IsRanged = false;
     }
     
-    public override void Use(Mob targetMob)
+    public override void Use(Mob parentMob, Mob targetMob)
     {
-        base.Use(targetMob);
+        base.Use(parentMob, targetMob);
         targetMob.MobCombatSystem.GetDamage(Amount, targetMob.CurrentCombo);
     }
 }

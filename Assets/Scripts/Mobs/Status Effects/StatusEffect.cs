@@ -12,6 +12,7 @@ namespace Mobs.Status_Effects
         public StatusEffectType EffectType { get; set; }
         public int Duration { get; set; }
         public Mob ParentMob { get; set; }
+        public bool IsNegative { get; set; }
 
         public static StatusEffect Create(Mob parentMob, StatusEffectType effectType, int duration)
         {

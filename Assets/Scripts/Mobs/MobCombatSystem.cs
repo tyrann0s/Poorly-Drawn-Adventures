@@ -24,12 +24,6 @@ namespace Mobs
                 }
             } else ApplyDamage(damage, enemyCombo);
         }
-
-        public void UnStun()
-        {
-            ParentMob.MobStatusEffects.StatusEffects.RemoveAll(x => x.EffectType == StatusEffectType.Stun);
-            ParentMob.UI.ShowText("Stun Cleared!", Color.green);
-        }
     
         private bool HandleShieldAttack(ElementCombo enemyCombo)
         {

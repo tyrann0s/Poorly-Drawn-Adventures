@@ -1,16 +1,21 @@
+using Mobs;
 using UnityEngine;
 
-public class CleanseSkill : MonoBehaviour
+[ CreateAssetMenu (fileName = "Cleanse", menuName = "Data/Skills/Active Skills/Cleanse", order = 1)]
+public class CleanseSkill : ActiveSkill
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Reset()
     {
+        SkillName = "Cleanse";
         
+        IsAttack = false;
+        IsRanged = true;
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    public override void Use(Mob targetMob)
     {
-        
+        base.Use(targetMob);
+        targetMob.MobStatusEffects.StatusEffects.RemoveAll(x => x.IsNegative);
+        targetMob.UI.ShowText("Cleansed!", Color.green);
     }
 }

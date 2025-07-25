@@ -1,16 +1,21 @@
+using Mobs;
+using Mobs.Status_Effects;
 using UnityEngine;
 
-public class CastShieldSkill : MonoBehaviour
+[ CreateAssetMenu (fileName = "Cast Shield", menuName = "Data/Skills/Active Skills/Cast Shield", order = 1)]
+public class CastShieldSkill : ActiveSkill
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Reset()
     {
+        SkillName = "Cast Shield";
         
+        IsAttack = false;
+        IsRanged = true;
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    public override void Use(Mob targetMob)
     {
-        
+        base.Use(targetMob);
+        targetMob.MobStatusEffects.AddEffect(targetMob, StatusEffectType.Defense, 1);
     }
 }

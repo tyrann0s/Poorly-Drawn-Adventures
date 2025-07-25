@@ -1,7 +1,7 @@
 using Mobs;
 using UnityEngine;
 
-[ CreateAssetMenu (fileName = "Enhanced Melee Skill", menuName = "Data/Skills/Enhanced Melee Skill", order = 1)]
+[ CreateAssetMenu (fileName = "Enhanced Melee Skill", menuName = "Data/Skills/Active Skills/Enhanced Melee Skill", order = 1)]
 public class EnhancedMeleeSkill : ActiveSkill
 {
     private void Reset()

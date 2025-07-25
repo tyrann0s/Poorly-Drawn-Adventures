@@ -55,24 +55,7 @@ public class Record : MonoBehaviour
         descriptionText.text += "HP: " + mob.MaxHP + "\n";
         descriptionText.text += "Stamina: " + mob.MaxStamina + "\n";
         descriptionText.text += "Attack Damage: " + mob.AttackDamage + "\n";
-        switch (mob.AttackType)
-        {
-            case AttackType.Melee:
-            case AttackType.Ranged:
-                descriptionText.text += "Skill Damage: " + mob.SkillDamage + "\n";;
-                break;
-            case AttackType.Heal:
-                descriptionText.text += "Skill: Heal " + mob.SkillDamage + "hp\n";;
-                break;
-            case AttackType.UnStun:
-                descriptionText.text += "Skill: UnStun\n";
-                break;
-            case AttackType.CastShield:
-                descriptionText.text += "Skill: Cast Shield\n";
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+        descriptionText.text += "Skill: " + mob.ActiveSkill.SkillName + "\n";
         descriptionText.text += "Vulnerable To: " + (mobRecord.unlockVulnerabilty ? mob.VulnerableTo : "Unknown") + "\n";
         
         var immune = "";

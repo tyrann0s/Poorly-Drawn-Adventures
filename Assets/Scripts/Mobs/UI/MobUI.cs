@@ -59,7 +59,7 @@ namespace Mobs
         {
             hpBar.Init(GetComponent<Mob>().MobHP);
             shieldOiriginPosition = shieldIcon.transform.localPosition;
-            buttons.RenameSkillButton(ParentMob.MobData.AttackType.ToString() );
+            buttons.RenameSkillButton(ParentMob.MobData.ActiveSkill.SkillName);
         }
 
         public void Activate()

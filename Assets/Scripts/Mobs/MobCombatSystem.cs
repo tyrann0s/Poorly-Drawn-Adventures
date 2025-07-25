@@ -25,15 +25,6 @@ namespace Mobs
             } else ApplyDamage(damage, enemyCombo);
         }
 
-        public void Heal(float healAmount)
-        {
-            if (ParentMob.State == MobState.Dead) return;
-            ParentMob.MobHP += healAmount;
-            if (ParentMob.MobHP > ParentMob.MobData.MaxHP) ParentMob.MobHP = ParentMob.MobData.MaxHP;
-            ParentMob.UI.UpdateHP(ParentMob.MobHP);
-            ParentMob.UI.ShowText("Healed!", Color.green);
-        }
-
         public void UnStun()
         {
             ParentMob.MobStatusEffects.StatusEffects.RemoveAll(x => x.EffectType == StatusEffectType.Stun);

@@ -38,7 +38,7 @@ namespace Managers
         {
             int currentSpawner = 0;
             foreach (var currentMob in ServiceLocator.Get<GameManager>().CurrentLevel.mobWaves[CurrentWave].mobs)
-            {
+            { 
                 AddMob(enemyMobSpawners[currentSpawner].SpawnMob(currentMob.mobPrefab));
                 ProgressManager.Instance.UnlockRecord(currentMob, false, false);
                 currentSpawner++;
@@ -55,6 +55,7 @@ namespace Managers
         public void SpawnPlayerMobs()
         {
             int currentSpawner = 0;
+            
             foreach (var currentMob in ProgressManager.Instance.CurrentTeam)
             {
                 AddMob(playerMobSpawners[currentSpawner].SpawnMob(currentMob.mobPrefab));

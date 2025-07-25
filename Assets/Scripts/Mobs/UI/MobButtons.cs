@@ -42,7 +42,7 @@ namespace Mobs
             if (mob.MobStamina < mob.MobData.AttackCost) attackButton.SetActive(false, mob);
             else attackButton.SetActive(true, mob);
 
-            if (mob.MobStamina < mob.MobData.SkillCost) skillButton.SetActive(false, mob);
+            if (mob.MobStamina < mob.MobData.ActiveSkill.Cost) skillButton.SetActive(false, mob);
             else skillButton.SetActive(true, mob);
 
             foreach (MobButton button in buttons) { button.gameObject.SetActive(true); }

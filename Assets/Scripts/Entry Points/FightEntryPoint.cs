@@ -44,8 +44,6 @@ public class FightEntryPoint : EntryPoint
             var progressManager = fightEntry.AddComponent<ProgressManager>();
             
             progressManager.DefaultMob = defaultMob;
-            progressManager.CurrentTeam = defaultTeam;
-            progressManager.LevelToLoad = defaultLevel;
             
             await InitializeService(progressManager);       
         }
@@ -62,6 +60,8 @@ public class FightEntryPoint : EntryPoint
         ServiceLocator.Register(musicManager);
         ServiceLocator.Register(cardPanel);
         
+        ProgressManager.Instance.CurrentTeam = defaultTeam;
+        ProgressManager.Instance.LevelToLoad = defaultLevel;
         
         uiManager.Initialize();
         cardPanel.Initialize();

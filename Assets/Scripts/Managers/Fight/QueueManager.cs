@@ -112,20 +112,12 @@ namespace Managers
                 
                 if (mob.CurrentAction.MobActionType == ActionType.Skill)
                 {
-                    switch (mob.MobData.AttackType)
+                    if (!mob.MobData.ActiveSkill.IsAttack)
                     {
-                        case AttackType.Melee:
-                            break;
-                        case AttackType.Ranged:
-                            break;
-                        case AttackType.Heal:
-                        case AttackType.UnStun:
-                        case AttackType.CastShield:
-                            foreach (Mob actionTarget in mob.CurrentAction.Targets)
-                            {
-                                resultList.Add(new MobAction(mob.CurrentAction.MobActionType, mob, actionTarget));;
-                            }
-                            break;
+                        foreach (Mob actionTarget in mob.CurrentAction.Targets)
+                        {
+                            resultList.Add(new MobAction(mob.CurrentAction.MobActionType, mob, actionTarget));;
+                        }
                     }
                 }
             }
@@ -152,23 +144,12 @@ namespace Managers
                 
                 if (mob.CurrentAction.MobActionType == ActionType.Skill)
                 {
-                    switch (mob.MobData.AttackType)
+                    if (mob.MobData.ActiveSkill.IsAttack)
                     {
-                        case AttackType.Melee:
-                        case AttackType.Ranged:
-                            foreach (Mob actionTarget in mob.CurrentAction.Targets)
-                            {
-                                resultList.Add(new MobAction(mob.CurrentAction.MobActionType, mob, actionTarget));;
-                            }
-                            break;
-                        case AttackType.Heal:
-                            break;
-                        case AttackType.UnStun:
-                            break;
-                        case AttackType.CastShield:
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
+                        foreach (Mob actionTarget in mob.CurrentAction.Targets)
+                        {
+                            resultList.Add(new MobAction(mob.CurrentAction.MobActionType, mob, actionTarget));;
+                        }
                     }
                 }
             }
@@ -264,13 +245,7 @@ namespace Managers
                     else
                     {
                         action.MobInstance.CurrentAction.TargetInstance = action.TargetInstance;
-                        if (action.MobActionType == ActionType.Attack)
-                        {
-                            action.MobInstance.MobActions.PerformAttack();
-                        } else if (action.MobActionType == ActionType.Skill)
-                        {
-                            action.MobInstance.MobActions.PerformSkill();
-                        }
+                        action.MobInstance.MobActions.PrepareAction(action.MobActionType);
                     }
                     break;
 

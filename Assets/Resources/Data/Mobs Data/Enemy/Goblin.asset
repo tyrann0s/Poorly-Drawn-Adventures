@@ -18,14 +18,14 @@ MonoBehaviour:
   hireCost: 0
   vulnerableTo: 3
   immuneTo: 0
+  totalImmune: 0
   maxHP: 100
   maxStamina: 100
   defenseCost: 50
-  attackType: 0
+  activeSkill: {fileID: 11400000, guid: adeccf7d0ae19c44fafb6b87257a5a56, type: 2}
   maxTargets: 1
   attackDamage: 25
   attackCost: 25
-  skillDamage: 50
-  skillCost: 50
+  passiveSkill: {fileID: 0}
   MobPrefab: {fileID: 4133970978171093904, guid: 71e4beee99fc9974682925c63c019255,
     type: 3}

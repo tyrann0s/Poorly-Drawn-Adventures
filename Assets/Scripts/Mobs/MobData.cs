@@ -2,15 +2,6 @@ using UnityEngine;
 
 namespace Mobs
 {
-    public enum AttackType
-    {
-        Melee,
-        Ranged,
-        Heal,
-        UnStun,
-        CastShield
-    }
-
     public enum MobType
     {
         Enemy,
@@ -61,13 +52,7 @@ namespace Mobs
         [SerializeField]
         private int defenseCost;
         public float DefenseCost => defenseCost;
-
-        [SerializeField] private AttackType attackType;
-        public AttackType AttackType => attackType;
-
-        [SerializeField] private int maxTargets = 1;
-        public int MaxTargets => maxTargets;
-
+        
         [SerializeField]
         private float attackDamage;
         public float AttackDamage => attackDamage;
@@ -76,13 +61,15 @@ namespace Mobs
         private float attackCost;
         public float AttackCost => attackCost;
 
-        [SerializeField]
-        private int skillDamage;
-        public float SkillDamage => skillDamage;
+        [SerializeField] private ActiveSkill activeSkill;
+        public ActiveSkill ActiveSkill => activeSkill;
 
+        [SerializeField] private int maxTargets = 1;
+        public int MaxTargets => maxTargets;
+        
         [SerializeField]
-        private float skillCost;
-        public float SkillCost => skillCost;
+        private PassiveSkill passiveSkill;
+        public PassiveSkill PassiveSkill => passiveSkill;
         
         [Header("Mob Prefab")]
         [SerializeField]

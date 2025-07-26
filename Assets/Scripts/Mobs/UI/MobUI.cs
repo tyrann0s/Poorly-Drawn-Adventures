@@ -81,6 +81,11 @@ namespace Mobs
             cursor.Hide();
         }
 
+        public void MobResurrect()
+        {
+            hpBar.gameObject.SetActive(true);
+        }
+
         public void ShowTargetCursor()
         {
             switch (ServiceLocator.Get<GameManager>().SelectingState)
@@ -104,14 +109,26 @@ namespace Mobs
                     }
                     break;
                 case SelectingState.Player:
-                    foreach (Mob mob in ServiceLocator.Get<MobManager>().PlayerMobs)
+                    if (ParentMob.MobData.ActiveSkill is ResurrectSkill)
                     {
-                        if (!mob || mob.IsHostile || mob.State == MobState.Dead)
-                            continue;
-
-                        if (mob.UI && mob.UI.MobCursor && mob != ServiceLocator.Get<GameManager>().ActivatedMob)
+                        Debug.Log("AAAAAA");
+                        foreach (Mob mob in ServiceLocator.Get<MobManager>().PlayerMobs)
                         {
-                            mob.UI.MobCursor.ShowTarget();
+                            if (mob.UI && mob.UI.MobCursor && mob != ServiceLocator.Get<GameManager>().ActivatedMob &&
+                                mob.State == MobState.Dead)
+                            {
+                                mob.UI.MobCursor.ShowTarget();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (Mob mob in ServiceLocator.Get<MobManager>().PlayerMobs)
+                        {
+                            if (mob.UI && mob.UI.MobCursor && mob != ServiceLocator.Get<GameManager>().ActivatedMob && mob.State != MobState.Dead)
+                            {
+                                mob.UI.MobCursor.ShowTarget();
+                            }
                         }
                     }
                     break;

@@ -22,10 +22,10 @@ MonoBehaviour:
   maxHP: 200
   maxStamina: 75
   defenseCost: 50
-  activeSkill: {fileID: 11400000, guid: adeccf7d0ae19c44fafb6b87257a5a56, type: 2}
-  maxTargets: 1
   attackDamage: 50
   attackCost: 50
+  activeSkill: {fileID: 11400000, guid: 2e34bf860d70b2c40a6751b8fa2b3d01, type: 2}
+  maxTargets: 1
   passiveSkill: {fileID: 0}
   MobPrefab: {fileID: 4133970978171093904, guid: 7845f0e91517f8c429f4fe4c5e906ebb,
     type: 3}

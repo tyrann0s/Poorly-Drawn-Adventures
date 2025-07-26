@@ -175,7 +175,7 @@ namespace Mobs
         {
             ParentMob.State = MobState.Dead;
             ParentMob.SoundController.Death();
-            if (ParentMob.UI != null)
+            if (ParentMob.UI)
             {
                 ParentMob.UI.MobDeath();
             }
@@ -183,6 +183,19 @@ namespace Mobs
             ServiceLocator.Get<MobManager>().MobDied(ParentMob);
             ParentMob.AnimationController.PlayDie_Animation();
             ParentMob.MobVFX.PlayDeathVFX();
+        }
+
+        public void Resurrect()
+        {
+            ParentMob.State = MobState.Idle;
+            ParentMob.MobHP = ParentMob.MobData.MaxHP;
+            
+            ParentMob.UI.MobResurrect();
+            ParentMob.UI.UpdateHP(ParentMob.MobHP);
+            
+            ParentMob.AnimationController.PlayIdle_Animation();
+            
+            ParentMob.UI.ShowText("Resurrected!", Color.green);
         }
 
         private bool CheckImmune(ElementType elementType)

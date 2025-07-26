@@ -235,10 +235,17 @@ namespace Managers
 
                 case ActionType.Attack:
                 case ActionType.Skill:
-                    if (!action.TargetInstance || action.TargetInstance.State == MobState.Dead || action.TargetInstance.MobStatusEffects.CheckStun())
+                    if (!action.TargetInstance || action.TargetInstance.MobStatusEffects.CheckStun())
                     {
-                        Debug.Log($"Attack target is dead or null for {action.MobInstance.name}");
-                        NextAction();
+                        if (Equals(action.MobInstance.MobData.ActiveSkill, typeof(ResurrectSkill)) && action.TargetInstance.State == MobState.Dead)
+                        {
+                            action.MobInstance.CurrentAction.TargetInstance = action.TargetInstance;
+                            action.MobInstance.MobActions.PrepareAction(action.MobActionType);
+                        } else if (action.TargetInstance.State == MobState.Dead)
+                        {
+                            Debug.Log($"Attack target is dead or null for {action.MobInstance.name}");
+                            NextAction();
+                        }
                         return;
                     }
                     if (action.MobInstance.MobStatusEffects.StatusEffects.Any(x=>x.EffectType == StatusEffectType.Stun)) {}

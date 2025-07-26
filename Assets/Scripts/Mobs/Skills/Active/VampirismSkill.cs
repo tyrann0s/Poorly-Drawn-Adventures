@@ -2,7 +2,7 @@ using Mobs;
 using UnityEngine;
 
 [ CreateAssetMenu (fileName = "Vampirism", menuName = "Data/Skills/Active Skills/Vampirism", order = 1)]
-public class Vampirism : ActiveSkill
+public class VampirismSkill : ActiveSkill
 {
     private void Reset()
     {

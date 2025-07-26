@@ -63,7 +63,7 @@ namespace Managers
             }
         }
 
-        private void AddMob(Mob mob)
+        public void AddMob(Mob mob)
         {
             if (!mob)
             {
@@ -109,12 +109,7 @@ namespace Managers
                 return;
             }
 
-            if (mob.State == MobState.Activated)
-            {
-                mob.State = MobState.Dead;
-            }
-
-            if (mob.IsHostile)
+            /*if (mob.IsHostile)
             {
                 if (EnemyMobs.Contains(mob))
                 {
@@ -136,7 +131,7 @@ namespace Managers
                 {
                     Debug.LogWarning($"Mob {mob.name} not found in player mobs list!");
                 }
-            }
+            }*/
         }
     }
 }

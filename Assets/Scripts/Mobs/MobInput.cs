@@ -44,7 +44,9 @@ namespace Mobs
         {
             if (Input.GetMouseButtonUp(0))
             {
-                if (ParentMob.State == MobState.Idle && !ParentMob.IsHostile && !ServiceLocator.Get<GameManager>().ControlLock && ServiceLocator.Get<GameManager>().CurrentPhase == GamePhase.AssignActions)
+                if (ParentMob.State == MobState.Idle && !ParentMob.IsHostile &&
+                    !ServiceLocator.Get<GameManager>().ControlLock &&
+                    ServiceLocator.Get<GameManager>().CurrentPhase == GamePhase.AssignActions)
                 {
                     if (ParentMob.State == MobState.Activated)
                     {
@@ -71,7 +73,10 @@ namespace Mobs
                     && ServiceLocator.Get<GameManager>().SelectingState == SelectingState.Player
                     && ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.Targets.Count < ServiceLocator.Get<GameManager>().PickingMob.MobData.MaxTargets)
                 {
-                    PickPlayerMob();
+                    if (ServiceLocator.Get<GameManager>().PickingMob.MobData.ActiveSkill is ResurrectSkill)
+                    {
+                        if (ParentMob.State == MobState.Dead) PickPlayerMob();
+                    } else if (ParentMob.State != MobState.Dead) PickPlayerMob();
                 }
             }
         }

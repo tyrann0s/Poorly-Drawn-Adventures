@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using Cards;
 using Levels;
 using Managers.Base;
@@ -112,6 +113,8 @@ namespace Managers
             ServiceLocator.Get<QueueManager>().StopQueue();
             foreach (Mob mob in ServiceLocator.Get<MobManager>().PlayerMobs)
             { 
+                if (mob.State == MobState.Dead) continue;
+                
                 if (!mob.MobMovement.IsOnOriginPosition()) mob.MobMovement.GoToOriginPosition(false);
                 
                 mob.State = MobState.Idle; 
@@ -122,6 +125,8 @@ namespace Managers
 
             foreach (Mob mob in ServiceLocator.Get<MobManager>().EnemyMobs)
             {
+                if (mob.State == MobState.Dead) continue;
+                
                 mob.State = MobState.Idle;
                 mob.MobStatusEffects.UpdateEffectsDuration();
                 mob.CurrentAction.Targets.Clear();
@@ -135,38 +140,43 @@ namespace Managers
         {
             foreach (Mob mob in ServiceLocator.Get<MobManager>().PlayerMobs)
             {
-                mob.State = MobState.Idle;
+                if (mob.State != MobState.Dead) mob.State = MobState.Idle;
             }
 
             foreach (Mob mob in ServiceLocator.Get<MobManager>().EnemyMobs)
             {
-                mob.State = MobState.Idle;
+                if (mob.State != MobState.Dead) mob.State = MobState.Idle;
             }
         }
 
         public void CheckWinCondition()
         {
-            if (ServiceLocator.Get<MobManager>().EnemyMobs.Count <= 0)
-            {
-                if (ServiceLocator.Get<MobManager>().CurrentWave < ServiceLocator.Get<MobManager>().MaxWaves - 1)
-                {
-                    AddCoins();
-                    ServiceLocator.Get<MobManager>().CurrentWave++;
-                    ServiceLocator.Get<MobManager>().SpawnNextWave();
-                    PreparationPhase();
-                    return;
-                }
-
-                AddCoins();
-                ServiceLocator.Get<MobManager>().SpawnBoss();
-                PreparationPhase();
-                return;
-            }
-
-            if (ServiceLocator.Get<MobManager>().PlayerMobs.Count <= 0)
+            bool allAliesDead = ServiceLocator.Get<MobManager>().PlayerMobs.All(playerMob => playerMob.State == MobState.Dead);
+            if (allAliesDead)
             {
                 Lose();
                 return;
+            }
+            
+            foreach (var enemyMob in ServiceLocator.Get<MobManager>().EnemyMobs)
+            {
+                if (enemyMob.State != MobState.Dead)
+                {
+                    PreparationPhase();
+                    return;
+                }
+            }
+            
+            if (ServiceLocator.Get<MobManager>().CurrentWave < ServiceLocator.Get<MobManager>().MaxWaves - 1)
+            {
+                AddCoins();
+                ServiceLocator.Get<MobManager>().CurrentWave++;
+                ServiceLocator.Get<MobManager>().SpawnNextWave();
+            }
+            else
+            {
+                AddCoins();
+                ServiceLocator.Get<MobManager>().SpawnBoss();
             }
             
             PreparationPhase();
@@ -195,6 +205,14 @@ namespace Managers
 
         public void BackToBase()
         {
+            foreach (var playerMob in ServiceLocator.Get<MobManager>().PlayerMobs)
+            {
+                if (playerMob.State == MobState.Dead)
+                {
+                    ProgressManager.Instance.CurrentTeam.Remove(playerMob.MobData);
+                }
+            }
+            
             SaveSystem.Instance.SaveGame();
             FindAnyObjectByType<LoadingScreen>(FindObjectsInactive.Include).LoadBase();
         }

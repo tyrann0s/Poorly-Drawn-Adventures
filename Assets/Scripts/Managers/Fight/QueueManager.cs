@@ -181,7 +181,6 @@ namespace Managers
         public void InjectAction(MobAction action)
         {
             actionList.Insert(currentActionIndex + 1, action);
-            Debug.Log("Injected");
         }
 
         public void RunQueue()

@@ -9,6 +9,9 @@ namespace Mobs
 {
     public class MobActions : MobComponent
     {
+        // События
+        public static Action<Mob, float> OnDeflect;
+        
         public void SkipTurn()
         {
             ParentMob.CurrentAction.MobActionType = ActionType.SkipTurn;
@@ -147,6 +150,7 @@ namespace Mobs
         private IEnumerator DamageCoroutine(float damage, float cost)
         {
             ParentMob.CurrentAction.TargetInstance.MobCombatSystem.GetDamage(damage, ParentMob.CurrentCombo);
+            if (ParentMob.CurrentAction.TargetInstance.MobStatusEffects.CheckShield()) OnDeflect?.Invoke(ParentMob, damage);
             ParentMob.MobStamina -= cost;
 
             yield return new WaitForSeconds(.5f);
@@ -159,6 +163,11 @@ namespace Mobs
         private IEnumerator ActiveSkillCoroutine()
         {
             ParentMob.MobData.ActiveSkill.Use(ParentMob.CurrentAction.TargetInstance);
+            if (ParentMob.IsHostile != ParentMob.CurrentAction.TargetInstance.IsHostile)
+            {
+                if (ParentMob.CurrentAction.TargetInstance.MobStatusEffects.CheckShield())
+                    OnDeflect?.Invoke(ParentMob, ParentMob.MobData.ActiveSkill.Amount);
+            }
             ParentMob.MobStamina -= ParentMob.MobData.ActiveSkill.Cost;
             
             yield return new WaitForSeconds(.5f);

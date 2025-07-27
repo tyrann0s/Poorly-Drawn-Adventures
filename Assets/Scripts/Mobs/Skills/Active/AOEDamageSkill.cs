@@ -13,9 +13,9 @@ public class AOEDamageSkill : ActiveSkill
         IsRanged = true;
     }
     
-    public override void Use(Mob parentMob, Mob targetMob)
+    public override void Use(Mob targetMob)
     {
-        base.Use(parentMob, targetMob);
+        base.Use(targetMob);
 
         foreach (var enemyMob in ServiceLocator.Get<MobManager>().EnemyMobs)
         {

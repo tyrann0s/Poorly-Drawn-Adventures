@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Linq;
 using Cards;
@@ -37,6 +38,8 @@ namespace Managers
         public int CurrentCoins { get; set; }
 
         private IEnumerator calmMusicCoroutine;
+
+        public static Action OnNewWave; 
         
         public void Initialize()
         {
@@ -172,11 +175,13 @@ namespace Managers
                 AddCoins();
                 ServiceLocator.Get<MobManager>().CurrentWave++;
                 ServiceLocator.Get<MobManager>().SpawnNextWave();
+                OnNewWave?.Invoke();
             }
             else
             {
                 AddCoins();
                 ServiceLocator.Get<MobManager>().SpawnBoss();
+                OnNewWave?.Invoke();
             }
             
             PreparationPhase();

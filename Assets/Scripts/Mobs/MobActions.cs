@@ -142,7 +142,7 @@ namespace Mobs
 
         private IEnumerator SkillCoroutine()
         {
-            ParentMob.MobData.ActiveSkill.Use(ParentMob, ParentMob.CurrentAction.TargetInstance);
+            ParentMob.MobData.ActiveSkill.Use(ParentMob.CurrentAction.TargetInstance);
             ParentMob.MobStamina -= ParentMob.MobData.ActiveSkill.Cost;
             
             yield return new WaitForSeconds(.5f);

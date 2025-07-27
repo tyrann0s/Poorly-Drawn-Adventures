@@ -5,6 +5,8 @@ using UnityEngine.Serialization;
 
 public abstract class Skill : ScriptableObject
 {
+    protected Mob ParentMob { get; private set; }
+    
     [SerializeField] private string skillName;
     public string SkillName
     {
@@ -32,5 +34,11 @@ public abstract class Skill : ScriptableObject
         set => isRanged = value;
     }
 
-    public abstract void Use(Mob parentMob, Mob targetMob);
+    public void Initialize(Mob parentMob)
+    {
+        ParentMob = parentMob;
+        Debug.Log("Parent mob: " + ParentMob.MobData.MobName + "");
+    }
+
+    public abstract void Use(Mob targetMob);
 }

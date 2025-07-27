@@ -12,13 +12,13 @@ public class ResurrectSkill : ActiveSkill
         IsRanged = true;
     }
     
-    public override void Use(Mob parentMob, Mob targetMob)
+    public override void Use(Mob targetMob)
     {
-        base.Use(parentMob, targetMob);
+        base.Use(targetMob);
 
         if (targetMob.State == MobState.Dead)
         {
-            targetMob.MobCombatSystem.Resurrect();
+            targetMob.MobCombatSystem.Revive();
         }
     }
 }

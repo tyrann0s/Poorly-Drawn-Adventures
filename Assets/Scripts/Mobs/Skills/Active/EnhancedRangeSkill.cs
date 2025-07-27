@@ -12,9 +12,9 @@ public class EnhancedRangeSkill : ActiveSkill
         IsRanged = true;
     }
     
-    public override void Use(Mob parentMob, Mob targetMob)
+    public override void Use(Mob targetMob)
     {
-        base.Use(parentMob, targetMob);
+        base.Use(targetMob);
         targetMob.MobCombatSystem.GetDamage(Amount, targetMob.CurrentCombo);
     }
 }

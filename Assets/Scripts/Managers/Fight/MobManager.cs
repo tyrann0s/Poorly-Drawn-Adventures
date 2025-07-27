@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Managers.Base;
 using Mobs;
 using UnityEngine;
 
@@ -17,6 +16,9 @@ namespace Managers
         
         public List<Mob> PlayerMobs { get; set; } = new ();
         public List<Mob> EnemyMobs { get; set; } = new ();
+
+        //События
+        public static Action<Mob> OnMobDied;
         
         public void Initialize()
         {
@@ -106,8 +108,9 @@ namespace Managers
             if (mob.MobData.Type == MobType.Boss)
             {
                 ServiceLocator.Get<GameManager>().Win();
-                return;
             }
+            
+            OnMobDied?.Invoke(mob);
 
             /*if (mob.IsHostile)
             {

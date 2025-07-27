@@ -13,9 +13,9 @@ public class CastShieldSkill : ActiveSkill
         IsRanged = true;
     }
     
-    public override void Use(Mob parentMob, Mob targetMob)
+    public override void Use(Mob targetMob)
     {
-        base.Use(parentMob, targetMob);
+        base.Use(targetMob);
         targetMob.MobStatusEffects.AddEffect(targetMob, StatusEffectType.Defense, 1);
     }
 }

@@ -68,6 +68,9 @@ namespace Mobs
 
             MobHP = mobData.MaxHP;
             MobStamina = mobData.MaxStamina;
+            
+            if (mobData.ActiveSkill) mobData.ActiveSkill.Initialize(this);
+            if (mobData.PassiveSkill) mobData.PassiveSkill.Initialize(this);
         }
         
         public void Activate()

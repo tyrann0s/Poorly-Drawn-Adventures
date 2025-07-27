@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ActiveSkill : Skill
 {
-    public override void Use(Mob parentMob, Mob targetMob)
+    public override void Use(Mob targetMob)
     {
         
     }

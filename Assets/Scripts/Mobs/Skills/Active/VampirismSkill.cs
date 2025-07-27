@@ -12,11 +12,11 @@ public class VampirismSkill : ActiveSkill
         IsRanged = true;
     }
     
-    public override void Use(Mob parentMob, Mob targetMob)
+    public override void Use(Mob targetMob)
     {
-        base.Use(parentMob, targetMob);
+        base.Use(targetMob);
         
         targetMob.MobCombatSystem.GetDamage(Amount, targetMob.CurrentCombo);
-        if (!targetMob.MobCombatSystem.HandleShieldAttack(targetMob.CurrentCombo)) parentMob.MobCombatSystem.Heal(Amount);
+        if (!targetMob.MobCombatSystem.HandleShieldAttack(targetMob.CurrentCombo)) ParentMob.MobCombatSystem.Heal(Amount);
     }
 }

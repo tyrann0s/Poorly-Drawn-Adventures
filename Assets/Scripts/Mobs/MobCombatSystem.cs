@@ -185,7 +185,7 @@ namespace Mobs
             ParentMob.MobVFX.PlayDeathVFX();
         }
 
-        public void Resurrect()
+        public void Revive()
         {
             ParentMob.State = MobState.Idle;
             ParentMob.MobHP = ParentMob.MobData.MaxHP;

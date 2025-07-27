@@ -22,14 +22,19 @@ namespace Mobs
             animator.Play("Run");
         }
 
-        public void PlayAttack_Animation()
+        private void PlayAttack_Animation()
         {
-            animator.Play("Attack1");
+            animator.Play("Attack");
         }
 
-        public void PlaySkill_Animation()
+        private void PlayActiveSkill_Animation()
         {
-            animator.Play("Attack2");
+            animator.Play("Active Skill");
+        }
+
+        private void PlayPassiveSkill_Animation()
+        {
+            animator.Play("Passive Skill");
         }
 
         public void PlayGetDamage_Animation()
@@ -42,21 +47,32 @@ namespace Mobs
             animator.Play("Die");
         }
     
-        public void PlayActionAnimation()
+        public void PlayActionAnimation(bool isActive)
         {
             ParentMob.SoundController.StopMove();
-            switch (ParentMob.CurrentAction.MobActionType)
-            {
-                case ActionType.Attack:
-                    ParentMob.AnimationController.PlayAttack_Animation();
-                    ParentMob.SoundController.Attack();
-                    break;
 
-                case ActionType.Skill:
-                    ParentMob.AnimationController.PlaySkill_Animation();
-                    ParentMob.SoundController.Skill();
-                    break;
+            if (isActive)
+            {
+                switch (ParentMob.CurrentAction.MobActionType)
+                {
+                    case ActionType.Attack:
+                        ParentMob.AnimationController.PlayAttack_Animation();
+                        ParentMob.SoundController.Attack();
+                        break;
+
+                    case ActionType.ActiveSkill:
+                        ParentMob.AnimationController.PlayActiveSkill_Animation();
+                        ParentMob.SoundController.ActiveSkill();
+                        break;
+                }
             }
+            else
+            {
+                ParentMob.AnimationController.PlayPassiveSkill_Animation();
+                ParentMob.SoundController.ActiveSkill();
+            }
+            
+            
         }
     }
 }

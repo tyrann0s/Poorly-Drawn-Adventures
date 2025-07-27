@@ -14,7 +14,6 @@ public class EnhancedMeleeSkill : ActiveSkill
     
     public override void Use(Mob targetMob)
     {
-        base.Use(targetMob);
         targetMob.MobCombatSystem.GetDamage(Amount, targetMob.CurrentCombo);
     }
 }

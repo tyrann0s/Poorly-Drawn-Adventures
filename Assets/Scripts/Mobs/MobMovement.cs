@@ -53,11 +53,19 @@ namespace Mobs
             ParentMob.AnimationController.PlayIdle_Animation();
         }
 
-        public void MoveToEnemy()
+        public void MoveToEnemy(bool isActive)
         {
             DOTween.Sequence()
                 .Append(transform.DOMove(ParentMob.CurrentAction.TargetInstance.MobMovement.RivalPosition.transform.position, 1f))
-                .OnComplete(ParentMob.AnimationController.PlayActionAnimation);
+                .OnComplete(OnMoveComplete(isActive));
+        }
+
+        private TweenCallback OnMoveComplete(bool isActive)
+        {
+            return () =>
+            {
+                ParentMob.AnimationController.PlayActionAnimation(isActive);
+            };
         }
 
         public void MoveToRivalPosition()

@@ -34,7 +34,7 @@ namespace Mobs
 
         public void Skill()
         {
-            CreateAction(ActionType.Skill);
+            CreateAction(ActionType.ActiveSkill);
         }
 
         private void CreateAction(ActionType action)
@@ -49,7 +49,7 @@ namespace Mobs
                     ServiceLocator.Get<GameManager>().SelectingState = SelectingState.Enemy;
                     ServiceLocator.Get<CardPanel>().EnableInteraction();
                     break;
-                case ActionType.Skill:
+                case ActionType.ActiveSkill:
                     if (ParentMob.MobData.ActiveSkill.IsAttack)
                     {
                         ServiceLocator.Get<GameManager>().SelectingState = SelectingState.Enemy;
@@ -103,16 +103,27 @@ namespace Mobs
                 case ActionType.Attack:
                     ParentMob.SoundController.StartMove();
                     ParentMob.AnimationController.PlayRun_Animation();
-                    ParentMob.MobMovement.MoveToEnemy();
+                    ParentMob.MobMovement.MoveToEnemy(true);
                     break;
-                case ActionType.Skill:
+                
+                case ActionType.ActiveSkill:
                     if (!ParentMob.MobData.ActiveSkill.IsRanged)
                     {
                         ParentMob.SoundController.StartMove();
                         ParentMob.AnimationController.PlayRun_Animation();
-                        ParentMob.MobMovement.MoveToEnemy();
-                    } else ParentMob.AnimationController.PlayActionAnimation();
+                        ParentMob.MobMovement.MoveToEnemy(true);
+                    } else ParentMob.AnimationController.PlayActionAnimation(true);
                     break;
+                
+                case ActionType.PassiveSkill:
+                    if (!ParentMob.MobData.PassiveSkill.IsRanged)
+                    {
+                        ParentMob.SoundController.StartMove();
+                        ParentMob.AnimationController.PlayRun_Animation();
+                        ParentMob.MobMovement.MoveToEnemy(false);
+                    } else ParentMob.AnimationController.PlayActionAnimation(false);
+                    break;
+                
                 default:
                     throw new ArgumentOutOfRangeException(nameof(actionType), actionType, null);
             }
@@ -123,9 +134,14 @@ namespace Mobs
             StartCoroutine(DamageCoroutine(ParentMob.MobData.AttackDamage, ParentMob.MobData.AttackCost));
         }
 
-        private void MakeSkill()
+        private void MakeActiveSkill()
         {
-            StartCoroutine(SkillCoroutine());
+            StartCoroutine(ActiveSkillCoroutine());
+        }
+
+        private void MakePassiveSkill()
+        {
+            StartCoroutine(PassiveSkillCoroutine());
         }
 
         private IEnumerator DamageCoroutine(float damage, float cost)
@@ -140,7 +156,7 @@ namespace Mobs
             ServiceLocator.Get<QueueManager>().NextAction();
         }
 
-        private IEnumerator SkillCoroutine()
+        private IEnumerator ActiveSkillCoroutine()
         {
             ParentMob.MobData.ActiveSkill.Use(ParentMob.CurrentAction.TargetInstance);
             ParentMob.MobStamina -= ParentMob.MobData.ActiveSkill.Cost;
@@ -149,6 +165,14 @@ namespace Mobs
             ParentMob.MobMovement.GoToOriginPosition(true);
 
             yield return new WaitForSeconds(1);
+            ServiceLocator.Get<QueueManager>().NextAction();
+        }
+
+        private IEnumerator PassiveSkillCoroutine()
+        {
+            ParentMob.MobData.PassiveSkill.Use(ParentMob.PassiveAction.TargetInstance);
+
+            yield return new WaitForSeconds(.5f);
             ServiceLocator.Get<QueueManager>().NextAction();
         }
 
@@ -176,7 +200,7 @@ namespace Mobs
                     if (ParentMob.MobStamina >= ParentMob.MobData.AttackCost) return true;
                     break;
 
-                case ActionType.Skill:
+                case ActionType.ActiveSkill:
                     if (ParentMob.MobStamina >= ParentMob.MobData.ActiveSkill.Cost) return true;
                     break;
             }

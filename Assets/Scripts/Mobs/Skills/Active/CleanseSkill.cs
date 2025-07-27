@@ -14,7 +14,6 @@ public class CleanseSkill : ActiveSkill
     
     public override void Use(Mob targetMob)
     {
-        base.Use(targetMob);
         targetMob.MobStatusEffects.StatusEffects.RemoveAll(x => x.IsNegative);
         targetMob.UI.ShowText("Cleansed!", Color.green);
     }

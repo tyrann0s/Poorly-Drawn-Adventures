@@ -39,7 +39,7 @@ namespace Mobs
             }
         }
 
-        public void Skill()
+        public void ActiveSkill()
         {
             if (!skill)
             {

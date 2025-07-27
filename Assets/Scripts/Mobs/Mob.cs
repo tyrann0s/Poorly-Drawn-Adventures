@@ -39,6 +39,7 @@ namespace Mobs
         public MobState State { get; set; }
 
         public MobAction CurrentAction { get; set; } = new();
+        public MobAction PassiveAction { get; set; } = new();
         
         public float MobHP {get; set;}
         public float MobStamina { get; set; }

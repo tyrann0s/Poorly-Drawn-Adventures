@@ -39,6 +39,7 @@ namespace Managers
 
         private IEnumerator calmMusicCoroutine;
 
+        // События
         public static Action OnNewWave; 
         
         public void Initialize()

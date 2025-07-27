@@ -2,10 +2,7 @@ using System;
 using Mobs;
 using UnityEngine;
 
-public class ActiveSkill : Skill
+public abstract class ActiveSkill : Skill
 {
-    public override void Use(Mob targetMob)
-    {
-        
-    }
+    public abstract override void Use(Mob targetMob);
 }

@@ -13,13 +13,14 @@ public class AutoResSkill : PassiveSkill
     {
         ResetReviveCount();
         
-        MobManager.OnMobDied += Use;
+        MobManager.OnMobDied += Prepare;
         GameManager.OnNewWave += ResetReviveCount;
     }
     
     private void OnDisable()
     {
-        MobManager.OnMobDied -= Use;   
+        MobManager.OnMobDied -= Prepare;   
+        GameManager.OnNewWave -= ResetReviveCount;
     }
 
     private void Reset()
@@ -32,19 +33,24 @@ public class AutoResSkill : PassiveSkill
     private void ResetReviveCount()
     {
         currentReviveCount = reviveCount;
+        ParentMob.PassiveAction = null;
     }
-    
-    public override void Use(Mob targetMob)
+
+    private void Prepare(Mob targetMob)
     {
-        base.Use(targetMob);
-        
         if (targetMob.IsHostile == ParentMob.IsHostile)
         {
             if (currentReviveCount > 0)
             {
-                targetMob.MobCombatSystem.Revive();
-                currentReviveCount--;
+                ParentMob.PassiveAction = new MobAction(ActionType.PassiveSkill, ParentMob, targetMob);
+                ServiceLocator.Get<QueueManager>().InjectAction(ParentMob.PassiveAction);
             }
         }
+    }
+    
+    public override void Use(Mob targetMob)
+    {
+        targetMob.MobCombatSystem.Revive();
+        currentReviveCount--;
     }
 }

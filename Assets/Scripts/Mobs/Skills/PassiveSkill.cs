@@ -1,10 +1,7 @@
 using Mobs;
 using UnityEngine;
 
-public class PassiveSkill : Skill
+public abstract class PassiveSkill : Skill
 {
-    public override void Use(Mob targetMob)
-    {
-        
-    }
+    public abstract override void Use(Mob targetMob);
 }

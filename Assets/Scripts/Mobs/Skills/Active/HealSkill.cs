@@ -16,7 +16,6 @@ public class HealSkill : ActiveSkill
 
     public override void Use(Mob targetMob)
     {
-        base.Use(targetMob);
         targetMob.MobCombatSystem.Heal(Amount);
     }
 }

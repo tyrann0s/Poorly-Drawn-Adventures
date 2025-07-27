@@ -37,7 +37,6 @@ public abstract class Skill : ScriptableObject
     public void Initialize(Mob parentMob)
     {
         ParentMob = parentMob;
-        Debug.Log("Parent mob: " + ParentMob.MobData.MobName + "");
     }
 
     public abstract void Use(Mob targetMob);

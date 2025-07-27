@@ -14,8 +14,6 @@ public class VampirismSkill : ActiveSkill
     
     public override void Use(Mob targetMob)
     {
-        base.Use(targetMob);
-        
         targetMob.MobCombatSystem.GetDamage(Amount, targetMob.CurrentCombo);
         if (!targetMob.MobCombatSystem.HandleShieldAttack(targetMob.CurrentCombo)) ParentMob.MobCombatSystem.Heal(Amount);
     }

@@ -16,24 +16,31 @@ namespace Managers
         public void CreateQueue()
         {
             actionList.Clear();
-            
             GenerateEnemyActions();
 
             // Фаза защиты
-            actionList.AddRange(GetDefenseActions(ServiceLocator.Get<MobManager>().PlayerMobs));
-            actionList.AddRange(GetDefenseActions(ServiceLocator.Get<MobManager>().EnemyMobs));
+            var defensePlayer = GetDefenseActions(ServiceLocator.Get<MobManager>().PlayerMobs);
+            var defenseEnemy = GetDefenseActions(ServiceLocator.Get<MobManager>().EnemyMobs);
+            actionList.AddRange(defensePlayer);
+            actionList.AddRange(defenseEnemy);
 
             // Фаза скиллов поддержки
-            actionList.AddRange(GetSupportActions(ServiceLocator.Get<MobManager>().PlayerMobs));
-            actionList.AddRange(GetSupportActions(ServiceLocator.Get<MobManager>().EnemyMobs));
+            var supportPlayer = GetSupportActions(ServiceLocator.Get<MobManager>().PlayerMobs);
+            var supportEnemy = GetSupportActions(ServiceLocator.Get<MobManager>().EnemyMobs);
+            actionList.AddRange(supportPlayer);
+            actionList.AddRange(supportEnemy);
             
             // Фаза атаки
-            actionList.AddRange(GetAttackActions(ServiceLocator.Get<MobManager>().PlayerMobs));
-            actionList.AddRange(GetAttackActions(ServiceLocator.Get<MobManager>().EnemyMobs));
+            var attackPlayer = GetAttackActions(ServiceLocator.Get<MobManager>().PlayerMobs);
+            var attackEnemy = GetAttackActions(ServiceLocator.Get<MobManager>().EnemyMobs);
+            actionList.AddRange(attackPlayer);
+            actionList.AddRange(attackEnemy);
 
             // Фаза пропуска хода
-            actionList.AddRange(GetSkipTurnActions(ServiceLocator.Get<MobManager>().PlayerMobs));
-            actionList.AddRange(GetSkipTurnActions(ServiceLocator.Get<MobManager>().EnemyMobs));
+            var skipPlayer = GetSkipTurnActions(ServiceLocator.Get<MobManager>().PlayerMobs);
+            var skipEnemy = GetSkipTurnActions(ServiceLocator.Get<MobManager>().EnemyMobs);
+            actionList.AddRange(skipPlayer);
+            actionList.AddRange(skipEnemy);
         }
 
         private void GenerateEnemyActions()
@@ -69,7 +76,7 @@ namespace Managers
 
                 if (mob.MobActions.CheckStamina())
                 {
-                    if (mob.CurrentAction.MobActionType is ActionType.Attack or ActionType.Skill)
+                    if (mob.CurrentAction.MobActionType is ActionType.Attack or ActionType.ActiveSkill)
                     {
                         if (ServiceLocator.Get<MobManager>().PlayerMobs.Count > 0)
                         {
@@ -110,7 +117,7 @@ namespace Managers
                 if (!mob || mob.CurrentAction == null)
                     continue;
                 
-                if (mob.CurrentAction.MobActionType == ActionType.Skill)
+                if (mob.CurrentAction.MobActionType == ActionType.ActiveSkill)
                 {
                     if (!mob.MobData.ActiveSkill.IsAttack)
                     {
@@ -142,7 +149,7 @@ namespace Managers
                     continue;
                 }
                 
-                if (mob.CurrentAction.MobActionType == ActionType.Skill)
+                if (mob.CurrentAction.MobActionType == ActionType.ActiveSkill)
                 {
                     if (mob.MobData.ActiveSkill.IsAttack)
                     {
@@ -169,6 +176,12 @@ namespace Managers
             }
 
             return resultList;
+        }
+
+        public void InjectAction(MobAction action)
+        {
+            actionList.Insert(currentActionIndex + 1, action);
+            Debug.Log("Injected");
         }
 
         public void RunQueue()
@@ -234,14 +247,14 @@ namespace Managers
                     break;
 
                 case ActionType.Attack:
-                case ActionType.Skill:
+                case ActionType.ActiveSkill:
                     if (!action.TargetInstance || action.TargetInstance.MobStatusEffects.CheckStun())
                     {
-                        if (Equals(action.MobInstance.MobData.ActiveSkill, typeof(ResurrectSkill)) && action.TargetInstance.State == MobState.Dead)
+                        if (action.MobInstance.MobData.ActiveSkill is ResurrectSkill && action.TargetInstance.State == MobState.Dead)
                         {
                             action.MobInstance.CurrentAction.TargetInstance = action.TargetInstance;
                             action.MobInstance.MobActions.PrepareAction(action.MobActionType);
-                        } else if (action.TargetInstance.State == MobState.Dead)
+                        } else if (action.MobInstance.CurrentAction.TargetInstance.State == MobState.Dead)
                         {
                             Debug.Log($"Attack target is dead or null for {action.MobInstance.name}");
                             NextAction();
@@ -252,6 +265,14 @@ namespace Managers
                     else
                     {
                         action.MobInstance.CurrentAction.TargetInstance = action.TargetInstance;
+                        action.MobInstance.MobActions.PrepareAction(action.MobActionType);
+                    }
+                    break;
+                case ActionType.PassiveSkill:
+                    if (action.MobInstance.MobStatusEffects.StatusEffects.Any(x=>x.EffectType == StatusEffectType.Stun)) {}
+                    else
+                    {
+                        action.MobInstance.PassiveAction.TargetInstance = action.TargetInstance;
                         action.MobInstance.MobActions.PrepareAction(action.MobActionType);
                     }
                     break;

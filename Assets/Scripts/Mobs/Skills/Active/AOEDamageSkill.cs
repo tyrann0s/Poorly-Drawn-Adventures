@@ -15,8 +15,6 @@ public class AOEDamageSkill : ActiveSkill
     
     public override void Use(Mob targetMob)
     {
-        base.Use(targetMob);
-
         foreach (var enemyMob in ServiceLocator.Get<MobManager>().EnemyMobs)
         {
             enemyMob.MobCombatSystem.GetDamage(Amount, enemyMob.CurrentCombo);

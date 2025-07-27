@@ -6,7 +6,8 @@ public enum ActionType
     SkipTurn,
     Defense,
     Attack,
-    Skill,
+    ActiveSkill,
+    PassiveSkill
 }
 
 public class MobAction

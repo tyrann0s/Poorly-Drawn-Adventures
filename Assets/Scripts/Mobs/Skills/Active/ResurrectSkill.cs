@@ -14,8 +14,6 @@ public class ResurrectSkill : ActiveSkill
     
     public override void Use(Mob targetMob)
     {
-        base.Use(targetMob);
-
         if (targetMob.State == MobState.Dead)
         {
             targetMob.MobCombatSystem.Revive();

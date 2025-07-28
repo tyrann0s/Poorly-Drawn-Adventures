@@ -9,11 +9,11 @@ namespace Mobs.Status_Effects
             IsNegative = false;
         }
         
-        public override void ApplyEffect()
+        public override void ApplyEffect(Mob parentMob)
         {
-            ParentMob.UI.ShowText("Defense!", Color.blue);
+            parentMob.UI.ShowText("Defense!", Color.blue);
             ServiceLocator.Get<UIManager>().UISounds.ShieldActivation();
-            ParentMob.UI.ShowShield();
+            parentMob.UI.ShowShield();
         }
     }
 }

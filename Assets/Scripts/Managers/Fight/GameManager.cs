@@ -40,7 +40,7 @@ namespace Managers
         private IEnumerator calmMusicCoroutine;
 
         // События
-        public static Action OnNewWave; 
+        public static Action OnNewWave;
         
         public void Initialize()
         {
@@ -103,6 +103,20 @@ namespace Managers
 
         public void StartFight()
         {
+            foreach (Mob mob in ServiceLocator.Get<MobManager>().PlayerMobs)
+            { 
+                if (mob.State == MobState.Dead) continue;
+                
+                mob.MobStatusEffects.UseActiveEffects();
+            }
+
+            foreach (Mob mob in ServiceLocator.Get<MobManager>().EnemyMobs)
+            {
+                if (mob.State == MobState.Dead) continue;
+                
+                mob.MobStatusEffects.UseActiveEffects();
+            }
+            
             CurrentPhase = GamePhase.Fight;
             ServiceLocator.Get<UIManager>().HideStartBattleButton();
             ServiceLocator.Get<QueueManager>().CreateQueue();

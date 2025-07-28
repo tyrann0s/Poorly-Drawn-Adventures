@@ -9,9 +9,9 @@ namespace Mobs.Status_Effects
             IsNegative = true;
         }
         
-        public override void ApplyEffect()
+        public override void ApplyEffect(Mob parentMob)
         {
-            ParentMob.UI.ShowText("Stunned!", Color.blue);
+            parentMob.UI.ShowText("Stunned!", Color.blue);
         }
     }
 }

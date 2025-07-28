@@ -10,6 +10,7 @@ namespace Mobs
     public class MobActions : MobComponent
     {
         // События
+        public static Action<Mob> OnAttack;
         public static Action<Mob, float> OnDeflect;
         public static Action<Mob, float, bool> OnDamage;
         
@@ -152,6 +153,7 @@ namespace Mobs
         private IEnumerator DamageCoroutine(float damage, float cost)
         {
             ParentMob.CurrentAction.TargetInstance.MobCombatSystem.GetDamage(damage, ParentMob.CurrentCombo);
+            OnAttack?.Invoke(ParentMob.CurrentAction.TargetInstance);
             if (ParentMob.CurrentAction.TargetInstance.MobStatusEffects.CheckShield()) OnDeflect?.Invoke(ParentMob, damage);
             else OnDamage?.Invoke(ParentMob, damage, true);
             ParentMob.MobStamina -= cost;
@@ -168,6 +170,7 @@ namespace Mobs
             ParentMob.MobData.ActiveSkill.Use(ParentMob.CurrentAction.TargetInstance);
             if (ParentMob.IsHostile != ParentMob.CurrentAction.TargetInstance.IsHostile)
             {
+                OnAttack?.Invoke(ParentMob.CurrentAction.TargetInstance);
                 if (ParentMob.CurrentAction.TargetInstance.MobStatusEffects.CheckShield())
                     OnDeflect?.Invoke(ParentMob, ParentMob.MobData.ActiveSkill.Amount);
                 else if (ParentMob.MobData.ActiveSkill.IsRanged) 
@@ -194,7 +197,7 @@ namespace Mobs
         private IEnumerator DefenseCoroutine()
         {
             ParentMob.MobStamina -= ParentMob.MobData.DefenseCost;
-            ParentMob.MobStatusEffects.AddEffect(ParentMob, StatusEffectType.Defense, 1);
+            ParentMob.MobStatusEffects.AddEffect(StatusEffectType.Defense, 1);
             
             yield return new WaitForSeconds(1);
             ServiceLocator.Get<QueueManager>().NextAction();

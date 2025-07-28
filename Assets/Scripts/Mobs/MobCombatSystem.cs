@@ -115,7 +115,7 @@ namespace Mobs
 
                 if (enemyCombo.stun)
                 {
-                    ParentMob.MobStatusEffects.AddEffect(ParentMob, StatusEffectType.Stun, enemyCombo.stunTime);
+                    ParentMob.MobStatusEffects.AddEffect(StatusEffectType.Stun, enemyCombo.stunTime);
                     ParentMob.UI.ShowText($"Stunned for {enemyCombo.stunTime} turns!", Color.white);
                 }
             }

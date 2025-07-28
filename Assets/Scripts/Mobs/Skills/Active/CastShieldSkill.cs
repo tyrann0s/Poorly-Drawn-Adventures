@@ -15,6 +15,6 @@ public class CastShieldSkill : ActiveSkill
     
     public override void Use(Mob targetMob)
     {
-        targetMob.MobStatusEffects.AddEffect(targetMob, StatusEffectType.Defense, 1);
+        targetMob.MobStatusEffects.AddEffect(StatusEffectType.Defense, 1);
     }
 }

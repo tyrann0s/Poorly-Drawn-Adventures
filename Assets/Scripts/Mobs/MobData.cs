@@ -70,6 +70,9 @@ namespace Mobs
         [SerializeField]
         private PassiveSkill passiveSkill;
         public PassiveSkill PassiveSkill => passiveSkill;
+
+        [SerializeField] private ElementType attackElement;
+        public ElementType AttackElement => attackElement;
         
         [Header("Mob Prefab")]
         [SerializeField]

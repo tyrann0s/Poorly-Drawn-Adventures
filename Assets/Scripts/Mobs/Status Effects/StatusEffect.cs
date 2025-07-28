@@ -1,20 +1,22 @@
 using System;
+using UnityEngine;
 
 namespace Mobs.Status_Effects
 {
     public enum StatusEffectType
     {
         Defense,
-        Stun
+        Stun,
+        Elemental
     }
     public abstract class StatusEffect
     {
-        public StatusEffectType EffectType { get; set; }
+        public StatusEffectType EffectType { get; protected set; }
         public int Duration { get; set; }
-        public Mob ParentMob { get; set; }
-        public bool IsNegative { get; set; }
+        public bool IsNegative { get; protected set; }
+        public bool IsActive { get; protected set; }
 
-        public static StatusEffect Create(Mob parentMob, StatusEffectType effectType, int duration)
+        public static StatusEffect Create(StatusEffectType effectType, int duration)
         {
             StatusEffect effect;
             switch (effectType)
@@ -29,12 +31,34 @@ namespace Mobs.Status_Effects
                     throw new ArgumentOutOfRangeException(nameof(effectType), effectType, null);
             }
             
-            effect.ParentMob = parentMob;
             effect.EffectType = effectType;
             effect.Duration = duration;
             return effect;
         }
         
-        public abstract void ApplyEffect();
+        public static StatusEffect Create(ElementType elementType, int duration)
+        {
+            StatusEffect effect;
+            switch (elementType)
+            {
+                case ElementType.Fire:
+                    effect = new SEFire();
+                    break;
+                case ElementType.Air:
+                    effect = new SEAir();
+                    break;
+                case ElementType.Earth:
+                    effect = new SEEarth();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(">" + elementType + "<", elementType, "");
+            }
+            
+            effect.EffectType = StatusEffectType.Elemental;
+            effect.Duration = duration;
+            return effect;
+        }
+        
+        public abstract void ApplyEffect(Mob parentMob);
     }
 }

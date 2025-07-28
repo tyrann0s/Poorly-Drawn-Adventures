@@ -9,37 +9,45 @@ namespace Mobs
     {
         public List<StatusEffect> StatusEffects { get; private set; } = new();
 
-        public void AddEffect(Mob parentMob, StatusEffectType effectType, int duration)
+        public void AddEffect(StatusEffectType effectType, int duration)
         {
             if (duration <= 0)
                 throw new ArgumentException("Длительность эффекта должна быть положительным числом", nameof(duration));
+            
+            var newEffect = StatusEffect.Create(effectType, duration);
+            if (newEffect == null)
+                throw new InvalidOperationException($"Не удалось создать эффект типа {effectType}");
 
-            var existingEffect = StatusEffects.FirstOrDefault(effect => effect.EffectType == effectType);
+            CreateOrUpdateEffect(newEffect, duration);
+        }
+        
+        public void AddEffect(ElementType elementType, int duration)
+        {
+            if (duration <= 0)
+                throw new ArgumentException("Длительность эффекта должна быть положительным числом", nameof(duration));
+            
+            var newEffect = StatusEffect.Create(elementType, duration);
 
-            if (existingEffect != null)
+            CreateOrUpdateEffect(newEffect, duration);
+        }
+
+        private void CreateOrUpdateEffect(StatusEffect effect, int duration)
+        {
+            if (StatusEffects.Contains(effect))
             {
-                UpdateExistingEffect(existingEffect, duration);
+                UpdateExistingEffect(effect, duration);
             }
             else
             {
-                CreateNewEffect(parentMob, effectType, duration);
+                StatusEffects.Add(effect);
+                effect.ApplyEffect(ParentMob);
             }
         }
 
         private void UpdateExistingEffect(StatusEffect effect, int duration)
         {
             effect.Duration = duration;
-            effect.ApplyEffect();
-        }
-
-        private void CreateNewEffect(Mob parentMob, StatusEffectType effectType, int duration)
-        {
-            var newEffect = StatusEffect.Create(parentMob, effectType, duration);
-            if (newEffect == null)
-                throw new InvalidOperationException($"Не удалось создать эффект типа {effectType}");
-
-            StatusEffects.Add(newEffect);
-            newEffect.ApplyEffect();
+            effect.ApplyEffect(ParentMob);
         }
 
         public void UpdateEffectsDuration()
@@ -55,6 +63,14 @@ namespace Mobs
                 {
                     StatusEffects.Remove(effect);
                 }
+            }
+        }
+
+        public void UseActiveEffects()
+        {
+            foreach (var statusEffect in StatusEffects)
+            {
+                statusEffect.ApplyEffect(ParentMob);
             }
         }
 

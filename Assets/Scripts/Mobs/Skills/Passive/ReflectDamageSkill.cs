@@ -24,7 +24,10 @@ public class ReflectDamageSkill : PassiveSkill
 
     public void Use(Mob targetMob, float damageAmount)
     {
-        targetMob.MobCombatSystem.GetDamage(damageAmount, targetMob.CurrentCombo);
+        if (ParentMob)
+        {
+            targetMob.MobCombatSystem.GetDamage(damageAmount, targetMob.CurrentCombo);
+        }
     }
 
     public override void Use(Mob targetMob)

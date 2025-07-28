@@ -22,7 +22,7 @@ namespace Mobs
             animator.Play("Run");
         }
 
-        private void PlayAttack_Animation()
+        public void PlayAttack_Animation()
         {
             animator.Play("Attack");
         }
@@ -49,6 +49,8 @@ namespace Mobs
     
         public void PlayActionAnimation(bool isActive)
         {
+            if (ParentMob.State == MobState.Dead) return;
+            
             ParentMob.SoundController.StopMove();
 
             if (isActive)

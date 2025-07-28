@@ -14,6 +14,6 @@ public class EnhancedRangeSkill : ActiveSkill
     
     public override void Use(Mob targetMob)
     {
-        targetMob.MobCombatSystem.GetDamage(Amount, targetMob.CurrentCombo);
+        targetMob.MobCombatSystem.GetDamage(Amount, ParentMob.CurrentCombo);
     }
 }

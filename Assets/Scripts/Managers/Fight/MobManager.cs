@@ -109,32 +109,8 @@ namespace Managers
             {
                 ServiceLocator.Get<GameManager>().Win();
             }
-            
-            OnMobDied?.Invoke(mob);
 
-            /*if (mob.IsHostile)
-            {
-                if (EnemyMobs.Contains(mob))
-                {
-                    EnemyMobs.Remove(mob);
-                }
-                else
-                {
-                    Debug.LogWarning($"Mob {mob.name} not found in enemy mobs list!");
-                }
-            }
-            else
-            {
-                if (PlayerMobs.Contains(mob))
-                {
-                    PlayerMobs.Remove(mob);
-                    ProgressManager.Instance.CurrentTeam.Remove(mob.MobData);
-                }
-                else
-                {
-                    Debug.LogWarning($"Mob {mob.name} not found in player mobs list!");
-                }
-            }*/
+            OnMobDied?.Invoke(mob);
         }
     }
 }

@@ -26,6 +26,6 @@ MonoBehaviour:
   attackCost: 50
   activeSkill: {fileID: 11400000, guid: 24d9573902f8ddf46b886f2562cfcec7, type: 2}
   maxTargets: 1
-  passiveSkill: {fileID: 0}
+  passiveSkill: {fileID: 11400000, guid: 1e5588d9ac6f8704eb297030e0681862, type: 2}
   MobPrefab: {fileID: 4133970978171093904, guid: daa3609e561141a48ae7c5468533f100,
     type: 3}

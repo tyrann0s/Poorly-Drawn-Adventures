@@ -34,6 +34,7 @@ namespace Mobs
         
         public void GoToOriginPosition(bool withSound)
         {
+            if (ParentMob.State == MobState.Dead) return;
             if (IsOnOriginPosition()) return;
 
             FlipMob();

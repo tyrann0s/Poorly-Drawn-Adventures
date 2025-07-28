@@ -16,7 +16,6 @@ namespace UI
         
         public void ShowNotification(string text)
         {
-            Debug.Log("Notification Shown");
             transform.DOKill();
             transform.localScale = Vector3.one;
             

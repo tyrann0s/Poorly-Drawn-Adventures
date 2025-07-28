@@ -33,17 +33,20 @@ public class AutoResSkill : PassiveSkill
     private void ResetReviveCount()
     {
         currentReviveCount = reviveCount;
-        ParentMob.PassiveAction = null;
+        if (ParentMob) ParentMob.PassiveAction = null;
     }
 
     private void Prepare(Mob targetMob)
     {
-        if (targetMob.IsHostile == ParentMob.IsHostile)
+        if (ParentMob)
         {
-            if (currentReviveCount > 0)
+            if (targetMob.IsHostile == ParentMob.IsHostile)
             {
-                ParentMob.PassiveAction = new MobAction(ActionType.PassiveSkill, ParentMob, targetMob);
-                ServiceLocator.Get<QueueManager>().InjectAction(ParentMob.PassiveAction);
+                if (currentReviveCount > 0)
+                {
+                    ParentMob.PassiveAction = new MobAction(ActionType.PassiveSkill, ParentMob, targetMob);
+                    ServiceLocator.Get<QueueManager>().InjectAction(ParentMob.PassiveAction);
+                }
             }
         }
     }

@@ -11,6 +11,7 @@ namespace Mobs
     {
         // События
         public static Action<Mob, float> OnDeflect;
+        public static Action<Mob, float, bool> OnDamage;
         
         public void SkipTurn()
         {
@@ -99,6 +100,7 @@ namespace Mobs
         
         public void PrepareAction(ActionType actionType)
         {
+            if (ParentMob.State == MobState.Dead) return;
             ParentMob.State = MobState.Attack;
             
             switch (actionType)
@@ -151,6 +153,7 @@ namespace Mobs
         {
             ParentMob.CurrentAction.TargetInstance.MobCombatSystem.GetDamage(damage, ParentMob.CurrentCombo);
             if (ParentMob.CurrentAction.TargetInstance.MobStatusEffects.CheckShield()) OnDeflect?.Invoke(ParentMob, damage);
+            else OnDamage?.Invoke(ParentMob, damage, true);
             ParentMob.MobStamina -= cost;
 
             yield return new WaitForSeconds(.5f);
@@ -167,6 +170,9 @@ namespace Mobs
             {
                 if (ParentMob.CurrentAction.TargetInstance.MobStatusEffects.CheckShield())
                     OnDeflect?.Invoke(ParentMob, ParentMob.MobData.ActiveSkill.Amount);
+                else if (ParentMob.MobData.ActiveSkill.IsRanged) 
+                    OnDamage?.Invoke(ParentMob, ParentMob.MobData.ActiveSkill.Amount, false);
+                else OnDamage?.Invoke(ParentMob, ParentMob.MobData.ActiveSkill.Amount, true);
             }
             ParentMob.MobStamina -= ParentMob.MobData.ActiveSkill.Cost;
             

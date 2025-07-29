@@ -55,12 +55,26 @@ namespace Mobs
                 } else return false;
             }
         }
+
+        public bool HandleEvasion()
+        {
+            if (ParentMob.MobData.PassiveSkill is EvasionSkill)
+            {
+                var evasionSkill = ParentMob.MobData.PassiveSkill as EvasionSkill;
+                float rand = UnityEngine.Random.value;
+                
+                if (rand > evasionSkill.Chance) return false;
+                ParentMob.UI.ShowText("Evasion!", Color.white);
+                return true;
+            } return false;
+        }
     
         private void ApplyDamage(float damage, ElementCombo enemyCombo)
         {
             if (ParentMob.IsHostile && enemyCombo) ProgressManager.Instance.UnlockRecord(enemyCombo);
             
             if (HandleShieldAttack(enemyCombo)) return;
+            if (HandleEvasion()) return;
 
             float resultDamage;
 

@@ -33,6 +33,8 @@ namespace Mobs
 
         private void CreateOrUpdateEffect(StatusEffect effect, int duration)
         {
+            if (effect.IsNegative && ParentMob.MobData.PassiveSkill is StatusEffectImmuneSkill) return;
+            
             if (StatusEffects.Contains(effect))
             {
                 UpdateExistingEffect(effect, duration);

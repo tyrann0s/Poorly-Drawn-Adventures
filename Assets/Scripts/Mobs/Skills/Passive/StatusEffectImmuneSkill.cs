@@ -1,11 +1,11 @@
 using System;
 using Mobs;
+using Mobs.Skills;
 using UnityEngine;
 
-[CreateAssetMenu (fileName = "Status Effect Immune", menuName = "Data/Skills/Passive Skills/Status Effect Immune", order = 1)]
 public class StatusEffectImmuneSkill : PassiveSkill
 {
-    private void Reset()
+    private void Start()
     {
         SkillName = "Status Effect Immune";
         IsAttack = false;

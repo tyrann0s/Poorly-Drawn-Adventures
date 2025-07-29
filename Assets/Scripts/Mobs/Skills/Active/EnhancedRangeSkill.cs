@@ -1,10 +1,10 @@
 using Mobs;
+using Mobs.Skills;
 using UnityEngine;
 
-[ CreateAssetMenu (fileName = "Enhanced Range Skill", menuName = "Data/Skills/Active Skills/Enhanced Range Skill", order = 1)]
 public class EnhancedRangeSkill : ActiveSkill
 {
-    private void Reset()
+    private void Start()
     {
         SkillName = "Enhanced Range Skill";
         

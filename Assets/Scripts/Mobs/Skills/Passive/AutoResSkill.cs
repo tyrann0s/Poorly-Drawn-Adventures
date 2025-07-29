@@ -1,9 +1,9 @@
 using System;
 using Managers;
 using Mobs;
+using Mobs.Skills;
 using UnityEngine;
 
-[CreateAssetMenu (fileName = "Auto Revive", menuName = "Data/Skills/Passive Skills/Auto Revive", order = 1)]
 public class AutoResSkill : PassiveSkill
 {
     [SerializeField] private int reviveCount = 1;
@@ -23,7 +23,7 @@ public class AutoResSkill : PassiveSkill
         GameManager.OnNewWave -= ResetReviveCount;
     }
 
-    private void Reset()
+    private void Start()
     {
         SkillName = "Auto Revive";
         IsAttack = false;

@@ -2,12 +2,12 @@ using System;
 using System.Collections;
 using Managers;
 using Mobs;
+using Mobs.Skills;
 using UnityEngine;
 
-[CreateAssetMenu (fileName = "Counter Attack", menuName = "Data/Skills/Passive Skills/Counter Attack", order = 1)]
 public class CounterAttackSkill : PassiveSkill
 {
-    private void Reset()
+    private void Start()
     {
         SkillName = "Counter Attack";
         IsAttack = true;

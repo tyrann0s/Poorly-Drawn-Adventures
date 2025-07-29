@@ -1,11 +1,11 @@
 using System;
 using Mobs;
+using Mobs.Skills;
 using UnityEngine;
 
-[CreateAssetMenu (fileName = "Reflect Damage", menuName = "Data/Skills/Passive Skills/Reflect Damage", order = 1)]
 public class ReflectDamageSkill : PassiveSkill
 {
-    private void Reset()
+    private void Start()
     {
         SkillName = "Reflect Damage";
         IsAttack = true;

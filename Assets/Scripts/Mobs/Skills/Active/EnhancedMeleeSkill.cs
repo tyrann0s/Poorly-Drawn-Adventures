@@ -1,10 +1,10 @@
 using Mobs;
+using Mobs.Skills;
 using UnityEngine;
 
-[ CreateAssetMenu (fileName = "Enhanced Melee Skill", menuName = "Data/Skills/Active Skills/Enhanced Melee Skill", order = 1)]
 public class EnhancedMeleeSkill : ActiveSkill
 {
-    private void Reset()
+    private void Start()
     {
         SkillName = "Enhacned Melee Skill";
         

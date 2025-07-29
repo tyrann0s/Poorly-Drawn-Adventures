@@ -1,10 +1,10 @@
 using Mobs;
+using Mobs.Skills;
 using UnityEngine;
 
-[ CreateAssetMenu (fileName = "Resurrect", menuName = "Data/Skills/Active Skills/Resurrect", order = 1)]
 public class ResurrectSkill : ActiveSkill
 {
-    private void Reset()
+    private void Start()
     {
         SkillName = "Resurrect";
         

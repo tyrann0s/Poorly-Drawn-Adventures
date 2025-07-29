@@ -1,12 +1,12 @@
 using System;
 using Mobs;
+using Mobs.Skills;
 using UnityEngine;
 
 
-[ CreateAssetMenu (fileName = "Heal", menuName = "Data/Skills/Active Skills/Heal", order = 1)]
 public class HealSkill : ActiveSkill
 {
-    private void Reset()
+    private void Start()
     {
         SkillName = "Heal";
         

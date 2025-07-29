@@ -1,15 +1,14 @@
 using System;
 using Mobs;
+using Mobs.Skills;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-[CreateAssetMenu (fileName = "Evasion", menuName = "Data/Skills/Passive Skills/Evasion", order = 1)]
 public class EvasionSkill : PassiveSkill
 {
     [SerializeField] private float chance = 0.5f;
     public float Chance => chance;
     
-    private void Reset()
+    private void Start()
     {
         SkillName = "Evasion";
         IsAttack = false;

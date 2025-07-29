@@ -1,7 +1,6 @@
-using Mobs;
-using UnityEngine;
-
-public abstract class PassiveSkill : Skill
+namespace Mobs.Skills
 {
-    public abstract override void Use(Mob targetMob);
+    public abstract class PassiveSkill : Skill
+    {
+    }
 }

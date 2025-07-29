@@ -1,43 +1,23 @@
-using System;
-using Mobs;
-using UnityEngine;
-using UnityEngine.Serialization;
-
-public abstract class Skill : ScriptableObject
+namespace Mobs.Skills
 {
-    protected Mob ParentMob { get; private set; }
+    [System.Serializable]
+    public abstract class Skill
+    {
+        public string SkillName { get; protected set; }
+        public bool IsAttack { get; protected set; }
+        public bool IsRanged { get; protected set; }
     
-    [SerializeField] private string skillName;
-    public string SkillName
-    {
-        get => skillName;
-        set => skillName = value;
+        public Mob ParentMob { get; private set; }
+        public float Amount { get; private set; }
+        public float Cost { get; private set; }
+
+        public void Initialize(Mob parentMob, float amount, float cost)
+        {
+            ParentMob = parentMob;
+            Amount = amount;
+            Cost = cost;
+        }
+
+        public abstract void Use(Mob targetMob);
     }
-
-    [SerializeField] private float amount = 50f;
-    public float Amount => amount;
-
-    [SerializeField] private float cost = 50f;
-    public float Cost => cost;
-
-    [SerializeField] private bool isAttack;
-    public bool IsAttack
-    {
-        get => isAttack;
-        set => isAttack = value;
-    }
-
-    [SerializeField] private bool isRanged;
-    public bool IsRanged
-    {
-        get => isRanged;
-        set => isRanged = value;
-    }
-
-    public void Initialize(Mob parentMob)
-    {
-        ParentMob = parentMob;
-    }
-
-    public abstract void Use(Mob targetMob);
 }

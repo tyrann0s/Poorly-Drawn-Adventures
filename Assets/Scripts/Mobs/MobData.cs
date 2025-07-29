@@ -1,3 +1,5 @@
+using Mobs.Skills;
+using Mobs.Skills.Active;
 using UnityEngine;
 
 namespace Mobs
@@ -61,16 +63,30 @@ namespace Mobs
         private float attackCost;
         public float AttackCost => attackCost;
 
-        [SerializeField] private ActiveSkill activeSkill;
+        [Header("Active Skill")]
+        [SerializeReference] private ActiveSkill activeSkill;
         public ActiveSkill ActiveSkill => activeSkill;
+        
+        [SerializeField]
+        private float skillDamage = 50;
+        public float SkillDamage => skillDamage;
+
+        [SerializeField]
+        private float skillCost = 50;
+        public float SkillCost => skillCost;
 
         [SerializeField] private int maxTargets = 1;
         public int MaxTargets => maxTargets;
         
-        [SerializeField]
-        private PassiveSkill passiveSkill;
+        [Header("Passive Skill")]
+        [SerializeReference] private PassiveSkill passiveSkill;
         public PassiveSkill PassiveSkill => passiveSkill;
+        
+        [SerializeField]
+        private float passiveDamage = 50;
+        public float PassiveDamage => passiveDamage;
 
+        [Header("Attack Element")]
         [SerializeField] private ElementType attackElement;
         public ElementType AttackElement => attackElement;
         
@@ -78,6 +94,7 @@ namespace Mobs
         [SerializeField]
         private GameObject MobPrefab;
         public GameObject mobPrefab => MobPrefab;
+
 
         public string GetId()
         {

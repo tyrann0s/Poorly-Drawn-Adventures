@@ -1,10 +1,10 @@
 using Mobs;
+using Mobs.Skills;
 using UnityEngine;
 
-[ CreateAssetMenu (fileName = "Vampirism", menuName = "Data/Skills/Active Skills/Vampirism", order = 1)]
 public class VampirismSkill : ActiveSkill
 {
-    private void Reset()
+    private void Start()
     {
         SkillName = "Vampirism";
         

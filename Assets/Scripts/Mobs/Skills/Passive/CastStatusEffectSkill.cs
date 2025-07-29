@@ -1,13 +1,14 @@
 using System;
 using Mobs;
+using Mobs.Skills;
 using Mobs.Status_Effects;
 using UnityEngine;
 
-[CreateAssetMenu (fileName = "Cast Status Effect", menuName = "Data/Skills/Passive Skills/Cast Status Effect", order = 1)]
 public class CastStatusEffectSkill : PassiveSkill
 {
     [SerializeField] private int duration = 1;
-    private void Reset()
+    
+    private void Start()
     {
         SkillName = "Cast Status Effect";
         IsAttack = false;

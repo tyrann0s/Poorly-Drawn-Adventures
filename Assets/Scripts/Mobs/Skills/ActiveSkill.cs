@@ -1,8 +1,8 @@
-using System;
-using Mobs;
-using UnityEngine;
-
-public abstract class ActiveSkill : Skill
+namespace Mobs.Skills
 {
-    public abstract override void Use(Mob targetMob);
+    [System.Serializable]
+    public abstract class ActiveSkill : Skill
+    {
+
+    }
 }

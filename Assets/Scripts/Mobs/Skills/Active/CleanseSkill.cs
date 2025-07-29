@@ -1,10 +1,10 @@
 using Mobs;
+using Mobs.Skills;
 using UnityEngine;
 
-[ CreateAssetMenu (fileName = "Cleanse", menuName = "Data/Skills/Active Skills/Cleanse", order = 1)]
 public class CleanseSkill : ActiveSkill
 {
-    private void Reset()
+    private void Start()
     {
         SkillName = "Cleanse";
         

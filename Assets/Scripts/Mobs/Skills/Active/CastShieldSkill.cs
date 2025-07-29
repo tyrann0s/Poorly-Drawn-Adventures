@@ -1,11 +1,11 @@
 using Mobs;
+using Mobs.Skills;
 using Mobs.Status_Effects;
 using UnityEngine;
 
-[ CreateAssetMenu (fileName = "Cast Shield", menuName = "Data/Skills/Active Skills/Cast Shield", order = 1)]
 public class CastShieldSkill : ActiveSkill
 {
-    private void Reset()
+    private void Start()
     {
         SkillName = "Cast Shield";
         

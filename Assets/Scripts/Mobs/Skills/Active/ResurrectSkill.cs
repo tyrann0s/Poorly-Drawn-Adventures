@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class ResurrectSkill : ActiveSkill
 {
-    private void Start()
+    public override void Initialize(Mob parentMob, float amount, float cost)
     {
-        SkillName = "Resurrect";
+        base.Initialize(parentMob, amount, cost);
         
+        SkillName = "Resurrect";
         IsAttack = false;
         IsRanged = true;
     }

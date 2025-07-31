@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class StatusEffectImmuneSkill : PassiveSkill
 {
-    private void Start()
+    public override void Initialize(Mob parentMob, float amount, float cost)
     {
+        base.Initialize(parentMob, amount, cost);
+        
         SkillName = "Status Effect Immune";
         IsAttack = false;
         IsRanged = true;

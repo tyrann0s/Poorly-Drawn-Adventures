@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class EnhancedRangeSkill : ActiveSkill
 {
-    private void Start()
+    public override void Initialize(Mob parentMob, float amount, float cost)
     {
-        SkillName = "Enhanced Range Skill";
+        base.Initialize(parentMob, amount, cost);
         
+        SkillName = "Enhanced Range Skill";
         IsAttack = true;
         IsRanged = true;
     }

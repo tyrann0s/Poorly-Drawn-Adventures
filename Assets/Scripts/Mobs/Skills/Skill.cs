@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Mobs.Skills
 {
     [System.Serializable]
@@ -11,7 +13,7 @@ namespace Mobs.Skills
         public float Amount { get; private set; }
         public float Cost { get; private set; }
 
-        public void Initialize(Mob parentMob, float amount, float cost)
+        public virtual void Initialize(Mob parentMob, float amount, float cost)
         {
             ParentMob = parentMob;
             Amount = amount;

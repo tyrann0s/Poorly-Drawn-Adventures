@@ -9,25 +9,25 @@ public class AutoResSkill : PassiveSkill
     [SerializeField] private int reviveCount = 1;
     private int currentReviveCount;
 
-    private void OnEnable()
+    public override void Initialize(Mob parentMob, float amount, float cost)
     {
+        base.Initialize(parentMob, amount, cost);
+        
+        SkillName = "Auto Revive";
+        IsAttack = false;
+        IsRanged = true;
+        
         ResetReviveCount();
         
         MobManager.OnMobDied += Prepare;
         GameManager.OnNewWave += ResetReviveCount;
     }
-    
-    private void OnDisable()
+
+    public override void Cleanup()
     {
         MobManager.OnMobDied -= Prepare;   
         GameManager.OnNewWave -= ResetReviveCount;
-    }
-
-    private void Start()
-    {
-        SkillName = "Auto Revive";
-        IsAttack = false;
-        IsRanged = true;
+        base.Cleanup();
     }
 
     private void ResetReviveCount()

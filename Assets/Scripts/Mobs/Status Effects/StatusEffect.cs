@@ -51,7 +51,8 @@ namespace Mobs.Status_Effects
                     effect = new SEEarth();
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(">" + elementType + "<", elementType, "");
+                    effect = new SEEmpty();
+                    break;
             }
             
             effect.EffectType = StatusEffectType.Elemental;

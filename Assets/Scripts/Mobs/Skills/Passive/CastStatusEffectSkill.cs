@@ -1,35 +1,38 @@
-using System;
 using Mobs;
 using Mobs.Skills;
-using Mobs.Status_Effects;
 using UnityEngine;
 
 public class CastStatusEffectSkill : PassiveSkill
 {
     [SerializeField] private int duration = 1;
-    
-    private void Start()
+
+    public override void Initialize(Mob parentMob, float amount, float cost)
     {
+        base.Initialize(parentMob, amount, cost);
+        
         SkillName = "Cast Status Effect";
         IsAttack = false;
         IsRanged = true;
-    }
-
-    private void OnEnable()
-    {
+        
         MobActions.OnAttack += Use;
     }
 
-    private void OnDisable()
+    public override void Cleanup()
     {
         MobActions.OnAttack -= Use;
+        base.Cleanup();
     }
 
-    public override void Use(Mob targetMob)
+    public void Use(Mob parentMob, Mob targetMob)
     {
-        if (ParentMob)
+        if (parentMob == ParentMob)
         {
             targetMob.MobStatusEffects.AddEffect(ParentMob.MobData.AttackElement, duration);
         }
+    }
+    
+    public override void Use(Mob targetMob)
+    {
+        throw new System.NotImplementedException();
     }
 }

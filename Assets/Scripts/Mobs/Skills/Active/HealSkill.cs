@@ -6,10 +6,11 @@ using UnityEngine;
 
 public class HealSkill : ActiveSkill
 {
-    private void Start()
+    public override void Initialize(Mob parentMob, float amount, float cost)
     {
-        SkillName = "Heal";
+        base.Initialize(parentMob, amount, cost);
         
+        SkillName = "Heal";
         IsAttack = false;
         IsRanged = true;
     }

@@ -10,9 +10,9 @@ namespace Mobs
     public class MobActions : MobComponent
     {
         // События
-        public static Action<Mob> OnAttack;
-        public static Action<Mob, float> OnDeflect;
-        public static Action<Mob, float, bool> OnDamage;
+        public static Action<Mob, Mob> OnAttack;
+        public static Action<Mob, Mob, float> OnDeflect;
+        public static Action<Mob, Mob, float, bool> OnDamage;
         
         public void SkipTurn()
         {
@@ -153,9 +153,13 @@ namespace Mobs
         private IEnumerator DamageCoroutine(float damage, float cost)
         {
             ParentMob.CurrentAction.TargetInstance.MobCombatSystem.GetDamage(damage, ParentMob.CurrentCombo);
-            OnAttack?.Invoke(ParentMob.CurrentAction.TargetInstance);
-            if (ParentMob.CurrentAction.TargetInstance.MobStatusEffects.CheckShield()) OnDeflect?.Invoke(ParentMob, damage);
-            else OnDamage?.Invoke(ParentMob, damage, true);
+            if (ParentMob.CurrentAction.TargetInstance.MobStatusEffects.CheckShield()) 
+                OnDeflect?.Invoke(ParentMob.CurrentAction.TargetInstance, ParentMob, damage);
+            else
+            {
+                OnDamage?.Invoke(ParentMob.CurrentAction.TargetInstance, ParentMob, damage, true);
+                OnAttack?.Invoke(ParentMob, ParentMob.CurrentAction.TargetInstance);
+            }
             ParentMob.MobStamina -= cost;
 
             yield return new WaitForSeconds(.5f);
@@ -170,12 +174,18 @@ namespace Mobs
             ParentMob.MobData.ActiveSkill.Use(ParentMob.CurrentAction.TargetInstance);
             if (ParentMob.IsHostile != ParentMob.CurrentAction.TargetInstance.IsHostile)
             {
-                OnAttack?.Invoke(ParentMob.CurrentAction.TargetInstance);
                 if (ParentMob.CurrentAction.TargetInstance.MobStatusEffects.CheckShield())
-                    OnDeflect?.Invoke(ParentMob, ParentMob.MobData.ActiveSkill.Amount);
-                else if (ParentMob.MobData.ActiveSkill.IsRanged) 
-                    OnDamage?.Invoke(ParentMob, ParentMob.MobData.ActiveSkill.Amount, false);
-                else OnDamage?.Invoke(ParentMob, ParentMob.MobData.ActiveSkill.Amount, true);
+                    OnDeflect?.Invoke(ParentMob.CurrentAction.TargetInstance, ParentMob, ParentMob.MobData.ActiveSkill.Amount);
+                else if (ParentMob.MobData.ActiveSkill.IsRanged)
+                {
+                    OnDamage?.Invoke(ParentMob.CurrentAction.TargetInstance, ParentMob, ParentMob.MobData.ActiveSkill.Amount, false);
+                    OnAttack?.Invoke(ParentMob, ParentMob.CurrentAction.TargetInstance);
+                }
+                else
+                {
+                    OnDamage?.Invoke(ParentMob.CurrentAction.TargetInstance, ParentMob, ParentMob.MobData.ActiveSkill.Amount, true);
+                    OnAttack?.Invoke(ParentMob, ParentMob.CurrentAction.TargetInstance);
+                }
             }
             ParentMob.MobStamina -= ParentMob.MobData.ActiveSkill.Cost;
             

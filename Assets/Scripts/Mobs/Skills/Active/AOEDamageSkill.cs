@@ -5,10 +5,11 @@ namespace Mobs.Skills.Active
     [System.Serializable]
     public class AOEDamageSkill : ActiveSkill
     {
-        public AOEDamageSkill()
+        public override void Initialize(Mob parentMob, float amount, float cost)
         {
+            base.Initialize(parentMob, amount, cost);
+            
             SkillName = "AOE Damage";
-        
             IsAttack = true;
             IsRanged = true;
         }

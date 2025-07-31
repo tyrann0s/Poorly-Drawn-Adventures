@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class CleanseSkill : ActiveSkill
 {
-    private void Start()
+    public override void Initialize(Mob parentMob, float amount, float cost)
     {
-        SkillName = "Cleanse";
+        base.Initialize(parentMob, amount, cost);
         
+        SkillName = "Cleanse";
         IsAttack = false;
         IsRanged = true;
     }

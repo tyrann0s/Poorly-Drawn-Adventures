@@ -59,7 +59,7 @@ namespace Mobs
         {
             hpBar.Init(GetComponent<Mob>().MobHP);
             shieldOiriginPosition = shieldIcon.transform.localPosition;
-            buttons.RenameSkillButton(ParentMob.MobData.ActiveSkill.SkillName);
+            if (ParentMob.MobData.ActiveSkill != null) buttons.RenameSkillButton(ParentMob.MobData.ActiveSkill.SkillName);
         }
 
         public void Activate()
@@ -111,7 +111,6 @@ namespace Mobs
                 case SelectingState.Player:
                     if (ParentMob.MobData.ActiveSkill is ResurrectSkill)
                     {
-                        Debug.Log("AAAAAA");
                         foreach (Mob mob in ServiceLocator.Get<MobManager>().PlayerMobs)
                         {
                             if (mob.UI && mob.UI.MobCursor && mob != ServiceLocator.Get<GameManager>().ActivatedMob &&

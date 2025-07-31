@@ -7,9 +7,11 @@ public class EvasionSkill : PassiveSkill
 {
     [SerializeField] private float chance = 0.5f;
     public float Chance => chance;
-    
-    private void Start()
+
+    public override void Initialize(Mob parentMob, float amount, float cost)
     {
+        base.Initialize(parentMob, amount, cost);
+        
         SkillName = "Evasion";
         IsAttack = false;
         IsRanged = false;

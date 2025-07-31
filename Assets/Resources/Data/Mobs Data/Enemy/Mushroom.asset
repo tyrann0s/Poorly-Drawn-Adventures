@@ -24,8 +24,22 @@ MonoBehaviour:
   defenseCost: 50
   attackDamage: 50
   attackCost: 50
-  activeSkill: {fileID: 11400000, guid: adeccf7d0ae19c44fafb6b87257a5a56, type: 2}
+  activeSkill:
+    rid: 5413627630245642315
+  skillDamage: 50
+  skillCost: 50
   maxTargets: 1
-  passiveSkill: {fileID: 11400000, guid: 1e5588d9ac6f8704eb297030e0681862, type: 2}
+  passiveSkill:
+    rid: -2
+  passiveDamage: 50
+  attackElement: 0
   MobPrefab: {fileID: 4133970978171093904, guid: 80df389f92ec84547812e698d709ff0d,
     type: 3}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 5413627630245642315
+      type: {class: EnhancedMeleeSkill, ns: , asm: GameAssembly}
+      data: 

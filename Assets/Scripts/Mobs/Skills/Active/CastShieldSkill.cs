@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class CastShieldSkill : ActiveSkill
 {
-    private void Start()
+    public override void Initialize(Mob parentMob, float amount, float cost)
     {
-        SkillName = "Cast Shield";
+        base.Initialize(parentMob, amount, cost);
         
+        SkillName = "Cast Shield";
         IsAttack = false;
         IsRanged = true;
     }

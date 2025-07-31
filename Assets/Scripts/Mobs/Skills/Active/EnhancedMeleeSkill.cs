@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class EnhancedMeleeSkill : ActiveSkill
 {
-    private void Start()
+    public override void Initialize(Mob parentMob, float amount, float cost)
     {
-        SkillName = "Enhacned Melee Skill";
+        base.Initialize(parentMob, amount, cost);
         
+        SkillName = "Enhacned Melee Skill";
         IsAttack = true;
         IsRanged = false;
     }

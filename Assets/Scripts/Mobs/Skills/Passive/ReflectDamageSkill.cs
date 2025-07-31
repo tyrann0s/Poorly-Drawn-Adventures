@@ -5,29 +5,27 @@ using UnityEngine;
 
 public class ReflectDamageSkill : PassiveSkill
 {
-    private void Start()
+    public override void Initialize(Mob parentMob, float amount, float cost)
     {
+        base.Initialize(parentMob, amount, cost);
+        
         SkillName = "Reflect Damage";
         IsAttack = true;
         IsRanged = true;
-    }
-
-    private void OnEnable()
-    {
+        
         MobActions.OnDeflect += Use;
     }
 
-    private void OnDisable()
+    public override void Cleanup()
     {
         MobActions.OnDeflect -= Use;
+        base.Cleanup();
     }
 
-    public void Use(Mob targetMob, float damageAmount)
+    public void Use(Mob parentMob, Mob targetMob, float damageAmount)
     {
-        if (ParentMob)
-        {
-            targetMob.MobCombatSystem.GetDamage(damageAmount, targetMob.CurrentCombo);
-        }
+        if (parentMob != ParentMob) return;
+        targetMob.MobCombatSystem.GetDamage(damageAmount, targetMob.CurrentCombo);
     }
 
     public override void Use(Mob targetMob)

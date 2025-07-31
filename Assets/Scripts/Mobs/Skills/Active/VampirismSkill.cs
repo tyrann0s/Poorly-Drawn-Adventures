@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class VampirismSkill : ActiveSkill
 {
-    private void Start()
+    public override void Initialize(Mob parentMob, float amount, float cost)
     {
-        SkillName = "Vampirism";
+        base.Initialize(parentMob, amount, cost);
         
+        SkillName = "Vampirism";
         IsAttack = true;
         IsRanged = true;
     }

@@ -70,6 +70,8 @@ namespace Mobs
             MobHP = mobData.MaxHP;
             MobStamina = mobData.MaxStamina;
 
+            if (mobData.ActiveSkill == null) Debug.LogError($"АКТИВНЫЙ СКИЛЛ НЕ НАЗНАЧЕН на {MobData.MobName}");
+            
             mobData.ActiveSkill?.Initialize(this, mobData.SkillDamage, mobData.SkillCost);
             mobData.PassiveSkill?.Initialize(this, mobData.PassiveDamage, 0);
         }
@@ -95,6 +97,11 @@ namespace Mobs
             if (State == MobState.Activated) State = MobState.Idle;
             UI.HideUI();
             //ServiceLocator.Get<MobManager>().ActivatedMob = null;
+        }
+
+        private void OnDestroy()
+        {
+            MobData.PassiveSkill?.Cleanup();
         }
     }
 }

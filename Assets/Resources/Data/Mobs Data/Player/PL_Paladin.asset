@@ -24,9 +24,24 @@ MonoBehaviour:
   defenseCost: 50
   attackDamage: 50
   attackCost: 50
-  activeSkill: {fileID: 11400000, guid: 24d9573902f8ddf46b886f2562cfcec7, type: 2}
+  activeSkill:
+    rid: 5413627630245642321
+  skillDamage: 50
+  skillCost: 50
   maxTargets: 1
-  passiveSkill: {fileID: 11400000, guid: 89bc691d0c1f7b14a80216d365101efe, type: 2}
+  passiveSkill:
+    rid: 5413627630245642333
+  passiveDamage: 50
   attackElement: 4
   MobPrefab: {fileID: 4133970978171093904, guid: daa3609e561141a48ae7c5468533f100,
     type: 3}
+  references:
+    version: 2
+    RefIds:
+    - rid: 5413627630245642321
+      type: {class: ResurrectSkill, ns: , asm: GameAssembly}
+      data: 
+    - rid: 5413627630245642333
+      type: {class: CastStatusEffectSkill, ns: , asm: GameAssembly}
+      data:
+        duration: 1

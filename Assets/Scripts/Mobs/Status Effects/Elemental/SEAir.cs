@@ -3,13 +3,14 @@ using UnityEngine;
 
 public class SEAir : SEElemental
 {
-    public SEAir()
+    public SEAir(float increasedCost)
     {
         IsNegative = true;
+        Damage = increasedCost;
     }
     
     public override void ApplyEffect(Mob parentMob)
     {
-        Debug.Log("Увеличивает расход стамины");
+        parentMob.UI.ShowText("УВЕЛИЧЕН РАСХОД СТАМИНЫ!", Color.cyan);
     }
 }

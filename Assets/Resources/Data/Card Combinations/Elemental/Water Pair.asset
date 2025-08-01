@@ -18,7 +18,7 @@ MonoBehaviour:
   - elementType: 4
   - elementType: 4
   rankConditions: []
-  damageType: 4
+  elementType: 4
   damageMultiplier: 1.5
   comboName: Water Pair
   description: 

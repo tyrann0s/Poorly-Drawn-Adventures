@@ -17,7 +17,7 @@ MonoBehaviour:
   - amount: 3
   elementConditions: []
   rankConditions: []
-  damageType: 2
+  elementType: 2
   damageMultiplier: 2
   comboName: Etherial Three
   description: 

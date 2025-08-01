@@ -21,12 +21,12 @@ namespace Mobs
             CreateOrUpdateEffect(newEffect, duration);
         }
         
-        public void AddEffect(ElementType elementType, int duration)
+        public void AddEffect(ElementType elementType, int duration, float damage)
         {
             if (duration <= 0)
                 throw new ArgumentException("Длительность эффекта должна быть положительным числом", nameof(duration));
             
-            var newEffect = StatusEffect.Create(elementType, duration);
+            var newEffect = StatusEffect.Create(elementType, duration, damage);
 
             CreateOrUpdateEffect(newEffect, duration);
         }
@@ -83,7 +83,17 @@ namespace Mobs
 
         public bool CheckStun()
         {
-            return StatusEffects.Any(effect => effect.EffectType == StatusEffectType.Stun);
+            if (StatusEffects.Any(effect => effect.EffectType == StatusEffectType.Stun)) return true;;
+            if (StatusEffects.Any(effect => effect.GetType() == typeof(SEEarth))) return true;
+            
+            return false;
+        }
+
+        public float GetStaminaChange()
+        {
+            var effect = StatusEffects.Find(effect => effect.GetType() == typeof(SEAir)) as SEAir;;
+            if (effect != null) return effect.Damage;
+            return 0;
         }
     }
 }

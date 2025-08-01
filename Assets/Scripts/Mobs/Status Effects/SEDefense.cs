@@ -14,6 +14,7 @@ namespace Mobs.Status_Effects
             parentMob.UI.ShowText("Defense!", Color.blue);
             ServiceLocator.Get<UIManager>().UISounds.ShieldActivation();
             parentMob.UI.ShowShield();
+            Duration--;
         }
     }
 }

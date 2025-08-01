@@ -22,7 +22,7 @@ MonoBehaviour:
   - elementType: 6
   - elementType: 6
   rankConditions: []
-  damageType: 6
+  elementType: 6
   damageMultiplier: 2
   comboName: Earth Total
   description: 

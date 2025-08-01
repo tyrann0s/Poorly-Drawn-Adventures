@@ -32,6 +32,7 @@ MonoBehaviour:
   passiveSkill:
     rid: -2
   passiveDamage: 50
+  duration: 1
   attackElement: 0
   MobPrefab: {fileID: 4133970978171093904, guid: 7845f0e91517f8c429f4fe4c5e906ebb,
     type: 3}

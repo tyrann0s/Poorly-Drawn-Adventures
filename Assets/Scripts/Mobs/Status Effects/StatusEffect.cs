@@ -11,7 +11,7 @@ namespace Mobs.Status_Effects
     }
     public abstract class StatusEffect
     {
-        public StatusEffectType EffectType { get; protected set; }
+        public StatusEffectType EffectType { get; private set; }
         public int Duration { get; set; }
         public bool IsNegative { get; protected set; }
         public bool IsActive { get; protected set; }
@@ -36,16 +36,16 @@ namespace Mobs.Status_Effects
             return effect;
         }
         
-        public static StatusEffect Create(ElementType elementType, int duration)
+        public static StatusEffect Create(ElementType elementType, int duration, float damage)
         {
             StatusEffect effect;
             switch (elementType)
             {
                 case ElementType.Fire:
-                    effect = new SEFire();
+                    effect = new SEFire(damage);
                     break;
                 case ElementType.Air:
-                    effect = new SEAir();
+                    effect = new SEAir(damage);
                     break;
                 case ElementType.Earth:
                     effect = new SEEarth();

@@ -9,9 +9,9 @@ public class AutoResSkill : PassiveSkill
     [SerializeField] private int reviveCount = 1;
     private int currentReviveCount;
 
-    public override void Initialize(Mob parentMob, float amount, float cost)
+    public override void Initialize(Mob parentMob, float amount, float cost, int duration = 0)
     {
-        base.Initialize(parentMob, amount, cost);
+        base.Initialize(parentMob, amount, cost, 1);
         
         SkillName = "Auto Revive";
         IsAttack = false;

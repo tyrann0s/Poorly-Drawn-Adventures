@@ -18,7 +18,7 @@ MonoBehaviour:
   - elementType: 5
   - elementType: 5
   rankConditions: []
-  damageType: 5
+  elementType: 5
   damageMultiplier: 1.5
   comboName: Air Pair
   description: 

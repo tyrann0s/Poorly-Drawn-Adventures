@@ -37,23 +37,22 @@ namespace Mobs
                         ParentMob.State = MobState.Idle;
                         return false;
                     }
-                    else
-                    {
-                        ParentMob.SoundController.PlayShieldDamageSound();
-                        ParentMob.UI.ShowText("Blocked!", Color.white);
-                        return true;
-                    }
-                } else return false;
-            }
-            else
-            {
-                if (ParentMob.MobStatusEffects.CheckShield())
-                {
+
                     ParentMob.SoundController.PlayShieldDamageSound();
                     ParentMob.UI.ShowText("Blocked!", Color.white);
                     return true;
-                } else return false;
+                }
+                return false;
             }
+
+            if (ParentMob.MobStatusEffects.CheckShield())
+            {
+                ParentMob.SoundController.PlayShieldDamageSound();
+                ParentMob.UI.ShowText("Blocked!", Color.white);
+                return true;
+            }
+
+            return false;
         }
 
         public bool HandleEvasion()
@@ -77,12 +76,12 @@ namespace Mobs
             if (HandleEvasion()) return;
 
             float resultDamage;
-
+            
             // Логика атаки с комбо
             if (enemyCombo)
             {
                 Color color;
-                switch (enemyCombo.damageType)
+                switch (enemyCombo.elementType)
                 {
                     case ElementType.Physical:
                         color = Color.white;
@@ -103,17 +102,18 @@ namespace Mobs
                         color = Color.green;
                         break;
                     default:
+                        Debug.Log(enemyCombo.elementType);
                         throw new ArgumentOutOfRangeException();
                 }
 
-                if (CheckImmune(enemyCombo.damageType))
+                if (CheckImmune(enemyCombo.elementType))
                 {
                     if (ParentMob.IsHostile) ProgressManager.Instance.UnlockRecord(ParentMob.MobData, false, true);
                     ParentMob.UI.ShowText("Immune!", Color.white);
                     return;
                 }
 
-                if (ParentMob.MobData.VulnerableTo == enemyCombo.damageType)
+                if (ParentMob.MobData.VulnerableTo == enemyCombo.elementType)
                 {
                     if (ParentMob.IsHostile) ProgressManager.Instance.UnlockRecord(ParentMob.MobData, true, false);
                     resultDamage = damage * (enemyCombo.damageMultiplier * 2f);

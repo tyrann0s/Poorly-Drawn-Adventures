@@ -11,6 +11,6 @@ public class SEEarth : SEElemental
 
     public override void ApplyEffect(Mob parentMob)
     {
-        Debug.Log("Опутываем лозами (Стан)");
+        parentMob.UI.ShowText("ОПУТАН ЛОЗАМИ!", Color.blue);
     }
 }

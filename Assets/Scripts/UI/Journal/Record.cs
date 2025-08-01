@@ -14,7 +14,7 @@ public class Record : MonoBehaviour
     public void Initialize(ElementCombo combo)
     {
         nameText.text = combo.name;
-        icon.sprite = ResourceManager.Instance.Icons.GetIcon(combo.damageType);
+        icon.sprite = ResourceManager.Instance.Icons.GetIcon(combo.elementType);
         descriptionText.text = "";
 
         string condition = "";

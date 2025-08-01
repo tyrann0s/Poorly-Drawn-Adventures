@@ -36,14 +36,14 @@ namespace Mobs
         {
             skipTurnButton.SetActive(true, mob);
 
-            if (mob.MobStamina < mob.MobData.DefenseCost) defenseButton.SetActive(false, mob);
-            else defenseButton.SetActive(true, mob);
+            if (mob.CheckStamina(mob.MobData.DefenseCost)) defenseButton.SetActive(true, mob);
+            else defenseButton.SetActive(false, mob);
 
-            if (mob.MobStamina < mob.MobData.AttackCost) attackButton.SetActive(false, mob);
-            else attackButton.SetActive(true, mob);
+            if (mob.CheckStamina(mob.MobData.AttackCost)) attackButton.SetActive(true, mob);
+            else attackButton.SetActive(false, mob);
 
-            if (mob.MobStamina < mob.MobData.ActiveSkill.Cost) skillButton.SetActive(false, mob);
-            else skillButton.SetActive(true, mob);
+            if (mob.CheckStamina(mob.MobData.ActiveSkill.Cost)) skillButton.SetActive(true, mob);
+            else skillButton.SetActive(false, mob);
 
             foreach (MobButton button in buttons) { button.gameObject.SetActive(true); }
             DOTween.Sequence()

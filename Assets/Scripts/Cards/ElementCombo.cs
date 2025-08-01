@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Cards
 {
@@ -12,7 +13,7 @@ namespace Cards
         public List<ElementCondition> elementConditions = new();
         public List<RankCondition> rankConditions = new();
         
-        public ElementType damageType;
+        public ElementType elementType;
         public float damageMultiplier;
         public string comboName;
         public string description;
@@ -33,7 +34,7 @@ namespace Cards
 
         public int CompareTo(ElementCombo other)
         {
-            if (other == null) return 1;
+            if (!other) return 1;
             return string.Compare(comboName, other.comboName, StringComparison.OrdinalIgnoreCase);
         }
     }

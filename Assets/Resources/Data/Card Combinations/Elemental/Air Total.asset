@@ -22,7 +22,7 @@ MonoBehaviour:
   - elementType: 5
   - elementType: 5
   rankConditions: []
-  damageType: 5
+  elementType: 5
   damageMultiplier: 2
   comboName: Air Total
   description: 

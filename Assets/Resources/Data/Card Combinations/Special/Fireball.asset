@@ -20,7 +20,7 @@ MonoBehaviour:
   mixedConditions: []
   elementConditions: []
   rankConditions: []
-  damageType: 3
+  elementType: 3
   damageMultiplier: 2
   comboName: Fireball
   description: 

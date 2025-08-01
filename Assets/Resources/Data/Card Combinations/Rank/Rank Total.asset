@@ -17,7 +17,7 @@ MonoBehaviour:
   elementConditions: []
   rankConditions:
   - amount: 6
-  damageType: 1
+  elementType: 1
   damageMultiplier: 2
   comboName: Rank Three
   description: 

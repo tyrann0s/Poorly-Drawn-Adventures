@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class VampirismSkill : ActiveSkill
 {
-    public override void Initialize(Mob parentMob, float amount, float cost)
+    public override void Initialize(Mob parentMob, float amount, float cost, int duration = 0)
     {
-        base.Initialize(parentMob, amount, cost);
+        base.Initialize(parentMob, amount, cost, 1);
         
         SkillName = "Vampirism";
         IsAttack = true;

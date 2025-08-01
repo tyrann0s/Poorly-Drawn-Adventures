@@ -21,8 +21,8 @@ MonoBehaviour:
   totalImmune: 0
   maxHP: 125
   maxStamina: 125
-  defenseCost: 50
-  attackDamage: 50
+  defenseCost: 25
+  attackDamage: 25
   attackCost: 50
   activeSkill:
     rid: 5413627630245642321
@@ -30,18 +30,17 @@ MonoBehaviour:
   skillCost: 50
   maxTargets: 1
   passiveSkill:
-    rid: 5413627630245642333
-  passiveDamage: 50
-  attackElement: 4
+    rid: -2
+  passiveDamage: 15
+  duration: 5
+  attackElement: 5
   MobPrefab: {fileID: 4133970978171093904, guid: daa3609e561141a48ae7c5468533f100,
     type: 3}
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 5413627630245642321
       type: {class: ResurrectSkill, ns: , asm: GameAssembly}
       data: 
-    - rid: 5413627630245642333
-      type: {class: CastStatusEffectSkill, ns: , asm: GameAssembly}
-      data:
-        duration: 1

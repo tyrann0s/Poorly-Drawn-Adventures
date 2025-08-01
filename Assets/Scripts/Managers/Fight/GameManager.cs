@@ -103,25 +103,41 @@ namespace Managers
 
         public void StartFight()
         {
+            CurrentPhase = GamePhase.Fight;
+            ServiceLocator.Get<UIManager>().HideStartBattleButton();
+            ServiceLocator.Get<MusicManager>().StartBattleMusic();
+            
+            StartCoroutine(StatusEffectsPhase());
+        }
+
+        private IEnumerator StatusEffectsPhase()
+        {
             foreach (Mob mob in ServiceLocator.Get<MobManager>().PlayerMobs)
             { 
                 if (mob.State == MobState.Dead) continue;
                 
+                mob.MobStatusEffects.UpdateEffectsDuration();
+                
+                if (mob.MobStatusEffects.StatusEffects.Count == 0) continue;
+                
                 mob.MobStatusEffects.UseActiveEffects();
+                yield return new WaitForSeconds(1f);
             }
 
             foreach (Mob mob in ServiceLocator.Get<MobManager>().EnemyMobs)
             {
                 if (mob.State == MobState.Dead) continue;
                 
+                mob.MobStatusEffects.UpdateEffectsDuration();
+                
+                if (mob.MobStatusEffects.StatusEffects.Count == 0) continue;
+                
                 mob.MobStatusEffects.UseActiveEffects();
+                yield return new WaitForSeconds(1f);
             }
             
-            CurrentPhase = GamePhase.Fight;
-            ServiceLocator.Get<UIManager>().HideStartBattleButton();
             ServiceLocator.Get<QueueManager>().CreateQueue();
             ServiceLocator.Get<QueueManager>().RunQueue();
-            ServiceLocator.Get<MusicManager>().StartBattleMusic();
         }
 
         public void EndFight()
@@ -136,7 +152,6 @@ namespace Managers
                 if (!mob.MobMovement.IsOnOriginPosition()) mob.MobMovement.GoToOriginPosition(false);
                 
                 mob.State = MobState.Idle; 
-                mob.MobStatusEffects.UpdateEffectsDuration();
                 mob.CurrentAction.Targets.Clear();
                 mob.UI.HideShield();
             }
@@ -146,7 +161,6 @@ namespace Managers
                 if (mob.State == MobState.Dead) continue;
                 
                 mob.State = MobState.Idle;
-                mob.MobStatusEffects.UpdateEffectsDuration();
                 mob.CurrentAction.Targets.Clear();
                 mob.UI.HideShield();
             }

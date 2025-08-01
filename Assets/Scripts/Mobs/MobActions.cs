@@ -89,8 +89,7 @@ namespace Mobs
         public void PerformSkipTurn()
         {
             ParentMob.UI.ShowText("+" + ParentMob.StaminaRestoreAmount + " stamina!", Color.green);
-            ParentMob.MobStamina += ParentMob.StaminaRestoreAmount;
-            if (ParentMob.MobStamina > ParentMob.MobData.MaxStamina) ParentMob.MobStamina = ParentMob.MobData.MaxStamina;
+            ParentMob.RestoreStamina(ParentMob.StaminaRestoreAmount);
             ServiceLocator.Get<QueueManager>().NextAction();
         }
 
@@ -160,7 +159,7 @@ namespace Mobs
                 OnDamage?.Invoke(ParentMob.CurrentAction.TargetInstance, ParentMob, damage, true);
                 OnAttack?.Invoke(ParentMob, ParentMob.CurrentAction.TargetInstance);
             }
-            ParentMob.MobStamina -= cost;
+            ParentMob.SpendStamina(cost);
 
             yield return new WaitForSeconds(.5f);
             ParentMob.MobMovement.GoToOriginPosition(true);
@@ -187,7 +186,7 @@ namespace Mobs
                     OnAttack?.Invoke(ParentMob, ParentMob.CurrentAction.TargetInstance);
                 }
             }
-            ParentMob.MobStamina -= ParentMob.MobData.ActiveSkill.Cost;
+            ParentMob.SpendStamina(ParentMob.MobData.ActiveSkill.Cost);
             
             yield return new WaitForSeconds(.5f);
             ParentMob.MobMovement.GoToOriginPosition(true);
@@ -206,7 +205,7 @@ namespace Mobs
 
         private IEnumerator DefenseCoroutine()
         {
-            ParentMob.MobStamina -= ParentMob.MobData.DefenseCost;
+            ParentMob.SpendStamina(ParentMob.MobData.DefenseCost);
             ParentMob.MobStatusEffects.AddEffect(StatusEffectType.Defense, 1);
             
             yield return new WaitForSeconds(1);
@@ -221,15 +220,15 @@ namespace Mobs
                     return true;
 
                 case ActionType.Defense:
-                    if (ParentMob.MobStamina >= ParentMob.MobData.DefenseCost) return true;
+                    if (ParentMob.CheckStamina(ParentMob.MobData.DefenseCost)) return true;
                     break;
 
                 case ActionType.Attack:
-                    if (ParentMob.MobStamina >= ParentMob.MobData.AttackCost) return true;
+                    if (ParentMob.CheckStamina(ParentMob.MobData.AttackCost)) return true;
                     break;
 
                 case ActionType.ActiveSkill:
-                    if (ParentMob.MobStamina >= ParentMob.MobData.ActiveSkill.Cost) return true;
+                    if (ParentMob.CheckStamina(ParentMob.MobData.ActiveSkill.Cost)) return true;
                     break;
             }
 

@@ -85,6 +85,8 @@ namespace Mobs
         [SerializeField]
         private float passiveDamage = 50;
         public float PassiveDamage => passiveDamage;
+        [SerializeField] int duration = 1;
+        public int Duration => duration;
 
         [Header("Attack Element")]
         [SerializeField] private ElementType attackElement;

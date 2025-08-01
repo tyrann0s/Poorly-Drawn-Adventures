@@ -42,7 +42,24 @@ namespace Mobs
         public MobAction PassiveAction { get; set; } = new();
         
         public float MobHP {get; set;}
-        public float MobStamina { get; set; }
+
+        private float mobStamina;
+
+        public bool CheckStamina(float cost)
+        {
+            return mobStamina >= cost + MobStatusEffects.GetStaminaChange();
+        }
+
+        public void SpendStamina(float value)
+        {
+            mobStamina -= value + MobStatusEffects.GetStaminaChange();
+        }
+        
+        public void RestoreStamina(float value)
+        {
+            mobStamina += value;
+            if (mobStamina > mobData.MaxStamina) mobStamina = mobData.MaxStamina;
+        }
     
         public ElementCombo CurrentCombo { get; set; }
 
@@ -68,12 +85,12 @@ namespace Mobs
             AnimationController.PlayIdle_Animation();
 
             MobHP = mobData.MaxHP;
-            MobStamina = mobData.MaxStamina;
+            mobStamina = mobData.MaxStamina;
 
             if (mobData.ActiveSkill == null) Debug.LogError($"АКТИВНЫЙ СКИЛЛ НЕ НАЗНАЧЕН на {MobData.MobName}");
             
-            mobData.ActiveSkill?.Initialize(this, mobData.SkillDamage, mobData.SkillCost);
-            mobData.PassiveSkill?.Initialize(this, mobData.PassiveDamage, 0);
+            mobData.ActiveSkill?.Initialize(this, mobData.SkillDamage, mobData.SkillCost, 1);
+            mobData.PassiveSkill?.Initialize(this, mobData.PassiveDamage, 0, mobData.Duration);
         }
         
         public void Activate()

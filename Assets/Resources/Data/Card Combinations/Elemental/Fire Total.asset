@@ -22,7 +22,7 @@ MonoBehaviour:
   - elementType: 3
   - elementType: 3
   rankConditions: []
-  damageType: 3
+  elementType: 3
   damageMultiplier: 2
   comboName: Fire Total
   description: 

@@ -13,7 +13,7 @@ namespace Mobs.Skills
         public float Amount { get; private set; }
         public float Cost { get; private set; }
 
-        public virtual void Initialize(Mob parentMob, float amount, float cost)
+        public virtual void Initialize(Mob parentMob, float amount, float cost, int duration)
         {
             ParentMob = parentMob;
             Amount = amount;

@@ -17,7 +17,7 @@ MonoBehaviour:
   - amount: 2
   elementConditions: []
   rankConditions: []
-  damageType: 2
+  elementType: 2
   damageMultiplier: 1.5
   comboName: Etherial Pair
   description: 

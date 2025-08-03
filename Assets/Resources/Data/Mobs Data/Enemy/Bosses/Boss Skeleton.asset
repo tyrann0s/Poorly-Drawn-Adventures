@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 613072c78cd233649803a6ffd2d0bc9b, type: 3}
-  m_Name: Skeleton
+  m_Name: Boss Skeleton
   m_EditorClassIdentifier: 
-  mobName: Skeleton
-  mobType: 0
+  mobName: Skeleton BOSS
+  mobType: 1
   mobIcon: {fileID: 0}
   hireCost: 0
   vulnerableTo: 2
@@ -25,22 +25,24 @@ MonoBehaviour:
   attackDamage: 50
   attackCost: 50
   activeSkill:
-    rid: 5413627630245642318
+    rid: 5413627630245642314
   skillDamage: 50
   skillCost: 50
   maxTargets: 1
+  activeDuration: 1
   passiveSkill:
-    rid: -2
+    rid: 2225309312564854859
   passiveDamage: 50
-  duration: 1
+  passiveDuration: 1
   attackElement: 1
-  MobPrefab: {fileID: 4133970978171093904, guid: fabfec77a66d41b4dbc3c7c25537af20,
+  MobPrefab: {fileID: 4133970978171093904, guid: 63024588d0f46a640ba7a5ecc4d19318,
     type: 3}
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 5413627630245642318
+    - rid: 2225309312564854859
+      type: {class: StatusEffectImmuneSkill, ns: , asm: GameAssembly}
+      data: 
+    - rid: 5413627630245642314
       type: {class: EnhancedMeleeSkill, ns: , asm: GameAssembly}
       data: 

@@ -10,36 +10,38 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 613072c78cd233649803a6ffd2d0bc9b, type: 3}
-  m_Name: Mushroom
+  m_Name: Bat
   m_EditorClassIdentifier: 
-  mobName: Mushroom
+  mobName: Bat
   mobType: 0
   mobIcon: {fileID: 0}
   hireCost: 0
-  vulnerableTo: 3
-  immuneTo: 6
+  vulnerableTo: 4
+  immuneTo: 5
   totalImmune: 0
-  maxHP: 125
-  maxStamina: 125
+  maxHP: 75
+  maxStamina: 200
   defenseCost: 50
-  attackDamage: 50
-  attackCost: 50
+  attackDamage: 25
+  attackCost: 25
   activeSkill:
-    rid: 5413627630245642315
+    rid: 2225309312564854787
   skillDamage: 50
   skillCost: 50
   maxTargets: 1
+  activeDuration: 1
   passiveSkill:
     rid: -2
   passiveDamage: 50
-  attackElement: 0
-  MobPrefab: {fileID: 4133970978171093904, guid: 80df389f92ec84547812e698d709ff0d,
+  passiveDuration: 1
+  attackElement: 5
+  MobPrefab: {fileID: 4133970978171093904, guid: e2d956bef4846e34282a8b35944d3cca,
     type: 3}
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 5413627630245642315
+    - rid: 2225309312564854787
       type: {class: EnhancedMeleeSkill, ns: , asm: GameAssembly}
       data: 

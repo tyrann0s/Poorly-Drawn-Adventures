@@ -10,36 +10,39 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 613072c78cd233649803a6ffd2d0bc9b, type: 3}
-  m_Name: Flying Eye
+  m_Name: Golem Stone
   m_EditorClassIdentifier: 
-  mobName: Flying Eye
+  mobName: Stone Golem
   mobType: 0
   mobIcon: {fileID: 0}
   hireCost: 0
-  vulnerableTo: 4
-  immuneTo: 5
+  vulnerableTo: 0
+  immuneTo: 6
   totalImmune: 0
-  maxHP: 75
-  maxStamina: 200
+  maxHP: 200
+  maxStamina: 75
   defenseCost: 50
-  attackDamage: 25
-  attackCost: 25
+  attackDamage: 50
+  attackCost: 50
   activeSkill:
-    rid: 5413627630245642316
+    rid: 2225309312564854785
   skillDamage: 50
   skillCost: 50
   maxTargets: 1
+  activeDuration: 1
   passiveSkill:
-    rid: -2
+    rid: 2225309312564854786
   passiveDamage: 50
-  attackElement: 0
-  MobPrefab: {fileID: 4133970978171093904, guid: c7e3d527cb88ec14a8b9ed375dfb224a,
+  passiveDuration: 1
+  attackElement: 6
+  MobPrefab: {fileID: 4133970978171093904, guid: 8af06d3baa1fc1840a6dd2e520f723d6,
     type: 3}
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 5413627630245642316
-      type: {class: EnhancedMeleeSkill, ns: , asm: GameAssembly}
+    - rid: 2225309312564854785
+      type: {class: AOEDamageSkill, ns: Mobs.Skills.Active, asm: GameAssembly}
+      data: 
+    - rid: 2225309312564854786
+      type: {class: CastStatusEffectSkill, ns: , asm: GameAssembly}
       data: 

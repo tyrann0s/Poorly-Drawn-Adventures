@@ -68,21 +68,84 @@ namespace Managers
                 if (!mob || mob.State == MobState.Dead) continue;
 
                 mob.CurrentAction.MobInstance = mob;
-            
-                // Получаем все возможные типы действий
+
+                // Если моб хилит ищем кого похилить
+                if (mob.MobData.ActiveSkill is HealSkill)
+                {
+                    mob.CurrentAction.MobActionType = ActionType.ActiveSkill;
+
+                    if (mob.MobActions.CheckStamina())
+                    {
+                        if (GetEnemiesWounded().Count > 0)
+                        {
+                            int maxTargets = GetEnemiesWounded().Count > mob.MobData.MaxTargets ? mob.MobData.MaxTargets : GetEnemiesWounded().Count;
+                            for (int i = 0; i < maxTargets; i++)
+                            {
+                                mob.CurrentAction.Targets.Add(GetEnemiesWounded()[i]);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        mob.CurrentAction.MobActionType = ActionType.Attack;
+                        if (!mob.MobActions.CheckStamina()) mob.CurrentAction.MobActionType = ActionType.SkipTurn;
+                    }
+                    
+                    continue;
+                }
+
+                // Если моб ресает ищем кого реснуть
+                if (mob.MobData.ActiveSkill is ResurrectSkill)
+                {
+                    mob.CurrentAction.MobActionType = ActionType.ActiveSkill;
+
+                    if (mob.MobActions.CheckStamina())
+                    {
+                        if (GetEnemiesDead().Count > 0)
+                        {
+                            foreach (var deadMob in GetEnemiesDead())
+                            {
+                                mob.CurrentAction.Targets.Add(deadMob);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        mob.CurrentAction.MobActionType = ActionType.Attack;
+                        if (!mob.MobActions.CheckStamina()) mob.CurrentAction.MobActionType = ActionType.SkipTurn;
+                    }
+                    
+                    continue;
+                }
+                
                 var actionTypes = Enum.GetValues(typeof(ActionType));
                 int randActionType = UnityEngine.Random.Range(1, actionTypes.Length);
                 mob.CurrentAction.MobActionType = (ActionType)randActionType;
 
                 if (mob.MobActions.CheckStamina())
                 {
-                    if (mob.CurrentAction.MobActionType is ActionType.Attack or ActionType.ActiveSkill)
+                    if (mob.CurrentAction.MobActionType is ActionType.ActiveSkill)
                     {
                         if (ServiceLocator.Get<MobManager>().PlayerMobs.Count > 0)
                         {
-                            int randMob = UnityEngine.Random.Range(0, ServiceLocator.Get<MobManager>().PlayerMobs.Count);
-                            mob.CurrentAction.Targets.Add(ServiceLocator.Get<MobManager>().PlayerMobs[randMob]); 
+                            List<Mob> targets = new List<Mob>();
+                            foreach (var playerMob in ServiceLocator.Get<MobManager>().PlayerMobs)
+                            {
+                                if (playerMob.State != MobState.Dead) targets.Add(playerMob);
+                            }
+                            
+                            for (int i = 0; i < mob.MobData.MaxTargets; i++)
+                            {
+                                int randIndex = UnityEngine.Random.Range(0, targets.Count);
+                                mob.CurrentAction.Targets.Add(ServiceLocator.Get<MobManager>().PlayerMobs[randIndex]); 
+                            }
                         }
+                    }
+                    
+                    if (mob.CurrentAction.MobActionType is ActionType.Attack)
+                    {
+                        int randIndex = UnityEngine.Random.Range(0, ServiceLocator.Get<MobManager>().PlayerMobs.Count);
+                        mob.CurrentAction.Targets.Add(ServiceLocator.Get<MobManager>().PlayerMobs[randIndex]); 
                     }
                 }
                 else
@@ -281,6 +344,34 @@ namespace Managers
                     NextAction();
                     break;
             }
+        }
+
+        private List<Mob> GetEnemiesWounded()
+        {
+            var woundedMobs = new List<Mob>();
+            foreach (var enemyMob in ServiceLocator.Get<MobManager>().EnemyMobs)
+            {
+                if (enemyMob.MobHP < enemyMob.MobData.MaxHP)
+                {
+                    woundedMobs.Add(enemyMob);
+                }
+            }
+
+            return woundedMobs;
+        }
+
+        private List<Mob> GetEnemiesDead()
+        {
+            var deadMobs = new List<Mob>();
+            foreach (var enemyMob in ServiceLocator.Get<MobManager>().EnemyMobs)
+            {
+                if (enemyMob.State == MobState.Dead)
+                {
+                    deadMobs.Add(enemyMob);
+                }
+            }
+
+            return deadMobs;
         }
     }
 }

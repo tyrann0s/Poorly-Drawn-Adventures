@@ -10,37 +10,38 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 613072c78cd233649803a6ffd2d0bc9b, type: 3}
-  m_Name: PL_Archer
+  m_Name: Warrior
   m_EditorClassIdentifier: 
-  mobName: Archer
+  mobName: Warrior
   mobType: 2
-  mobIcon: {fileID: 21300026, guid: 7ab74e659e1f0a34d9cfec21c478fc12, type: 3}
-  hireCost: 150
+  mobIcon: {fileID: 21300024, guid: 7ab74e659e1f0a34d9cfec21c478fc12, type: 3}
+  hireCost: 0
   vulnerableTo: 3
-  immuneTo: 6
+  immuneTo: 0
   totalImmune: 0
-  maxHP: 75
-  maxStamina: 200
+  maxHP: 100
+  maxStamina: 100
   defenseCost: 50
   attackDamage: 25
   attackCost: 25
   activeSkill:
-    rid: 5413627630245642319
+    rid: 2225309351734411333
   skillDamage: 50
   skillCost: 50
-  maxTargets: 2
+  maxTargets: 1
+  activeDuration: 2
   passiveSkill:
     rid: -2
-  passiveDamage: 15
-  duration: 5
-  attackElement: 5
-  MobPrefab: {fileID: 4133970978171093904, guid: 6578c40658368ec48a6eea033850a6a3,
+  passiveDamage: 50
+  passiveDuration: 1
+  attackElement: 1
+  MobPrefab: {fileID: 4133970978171093904, guid: 0d7da7211466ef544a084ccc67e950b3,
     type: 3}
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 5413627630245642319
-      type: {class: CastShieldSkill, ns: , asm: GameAssembly}
+    - rid: 2225309351734411333
+      type: {class: StunSkill, ns: , asm: GameAssembly}
       data: 

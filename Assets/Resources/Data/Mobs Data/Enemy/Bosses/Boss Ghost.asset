@@ -10,37 +10,38 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 613072c78cd233649803a6ffd2d0bc9b, type: 3}
-  m_Name: Skeleton
+  m_Name: Boss Ghost
   m_EditorClassIdentifier: 
-  mobName: Skeleton
-  mobType: 0
+  mobName: Ghost
+  mobType: 1
   mobIcon: {fileID: 0}
   hireCost: 0
   vulnerableTo: 2
-  immuneTo: 1
-  totalImmune: 0
+  immuneTo: 2
+  totalImmune: 1
   maxHP: 200
   maxStamina: 75
   defenseCost: 50
   attackDamage: 50
   attackCost: 50
   activeSkill:
-    rid: 5413627630245642318
+    rid: 2225309351734411332
   skillDamage: 50
   skillCost: 50
-  maxTargets: 1
+  maxTargets: 2
+  activeDuration: 2
   passiveSkill:
     rid: -2
   passiveDamage: 50
-  duration: 1
-  attackElement: 1
-  MobPrefab: {fileID: 4133970978171093904, guid: fabfec77a66d41b4dbc3c7c25537af20,
+  passiveDuration: 1
+  attackElement: 2
+  MobPrefab: {fileID: 4133970978171093904, guid: 1849e86e1bdd7db4ca3c7d21a70f7619,
     type: 3}
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 5413627630245642318
-      type: {class: EnhancedMeleeSkill, ns: , asm: GameAssembly}
+    - rid: 2225309351734411332
+      type: {class: StunSkill, ns: , asm: GameAssembly}
       data: 

@@ -10,37 +10,38 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 613072c78cd233649803a6ffd2d0bc9b, type: 3}
-  m_Name: Skeleton
+  m_Name: Priest
   m_EditorClassIdentifier: 
-  mobName: Skeleton
-  mobType: 0
-  mobIcon: {fileID: 0}
-  hireCost: 0
+  mobName: Priest
+  mobType: 2
+  mobIcon: {fileID: 21300024, guid: 7ab74e659e1f0a34d9cfec21c478fc12, type: 3}
+  hireCost: 300
   vulnerableTo: 2
-  immuneTo: 1
+  immuneTo: 0
   totalImmune: 0
-  maxHP: 200
-  maxStamina: 75
+  maxHP: 100
+  maxStamina: 100
   defenseCost: 50
-  attackDamage: 50
-  attackCost: 50
+  attackDamage: 25
+  attackCost: 25
   activeSkill:
-    rid: 5413627630245642318
+    rid: 2225309313009713156
   skillDamage: 50
   skillCost: 50
   maxTargets: 1
+  activeDuration: 1
   passiveSkill:
     rid: -2
   passiveDamage: 50
-  duration: 1
+  passiveDuration: 1
   attackElement: 1
-  MobPrefab: {fileID: 4133970978171093904, guid: fabfec77a66d41b4dbc3c7c25537af20,
+  MobPrefab: {fileID: 4133970978171093904, guid: fa88046c6e6a01a429735f369e4ad032,
     type: 3}
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 5413627630245642318
-      type: {class: EnhancedMeleeSkill, ns: , asm: GameAssembly}
+    - rid: 2225309313009713156
+      type: {class: HealSkill, ns: , asm: GameAssembly}
       data: 

@@ -1,6 +1,7 @@
 using Mobs.Skills;
 using Mobs.Skills.Active;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Mobs
 {
@@ -78,6 +79,9 @@ namespace Mobs
         [SerializeField] private int maxTargets = 1;
         public int MaxTargets => maxTargets;
         
+        [SerializeField] int activeDuration = 1;
+        public int ActiveDuration => activeDuration;
+        
         [Header("Passive Skill")]
         [SerializeReference] private PassiveSkill passiveSkill;
         public PassiveSkill PassiveSkill => passiveSkill;
@@ -85,8 +89,8 @@ namespace Mobs
         [SerializeField]
         private float passiveDamage = 50;
         public float PassiveDamage => passiveDamage;
-        [SerializeField] int duration = 1;
-        public int Duration => duration;
+        [SerializeField] int passiveDuration = 1;
+        public int PassiveDuration => passiveDuration;
 
         [Header("Attack Element")]
         [SerializeField] private ElementType attackElement;

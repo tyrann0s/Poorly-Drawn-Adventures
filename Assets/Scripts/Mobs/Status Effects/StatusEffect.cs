@@ -41,6 +41,9 @@ namespace Mobs.Status_Effects
             StatusEffect effect;
             switch (elementType)
             {
+                case ElementType.Physical:
+                    effect = new SEStun();
+                    break;
                 case ElementType.Fire:
                     effect = new SEFire(damage);
                     break;

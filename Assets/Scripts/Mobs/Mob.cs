@@ -18,10 +18,6 @@ namespace Mobs
     public class Mob : MonoBehaviour
     {
         [SerializeField]
-        private float staminaRestoreAmount;
-        public float StaminaRestoreAmount => staminaRestoreAmount;
-        
-        [SerializeField]
         private MobData mobData;
         public MobData MobData => mobData;
         
@@ -55,10 +51,9 @@ namespace Mobs
             mobStamina -= value + MobStatusEffects.GetStaminaChange();
         }
         
-        public void RestoreStamina(float value)
+        public void RestoreStamina()
         {
-            mobStamina += value;
-            if (mobStamina > mobData.MaxStamina) mobStamina = mobData.MaxStamina;
+            mobStamina = mobData.MaxStamina;
         }
     
         public ElementCombo CurrentCombo { get; set; }
@@ -89,8 +84,8 @@ namespace Mobs
 
             if (mobData.ActiveSkill == null) Debug.LogError($"АКТИВНЫЙ СКИЛЛ НЕ НАЗНАЧЕН на {MobData.MobName}");
             
-            mobData.ActiveSkill?.Initialize(this, mobData.SkillDamage, mobData.SkillCost, 1);
-            mobData.PassiveSkill?.Initialize(this, mobData.PassiveDamage, 0, mobData.Duration);
+            mobData.ActiveSkill?.Initialize(this, mobData.SkillDamage, mobData.SkillCost, mobData.ActiveDuration);
+            mobData.PassiveSkill?.Initialize(this, mobData.PassiveDamage, 0, mobData.PassiveDuration);
         }
         
         public void Activate()
@@ -113,7 +108,6 @@ namespace Mobs
         {
             if (State == MobState.Activated) State = MobState.Idle;
             UI.HideUI();
-            //ServiceLocator.Get<MobManager>().ActivatedMob = null;
         }
 
         private void OnDestroy()

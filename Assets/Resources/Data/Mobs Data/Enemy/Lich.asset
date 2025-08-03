@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 613072c78cd233649803a6ffd2d0bc9b, type: 3}
-  m_Name: Skeleton
+  m_Name: Lich
   m_EditorClassIdentifier: 
-  mobName: Skeleton
+  mobName: Lich
   mobType: 0
   mobIcon: {fileID: 0}
   hireCost: 0
-  vulnerableTo: 2
+  vulnerableTo: 3
   immuneTo: 1
   totalImmune: 0
   maxHP: 200
@@ -25,22 +25,23 @@ MonoBehaviour:
   attackDamage: 50
   attackCost: 50
   activeSkill:
-    rid: 5413627630245642318
+    rid: 2225309312564854788
   skillDamage: 50
   skillCost: 50
   maxTargets: 1
+  activeDuration: 1
   passiveSkill:
     rid: -2
   passiveDamage: 50
-  duration: 1
-  attackElement: 1
-  MobPrefab: {fileID: 4133970978171093904, guid: fabfec77a66d41b4dbc3c7c25537af20,
+  passiveDuration: 1
+  attackElement: 2
+  MobPrefab: {fileID: 4133970978171093904, guid: 0a2ebd13b0a5b4740a15d0ffef4ef01c,
     type: 3}
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 5413627630245642318
-      type: {class: EnhancedMeleeSkill, ns: , asm: GameAssembly}
+    - rid: 2225309312564854788
+      type: {class: ResurrectSkill, ns: , asm: GameAssembly}
       data: 

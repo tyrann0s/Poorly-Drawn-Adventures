@@ -39,7 +39,24 @@ namespace Mobs
 
         public void Skill()
         {
-            CreateAction(ActionType.ActiveSkill);
+            if (ParentMob.MobData.ActiveSkill is ResurrectSkill)
+            {
+                bool isSomeoneDead = false;
+                foreach (var playerMob in ServiceLocator.Get<MobManager>().PlayerMobs)
+                {
+                    if (playerMob.State == MobState.Dead)
+                    {
+                        isSomeoneDead = true;
+                        break;
+                    }
+                }
+                            
+                if (!isSomeoneDead)
+                {
+                    ParentMob.UI.ShowText("No one is dead!", Color.red);
+                    ParentMob.Deactivate();
+                } else CreateAction(ActionType.ActiveSkill);
+            } else CreateAction(ActionType.ActiveSkill);
         }
 
         private void CreateAction(ActionType action)
@@ -88,8 +105,8 @@ namespace Mobs
 
         public void PerformSkipTurn()
         {
-            ParentMob.UI.ShowText("+" + ParentMob.StaminaRestoreAmount + " stamina!", Color.green);
-            ParentMob.RestoreStamina(ParentMob.StaminaRestoreAmount);
+            ParentMob.UI.ShowText("Stamina Restored!", Color.green);
+            ParentMob.RestoreStamina();
             ServiceLocator.Get<QueueManager>().NextAction();
         }
 

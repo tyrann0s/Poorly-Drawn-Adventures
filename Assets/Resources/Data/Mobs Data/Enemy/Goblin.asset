@@ -16,7 +16,7 @@ MonoBehaviour:
   mobType: 0
   mobIcon: {fileID: 0}
   hireCost: 0
-  vulnerableTo: 0
+  vulnerableTo: 3
   immuneTo: 0
   totalImmune: 0
   maxHP: 100
@@ -29,19 +29,19 @@ MonoBehaviour:
   skillDamage: 50
   skillCost: 50
   maxTargets: 1
+  activeDuration: 1
   passiveSkill:
-    rid: 2225309308511322180
+    rid: -2
   passiveDamage: 50
-  duration: 1
-  attackElement: 5
+  passiveDuration: 1
+  attackElement: 1
   MobPrefab: {fileID: 4133970978171093904, guid: 71e4beee99fc9974682925c63c019255,
     type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 2225309308511322180
-      type: {class: CastStatusEffectSkill, ns: , asm: GameAssembly}
-      data: 
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 5413627630245642317
       type: {class: EnhancedMeleeSkill, ns: , asm: GameAssembly}
       data: 

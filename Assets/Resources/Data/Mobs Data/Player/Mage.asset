@@ -10,37 +10,38 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 613072c78cd233649803a6ffd2d0bc9b, type: 3}
-  m_Name: Skeleton
+  m_Name: Mage
   m_EditorClassIdentifier: 
-  mobName: Skeleton
-  mobType: 0
-  mobIcon: {fileID: 0}
-  hireCost: 0
+  mobName: Mage
+  mobType: 2
+  mobIcon: {fileID: 21300002, guid: 7ab74e659e1f0a34d9cfec21c478fc12, type: 3}
+  hireCost: 300
   vulnerableTo: 2
-  immuneTo: 1
+  immuneTo: 0
   totalImmune: 0
-  maxHP: 200
-  maxStamina: 75
-  defenseCost: 50
-  attackDamage: 50
+  maxHP: 125
+  maxStamina: 125
+  defenseCost: 25
+  attackDamage: 25
   attackCost: 50
   activeSkill:
-    rid: 5413627630245642318
+    rid: 2225309313009713154
   skillDamage: 50
   skillCost: 50
   maxTargets: 1
+  activeDuration: 1
   passiveSkill:
     rid: -2
-  passiveDamage: 50
-  duration: 1
-  attackElement: 1
-  MobPrefab: {fileID: 4133970978171093904, guid: fabfec77a66d41b4dbc3c7c25537af20,
+  passiveDamage: 15
+  passiveDuration: 1
+  attackElement: 5
+  MobPrefab: {fileID: 4133970978171093904, guid: 1415b1c7183f88446959b69d56320cbe,
     type: 3}
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 5413627630245642318
-      type: {class: EnhancedMeleeSkill, ns: , asm: GameAssembly}
+    - rid: 2225309313009713154
+      type: {class: CleanseSkill, ns: , asm: GameAssembly}
       data: 

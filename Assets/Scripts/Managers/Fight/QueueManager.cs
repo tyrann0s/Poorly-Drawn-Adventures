@@ -81,7 +81,7 @@ namespace Managers
                             int maxTargets = GetEnemiesWounded().Count > mob.MobData.MaxTargets ? mob.MobData.MaxTargets : GetEnemiesWounded().Count;
                             for (int i = 0; i < maxTargets; i++)
                             {
-                                mob.CurrentAction.Targets.Add(GetEnemiesWounded()[i]);
+                               if (mob.State != MobState.Dead) mob.CurrentAction.Targets.Add(GetEnemiesWounded()[i]);
                             }
                         }
                     }
@@ -103,9 +103,13 @@ namespace Managers
                     {
                         if (GetEnemiesDead().Count > 0)
                         {
-                            foreach (var deadMob in GetEnemiesDead())
+                            if (GetEnemiesDead().Count > 0)
                             {
-                                mob.CurrentAction.Targets.Add(deadMob);
+                                int maxTargets = GetEnemiesDead().Count > mob.MobData.MaxTargets ? mob.MobData.MaxTargets : GetEnemiesDead().Count;
+                                for (int i = 0; i < maxTargets; i++)
+                                {
+                                    if (mob.State != MobState.Dead) mob.CurrentAction.Targets.Add(GetEnemiesDead()[i]);
+                                }
                             }
                         }
                     }
@@ -310,26 +314,31 @@ namespace Managers
 
                 case ActionType.Attack:
                 case ActionType.ActiveSkill:
-                    if (!action.TargetInstance || action.TargetInstance.MobStatusEffects.CheckStun())
+                    if (action.TargetInstance)
                     {
                         if (action.MobInstance.MobData.ActiveSkill is ResurrectSkill && action.TargetInstance.State == MobState.Dead)
                         {
                             action.MobInstance.CurrentAction.TargetInstance = action.TargetInstance;
                             action.MobInstance.MobActions.PrepareAction(action.MobActionType);
-                        } else if (action.MobInstance.CurrentAction.TargetInstance.State == MobState.Dead)
+                            break;
+                        } 
+                        
+                        if (action.TargetInstance.State == MobState.Dead)
                         {
                             Debug.Log($"Attack target is dead or null for {action.MobInstance.name}");
                             NextAction();
+                            break;
                         }
-                        return;
-                    }
-                    if (action.MobInstance.MobStatusEffects.StatusEffects.Any(x=>x.EffectType == StatusEffectType.Stun)) {}
-                    else
-                    {
-                        action.MobInstance.CurrentAction.TargetInstance = action.TargetInstance;
-                        action.MobInstance.MobActions.PrepareAction(action.MobActionType);
+                        
+                        if (action.MobInstance.MobStatusEffects.CheckStun()) {Debug.Log("Просрал проверку на стан");}
+                        else
+                        {
+                            action.MobInstance.CurrentAction.TargetInstance = action.TargetInstance;
+                            action.MobInstance.MobActions.PrepareAction(action.MobActionType);
+                        }
                     }
                     break;
+                
                 case ActionType.PassiveSkill:
                     if (action.MobInstance.MobStatusEffects.StatusEffects.Any(x=>x.EffectType == StatusEffectType.Stun)) {}
                     else
@@ -351,7 +360,7 @@ namespace Managers
             var woundedMobs = new List<Mob>();
             foreach (var enemyMob in ServiceLocator.Get<MobManager>().EnemyMobs)
             {
-                if (enemyMob.MobHP < enemyMob.MobData.MaxHP)
+                if (enemyMob.MobHP < enemyMob.MobData.MaxHP && enemyMob.State != MobState.Dead)
                 {
                     woundedMobs.Add(enemyMob);
                 }

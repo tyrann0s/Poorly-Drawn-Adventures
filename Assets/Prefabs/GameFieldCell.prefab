@@ -13,7 +13,7 @@ GameObject:
   m_Layer: 0
   m_Name: GameFieldCell
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -24,12 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1564756394914707171}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7175531880631041877
 MonoBehaviour:
@@ -44,8 +45,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isHostile: 1
-  mobPrefabs:
-  - {fileID: 4133970978171093904, guid: 71e4beee99fc9974682925c63c019255, type: 3}
-  - {fileID: 4133970978171093904, guid: c7e3d527cb88ec14a8b9ed375dfb224a, type: 3}
-  - {fileID: 4133970978171093904, guid: 80df389f92ec84547812e698d709ff0d, type: 3}
-  - {fileID: 4133970978171093904, guid: fabfec77a66d41b4dbc3c7c25537af20, type: 3}

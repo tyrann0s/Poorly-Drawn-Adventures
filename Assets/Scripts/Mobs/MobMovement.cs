@@ -10,12 +10,12 @@ namespace Mobs
         public GameObject RivalPosition => rivalPosition;
         public Vector3 OriginPosition { get; set; }
         
+        [SerializeField]
         private SpriteRenderer spriteRenderer;
 
         protected override void Awake()
         {
             base.Awake();
-            spriteRenderer = GetComponent<SpriteRenderer>();
             if (!spriteRenderer)
             {
                 Debug.LogError($"SpriteRenderer not found on {name}");

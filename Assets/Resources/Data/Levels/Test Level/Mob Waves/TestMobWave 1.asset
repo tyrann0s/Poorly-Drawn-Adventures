@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mobs:
   - {fileID: 11400000, guid: f8a9d3d19deebf042915a1f763f2f9e7, type: 2}
-  - {fileID: 11400000, guid: 8d953d70da8e31048909c17d56e0a81b, type: 2}
-  - {fileID: 11400000, guid: 7b7663e5ef920b94da6265bcffb41ef5, type: 2}
+  - {fileID: 11400000, guid: f7e9e8be12dc5004eb8d92959d2908b1, type: 2}
+  - {fileID: 11400000, guid: 2b21be5aeac2d6f4e85f0403d3a26d28, type: 2}
   - {fileID: 11400000, guid: f8a9d3d19deebf042915a1f763f2f9e7, type: 2}

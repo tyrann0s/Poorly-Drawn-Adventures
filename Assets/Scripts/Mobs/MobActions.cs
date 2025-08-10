@@ -151,17 +151,17 @@ namespace Mobs
             }
         }
 
-        private void MakeDamage()
+        public void MakeDamage()
         {
             StartCoroutine(DamageCoroutine(ParentMob.MobData.AttackDamage, ParentMob.MobData.AttackCost));
         }
 
-        private void MakeActiveSkill()
+        public void MakeActiveSkill()
         {
             StartCoroutine(ActiveSkillCoroutine());
         }
 
-        private void MakePassiveSkill()
+        public void MakePassiveSkill()
         {
             StartCoroutine(PassiveSkillCoroutine());
         }

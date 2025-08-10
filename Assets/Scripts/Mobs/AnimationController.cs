@@ -4,12 +4,11 @@ namespace Mobs
 {
     public class AnimationController : MobComponent
     {
-        private Animator animator;
+        [SerializeField] private Animator animator;
 
         protected override void Awake()
         {
             base.Awake();
-            animator = GetComponent<Animator>();
         }
 
         public void PlayIdle_Animation()
@@ -19,7 +18,7 @@ namespace Mobs
 
         public void PlayRun_Animation()
         {
-            animator.Play("Run");
+            animator.Play("Move");
         }
 
         public void PlayAttack_Animation()
@@ -39,12 +38,12 @@ namespace Mobs
 
         public void PlayGetDamage_Animation()
         {
-            animator.Play("GetDamage");
+            animator.Play("Damage");
         }
 
         public void PlayDie_Animation()
         {
-            animator.Play("Die");
+            animator.Play("Death");
         }
     
         public void PlayActionAnimation(bool isActive)

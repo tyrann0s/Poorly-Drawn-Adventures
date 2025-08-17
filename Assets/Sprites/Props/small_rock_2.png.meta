@@ -1,0 +1,806 @@
+fileFormatVersion: 2
+guid: db9c870fa48aca0408785d00c8d89696
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2913097652942536495
+    second: small_rock_2_0
+  - first:
+      213: 3348963966821478695
+    second: small_rock_2_1
+  - first:
+      213: 7295428787529578051
+    second: small_rock_2_2
+  - first:
+      213: 8383095309764050895
+    second: small_rock_2_3
+  - first:
+      213: 8729890114348939328
+    second: small_rock_2_4
+  - first:
+      213: -3411060431076977272
+    second: small_rock_2_5
+  - first:
+      213: 126578002100942687
+    second: small_rock_2_6
+  - first:
+      213: -7305811747130617532
+    second: small_rock_2_7
+  - first:
+      213: 2991439992703613614
+    second: small_rock_2_8
+  - first:
+      213: -7589979360883581282
+    second: small_rock_2_9
+  - first:
+      213: -3853536788256117796
+    second: small_rock_2_10
+  - first:
+      213: 5779773443193944178
+    second: small_rock_2_11
+  - first:
+      213: 4222870609474914557
+    second: small_rock_2_12
+  - first:
+      213: -8171333452953930290
+    second: small_rock_2_13
+  - first:
+      213: -7690581502358578127
+    second: small_rock_2_14
+  - first:
+      213: -1146480978532318729
+    second: small_rock_2_15
+  - first:
+      213: -6623943493269718811
+    second: small_rock_2_16
+  - first:
+      213: 7116740790921538923
+    second: small_rock_2_17
+  - first:
+      213: 9088130522235246705
+    second: small_rock_2_18
+  - first:
+      213: -3243329767514476133
+    second: small_rock_2_19
+  - first:
+      213: -6163326824443982780
+    second: small_rock_2_20
+  - first:
+      213: 2008888595783661098
+    second: small_rock_2_21
+  - first:
+      213: -2948527722821040846
+    second: small_rock_2_22
+  - first:
+      213: 7912308779084881459
+    second: small_rock_2_23
+  - first:
+      213: 5993842537377098389
+    second: small_rock_2_24
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 300
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: small_rock_2_0
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 3
+        width: 980
+        height: 537
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2ff9af81e66d6820800000000000000
+      internalID: 2913097652942536495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_1
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 208
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7213af7fbf8e97e20800000000000000
+      internalID: 3348963966821478695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_2
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 212
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 346fbd454d19e3560800000000000000
+      internalID: 7295428787529578051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_3
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 169
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fcfbab8c4ccb65470800000000000000
+      internalID: 8383095309764050895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_4
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 146
+        width: 16
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04876f95eccc62970800000000000000
+      internalID: 8729890114348939328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_5
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 142
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 885144a4c9a79a0d0800000000000000
+      internalID: -3411060431076977272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 133
+        width: 21
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f57fa93b502b1c100800000000000000
+      internalID: 126578002100942687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_7
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 126
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44157608cea8c9a90800000000000000
+      internalID: -7305811747130617532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_8
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 111
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eaafef3f2dab38920800000000000000
+      internalID: 2991439992703613614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_9
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 102
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9edcf51cf9faa690800000000000000
+      internalID: -7589979360883581282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_10
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 18
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cdb281f35bc758ac0800000000000000
+      internalID: -3853536788256117796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_11
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 25
+        width: 21
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 278bfc3f251e53050800000000000000
+      internalID: 5779773443193944178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_12
+      rect:
+        serializedVersion: 2
+        x: 436
+        y: 20
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df880321276aa9a30800000000000000
+      internalID: 4222870609474914557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_13
+      rect:
+        serializedVersion: 2
+        x: 446
+        y: 19
+        width: 24
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec53a63a487999e80800000000000000
+      internalID: -8171333452953930290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_14
+      rect:
+        serializedVersion: 2
+        x: 477
+        y: 19
+        width: 18
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13c1abbbed0954590800000000000000
+      internalID: -7690581502358578127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_15
+      rect:
+        serializedVersion: 2
+        x: 494
+        y: 25
+        width: 27
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f1c6d4df91e610f0800000000000000
+      internalID: -1146480978532318729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_16
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 25
+        width: 23
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e8f56fec760314a0800000000000000
+      internalID: -6623943493269718811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_17
+      rect:
+        serializedVersion: 2
+        x: 351
+        y: 10
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6d29611b0eb3c260800000000000000
+      internalID: 7116740790921538923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_18
+      rect:
+        serializedVersion: 2
+        x: 362
+        y: 12
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 178973a1f868f1e70800000000000000
+      internalID: 9088130522235246705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_19
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 17
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9179d5a2c06df2d0800000000000000
+      internalID: -3243329767514476133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_20
+      rect:
+        serializedVersion: 2
+        x: 411
+        y: 6
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44c416a68e6777aa0800000000000000
+      internalID: -6163326824443982780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_21
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 13
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a26b409c88101eb10800000000000000
+      internalID: 2008888595783661098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_22
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 12
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2354cd678a9b417d0800000000000000
+      internalID: -2948527722821040846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_23
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 4
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33e1f82d9ea2ecd60800000000000000
+      internalID: 7912308779084881459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small_rock_2_24
+      rect:
+        serializedVersion: 2
+        x: 511
+        y: 6
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59aecffe7086e2350800000000000000
+      internalID: 5993842537377098389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      small_rock_2_0: 2913097652942536495
+      small_rock_2_1: 3348963966821478695
+      small_rock_2_10: -3853536788256117796
+      small_rock_2_11: 5779773443193944178
+      small_rock_2_12: 4222870609474914557
+      small_rock_2_13: -8171333452953930290
+      small_rock_2_14: -7690581502358578127
+      small_rock_2_15: -1146480978532318729
+      small_rock_2_16: -6623943493269718811
+      small_rock_2_17: 7116740790921538923
+      small_rock_2_18: 9088130522235246705
+      small_rock_2_19: -3243329767514476133
+      small_rock_2_2: 7295428787529578051
+      small_rock_2_20: -6163326824443982780
+      small_rock_2_21: 2008888595783661098
+      small_rock_2_22: -2948527722821040846
+      small_rock_2_23: 7912308779084881459
+      small_rock_2_24: 5993842537377098389
+      small_rock_2_3: 8383095309764050895
+      small_rock_2_4: 8729890114348939328
+      small_rock_2_5: -3411060431076977272
+      small_rock_2_6: 126578002100942687
+      small_rock_2_7: -7305811747130617532
+      small_rock_2_8: 2991439992703613614
+      small_rock_2_9: -7589979360883581282
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

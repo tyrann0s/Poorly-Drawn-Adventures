@@ -8,6 +8,7 @@ namespace Mobs
         [SerializeField]
         private GameObject rivalPosition;
         public GameObject RivalPosition => rivalPosition;
+        public Vector3 ReadyPosition { get; set; }
         public Vector3 OriginPosition { get; set; }
         
         [SerializeField]
@@ -71,7 +72,12 @@ namespace Mobs
 
         public void MoveToRivalPosition()
         {
-            transform.DOMove(rivalPosition.transform.position, .3f);
+            transform.DOMove(rivalPosition.transform.position, .5f);
+        }
+        
+        public void MoveToReadyPosition()
+        {
+            transform.DOMove(ReadyPosition, .5f);
         }
         
         public bool IsOnOriginPosition()

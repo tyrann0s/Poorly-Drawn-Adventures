@@ -57,7 +57,7 @@ namespace Mobs
 
         private void Start()
         {
-            hpBar.Init(GetComponent<Mob>().MobHP);
+            hpBar.Init(GetComponent<Mob>().MobHP, GetComponent<Mob>().MobData.MaxStamina);
             shieldOiriginPosition = shieldIcon.transform.localPosition;
             if (ParentMob.MobData.ActiveSkill != null) buttons.RenameSkillButton(ParentMob.MobData.ActiveSkill.SkillName);
         }
@@ -141,12 +141,12 @@ namespace Mobs
                 hpBar.UpdateHP(value);
             }
         }
-
-        public void UpdateMaxHP(int value)
+        
+        public void UpdateStamina(float value)
         {
             if (hpBar != null)
             {
-                hpBar.UpdateMaxHP(value);
+                hpBar.UpdateStamina(value);
             }
         }
 

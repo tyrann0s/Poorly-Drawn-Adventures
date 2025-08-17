@@ -4,13 +4,15 @@ using UnityEngine;
 using Managers;
 using Mobs;
 
-public class MobSpawner : MonoBehaviour, IComparable<MobSpawner>
+public class MobSpawner : MonoBehaviour//, IComparable<MobSpawner>
 {
     [SerializeField, Tooltip("If true, the spawned mob will be mirrored and hostile")]
     private bool isHostile;
     public bool IsHostile => isHostile;
 
     private Mob currentMob;
+
+    [SerializeField] private Transform readyPosition;
 
     public Mob SpawnMob(GameObject prefab)
     {
@@ -43,6 +45,7 @@ public class MobSpawner : MonoBehaviour, IComparable<MobSpawner>
             transform.position.y + currentMob.transform.localPosition.y,
             transform.position.z
         );
+        currentMob.MobMovement.ReadyPosition = readyPosition.position;
 
         return currentMob;
     }
@@ -56,10 +59,8 @@ public class MobSpawner : MonoBehaviour, IComparable<MobSpawner>
         }
     }
 
-    public int CompareTo(MobSpawner other)
+    /*public int CompareTo(MobSpawner other)
     {
-        // Определите здесь логику сравнения
-        // Например, можно сравнивать по позиции на сцене:
         return transform.position.x.CompareTo(other.transform.position.x);
-    }
+    }*/
 }

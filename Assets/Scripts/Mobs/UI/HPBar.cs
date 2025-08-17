@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,44 +6,28 @@ namespace Mobs
 {
     public class HPBar : MonoBehaviour
     {
-        private Slider slider;
-        public int MaxValue { get; set; }
+        [SerializeField]
+        private TextMeshProUGUI hpText, staminaText;
+        
+        private float maxHP, maxStamina; 
 
-        private void Awake()
+        public void Init(float hp, float stamina)
         {
-            slider = GetComponentInChildren<Slider>();
-        }
-
-        public void Init(float maxValue)
-        {
-            slider.maxValue = maxValue;
-            slider.value = maxValue;
+            maxHP = hp;
+            maxStamina = stamina;
+            
+            hpText.text = $"{maxHP}/{maxHP}";
+            staminaText.text = $"{maxStamina}/{maxStamina}";
         }
 
         public void UpdateHP(float value)
         {
-            if (slider != null)
-            {
-                slider.value = value;
-                var text = slider.GetComponentInChildren<Text>();
-                if (text != null)
-                {
-                    text.text = $"{value}/{slider.maxValue}";
-                }
-            }
+            hpText.text = $"{value}/{maxHP}";
         }
-
-        public void UpdateMaxHP(int value)
+        
+        public void UpdateStamina(float value)
         {
-            if (slider != null)
-            {
-                slider.maxValue = value;
-                var text = slider.GetComponentInChildren<Text>();
-                if (text != null)
-                {
-                    text.text = $"{slider.value}/{value}";
-                }
-            }
+            staminaText.text = $"{value}/{maxStamina}";
         }
     }
 }

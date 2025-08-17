@@ -49,6 +49,7 @@ namespace Mobs
         public void SpendStamina(float value)
         {
             mobStamina -= value + MobStatusEffects.GetStaminaChange();
+            UI.UpdateStamina(mobStamina);
         }
         
         public void RestoreStamina()

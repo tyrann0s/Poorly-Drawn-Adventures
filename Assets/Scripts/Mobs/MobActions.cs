@@ -93,7 +93,7 @@ namespace Mobs
         public void ActionPrepared()
         {
             ParentMob.State = MobState.Ready;
-            ParentMob.MobMovement.MoveToRivalPosition();
+            ParentMob.MobMovement.MoveToReadyPosition();
             ServiceLocator.Get<GameManager>().ReadyToFight();
             ServiceLocator.Get<UIManager>().UISounds.ActionConfirm();
 

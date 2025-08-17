@@ -116,6 +116,7 @@ namespace Mobs
             {
                 if (mob != ParentMob) mob.Deactivate();
             }
+            
             ServiceLocator.Get<GameManager>().ControlLock = false;
             ServiceLocator.Get<GameManager>().SelectingState = SelectingState.None;
             ServiceLocator.Get<CardPanel>().DisableInteraction();

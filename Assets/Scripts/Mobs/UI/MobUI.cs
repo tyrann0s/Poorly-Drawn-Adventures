@@ -1,6 +1,8 @@
 using System;
 using DG.Tweening;
 using Managers;
+using Mobs.Status_Effects;
+using Mobs.UI;
 using UnityEngine;
 
 namespace Mobs
@@ -13,6 +15,9 @@ namespace Mobs
 
         [SerializeField]
         private HPBar hpBar;
+        
+        [SerializeField]
+        private StatusEffectsPanel statusEffectsPanel;
 
         [SerializeField]
         private MobButtons buttons;
@@ -60,6 +65,8 @@ namespace Mobs
             hpBar.Init(GetComponent<Mob>().MobHP, GetComponent<Mob>().MobData.MaxStamina);
             shieldOiriginPosition = shieldIcon.transform.localPosition;
             if (ParentMob.MobData.ActiveSkill != null) buttons.RenameSkillButton(ParentMob.MobData.ActiveSkill.SkillName);
+            
+            if (ParentMob.IsHostile) statusEffectsPanel.transform.localPosition = new Vector3(-statusEffectsPanel.transform.localPosition.x, statusEffectsPanel.transform.localPosition.y, 0);
         }
 
         public void Activate()
@@ -148,6 +155,16 @@ namespace Mobs
             {
                 hpBar.UpdateStamina(value);
             }
+        }
+
+        public void AddStatusEffect(StatusEffect effect)
+        {
+            statusEffectsPanel.ShowEffect(effect);
+        }
+        
+        public void RemoveStatusEffect(StatusEffect effect)
+        {
+            statusEffectsPanel.HideEffect(effect);
         }
 
         public void ShowText(string value, Color color)

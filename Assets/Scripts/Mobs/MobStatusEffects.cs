@@ -43,6 +43,7 @@ namespace Mobs
             {
                 StatusEffects.Add(effect);
                 effect.ApplyEffect(ParentMob);
+                ParentMob.UI.AddStatusEffect(effect);
             }
         }
 
@@ -63,6 +64,7 @@ namespace Mobs
             {
                 if (effect.Duration <= 0)
                 {
+                    ParentMob.UI.RemoveStatusEffect(effect);
                     StatusEffects.Remove(effect);
                 }
             }

@@ -21,10 +21,16 @@ namespace Mobs
             skipTurnButton.DescriptionText = "Skip Turn and restore stamina";
             defenseButton.DescriptionText = "Set shield on a mob";
             attackButton.DescriptionText = "Make melee damage to a mob";
+            skillButton.DescriptionText = mob.MobData.ActiveSkill.Description;
         }
 
         public void ShowButtons()
         {
+            skipTurnButton.SetButtonText("Skip Turn");
+            defenseButton.SetButtonText($"Defense ({mob.MobData.DefenseCost + mob.MobStatusEffects.GetStaminaChange()} SP)");
+            attackButton.SetButtonText($"Attack ({mob.MobData.AttackCost + mob.MobStatusEffects.GetStaminaChange()} SP)");
+            skillButton.SetButtonText($"{mob.MobData.ActiveSkill.SkillName} ({mob.MobData.ActiveSkill.Cost + mob.MobStatusEffects.GetStaminaChange()} SP)");
+            
             defenseButton.SetActive(mob.CheckStamina(mob.MobData.DefenseCost));
             attackButton.SetActive(mob.CheckStamina(mob.MobData.AttackCost));
             skillButton.SetActive(mob.CheckStamina(mob.MobData.SkillCost));
@@ -35,12 +41,6 @@ namespace Mobs
         public void HideButtons()
         {
             transform.DOScale(Vector3.zero, .3f);
-        }
-
-        public void PrepareSkillButton(ActiveSkill activeSkill)
-        {
-            skillButton.SetButtonText(activeSkill.SkillName + $" ({activeSkill.Cost} SP)");
-            skillButton.DescriptionText = activeSkill.Description;
         }
     
         private void OnDestroy()

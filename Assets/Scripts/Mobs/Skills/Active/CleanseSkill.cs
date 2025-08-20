@@ -9,6 +9,7 @@ public class CleanseSkill : ActiveSkill
         base.Initialize(parentMob, amount, cost, 1);
         
         SkillName = "Cleanse";
+        Description = "Removes all negative status effects.";
         IsAttack = false;
         IsRanged = true;
     }

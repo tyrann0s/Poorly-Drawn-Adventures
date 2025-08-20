@@ -10,6 +10,7 @@ namespace Mobs.Skills.Active
             base.Initialize(parentMob, amount, cost, 1);
             
             SkillName = "AOE Damage";
+            Description = "Damages all enemies in the area.";
             IsAttack = true;
             IsRanged = true;
         }

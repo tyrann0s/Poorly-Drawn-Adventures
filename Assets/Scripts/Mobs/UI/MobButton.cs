@@ -1,41 +1,47 @@
+using System;
 using Mobs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class MobButton : MonoBehaviour
+public class MobButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] private string description;
+    [SerializeField] private MBDescription descriptionPanel;
     
-    private void OnMouseEnter()
-    {
+    public string DescriptionText { get; set; }
 
+    private TextMeshProUGUI textTMP;
+    private Button button; 
+
+    private void Awake()
+    {
+        textTMP = GetComponentInChildren<TextMeshProUGUI>();
+        button = GetComponent<Button>();
     }
 
-    private void OnMouseExit()
+    public void OnPointerEnter(PointerEventData eventData)
     {
-
-    }
-
-    private void OnMouseDown()
-    {
+        if (!button.interactable) return;
         
+        descriptionPanel.ShowDescription(DescriptionText);
+        descriptionPanel.transform.localPosition = new Vector3(descriptionPanel.transform.localPosition.x, 
+            transform.localPosition.y + 75, 0);
     }
 
-    public void SetActive(bool value, Mob targetMob)
+    public void OnPointerExit(PointerEventData eventData)
     {
-        /*if (value)
-        {
-            text.color = Color.black;
-        }
-        else text.color = Color.gray;
-
-        isActive = value;
-        mob = targetMob;*/
+        descriptionPanel.HideDescription();
     }
 
-    public void ChangeText(string value)
+    public void SetButtonText(string text)
     {
-        //text.text = value;
+        textTMP.text = text;
+    }
+    
+    public void SetActive(bool value)
+    {
+        button.interactable = value;
     }
 }

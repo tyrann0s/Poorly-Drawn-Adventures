@@ -9,6 +9,7 @@ public class VampirismSkill : ActiveSkill
         base.Initialize(parentMob, amount, cost, 1);
         
         SkillName = "Vampirism";
+        Description = "A skill that does more damage and heals the mob.";
         IsAttack = true;
         IsRanged = true;
     }

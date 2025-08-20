@@ -64,7 +64,7 @@ namespace Mobs
         {
             hpBar.Init(GetComponent<Mob>().MobHP, GetComponent<Mob>().MobData.MaxStamina);
             shieldOiriginPosition = shieldIcon.transform.localPosition;
-            if (ParentMob.MobData.ActiveSkill != null) buttons.RenameSkillButton(ParentMob.MobData.ActiveSkill.SkillName);
+            if (ParentMob.MobData.ActiveSkill != null) buttons.PrepareSkillButton(ParentMob.MobData.ActiveSkill);
             
             if (ParentMob.IsHostile) statusEffectsPanel.transform.localPosition = new Vector3(-statusEffectsPanel.transform.localPosition.x, statusEffectsPanel.transform.localPosition.y, 0);
         }

@@ -10,6 +10,7 @@ public class CastShieldSkill : ActiveSkill
         base.Initialize(parentMob, amount, cost, 1);
         
         SkillName = "Cast Shield";
+        Description = "Casts a shield on the mob.";
         IsAttack = false;
         IsRanged = true;
     }

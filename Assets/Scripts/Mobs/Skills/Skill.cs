@@ -14,6 +14,8 @@ namespace Mobs.Skills
         public float Cost { get; private set; }
         
         public int Duration { get; protected set; }
+        
+        public string Description { get; protected set; }
 
         public virtual void Initialize(Mob parentMob, float amount, float cost, int duration)
         {

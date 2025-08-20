@@ -10,6 +10,7 @@ public class StunSkill : ActiveSkill
         base.Initialize(parentMob, amount, cost, 1);
         
         SkillName = "Stun Skill";
+        Description = "A skill that stuns the mob.";
         IsAttack = true;
         IsRanged = false;
 

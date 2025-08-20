@@ -9,6 +9,7 @@ public class EnhancedMeleeSkill : ActiveSkill
         base.Initialize(parentMob, amount, cost, 1);
         
         SkillName = "Enhacned Melee Skill";
+        Description = "A skill that does more damage.";
         IsAttack = true;
         IsRanged = false;
     }

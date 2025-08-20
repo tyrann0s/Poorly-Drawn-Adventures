@@ -11,6 +11,7 @@ public class HealSkill : ActiveSkill
         base.Initialize(parentMob, amount, cost, 1);
         
         SkillName = "Heal";
+        Description = "Heals the mob for a certain amount.";
         IsAttack = false;
         IsRanged = true;
     }

@@ -9,6 +9,7 @@ public class EnhancedRangeSkill : ActiveSkill
         base.Initialize(parentMob, amount, cost, 1);
         
         SkillName = "Enhanced Range Skill";
+        Description = "A skill that does more damage.";
         IsAttack = true;
         IsRanged = true;
     }

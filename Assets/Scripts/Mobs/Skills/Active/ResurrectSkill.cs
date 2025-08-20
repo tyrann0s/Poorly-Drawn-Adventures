@@ -9,6 +9,7 @@ public class ResurrectSkill : ActiveSkill
         base.Initialize(parentMob, amount, cost, 1);
         
         SkillName = "Resurrect";
+        Description = "Revives a dead mob.";
         IsAttack = false;
         IsRanged = true;
     }

@@ -20,6 +20,9 @@ namespace Mobs
 
         [SerializeField]
         private MobButtons buttons;
+        
+        [SerializeField]
+        private MobInfoPanel mobInfoPanel;
 
         [SerializeField]
         private MobText mobText;
@@ -75,6 +78,16 @@ namespace Mobs
             mobSpriteMPB.SetColor("_Outline_Color", enemyColor);
             mobSpriteMPB.SetInt("OUTLINE_ON", 1);
             mobSprite.SetPropertyBlock(mobSpriteMPB);
+            
+            mobInfoPanel.gameObject.SetActive(true);
+            
+            string vulnerableTo = ProgressManager.Instance.RecordsMob.Find(x=> x.mobData == ParentMob.MobData.name).unlockVulnerabilty 
+                ? ParentMob.MobData.VulnerableTo.ToString() : "Unknown";
+            string immuneTo = ProgressManager.Instance.RecordsMob.Find(x=> x.mobData == ParentMob.MobData.name).unlockImmune 
+                ? ParentMob.MobData.ImmuneTo.ToString() : "Unknown";
+            
+            mobInfoPanel.SetVulnerability(vulnerableTo);
+            mobInfoPanel.SetImmunity(immuneTo);
         }
 
         public void HideEnemyHighlight()
@@ -82,6 +95,8 @@ namespace Mobs
             mobSprite.GetPropertyBlock(mobSpriteMPB);
             mobSpriteMPB.SetInt("OUTLINE_ON", 0);
             mobSprite.SetPropertyBlock(mobSpriteMPB);
+            
+            mobInfoPanel.gameObject.SetActive(false);
         }
 
         public void MobDeath()

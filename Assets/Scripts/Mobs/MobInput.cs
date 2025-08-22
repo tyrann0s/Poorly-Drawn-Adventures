@@ -14,16 +14,13 @@ namespace Mobs
                 ParentMob.State == MobState.Idle &&
                 ServiceLocator.Get<GameManager>().CurrentPhase == GamePhase.AssignActions)
             {
-                if (ParentMob.UI.MobCursor)
-                {
-                    ParentMob.UI.MobCursor.Show();
-                    ServiceLocator.Get<UIManager>().UISounds.ButtonHover();
-                }
+                ParentMob.UI.ShowCursor();
+                ServiceLocator.Get<UIManager>().UISounds.ButtonHover();
             }
 
             if (ParentMob.IsHostile && ServiceLocator.Get<GameManager>().SelectingState == SelectingState.Enemy)
             {
-                ParentMob.UI.MobCursor.ZoomIn();
+                ParentMob.UI.ShowEnemyHighlight();
             }
         }
 
@@ -31,12 +28,12 @@ namespace Mobs
         {
             if (!ParentMob.IsHostile && ParentMob.State == MobState.Idle && ServiceLocator.Get<GameManager>().CurrentPhase == GamePhase.AssignActions)
             {
-                ParentMob.UI.MobCursor.Hide();
+                ParentMob.UI.HideCursor();
             }
 
             if (ParentMob.IsHostile && ServiceLocator.Get<GameManager>().SelectingState == SelectingState.Enemy)
             {
-                ParentMob.UI.MobCursor.ZoomOut();
+                ParentMob.UI.HideEnemyHighlight();
             }
         }
 
@@ -65,6 +62,7 @@ namespace Mobs
                     && ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.Targets.Count < ServiceLocator.Get<GameManager>().PickingMob.MobData.MaxTargets)
                 {
                     PickEnemyMob();
+                    ParentMob.UI.HideEnemyHighlight();
                 }
                 
                 // Выбираем союзников
@@ -83,7 +81,7 @@ namespace Mobs
 
         private void PickEnemyMob()
         {
-            ParentMob.UI.MobCursor.PickTarget();
+            ParentMob.UI.PickTarget();
             ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.Targets.Add(ParentMob);
             if (ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.MobActionType == ActionType.Attack)
             {
@@ -97,7 +95,7 @@ namespace Mobs
 
         private void PickPlayerMob()
         {
-            ParentMob.UI.MobCursor.PickTarget();
+            ParentMob.UI.PickTarget();
             ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.Targets.Add(ParentMob);
             
             if (ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.Targets.Count < ServiceLocator.Get<GameManager>().PickingMob.MobData.MaxTargets) return;
@@ -115,6 +113,7 @@ namespace Mobs
             foreach (Mob mob in mobList)
             {
                 if (mob != ParentMob) mob.Deactivate();
+                mob.UI.HideCursor();
             }
             
             ServiceLocator.Get<GameManager>().ControlLock = false;

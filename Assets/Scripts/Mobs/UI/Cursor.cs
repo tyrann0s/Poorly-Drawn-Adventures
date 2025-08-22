@@ -14,7 +14,7 @@ namespace Mobs
         private void Awake()
         {
             // Кешируем имя сразу при создании
-            cachedName = gameObject != null ? gameObject.name : "Unknown";
+            cachedName = gameObject ? gameObject.name : "Unknown";
             InitializeSpriteRenderer();
         }
 
@@ -110,40 +110,32 @@ namespace Mobs
         public void Show()
         {
             if (!ValidateComponent("Show")) return;
+            spriteRenderer.color = Color.green;
             spriteRenderer.enabled = true;
+            PulseTween();
         }
 
         public void ShowTarget()
         {
+            Debug.Log("azaza");
             if (!ValidateComponent("ShowTarget")) return;
             spriteRenderer.color = Color.red;
             spriteRenderer.enabled = true;
-            ZoomOut();
+            
+            PulseTween();
         }
 
         public void Hide()
         {
             if (!ValidateComponent("Hide")) return;
             spriteRenderer.enabled = false;
-        }
-
-        public void HideTarget()
-        {
-            spriteRenderer.color = Color.white;
-            spriteRenderer.enabled = false;
-        }
-
-        public void Activate()
-        {
-            if (isDestroying) return;
-            spriteRenderer.color = Color.green;
-            PulseTween();
+            StopAllTweens();
         }
 
         public void Deactivate()
         {
             if (isDestroying) return;
-            
+            transform.localScale = Vector3.one;
             StopAllTweens();
             Hide();
             if (ValidateComponent("Deactivate"))
@@ -176,24 +168,17 @@ namespace Mobs
         public void PulseTween()
         {
             StopAllTweens();
-                
+            
+            Vector3 startPosition = transform.localPosition;
+            Vector3 upPosition = startPosition + Vector3.up * 0.15f;   // поднимаем на 0.15 единиц
+        
             pulseTween = DOTween.Sequence()
-                .Append(transform.DOScale(1.1f, .3f))
-                .Append(transform.DOScale(1, .3f))
+                .Append(transform.DOLocalMoveY(upPosition.y, 0.3f))      // движение вверх// движение вниз
+                .Append(transform.DOLocalMoveY(startPosition.y, 0.3f))   // возврат в исходную позицию
                 .SetLoops(-1)
                 .SetTarget(transform);
         }
-
-        public void ZoomIn()
-        {
-            transform.DOScale(1f, .3f).SetTarget(transform);
-        }
-
-        public void ZoomOut()
-        {
-            transform.DOScale(.7f, .3f).SetTarget(transform);
-        }
-
+        
         public void PickTarget()
         {
             DOTween.Sequence()

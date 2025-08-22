@@ -60307,6 +60307,9 @@ MonoBehaviour:
   mobText: {fileID: 7413618491055190362}
   shieldIcon: {fileID: 9114363474675605439}
   shieldScale: 0.5
+  mobSprite: {fileID: 868935309104902562}
+  allyColor: {r: 0.017205596, g: 1, b: 0, a: 0}
+  enemyColor: {r: 1, g: 0, b: 0, a: 0}
 --- !u!114 &157726856309448297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71004,7 +71007,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: bb44de3ba3922354c9c18e7b9bcf6273, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

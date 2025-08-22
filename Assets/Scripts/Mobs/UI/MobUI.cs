@@ -11,7 +11,6 @@ namespace Mobs
     {
         [SerializeField]
         private Cursor cursor;
-        public Cursor MobCursor => cursor;
 
         [SerializeField]
         private HPBar hpBar;
@@ -30,6 +29,10 @@ namespace Mobs
         [SerializeField]
         private float shieldScale;
         private Vector3 shieldOiriginPosition;
+        
+        [SerializeField] private SpriteRenderer mobSprite;
+        private MaterialPropertyBlock mobSpriteMPB;
+        [SerializeField] private Color allyColor, enemyColor;
 
         protected override void Awake()
         {
@@ -42,18 +45,43 @@ namespace Mobs
             shieldOiriginPosition = shieldIcon.transform.localPosition;
             
             if (ParentMob.IsHostile) statusEffectsPanel.transform.localPosition = new Vector3(-statusEffectsPanel.transform.localPosition.x, statusEffectsPanel.transform.localPosition.y, 0);
+            mobSpriteMPB = new MaterialPropertyBlock();
         }
 
         public void Activate()
         {
             buttons.ShowButtons();
-            cursor.Activate();
+            cursor.Deactivate();
+            
+            mobSprite.GetPropertyBlock(mobSpriteMPB);
+            mobSpriteMPB.SetColor("_Outline_Color", allyColor);
+            mobSpriteMPB.SetInt("OUTLINE_ON", 1);
+            mobSprite.SetPropertyBlock(mobSpriteMPB);
+            
         }
 
         public void HideUI()
         {
-            cursor.Deactivate();
             buttons.HideButtons();
+            
+            mobSprite.GetPropertyBlock(mobSpriteMPB);
+            mobSpriteMPB.SetInt("OUTLINE_ON", 0);
+            mobSprite.SetPropertyBlock(mobSpriteMPB);
+        }
+
+        public void ShowEnemyHighlight()
+        {
+            mobSprite.GetPropertyBlock(mobSpriteMPB);
+            mobSpriteMPB.SetColor("_Outline_Color", enemyColor);
+            mobSpriteMPB.SetInt("OUTLINE_ON", 1);
+            mobSprite.SetPropertyBlock(mobSpriteMPB);
+        }
+
+        public void HideEnemyHighlight()
+        {
+            mobSprite.GetPropertyBlock(mobSpriteMPB);
+            mobSpriteMPB.SetInt("OUTLINE_ON", 0);
+            mobSprite.SetPropertyBlock(mobSpriteMPB);
         }
 
         public void MobDeath()
@@ -66,6 +94,26 @@ namespace Mobs
         public void MobResurrect()
         {
             hpBar.gameObject.SetActive(true);
+        }
+        
+        public void ShowCursor()
+        {
+            cursor.Show();
+        }
+        
+        public void ShowTarget()
+        {
+            cursor.ShowTarget();
+        }
+        
+        public void HideCursor()
+        {
+            cursor.Hide();
+        }
+
+        public void PickTarget()
+        {
+            cursor.PickTarget();
         }
 
         public void ShowTargetCursor()
@@ -80,9 +128,9 @@ namespace Mobs
                         if (!mob || !mob.IsHostile || mob.State == MobState.Dead)
                             continue;
 
-                        if (mob.UI && mob.UI.MobCursor)
+                        if (mob.UI)
                         {
-                            mob.UI.MobCursor.ShowTarget();
+                            mob.UI.ShowTarget(); // Изменено с ShowTargetCursor() на ShowCursor()
                         }
                         else
                         {
@@ -95,10 +143,10 @@ namespace Mobs
                     {
                         foreach (Mob mob in ServiceLocator.Get<MobManager>().PlayerMobs)
                         {
-                            if (mob.UI && mob.UI.MobCursor && mob != ServiceLocator.Get<GameManager>().ActivatedMob &&
+                            if (mob.UI && mob != ServiceLocator.Get<GameManager>().ActivatedMob &&
                                 mob.State == MobState.Dead)
                             {
-                                mob.UI.MobCursor.ShowTarget();
+                                mob.UI.ShowTarget();
                             }
                         }
                     }
@@ -106,9 +154,9 @@ namespace Mobs
                     {
                         foreach (Mob mob in ServiceLocator.Get<MobManager>().PlayerMobs)
                         {
-                            if (mob.UI && mob.UI.MobCursor && mob != ServiceLocator.Get<GameManager>().ActivatedMob && mob.State != MobState.Dead)
+                            if (mob.UI && mob != ServiceLocator.Get<GameManager>().ActivatedMob && mob.State != MobState.Dead)
                             {
-                                mob.UI.MobCursor.ShowTarget();
+                                mob.UI.ShowTarget();
                             }
                         }
                     }

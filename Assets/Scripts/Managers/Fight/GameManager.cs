@@ -64,6 +64,7 @@ namespace Managers
         public void AssignActionsPhase()
         {
             CurrentPhase = GamePhase.AssignActions;
+            
             ServiceLocator.Get<CardPanel>().StopChangeMode();
             ServiceLocator.Get<UIManager>().HideChangeCardsButton();
             ServiceLocator.Get<UIManager>().HideAssignActionsButton();

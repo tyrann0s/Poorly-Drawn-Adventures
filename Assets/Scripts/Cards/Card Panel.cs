@@ -139,6 +139,8 @@ namespace Cards
                 return;
             }
 
+            ServiceLocator.Get<UIManager>().EnterChangeCards();
+            
             if (CardChangeMode)
             {
                 CardChangeMode = false;
@@ -149,8 +151,6 @@ namespace Cards
                 CardChangeMode = true;
                 EnableInteraction();
             }
-            
-            ServiceLocator.Get<UIManager>().SetChangeCardButtonText(!CardChangeMode);
         }
 
         public void StopChangeMode()
@@ -158,9 +158,7 @@ namespace Cards
             CardChangeMode = false;
             ChangeIndex = 0;
             DisableInteraction();
-            ServiceLocator.Get<UIManager>().HideConfirmChangeButton();
-            ServiceLocator.Get<UIManager>().HideChangeCardsButton();
-            ServiceLocator.Get<UIManager>().SetChangeCardButtonText(CardChangeMode);
+            ServiceLocator.Get<UIManager>().ExitChangeCards();
         }
 
         public void IncreaseCardsForChange()
@@ -168,7 +166,7 @@ namespace Cards
             if (ChangeIndex < 2)
             {
                 ChangeIndex++;
-                ServiceLocator.Get<UIManager>().ShowConfirmChangeButton();
+                ServiceLocator.Get<UIManager>().SetConfirmChangeButton(true);
             }
         }
 
@@ -179,7 +177,7 @@ namespace Cards
                 ChangeIndex--;
                 if (ChangeIndex == 0)
                 {
-                    ServiceLocator.Get<UIManager>().HideConfirmChangeButton();
+                    ServiceLocator.Get<UIManager>().SetConfirmChangeButton(false);
                 }
             }
         }
@@ -200,8 +198,7 @@ namespace Cards
             DeleteCards();
             GenereteCards(true);
             
-            ServiceLocator.Get<UIManager>().HideConfirmChangeButton();
-            ServiceLocator.Get<UIManager>().HideChangeCardsButton();
+            ServiceLocator.Get<UIManager>().ExitChangeCards();
             DisableInteraction();
             ResetCardState();
             changesMadeThisRound++;
@@ -216,7 +213,7 @@ namespace Cards
             CardChangeMode = false;
             ChangeIndex = 0;
             DisableInteraction();
-            ServiceLocator.Get<UIManager>().ShowChangeCardsButton();
+            ServiceLocator.Get<UIManager>().PrepareChangeCards();
         }
 
         private void ResetCardState()

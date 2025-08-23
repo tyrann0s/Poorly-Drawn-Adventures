@@ -21,11 +21,7 @@ namespace Managers
         private Button startFightButton;
 
         [SerializeField]
-        private Button changeCardButton;
-        private Text changeCardButtonText;
-
-        [SerializeField]
-        private Button confirmChangeButton;
+        private Button changeCardButton, confirmChangeButton, cancelChangeButton;
 
         [SerializeField] private Text combinationText;
         [SerializeField] private Text coinsText;
@@ -35,7 +31,6 @@ namespace Managers
         public void Initialize()
         {
             UISounds = GetComponentInChildren<UISounds>();
-            changeCardButtonText = changeCardButton.GetComponentInChildren<Text>();
         }
 
         public void ShowAnnouncerPanel(bool isAnimated, string value)
@@ -77,42 +72,31 @@ namespace Managers
                 .SetEase(Ease.InOutQuint);
         }
 
-        public void ShowChangeCardsButton()
+        public void PrepareChangeCards()
         {
-            SetChangeCardButtonText(true);
-            DOTween.Sequence()
-                .Append(changeCardButton.gameObject.transform.DOScale(.5f, .5f))
-                .SetEase(Ease.InOutQuint);
+            changeCardButton.gameObject.SetActive(true);
+            confirmChangeButton.gameObject.SetActive(false);
+            cancelChangeButton.gameObject.SetActive(false);
         }
 
-        public void SetChangeCardButtonText(bool value)
+        public void EnterChangeCards()
         {
-            if (value) changeCardButtonText.text = "Change Cards";
-            else changeCardButtonText.text = "Cancel";
+            changeCardButton.gameObject.SetActive(false);
+            confirmChangeButton.gameObject.SetActive(true);
+            SetConfirmChangeButton(false);
+            cancelChangeButton.gameObject.SetActive(true);
+        }
+        
+        public void ExitChangeCards()
+        {
+            changeCardButton.gameObject.SetActive(true);
+            confirmChangeButton.gameObject.SetActive(false);
+            cancelChangeButton.gameObject.SetActive(false);
         }
 
-        public void HideChangeCardsButton()
+        public void SetConfirmChangeButton(bool isInteractable)
         {
-            DOTween.Sequence()
-                .Append(changeCardButton.gameObject.transform.DOScale(0, .5f))
-                .SetEase(Ease.InOutQuint);
-        }
-
-        public void ShowConfirmChangeButton()
-        {
-            DOTween.Sequence()
-                .Append(confirmChangeButton.gameObject.transform.DOScale(.5f, .5f))
-                .SetEase(Ease.InOutQuint);
-        }
-
-        public void HideConfirmChangeButton()
-        {
-            if (confirmChangeButton != null && confirmChangeButton.gameObject != null)
-            {
-                DOTween.Sequence()
-                    .Append(confirmChangeButton.gameObject.transform.DOScale(0, .5f))
-                    .SetEase(Ease.InOutQuint);
-            }
+            confirmChangeButton.interactable = isInteractable;
         }
 
         public void GameEndScreen()

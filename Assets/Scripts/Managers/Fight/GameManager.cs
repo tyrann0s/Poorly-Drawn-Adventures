@@ -58,7 +58,7 @@ namespace Managers
             ResetMobs();
             ServiceLocator.Get<CardPanel>().ResetRound();
             ServiceLocator.Get<CardPanel>().GenereteCards(false);
-            ServiceLocator.Get<UIManager>().ShowChangeCardsButton();
+            ServiceLocator.Get<UIManager>().PrepareChangeCards();
         }
 
         public void AssignActionsPhase()
@@ -66,7 +66,7 @@ namespace Managers
             CurrentPhase = GamePhase.AssignActions;
             
             ServiceLocator.Get<CardPanel>().StopChangeMode();
-            ServiceLocator.Get<UIManager>().HideChangeCardsButton();
+            ServiceLocator.Get<UIManager>().ExitChangeCards();
             ServiceLocator.Get<UIManager>().HideAssignActionsButton();
         }
 

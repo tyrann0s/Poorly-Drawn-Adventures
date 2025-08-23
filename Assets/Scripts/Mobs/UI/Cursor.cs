@@ -117,7 +117,6 @@ namespace Mobs
 
         public void ShowTarget()
         {
-            Debug.Log("azaza");
             if (!ValidateComponent("ShowTarget")) return;
             spriteRenderer.color = Color.red;
             spriteRenderer.enabled = true;

@@ -1,7 +1,6 @@
 using Cards;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Managers
@@ -81,6 +80,8 @@ namespace Managers
 
         public void EnterChangeCards()
         {
+            ServiceLocator.Get<CardPanel>().CardChangeMode = true;
+            ServiceLocator.Get<CardPanel>().EnableInteraction();
             changeCardButton.gameObject.SetActive(false);
             confirmChangeButton.gameObject.SetActive(true);
             SetConfirmChangeButton(false);
@@ -89,6 +90,8 @@ namespace Managers
         
         public void ExitChangeCards()
         {
+            ServiceLocator.Get<CardPanel>().CardChangeMode = false;
+            ServiceLocator.Get<CardPanel>().DisableInteraction();
             changeCardButton.gameObject.SetActive(true);
             confirmChangeButton.gameObject.SetActive(false);
             cancelChangeButton.gameObject.SetActive(false);

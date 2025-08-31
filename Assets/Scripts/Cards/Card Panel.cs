@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using DG.Tweening;
 using Managers;
 using Managers.Base;
 
@@ -14,8 +15,7 @@ namespace Cards
         [SerializeField]
         private List<Transform> spawnPositions = new List<Transform>();
 
-        [SerializeField]
-        private int ignoreLayer, normalLayer;
+        [SerializeField] private Transform cardsBlock;
     
         [SerializeField]
         private CardCombination combinationSystem;
@@ -23,13 +23,13 @@ namespace Cards
 
         public List<Card> Cards { get; private set; } = new();
 
-        private Vector3 originTransform;
-
         public bool CardChangeMode { get; set; }
         private List<Card> cardsToDelete = new(); 
         public int ChangeIndex { get; private set; }
         private int changesMadeThisRound;
         private const int MaxChangesPerRound = 1; // Максимальное количество изменений за раунд
+
+        private List<(int rank, ElementType element)> lastDeletedCards = new();
         
         public void Initialize()
         {
@@ -49,8 +49,6 @@ namespace Cards
             {
                 Cards.Add(null);
             }
-
-            originTransform = transform.position;
         }
 
         public void GenereteCards(bool isChanging)
@@ -71,13 +69,14 @@ namespace Cards
                             
                             bool isDuplicate = false;
                             
-                            // Проверяем, есть ли уже такая карта в списке удаляемых
-                            foreach (Card cardToDelete in cardsToDelete)
+                            // Проверяем по сохраненной информации об удаленных картах
+                            foreach (var deletedCardInfo in lastDeletedCards)
                             {
-                                if (cardToDelete.GetRank() == Cards[i].GetRank() || 
-                                    cardToDelete.GetElement() == Cards[i].GetElement())
+                                if (deletedCardInfo.rank == Cards[i].GetRank() || 
+                                    deletedCardInfo.element == Cards[i].GetElement())
                                 {
                                     isDuplicate = true;
+                                    break;
                                 }
                             }
                             
@@ -98,37 +97,42 @@ namespace Cards
 
         public void DisableInteraction()
         {
+            cardsBlock.DOScale(0, .5f).SetEase(Ease.InOutBack);;
             foreach (Card card in Cards)
             {
-                if (card) card.gameObject.layer = ignoreLayer;
+                card?.HideCard();
             }
-            transform.position = originTransform;
         }
 
         public void EnableInteraction()
         {
+            cardsBlock.DOScale(1, .5f).SetEase(Ease.InOutBack);;
             foreach (Card card in Cards)
             {
-                if (card) card.gameObject.layer = normalLayer;
+                card?.ShowCard();
             }
-            transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
         }
 
         public void DeleteCards()
         {
-            // Очищаем список перед заполнением
-            cardsToDelete.Clear();
+            // Временно сохраняем информацию о картах перед удалением
+            var cardsInfo = new List<(int rank, ElementType element)>();
             
             for (int i = 0; i < Cards.Count; i++)
             {
                 if (Cards[i] != null && (Cards[i].IsPicked || Cards[i].IsForChange))
                 {
-                    // Добавляем карту в список для удаления ДО уничтожения объекта
-                    cardsToDelete.Add(Cards[i]);
+                    // Сохраняем только необходимую информацию, а не ссылки на объекты
+                    cardsInfo.Add((Cards[i].GetRank(), Cards[i].GetElement()));
+                    
                     Destroy(Cards[i].gameObject);
                     Cards[i] = null;
                 }
             }
+            
+            // Теперь используем cardsInfo вместо cardsToDelete
+            // Сохраняем информацию для генерации новых карт
+            lastDeletedCards = cardsInfo;
         }
 
         public void StartChangeMode()
@@ -156,7 +160,7 @@ namespace Cards
         public void StopChangeMode()
         {
             CardChangeMode = false;
-            ChangeIndex = 0;
+            //ChangeIndex = 0;
             DisableInteraction();
             ServiceLocator.Get<UIManager>().ExitChangeCards();
         }
@@ -191,7 +195,7 @@ namespace Cards
         {
             if (!CanChangeCards())
             {
-                Debug.LogWarning("Cannot change cards more than once per round!");
+                Debug.Log("Cannot change cards more than once per round!");
                 return;
             }
 
@@ -201,7 +205,7 @@ namespace Cards
             ServiceLocator.Get<UIManager>().ExitChangeCards();
             DisableInteraction();
             ResetCardState();
-            changesMadeThisRound++;
+            if (ChangeIndex == 2) changesMadeThisRound++;
         
             // Сбрасываем ControlLock и  после изменения карт
             ServiceLocator.Get<GameManager>().ControlLock = false;
@@ -218,17 +222,14 @@ namespace Cards
 
         private void ResetCardState()
         {
-            foreach (Card card in Cards)
+            foreach (Card card in Cards.Where(c => c != null))
             {
-                if (card != null)
+                if (card.IsPicked || card.IsForChange)
                 {
-                    if (card.IsPicked || card.IsForChange)
-                    {
-                        card.IsPicked = false;
-                        card.IsForChange = false;
-                        card.transform.localScale = Vector3.one;
-                        card.transform.position = card.transform.parent.position;
-                    }
+                    card.IsPicked = false;
+                    card.IsForChange = false;
+                    card.transform.localScale = Vector3.one;
+                    card.transform.position = card.transform.parent.position;
                 }
             }
         }
@@ -247,6 +248,16 @@ namespace Cards
             ElementCombo combo = CurrentCombination;
             CurrentCombination = null;
             return combo;
+        }
+        
+        private void OnDestroy()
+        {
+            // Останавливаем все твины DOTween
+            cardsBlock?.DOKill();
+    
+            // Очищаем списки
+            lastDeletedCards?.Clear();
+            Cards?.Clear();
         }
     }
 }

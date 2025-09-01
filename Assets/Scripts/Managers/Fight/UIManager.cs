@@ -107,11 +107,6 @@ namespace Managers
             gameEndPanel.gameObject.SetActive(true);
             startFightButton.gameObject.SetActive(false);
         }
-
-        public void ShowCombination(string text)
-        {
-            combinationText.text = text;
-        }
     
         private void OnDestroy()
         {

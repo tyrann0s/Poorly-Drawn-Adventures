@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Linq;
 using DG.Tweening;
 using Managers;
-using Managers.Base;
+using TMPro;
 
 namespace Cards
 {
@@ -16,9 +16,15 @@ namespace Cards
         private List<Transform> spawnPositions = new List<Transform>();
 
         [SerializeField] private Transform cardsBlock;
+        [SerializeField] private GameObject buttonsPanel, currentComboPanel;
+        [SerializeField] private TextMeshProUGUI currentComboText;
     
         [SerializeField]
         private CardCombination combinationSystem;
+        
+        [SerializeField] private GameObject bkgBack, bkgFront;
+        private RectTransform bkgBackRect, bkgFrontRect;
+        
         public ElementCombo CurrentCombination { get; private set; }
 
         public List<Card> Cards { get; private set; } = new();
@@ -49,6 +55,9 @@ namespace Cards
             {
                 Cards.Add(null);
             }
+
+            bkgBackRect = bkgBack.GetComponent<RectTransform>();
+            bkgFrontRect = bkgFront.GetComponent<RectTransform>();
         }
 
         public void GenereteCards(bool isChanging)
@@ -102,6 +111,7 @@ namespace Cards
             {
                 card?.HideCard();
             }
+            HideBKG();
         }
 
         public void EnableInteraction()
@@ -111,6 +121,7 @@ namespace Cards
             {
                 card?.ShowCard();
             }
+            ShowBKG();
         }
 
         public void DeleteCards()
@@ -216,7 +227,6 @@ namespace Cards
             changesMadeThisRound = 0;
             CardChangeMode = false;
             ChangeIndex = 0;
-            DisableInteraction();
             ServiceLocator.Get<UIManager>().PrepareChangeCards();
         }
 
@@ -239,8 +249,8 @@ namespace Cards
             var pickedCards = Cards.Where(card => card != null && card.IsPicked).ToList();
             CurrentCombination = combinationSystem.CheckCombination(pickedCards);
 
-            if (ProgressManager.Instance.RecordsCombo.Contains(CurrentCombination)) ServiceLocator.Get<UIManager>().ShowCombination(CurrentCombination.comboName);
-            else ServiceLocator.Get<UIManager>().ShowCombination("");
+            if (ProgressManager.Instance.RecordsCombo.Contains(CurrentCombination)) ShowCurrentCombo();
+            else HideCurrentCombo();
         }
 
         public ElementCombo GetCombo()
@@ -258,6 +268,39 @@ namespace Cards
             // Очищаем списки
             lastDeletedCards?.Clear();
             Cards?.Clear();
+        }
+
+        public void ShowButtons()
+        {
+            buttonsPanel.SetActive(true);
+        }
+
+        public void HideButtons()
+        {
+            buttonsPanel.SetActive(false);
+        }
+        
+        public void ShowCurrentCombo()
+        {
+            currentComboPanel.SetActive(true);
+            currentComboText.text = CurrentCombination.comboName;
+        }
+        
+        public void HideCurrentCombo()
+        {
+            currentComboPanel.SetActive(false);
+        }
+
+        private void ShowBKG()
+        {
+            bkgBackRect.DOAnchorPos3DY(-400, .5f).SetEase(Ease.InOutBack);
+            bkgFrontRect.DOAnchorPos3DY(-150,.5f).SetEase(Ease.InOutBack);
+        }
+
+        private void HideBKG()
+        {
+            bkgBackRect.DOAnchorPos3DY(-600, .5f).SetEase(Ease.InOutBack);
+            bkgFrontRect.DOAnchorPos3DY(-200, .5f).SetEase(Ease.InOutBack);
         }
     }
 }

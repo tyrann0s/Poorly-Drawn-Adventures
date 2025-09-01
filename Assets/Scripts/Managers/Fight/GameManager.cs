@@ -51,13 +51,16 @@ namespace Managers
         public void PreparationPhase()
         {
             CurrentPhase = GamePhase.Prepare;
-            ServiceLocator.Get<UIManager>().ShowAssignActionsButton();
             calmMusicCoroutine = ServiceLocator.Get<MusicManager>().FadeTrackToZero(ServiceLocator.Get<MusicManager>().Calm);
             ServiceLocator.Get<MusicManager>().StartCalmMusic();
 
+            ServiceLocator.Get<UIManager>().ShowAssignActionsButton();
+            
             ResetMobs();
+            ServiceLocator.Get<CardPanel>().ShowButtons();
             ServiceLocator.Get<CardPanel>().ResetRound();
             ServiceLocator.Get<CardPanel>().GenereteCards(false);
+            
             ServiceLocator.Get<UIManager>().PrepareChangeCards();
         }
 
@@ -65,6 +68,7 @@ namespace Managers
         {
             CurrentPhase = GamePhase.AssignActions;
             
+            ServiceLocator.Get<CardPanel>().HideButtons();
             ServiceLocator.Get<CardPanel>().StopChangeMode();
             ServiceLocator.Get<UIManager>().ExitChangeCards();
             ServiceLocator.Get<UIManager>().HideAssignActionsButton();

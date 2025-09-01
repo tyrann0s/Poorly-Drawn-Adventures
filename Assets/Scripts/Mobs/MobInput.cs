@@ -108,7 +108,7 @@ namespace Mobs
             ServiceLocator.Get<GameManager>().PickingMob.MobActions.ActionPrepared();
             ServiceLocator.Get<GameManager>().PickingMob.Deactivate();
             ServiceLocator.Get<GameManager>().PickingMob.CurrentCombo = ServiceLocator.Get<CardPanel>().GetCombo();
-            ServiceLocator.Get<UIManager>().ShowCombination("");
+            ServiceLocator.Get<CardPanel>().HideCurrentCombo();
                 
             foreach (Mob mob in mobList)
             {

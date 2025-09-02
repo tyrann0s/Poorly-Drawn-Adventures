@@ -2,13 +2,15 @@ using System;
 using Managers;
 using Managers.Base;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace UI
 {
     public class Journal : MonoBehaviour
     {
-        [SerializeField] private GameObject mainWindow;
-        [SerializeField] private GameObject openButton;
+        [SerializeField] private GameObject journalWindow, menuWindow;
+        [SerializeField] private GameObject journalButton, menuButton;
+        [SerializeField] private GameObject background;
         
         [SerializeField] private GameObject pageButtonPrefab;
         [SerializeField] private Transform subPageContainer;
@@ -29,15 +31,39 @@ namespace UI
 
         public void ShowJournal()
         {
-            openButton.SetActive(false);  
-            mainWindow.SetActive(true);
+            journalButton.SetActive(false);  
+            menuButton.SetActive(false);
+            
+            journalWindow.SetActive(true);
+            background.SetActive(true);
             AddComboButtons();
         }
         
         public void HideJournal()
         {
-            mainWindow.SetActive(false);  
-            openButton.SetActive(true);       
+            journalWindow.SetActive(false);
+            background.SetActive(false);
+            
+            journalButton.SetActive(true);  
+            menuButton.SetActive(true);       
+        }
+
+        public void ShowMenu()
+        {
+            journalButton.SetActive(false);  
+            menuButton.SetActive(false);  
+            
+            menuWindow.SetActive(true);
+            background.SetActive(true);
+        }
+
+        public void HideMenu()
+        {
+            menuWindow.SetActive(false);
+            background.SetActive(false);
+            
+            journalButton.SetActive(true);  
+            menuButton.SetActive(true);         
         }
 
         public void AddComboButtons()

@@ -30,7 +30,7 @@ namespace Cards
         public List<Card> Cards { get; private set; } = new();
 
         public bool CardChangeMode { get; set; }
-        private List<Card> cardsToDelete = new(); 
+
         public int ChangeIndex { get; set; }
         private int changesMadeThisRound;
         private const int MaxChangesPerRound = 1; // Максимальное количество изменений за раунд
@@ -91,7 +91,10 @@ namespace Cards
                             
                             // Если карта уникальна, выходим из цикла генерации
                             if (!isDuplicate)
+                            {
+                                Cards[i].enabled = true;
                                 break;
+                            }
                         }
                     }
                     else
@@ -121,6 +124,7 @@ namespace Cards
             {
                 card?.ShowCard();
             }
+            ResetCardState();
             ShowBKG();
         }
 
@@ -136,6 +140,9 @@ namespace Cards
                     // Сохраняем только необходимую информацию, а не ссылки на объекты
                     cardsInfo.Add((Cards[i].GetRank(), Cards[i].GetElement()));
                     
+                    if (Cards[i].IsForChange) changesMadeThisRound++;
+                    
+                    Cards[i].transform.DOKill(true);
                     Destroy(Cards[i].gameObject);
                     Cards[i] = null;
                 }
@@ -154,6 +161,7 @@ namespace Cards
                 return;
             }
 
+            ChangeIndex = 0;
             ServiceLocator.Get<UIManager>().EnterChangeCards();
             
             if (CardChangeMode)
@@ -170,7 +178,7 @@ namespace Cards
 
         public void IncreaseCardsForChange()
         {
-            if (ChangeIndex < 2)
+            if (ChangeIndex <= 2)
             {
                 ChangeIndex++;
                 ServiceLocator.Get<UIManager>().SetConfirmChangeButton(true);
@@ -191,7 +199,7 @@ namespace Cards
 
         public bool CanChangeCards()
         {
-            return changesMadeThisRound < MaxChangesPerRound;
+            return changesMadeThisRound <= MaxChangesPerRound;
         }
 
         public void ChangeCards()
@@ -205,12 +213,15 @@ namespace Cards
             DeleteCards();
             GenerateCards(true);
             
-            DisableInteraction();
-            ResetCardState();
-            if (ChangeIndex == 2) changesMadeThisRound++;
-            
-            ServiceLocator.Get<UIManager>().ExitChangeCards();
-            ServiceLocator.Get<GameManager>().ControlLock = false;
+            ServiceLocator.Get<UIManager>().SetConfirmChangeButton(false);
+
+            if (!CanChangeCards())
+            {
+                DisableInteraction();
+                HideButtons();
+                ServiceLocator.Get<UIManager>().ExitChangeCards();
+                ServiceLocator.Get<GameManager>().ControlLock = false;
+            }
         }
 
         public void ResetRound()
@@ -225,13 +236,8 @@ namespace Cards
         {
             foreach (Card card in Cards.Where(c => c != null))
             {
-                if (card.IsPicked || card.IsForChange)
-                {
-                    card.IsPicked = false;
-                    card.IsForChange = false;
-                    card.transform.localScale = Vector3.one;
-                    card.transform.position = card.transform.parent.position;
-                }
+                card.IsPicked = false;
+                card.IsForChange = false;
             }
         }
 
@@ -253,9 +259,22 @@ namespace Cards
         
         private void OnDestroy()
         {
-            // Останавливаем все твины DOTween
-            cardsBlock?.DOKill();
-    
+            // Убедитесь, что все твины полностью очищены
+            if (cardsBlock != null)
+            {
+                cardsBlock.DOKill(true); // true для завершения всех твинов
+            }
+            
+            // Очистка твинов для фоновых элементов
+            if (bkgBackRect != null)
+            {
+                bkgBackRect.DOKill(true);
+            }
+            if (bkgFrontRect != null)
+            {
+                bkgFrontRect.DOKill(true);
+            }
+            
             // Очищаем списки
             lastDeletedCards?.Clear();
             Cards?.Clear();

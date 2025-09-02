@@ -92,6 +92,8 @@ namespace Managers
         {
             ServiceLocator.Get<CardPanel>().CardChangeMode = false;
             ServiceLocator.Get<CardPanel>().DisableInteraction();
+            if (ServiceLocator.Get<CardPanel>().CanChangeCards() == false) ServiceLocator.Get<CardPanel>().HideButtons();
+            
             changeCardButton.gameObject.SetActive(true);
             confirmChangeButton.gameObject.SetActive(false);
             cancelChangeButton.gameObject.SetActive(false);

@@ -25,6 +25,9 @@ namespace Cards
         public CardPanel ParentCardPanel { get; set; }
 
         private Vector3 originScale;
+        
+        private Material originalMaterial, outlineMaterial;
+        private Image cardBackgroundImage;
 
         public void InitializeCard()
         {
@@ -35,6 +38,10 @@ namespace Cards
             rankText.text = cardRank.ToString();
             elementImage.sprite = ResourceManager.Instance.Icons.GetIcon(cardElement.CurrentElementType);
             enabled = false;
+
+            cardBackgroundImage = GetComponent<Image>();
+            originalMaterial = cardBackgroundImage.material;
+            outlineMaterial = new Material(originalMaterial);
         }
 
         private ElementType GetRandomElementType()
@@ -59,6 +66,7 @@ namespace Cards
 
         public void ShowCard()
         {
+            HideOutline();
             transform.localScale = originScale;
             IsForChange = false;
             IsPicked = false;
@@ -79,12 +87,14 @@ namespace Cards
                     IsForChange = false;
                     transform.localScale = originScale;
                     ParentCardPanel.DecreaseCardsForChange();
+                    HideOutline();
                 }
                 else if (ParentCardPanel.ChangeIndex < 2)
                 {
                     IsForChange = true;
                     transform.localScale *= 1.1f;
                     ParentCardPanel.IncreaseCardsForChange();
+                    ShowOutline();
                 }
             }
             else
@@ -93,11 +103,13 @@ namespace Cards
                 {
                     IsPicked = false;
                     transform.localScale = originScale;
+                    HideOutline();
                 }
                 else
                 {
                     IsPicked = true;
                     transform.localScale *= 1.1f;
+                    ShowOutline();
                 }
 
                 ParentCardPanel.CheckForCombination();
@@ -120,6 +132,21 @@ namespace Cards
 
             isHovering = false;
             transform.DOScale(1, .2f).SetEase(Ease.InOutQuint);
+        }
+
+        private void ShowOutline()
+        {
+            outlineMaterial.SetColor("_Outline_Color", Color.white);
+            outlineMaterial.SetInt("OUTLINE_ON", 1);
+            cardBackgroundImage.material = outlineMaterial;
+
+        }
+        
+        public void HideOutline()
+        {
+            outlineMaterial.SetInt("OUTLINE_ON", 0);
+            cardBackgroundImage.material = outlineMaterial;
+
         }
     }
 }

@@ -47,8 +47,9 @@ namespace Mobs
             hpBar.Init(GetComponent<Mob>().MobHP, GetComponent<Mob>().MobData.MaxStamina);
             shieldOiriginPosition = shieldIcon.transform.localPosition;
             
-            if (ParentMob.IsHostile) statusEffectsPanel.transform.localPosition = new Vector3(-statusEffectsPanel.transform.localPosition.x, statusEffectsPanel.transform.localPosition.y, 0);
             mobSpriteMPB = new MaterialPropertyBlock();
+            
+            if (ParentMob.IsHostile) statusEffectsPanel.transform.localPosition = new Vector3(-statusEffectsPanel.transform.localPosition.x, statusEffectsPanel.transform.localPosition.y, 0);
         }
 
         public void Activate()

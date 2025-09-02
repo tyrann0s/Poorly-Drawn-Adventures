@@ -31,7 +31,7 @@ namespace Cards
 
         public bool CardChangeMode { get; set; }
         private List<Card> cardsToDelete = new(); 
-        public int ChangeIndex { get; private set; }
+        public int ChangeIndex { get; set; }
         private int changesMadeThisRound;
         private const int MaxChangesPerRound = 1; // Максимальное количество изменений за раунд
 
@@ -60,7 +60,7 @@ namespace Cards
             bkgFrontRect = bkgFront.GetComponent<RectTransform>();
         }
 
-        public void GenereteCards(bool isChanging)
+        public void GenerateCards(bool isChanging)
         {
             for (int i = 0; i < spawnPositions.Count; i++)
             {
@@ -168,14 +168,6 @@ namespace Cards
             }
         }
 
-        public void StopChangeMode()
-        {
-            CardChangeMode = false;
-            //ChangeIndex = 0;
-            DisableInteraction();
-            ServiceLocator.Get<UIManager>().ExitChangeCards();
-        }
-
         public void IncreaseCardsForChange()
         {
             if (ChangeIndex < 2)
@@ -211,14 +203,13 @@ namespace Cards
             }
 
             DeleteCards();
-            GenereteCards(true);
+            GenerateCards(true);
             
-            ServiceLocator.Get<UIManager>().ExitChangeCards();
             DisableInteraction();
             ResetCardState();
             if (ChangeIndex == 2) changesMadeThisRound++;
-        
-            // Сбрасываем ControlLock и  после изменения карт
+            
+            ServiceLocator.Get<UIManager>().ExitChangeCards();
             ServiceLocator.Get<GameManager>().ControlLock = false;
         }
 

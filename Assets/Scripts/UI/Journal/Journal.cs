@@ -31,6 +31,8 @@ namespace UI
 
         public void ShowJournal()
         {
+            PauseGame();
+            
             journalButton.SetActive(false);  
             menuButton.SetActive(false);
             
@@ -41,6 +43,8 @@ namespace UI
         
         public void HideJournal()
         {
+            ResumeGame();
+            
             journalWindow.SetActive(false);
             background.SetActive(false);
             
@@ -50,6 +54,8 @@ namespace UI
 
         public void ShowMenu()
         {
+            PauseGame();
+            
             journalButton.SetActive(false);  
             menuButton.SetActive(false);  
             
@@ -59,6 +65,8 @@ namespace UI
 
         public void HideMenu()
         {
+            ResumeGame();
+            
             menuWindow.SetActive(false);
             background.SetActive(false);
             
@@ -109,6 +117,16 @@ namespace UI
         {
             var notificationPanel = Instantiate(notificationPanelPrefab, notifications);
             notificationPanel.ShowNotification(text);
+        }
+
+        private void PauseGame()
+        {
+            Time.timeScale = 0;
+        }
+        
+        private void ResumeGame()
+        {
+            Time.timeScale = 1;       
         }
     }
 }

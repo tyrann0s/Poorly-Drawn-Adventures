@@ -209,6 +209,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 201562281}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &229034136 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8993566109333169181, guid: 8ca4b7be952c904459a1b066d16d971b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1793966725110838768}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &240843754
 GameObject:
   m_ObjectHideFlags: 0
@@ -248,6 +260,18 @@ Transform:
   - {fileID: 514472899}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &380865267 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7625720195252941258, guid: 8ca4b7be952c904459a1b066d16d971b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1793966725110838768}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1001 &514472898
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3324,6 +3348,21 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3178578525740848810, guid: 8ca4b7be952c904459a1b066d16d971b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2027127989}
+    - target: {fileID: 3178578525740848810, guid: 8ca4b7be952c904459a1b066d16d971b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartFight
+      objectReference: {fileID: 0}
+    - target: {fileID: 3178578525740848810, guid: 8ca4b7be952c904459a1b066d16d971b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Managers.GameManager, GameAssembly
+      objectReference: {fileID: 0}
     - target: {fileID: 3572009663878350250, guid: 8ca4b7be952c904459a1b066d16d971b,
         type: 3}
       propertyPath: m_Pivot.x
@@ -3448,6 +3487,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 6920676251030034114, guid: 8ca4b7be952c904459a1b066d16d971b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2027127989}
+    - target: {fileID: 6920676251030034114, guid: 8ca4b7be952c904459a1b066d16d971b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AssignActionsPhase
+      objectReference: {fileID: 0}
+    - target: {fileID: 7625720195252941258, guid: 8ca4b7be952c904459a1b066d16d971b,
+        type: 3}
+      propertyPath: m_text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7774826954655381430, guid: 8ca4b7be952c904459a1b066d16d971b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3594,9 +3653,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8877621610543104760, guid: 9f9047774658a3240bddb4784b3097cd,
         type: 3}
+      propertyPath: waveText
+      value: 
+      objectReference: {fileID: 229034136}
+    - target: {fileID: 8877621610543104760, guid: 9f9047774658a3240bddb4784b3097cd,
+        type: 3}
       propertyPath: coinsText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 380865267}
     - target: {fileID: 8877621610543104760, guid: 9f9047774658a3240bddb4784b3097cd,
         type: 3}
       propertyPath: gameEndPanel

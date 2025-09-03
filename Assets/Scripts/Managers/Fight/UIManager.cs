@@ -1,5 +1,6 @@
 using Cards;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,8 +23,8 @@ namespace Managers
         [SerializeField]
         private Button changeCardButton, confirmChangeButton, cancelChangeButton;
 
-        [SerializeField] private Text combinationText;
-        [SerializeField] private Text coinsText;
+        [SerializeField] private TextMeshProUGUI waveText;
+        [SerializeField] private TextMeshProUGUI coinsText;
     
         public UISounds UISounds { get; private set; }
         
@@ -119,6 +120,11 @@ namespace Managers
         public void UpdateCoins(float value)
         {
             coinsText.text = value.ToString();
+        }
+        
+        public void UpdateWave(int value)
+        {
+            waveText.text = $"Wave {value.ToString()}/{ServiceLocator.Get<MobManager>().MaxWaves.ToString()}";
         }
     }
 }

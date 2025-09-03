@@ -45,6 +45,7 @@ namespace Managers
                 ProgressManager.Instance.UnlockRecord(currentMob, false, false);
                 currentSpawner++;
             }
+            ServiceLocator.Get<UIManager>().UpdateWave(CurrentWave+1);
         }
 
         public void SpawnBoss()

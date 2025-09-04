@@ -303,14 +303,14 @@ namespace Cards
 
         private void ShowBKG()
         {
-            bkgBackRect.DOAnchorPos3DY(-400, .5f).SetEase(Ease.InOutBack);
-            bkgFrontRect.DOAnchorPos3DY(-150,.5f).SetEase(Ease.InOutBack);
+            bkgBackRect.DOAnchorPos3DY(-380, .5f).SetEase(Ease.InOutBack);
+            bkgFrontRect.DOAnchorPos3DY(-125,.5f).SetEase(Ease.InOutBack);
         }
 
         private void HideBKG()
         {
-            bkgBackRect.DOAnchorPos3DY(-600, .5f).SetEase(Ease.InOutBack);
-            bkgFrontRect.DOAnchorPos3DY(-200, .5f).SetEase(Ease.InOutBack);
+            bkgBackRect.DOAnchorPos3DY(-580, .5f).SetEase(Ease.InOutBack);
+            bkgFrontRect.DOAnchorPos3DY(-180, .5f).SetEase(Ease.InOutBack);
         }
     }
 }

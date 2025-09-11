@@ -137,11 +137,14 @@ namespace Managers
                             {
                                 if (playerMob.State != MobState.Dead) targets.Add(playerMob);
                             }
-                            
-                            for (int i = 0; i < mob.MobData.MaxTargets; i++)
+
+                            if (targets.Count > 0)
                             {
-                                int randIndex = UnityEngine.Random.Range(0, targets.Count);
-                                mob.CurrentAction.Targets.Add(ServiceLocator.Get<MobManager>().PlayerMobs[randIndex]); 
+                                for (int i = 0; i < mob.MobData.MaxTargets; i++)
+                                {
+                                    int randIndex = UnityEngine.Random.Range(0, targets.Count);
+                                    mob.CurrentAction.Targets.Add(targets[randIndex]);
+                                }
                             }
                         }
                     }

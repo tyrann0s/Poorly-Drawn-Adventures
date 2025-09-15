@@ -64,7 +64,7 @@ namespace Cards
         {
             for (int i = 0; i < spawnPositions.Count; i++)
             {
-                if (Cards[i] == null)
+                if (!Cards[i])
                 {
                     GameObject go = Instantiate(cardPrefab, spawnPositions[i]);
                     Cards[i] = go.GetComponent<Card>();
@@ -119,6 +119,15 @@ namespace Cards
 
         public void EnableInteraction()
         {
+            bool cardEnabled = false;
+            
+            foreach (Card card in Cards)
+            {
+                if (card) cardEnabled = true;
+            }
+            
+            if (!cardEnabled) return;
+
             cardsBlock.DOScale(1, .5f).SetEase(Ease.InOutBack);;
             foreach (Card card in Cards)
             {
@@ -135,7 +144,7 @@ namespace Cards
             
             for (int i = 0; i < Cards.Count; i++)
             {
-                if (Cards[i] != null && (Cards[i].IsPicked || Cards[i].IsForChange))
+                if (Cards[i] && (Cards[i].IsPicked || Cards[i].IsForChange))
                 {
                     // Сохраняем только необходимую информацию, а не ссылки на объекты
                     cardsInfo.Add((Cards[i].GetRank(), Cards[i].GetElement()));
@@ -217,10 +226,10 @@ namespace Cards
 
             if (!CanChangeCards())
             {
-                DisableInteraction();
-                HideButtons();
-                ServiceLocator.Get<UIManager>().ExitChangeCards();
-                ServiceLocator.Get<GameManager>().ControlLock = false;
+                //DisableInteraction();
+                //HideButtons();
+                ServiceLocator.Get<UIManager>().HideConfirmChangeButton();
+                //ServiceLocator.Get<GameManager>().ControlLock = false;
             }
         }
 

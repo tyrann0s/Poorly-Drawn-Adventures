@@ -100,6 +100,11 @@ namespace Managers
             cancelChangeButton.gameObject.SetActive(false);
         }
 
+        public void HideConfirmChangeButton()
+        {
+            confirmChangeButton.gameObject.SetActive(false);
+        }
+
         public void SetConfirmChangeButton(bool isInteractable)
         {
             confirmChangeButton.interactable = isInteractable;

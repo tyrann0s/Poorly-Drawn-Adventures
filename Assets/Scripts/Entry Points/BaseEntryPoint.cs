@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Hub;
 using Managers;
 using Managers.Base;
@@ -11,7 +12,7 @@ public class BaseEntryPoint : EntryPoint
     [SerializeField] private GameObject levels;
     [SerializeField] private GameObject journalPrefab;
     
-    protected override async void CheckDependencies()
+    protected override async Task CheckDependencies()
     {
         GameObject baseEntry = new GameObject("Base Entry");
         

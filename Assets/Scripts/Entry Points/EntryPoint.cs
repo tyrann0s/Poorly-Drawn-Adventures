@@ -4,9 +4,9 @@ using UnityEngine;
 
 public abstract class EntryPoint : MonoBehaviour
 {
-    private void Start()
+    private async void Start()
     {
-        CheckDependencies();
+        await CheckDependencies();
     }
     
     protected async Task InitializeService(IService service)
@@ -23,6 +23,6 @@ public abstract class EntryPoint : MonoBehaviour
         }
     }
 
-    protected abstract void CheckDependencies();
+    protected abstract Task CheckDependencies();
     protected abstract void OnFinish();
 }

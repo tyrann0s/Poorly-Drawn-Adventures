@@ -8,7 +8,7 @@ public class Bootstrap : EntryPoint
 {
     [SerializeField] private MobData defaultMob;
     
-    protected override async void CheckDependencies()
+    protected override async Task CheckDependencies()
     {
         Debug.Log("Начало инициализации");
         

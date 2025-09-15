@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cards;
 using Levels;
 using Managers;
@@ -23,7 +24,7 @@ public class FightEntryPoint : EntryPoint
     [Header("Журнал")]
     [SerializeField] private GameObject journalPrefab;
     
-    protected override async void CheckDependencies()
+    protected override async Task CheckDependencies()
     {
         GameObject fightEntry = new GameObject("Fight Entry");
         

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Base.UI;
 using Hub.UI;
 using Levels;
@@ -39,11 +40,11 @@ namespace Hub
             return level.IsUnlocked;
         }
 
-        private void OnMouseDown()
+        private async void OnMouseDown()
         {
             if (!ServiceLocator.Get<BaseManager>().CheckIfTeamIsFull()) return;
-            
-            SaveSystem.Instance.SaveGame();
+
+            await SaveSystem.Instance.SaveGameAsync();
             ProgressManager.Instance.LevelToLoad = level;
             FindAnyObjectByType<ScreenMap>().LoadLevel(level.scene.name);
         }

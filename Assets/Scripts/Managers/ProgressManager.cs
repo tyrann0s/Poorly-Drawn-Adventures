@@ -41,11 +41,10 @@ namespace Managers
             DontDestroyOnLoad(gameObject);
         }
         
-        public Task InitializeAsync()
+        public async Task InitializeAsync()
         {
-            SaveSystem.Instance.LoadGame();
+            await SaveSystem.Instance.LoadGameAsync();
             if (!AvailableAllies.Contains(DefaultMob)) UnlockAlly(DefaultMob);
-            return Task.CompletedTask;
         }
         
         public void UnlockHero(MobData mobData)

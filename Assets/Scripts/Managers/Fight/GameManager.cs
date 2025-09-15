@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using System.Threading.Tasks;
 using Cards;
 using Levels;
 using Managers.Base;
@@ -241,7 +242,7 @@ namespace Managers
             ServiceLocator.Get<UIManager>().ShowGameEndPanel("DEFEAT!");
         }
 
-        public void BackToBase()
+        public async void BackToBase()
         {
             foreach (var playerMob in ServiceLocator.Get<MobManager>().PlayerMobs)
             {
@@ -250,8 +251,8 @@ namespace Managers
                     ProgressManager.Instance.CurrentTeam.Remove(playerMob.MobData);
                 }
             }
-            
-            SaveSystem.Instance.SaveGame();
+
+            await SaveSystem.Instance.SaveGameAsync();
             FindAnyObjectByType<LoadingScreen>(FindObjectsInactive.Include).LoadBase();
         }
 

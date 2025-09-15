@@ -31,17 +31,18 @@ public class SaveSystem : MonoBehaviour, IService
     
     public Task InitializeAsync()
     {
-        savePath = Path.Combine(Application.dataPath + "/Save", "save.json");
+        savePath = Path.Combine(Application.persistentDataPath, "Save", "save.json");
         return Task.CompletedTask;
     }
-    
-    public void SaveGame()
+
+    public async Task SaveGameAsync()
     {
         CollectSaveData();
 
         var json = JsonUtility.ToJson(saveData, true);
-        File.WriteAllText(savePath, json);
-    
+        Directory.CreateDirectory(Path.GetDirectoryName(savePath));
+        await File.WriteAllTextAsync(savePath, json);
+
         Debug.Log("Сохранено в: " + savePath);
     }
 
@@ -108,11 +109,11 @@ public class SaveSystem : MonoBehaviour, IService
         }
     }
 
-    public void LoadGame()
+    public async Task LoadGameAsync()
     {
         if (File.Exists(savePath))
         {
-            string json = File.ReadAllText(savePath);
+            string json = await File.ReadAllTextAsync(savePath);
             saveData = JsonUtility.FromJson<SaveData>(json);
             ApplyData();
         }

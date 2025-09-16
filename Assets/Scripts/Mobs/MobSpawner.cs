@@ -13,6 +13,8 @@ public class MobSpawner : MonoBehaviour//, IComparable<MobSpawner>
     private Mob currentMob;
 
     [SerializeField] private Transform readyPosition;
+    [SerializeField] private string sortingLayerName = "Default";
+    [SerializeField] private int sortingOrder;
 
     public Mob SpawnMob(GameObject prefab)
     {
@@ -23,6 +25,8 @@ public class MobSpawner : MonoBehaviour//, IComparable<MobSpawner>
         {
             currentMob.MobMovement.MirrorMob();
         }
+        
+        currentMob.SetSortingOrderSmart(currentMob.gameObject, sortingLayerName, sortingOrder, sortingOrder);
         
         return currentMob;
     }

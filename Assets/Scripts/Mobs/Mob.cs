@@ -115,5 +115,56 @@ namespace Mobs
         {
             MobData.PassiveSkill?.Cleanup();
         }
+        
+        public void SetSortingOrderSmart(GameObject parent, string sortingLayerName, int spriteOrder, int canvasOrder)
+        {
+            SetSortingOrderSmartInternal(parent.transform, sortingLayerName, spriteOrder, canvasOrder);
+        }
+
+        private void SetSortingOrderSmartInternal(Transform parent, string sortingLayerName, int spriteOrder, int canvasOrder)
+        {
+            if (parent.gameObject.layer == 10) return;
+            
+            // Получаем все компоненты, которые могут отрисовываться
+            Component[] renderComponents = parent.GetComponents<Component>();
+            
+            foreach (Component component in renderComponents)
+            {
+                switch (component)
+                {
+                    case SpriteRenderer sr:
+                        sr.sortingLayerName = sortingLayerName;
+                        sr.sortingOrder = spriteOrder;
+                        Debug.Log($"Set SpriteRenderer sorting: {parent.name} - Layer: {sortingLayerName}, Order: {spriteOrder}");
+                        break;
+                        
+                    case Canvas canvas:
+                        if (canvas.renderMode == RenderMode.WorldSpace)
+                        {
+                            canvas.sortingLayerName = sortingLayerName;
+                            canvas.sortingOrder = canvasOrder;
+                            Debug.Log($"Set Canvas (WorldSpace) sorting: {parent.name} - Layer: {sortingLayerName}, Order: {canvasOrder}");
+                        }
+                        else
+                        {
+                            canvas.sortingOrder = canvasOrder;
+                            Debug.Log($"Set Canvas sorting order: {parent.name} - Order: {canvasOrder}");
+                        }
+                        break;
+                        
+                    case MeshRenderer mr:
+                        mr.sortingLayerName = sortingLayerName;
+                        mr.sortingOrder = spriteOrder;
+                        Debug.Log($"Set MeshRenderer sorting: {parent.name} - Layer: {sortingLayerName}, Order: {spriteOrder}");
+                        break;
+                }
+            }
+            
+            // Рекурсивно для всех детей
+            foreach (Transform child in parent)
+            {
+                SetSortingOrderSmartInternal(child, sortingLayerName, spriteOrder, canvasOrder);
+            }
+        }
     }
 }

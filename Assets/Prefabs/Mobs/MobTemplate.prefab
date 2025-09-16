@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 433659081832914399}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: targetPosition
   m_TagString: Untagged
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
@@ -16048,7 +16048,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3393997553992992442}
   - component: {fileID: 7413618491055190362}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: MobText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71985,7 +71985,7 @@ GameObject:
   - component: {fileID: 7522781390078092262}
   - component: {fileID: 8407415287276253348}
   - component: {fileID: 1709327290314147871}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72057,7 +72057,7 @@ MeshRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -961270577
   m_SortingLayer: 5
-  m_SortingOrder: 2
+  m_SortingOrder: 10
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1709327290314147871
 MonoBehaviour:
@@ -72749,7 +72749,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8089666650781797579}
   - component: {fileID: 2594377457335816149}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ShieldIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72817,7 +72817,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -961270577
   m_SortingLayer: 5
-  m_SortingOrder: 1
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 0c51aa2882411af4a81a3c3a90db4560, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

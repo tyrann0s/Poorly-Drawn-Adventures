@@ -15,6 +15,15 @@ namespace Mobs
         Dead
     }
     
+    public enum Lane
+    {
+        Lane1 = 1,
+        Lane2 = 3,
+        Lane3 = 5,
+        Lane4 = 7
+    }
+
+    
     public class Mob : MonoBehaviour
     {
         [SerializeField]
@@ -40,6 +49,8 @@ namespace Mobs
         public float MobHP {get; set;}
 
         private float mobStamina;
+        
+        public Lane OriginLane { get; set; }
 
         public bool CheckStamina(float cost)
         {
@@ -123,7 +134,11 @@ namespace Mobs
 
         private void SetSortingOrderSmartInternal(Transform parent, string sortingLayerName, int spriteOrder, int canvasOrder)
         {
-            if (parent.gameObject.layer == 10) return;
+            if (parent.gameObject.layer == 10)
+            {
+                spriteOrder++;
+                canvasOrder++;
+            }
             
             // Получаем все компоненты, которые могут отрисовываться
             Component[] renderComponents = parent.GetComponents<Component>();
@@ -165,6 +180,11 @@ namespace Mobs
             {
                 SetSortingOrderSmartInternal(child, sortingLayerName, spriteOrder, canvasOrder);
             }
+        }
+
+        public void ChangeLane(Lane lane)
+        {
+            SetSortingOrderSmart(gameObject, "Default", (int)lane, (int)lane);
         }
     }
 }

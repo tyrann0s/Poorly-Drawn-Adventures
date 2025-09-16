@@ -38,6 +38,7 @@ namespace Mobs
             if (ParentMob.State == MobState.Dead) return;
             if (IsOnOriginPosition()) return;
 
+            ParentMob.ChangeLane(ParentMob.OriginLane);
             FlipMob();
             if (withSound) ParentMob.SoundController.StartMove();
             ParentMob.AnimationController.PlayRun_Animation();
@@ -57,6 +58,7 @@ namespace Mobs
 
         public void MoveToEnemy(bool isActive)
         {
+            ParentMob.ChangeLane(ParentMob.CurrentAction.TargetInstance.OriginLane);
             DOTween.Sequence()
                 .Append(transform.DOMove(ParentMob.CurrentAction.TargetInstance.MobMovement.RivalPosition.transform.position, 1f))
                 .OnComplete(OnMoveComplete(isActive));

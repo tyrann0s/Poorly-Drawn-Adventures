@@ -221,7 +221,6 @@ namespace Mobs
 
             DOTween.Sequence()
                 .Append(shieldIcon.transform.DOScale(shieldScale, .3f))
-                .Join(shieldIcon.transform.DOLocalMove(Vector3.zero, .5f))
                 .AppendInterval(.3f);
         }
 

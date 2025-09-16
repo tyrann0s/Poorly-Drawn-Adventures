@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -11,9 +12,13 @@ namespace Mobs
 
         [SerializeField]
         private float animationSpeed;
+        
+        private Vector3 originalPosition;
 
-        [SerializeField]
-        private Transform destination;
+        private void Start()
+        {
+            originalPosition = transform.localPosition;
+        }
 
         public void ShowText(string value, Color color)
         {
@@ -21,11 +26,11 @@ namespace Mobs
             text.color = color;
 
             DOTween.Sequence()
-                .Append(transform.DOLocalMove(destination.localPosition, animationSpeed))
+                .Append(transform.DOLocalMoveY(originalPosition.y + .5f, animationSpeed))
                 .Join(transform.DOScale(.5f, animationSpeed))
                 .AppendInterval(animationSpeed)
                 .Append(text.DOFade(0f, animationSpeed))
-                .Append(transform.DOLocalMove(Vector3.zero, 0))
+                .Append(transform.DOLocalMove(originalPosition, 0))
                 .Append(transform.DOScale(Vector3.zero, 0))
                 .Append(text.DOFade(1, 1));
         }

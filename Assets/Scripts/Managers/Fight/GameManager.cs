@@ -54,15 +54,17 @@ namespace Managers
             CurrentPhase = GamePhase.Prepare;
             calmMusicCoroutine = ServiceLocator.Get<MusicManager>().FadeTrackToZero(ServiceLocator.Get<MusicManager>().Calm);
             ServiceLocator.Get<MusicManager>().StartCalmMusic();
-
-            ServiceLocator.Get<UIManager>().ShowAssignActionsButton();
             
             ResetMobs();
-            ServiceLocator.Get<CardPanel>().ShowButtons();
+            
             ServiceLocator.Get<CardPanel>().ResetRound();
             ServiceLocator.Get<CardPanel>().GenerateCards(false);
-            
-            ServiceLocator.Get<UIManager>().PrepareChangeCards();
+        }
+
+        public void PrepPhaseReady()
+        {
+            ServiceLocator.Get<CardPanel>().ShowButtons();
+            ServiceLocator.Get<UIManager>().ShowAssignActionsButton();
         }
 
         public void AssignActionsPhase()
@@ -121,31 +123,29 @@ namespace Managers
             { 
                 if (mob.State == MobState.Dead) continue;
                 
-                mob.MobStatusEffects.UpdateEffectsDuration();
-                
-                if (mob.MobStatusEffects.StatusEffects.Count == 0) continue;
-                
-                mob.MobStatusEffects.UseActiveEffects();
-                yield return new WaitForSeconds(1f);
+                if (mob.MobStatusEffects.StatusEffects.Any())
+                {
+                    mob.MobStatusEffects.UseActiveEffects();
+                    yield return new WaitForSeconds(1f);
+                }
             }
 
             foreach (Mob mob in ServiceLocator.Get<MobManager>().EnemyMobs)
             {
                 if (mob.State == MobState.Dead) continue;
                 
-                mob.MobStatusEffects.UpdateEffectsDuration();
-                
-                if (mob.MobStatusEffects.StatusEffects.Count == 0) continue;
-                
-                mob.MobStatusEffects.UseActiveEffects();
-                yield return new WaitForSeconds(1f);
+                if (mob.MobStatusEffects.StatusEffects.Any())
+                {
+                    mob.MobStatusEffects.UseActiveEffects();
+                    yield return new WaitForSeconds(1f);
+                }
             }
             
             ServiceLocator.Get<QueueManager>().CreateQueue();
             ServiceLocator.Get<QueueManager>().RunQueue();
         }
 
-        public void EndFight()
+        public IEnumerator EndFight()
         {
             if (ServiceLocator.Get<MusicManager>()) StartCoroutine(ServiceLocator.Get<MusicManager>().FadeTrackToZero(ServiceLocator.Get<MusicManager>().Battle));
             
@@ -156,6 +156,8 @@ namespace Managers
                 
                 if (!mob.MobMovement.IsOnOriginPosition()) mob.MobMovement.GoToOriginPosition(false);
                 
+                mob.MobStatusEffects.UpdateEffectsDuration();
+                
                 mob.State = MobState.Idle; 
                 mob.CurrentAction.Targets.Clear();
                 mob.UI.HideShield();
@@ -165,10 +167,14 @@ namespace Managers
             {
                 if (mob.State == MobState.Dead) continue;
                 
+                mob.MobStatusEffects.UpdateEffectsDuration();
+                
                 mob.State = MobState.Idle;
                 mob.CurrentAction.Targets.Clear();
                 mob.UI.HideShield();
             }
+            
+            yield return new WaitForSeconds(1f);
             
             CheckWinCondition();
         }

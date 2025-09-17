@@ -124,6 +124,25 @@ namespace Mobs
 
         private void OnDestroy()
         {
+            // Останавливаем все корутины этого моба
+            StopAllCoroutines();
+    
+            // Очищаем действие, если оно ссылается на этого моба
+            if (CurrentAction != null)
+            {
+                if (CurrentAction.MobInstance == this)
+                    CurrentAction.MobInstance = null;
+                if (CurrentAction.TargetInstance == this)
+                    CurrentAction.TargetInstance = null;
+            }
+    
+            // Очищаем пассивное действие
+            if (PassiveAction != null)
+            {
+                if (PassiveAction.TargetInstance == this)
+                    PassiveAction.TargetInstance = null;
+            }
+
             MobData.PassiveSkill?.Cleanup();
         }
         
@@ -150,7 +169,6 @@ namespace Mobs
                     case SpriteRenderer sr:
                         sr.sortingLayerName = sortingLayerName;
                         sr.sortingOrder = spriteOrder;
-                        Debug.Log($"Set SpriteRenderer sorting: {parent.name} - Layer: {sortingLayerName}, Order: {spriteOrder}");
                         break;
                         
                     case Canvas canvas:
@@ -158,19 +176,16 @@ namespace Mobs
                         {
                             canvas.sortingLayerName = sortingLayerName;
                             canvas.sortingOrder = canvasOrder;
-                            Debug.Log($"Set Canvas (WorldSpace) sorting: {parent.name} - Layer: {sortingLayerName}, Order: {canvasOrder}");
                         }
                         else
                         {
                             canvas.sortingOrder = canvasOrder;
-                            Debug.Log($"Set Canvas sorting order: {parent.name} - Order: {canvasOrder}");
                         }
                         break;
                         
                     case MeshRenderer mr:
                         mr.sortingLayerName = sortingLayerName;
                         mr.sortingOrder = spriteOrder;
-                        Debug.Log($"Set MeshRenderer sorting: {parent.name} - Layer: {sortingLayerName}, Order: {spriteOrder}");
                         break;
                 }
             }

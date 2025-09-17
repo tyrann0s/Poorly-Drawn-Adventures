@@ -81,25 +81,37 @@ namespace Mobs
 
         private void PickEnemyMob()
         {
-            ParentMob.UI.PickTarget();
             ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.Targets.Add(ParentMob);
             if (ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.MobActionType == ActionType.Attack)
             {
+                ParentMob.UI.PickTarget(true);
                 CompletePicking(ServiceLocator.Get<MobManager>().EnemyMobs);
                 return;
             }
+
+            if (ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.Targets.Count <
+                ServiceLocator.Get<GameManager>().PickingMob.MobData.MaxTargets)
+            {
+                ParentMob.UI.PickTarget(false);
+                return;
+            }
             
-            if (ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.Targets.Count < ServiceLocator.Get<GameManager>().PickingMob.MobData.MaxTargets) return;
+            ParentMob.UI.PickTarget(true);
             CompletePicking(ServiceLocator.Get<MobManager>().EnemyMobs);
         }
 
         private void PickPlayerMob()
         {
-            ParentMob.UI.PickTarget();
             ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.Targets.Add(ParentMob);
+
+            if (ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.Targets.Count <
+                ServiceLocator.Get<GameManager>().PickingMob.MobData.MaxTargets)
+            {
+                ParentMob.UI.PickTarget(false);
+                return;
+            }
             
-            if (ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.Targets.Count < ServiceLocator.Get<GameManager>().PickingMob.MobData.MaxTargets) return;
-            
+            ParentMob.UI.PickTarget(true);
             CompletePicking(ServiceLocator.Get<MobManager>().PlayerMobs);
         }
 

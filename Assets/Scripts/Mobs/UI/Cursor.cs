@@ -178,17 +178,17 @@ namespace Mobs
                 .SetTarget(transform);
         }
         
-        public void PickTarget()
+        public void PickTarget(bool isFinal)
         {
             DOTween.Sequence()
-                .Append(transform.DOScale(0f, .3f))
-                .OnComplete(() => {
-                    if (!isDestroying && this != null)
+                .Append(transform.DOPunchScale(new Vector3(.7f, .7f, .7f), .3f, 5, .5f))
+                .OnComplete(() =>
+                {
+                    if (!isDestroying && this && isFinal)
                     {
                         Deactivate();
                     }
-                })
-                .SetTarget(transform);
+                });
         }
 
         private void OnDisable()

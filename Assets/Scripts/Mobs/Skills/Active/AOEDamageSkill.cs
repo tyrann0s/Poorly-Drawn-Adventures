@@ -17,9 +17,19 @@ namespace Mobs.Skills.Active
     
         public override void Use(Mob targetMob)
         {
-            foreach (var enemyMob in ServiceLocator.Get<MobManager>().EnemyMobs)
+            if (ParentMob.IsHostile)
             {
-                enemyMob.MobCombatSystem.GetDamage(Amount, enemyMob.CurrentCombo);
+                foreach (var enemyMob in ServiceLocator.Get<MobManager>().PlayerMobs)
+                {
+                    enemyMob.MobCombatSystem.GetDamage(Amount, enemyMob.CurrentCombo);
+                }
+            }
+            else
+            {
+                foreach (var enemyMob in ServiceLocator.Get<MobManager>().EnemyMobs)
+                {
+                    enemyMob.MobCombatSystem.GetDamage(Amount, enemyMob.CurrentCombo);
+                }
             }
         }
     }

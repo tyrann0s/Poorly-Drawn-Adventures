@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using Mobs.Skills;
 using UnityEngine;
@@ -11,6 +12,14 @@ namespace Mobs
         private Vector3 originalScale;
         
         private Mob mob;
+
+        public enum Buttons
+        {
+            SkipTurn,
+            Defense,
+            Attack,
+            Skill
+        }
 
         private void Start()
         {
@@ -26,6 +35,11 @@ namespace Mobs
 
         public void ShowButtons()
         {
+            skipTurnButton.Enable();
+            defenseButton.Enable();
+            attackButton.Enable();
+            skillButton.Enable();
+            
             skipTurnButton.SetButtonText("Skip Turn");
             defenseButton.SetButtonText($"Defense ({mob.MobData.DefenseCost + mob.MobStatusEffects.GetStaminaChange()} SP)");
             attackButton.SetButtonText($"Attack ({mob.MobData.AttackCost + mob.MobStatusEffects.GetStaminaChange()} SP)");
@@ -41,6 +55,29 @@ namespace Mobs
         public void HideButtons()
         {
             transform.DOScale(Vector3.zero, .3f);
+        }
+
+        public void BlockButtons(Buttons button)
+        {
+            switch (button)
+            {
+                case Buttons.SkipTurn:
+                    break;
+                case Buttons.Defense:
+                    break;
+                case Buttons.Attack:
+                    skillButton.Disable();
+                    defenseButton.Disable();
+                    skipTurnButton.Disable();
+                    break;
+                case Buttons.Skill:
+                    attackButton.Disable();
+                    defenseButton.Disable();
+                    skipTurnButton.Disable();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(button), button, null);
+            }
         }
     
         private void OnDestroy()

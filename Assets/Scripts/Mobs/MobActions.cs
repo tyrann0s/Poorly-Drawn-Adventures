@@ -20,6 +20,7 @@ namespace Mobs
             ParentMob.CurrentAction.MobInstance = ParentMob;
             ParentMob.Deactivate();
 
+            ParentMob.UI.Buttons.BlockButtons(MobButtons.Buttons.SkipTurn);
             ActionPrepared();
         }
 
@@ -28,12 +29,14 @@ namespace Mobs
             ParentMob.CurrentAction.MobActionType = ActionType.Defense;
             ParentMob.CurrentAction.MobInstance = ParentMob;
             ParentMob.Deactivate();
-
+            
+            ParentMob.UI.Buttons.BlockButtons(MobButtons.Buttons.Defense);
             ActionPrepared();
         }
 
         public void Attack()
         {
+            ParentMob.UI.Buttons.BlockButtons(MobButtons.Buttons.Attack);
             CreateAction(ActionType.Attack);
         }
 
@@ -57,6 +60,8 @@ namespace Mobs
                     ParentMob.Deactivate();
                 } else CreateAction(ActionType.ActiveSkill);
             } else CreateAction(ActionType.ActiveSkill);
+
+            ParentMob.UI.Buttons.BlockButtons(MobButtons.Buttons.Skill);
         }
 
         private void CreateAction(ActionType action)
@@ -99,8 +104,6 @@ namespace Mobs
 
             ServiceLocator.Get<CardPanel>().DisableInteraction();
             ServiceLocator.Get<CardPanel>().DeleteCards();
-            
-            Debug.Log($"Action {ParentMob.CurrentAction.MobActionType} is prepared {ParentMob} is {ParentMob.State}");
         }
 
         public void PerformSkipTurn()
@@ -203,7 +206,7 @@ namespace Mobs
                     OnAttack?.Invoke(ParentMob, ParentMob.CurrentAction.TargetInstance);
                 }
             }
-            ParentMob.SpendStamina(ParentMob.MobData.ActiveSkill.Cost);
+            ParentMob.SpendStamina(ParentMob.MobData.ActiveSkill.Cost/ParentMob.MobData.MaxTargets);
             
             yield return new WaitForSeconds(.5f);
             ParentMob.MobMovement.GoToOriginPosition(true);

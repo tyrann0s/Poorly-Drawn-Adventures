@@ -36,7 +36,12 @@ namespace Mobs
         public void GoToOriginPosition(bool withSound)
         {
             if (ParentMob.State == MobState.Dead) return;
-            if (IsOnOriginPosition()) return;
+            if (IsOnOriginPosition())
+            {
+                //ParentMob.ChangeLane(ParentMob.OriginLane);
+                ParentMob.AnimationController.PlayIdle_Animation();
+                return;
+            }
 
             ParentMob.ChangeLane(ParentMob.OriginLane);
             FlipMob();

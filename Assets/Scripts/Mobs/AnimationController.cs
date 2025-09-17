@@ -58,23 +58,21 @@ namespace Mobs
                 switch (ParentMob.CurrentAction.MobActionType)
                 {
                     case ActionType.Attack:
-                        ParentMob.AnimationController.PlayAttack_Animation();
+                        PlayAttack_Animation();
                         ParentMob.SoundController.Attack();
                         break;
 
                     case ActionType.ActiveSkill:
-                        ParentMob.AnimationController.PlayActiveSkill_Animation();
+                        PlayActiveSkill_Animation();
                         ParentMob.SoundController.ActiveSkill();
                         break;
                 }
             }
             else
             {
-                ParentMob.AnimationController.PlayPassiveSkill_Animation();
+                PlayPassiveSkill_Animation();
                 ParentMob.SoundController.ActiveSkill();
             }
-            
-            
         }
     }
 }

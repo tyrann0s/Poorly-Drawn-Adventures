@@ -276,7 +276,7 @@ namespace Managers
 
             if (currentActionIndex >= actionList.Count)
             {
-                ServiceLocator.Get<GameManager>().EndFight();
+                StartCoroutine(ServiceLocator.Get<GameManager>().EndFight());
             }
             else PerformAction(actionList[currentActionIndex]);
         }
@@ -298,9 +298,10 @@ namespace Managers
                 NextAction();
                 return;
             }
-        
+
             if (action.MobInstance.MobStatusEffects.CheckStun())
             {
+                Debug.Log($"Mob {action.MobInstance.name} is stunned, skipping turn");
                 NextAction();
                 return;
             }
@@ -328,22 +329,27 @@ namespace Managers
                         
                         if (action.TargetInstance.State == MobState.Dead)
                         {
-                            Debug.Log($"Attack target is dead or null for {action.MobInstance.name}");
+                            Debug.Log($"Attack target is dead for {action.MobInstance.name}");
                             NextAction();
                             break;
                         }
                         
-                        if (action.MobInstance.MobStatusEffects.CheckStun()) {Debug.Log("Просрал проверку на стан");}
-                        else
-                        {
-                            action.MobInstance.CurrentAction.TargetInstance = action.TargetInstance;
-                            action.MobInstance.MobActions.PrepareAction(action.MobActionType);
-                        }
+                        action.MobInstance.CurrentAction.TargetInstance = action.TargetInstance;
+                        action.MobInstance.MobActions.PrepareAction(action.MobActionType);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"No target for action {action.MobActionType} by {action.MobInstance.name}");
+                        NextAction(); // ✅ Исправление
                     }
                     break;
                 
                 case ActionType.PassiveSkill:
-                    if (action.MobInstance.MobStatusEffects.StatusEffects.Any(x=>x.EffectType == StatusEffectType.Stun)) {}
+                    if (action.MobInstance.MobStatusEffects.StatusEffects.Any(x=>x.EffectType == StatusEffectType.Stun)) 
+                    {
+                        Debug.Log($"Mob {action.MobInstance.name} is stunned during passive skill");
+                        NextAction(); // ✅ Исправление
+                    }
                     else
                     {
                         action.MobInstance.PassiveAction.TargetInstance = action.TargetInstance;

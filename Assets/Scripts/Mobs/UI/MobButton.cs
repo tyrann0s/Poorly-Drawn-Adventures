@@ -44,4 +44,14 @@ public class MobButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {
         button.interactable = value;
     }
+
+    public void Enable()
+    {
+        button.interactable = true;
+    }
+
+    public void Disable()
+    {
+        button.interactable = false;
+    }
 }

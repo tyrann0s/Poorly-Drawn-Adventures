@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -36,6 +37,10 @@ namespace Cards
         private const int MaxChangesPerRound = 1; // Максимальное количество изменений за раунд
 
         private List<(int rank, ElementType element)> lastDeletedCards = new();
+
+        private int cardsToAnimate;
+
+        [SerializeField] private GameObject cardTrailPrefab;
         
         public void Initialize()
         {
@@ -62,6 +67,8 @@ namespace Cards
 
         public void GenerateCards(bool isChanging)
         {
+            cardsToAnimate = 0;
+            
             for (int i = 0; i < spawnPositions.Count; i++)
             {
                 if (!Cards[i])
@@ -100,11 +107,14 @@ namespace Cards
                     else
                     {
                         Cards[i].InitializeCard();
+                        cardsToAnimate++;
                     }
-
+                    
                     Cards[i].ParentCardPanel = this;
                 }
             }
+
+            StartCoroutine(DealingCardsAnimation());
         }
 
         public void DisableInteraction()
@@ -226,10 +236,7 @@ namespace Cards
 
             if (!CanChangeCards())
             {
-                //DisableInteraction();
-                //HideButtons();
                 ServiceLocator.Get<UIManager>().HideConfirmChangeButton();
-                //ServiceLocator.Get<GameManager>().ControlLock = false;
             }
         }
 
@@ -320,6 +327,26 @@ namespace Cards
         {
             bkgBackRect.DOAnchorPos3DY(-580, .5f).SetEase(Ease.InOutBack);
             bkgFrontRect.DOAnchorPos3DY(-180, .5f).SetEase(Ease.InOutBack);
+        }
+
+        private IEnumerator DealingCardsAnimation()
+        {
+            for (int i = 0; i < cardsToAnimate; i++)
+            {
+                var trail = Instantiate(cardTrailPrefab);
+                float randomPos = Random.Range(-1.5f, 1.5f);
+                trail.transform.position = new Vector3(randomPos, randomPos, 0);
+                trail.transform.DOMoveY(-5, .2f).SetEase(Ease.InOutBack);
+                
+                yield return new WaitForSeconds(0.2f);
+                
+                Destroy(trail);
+                
+                bkgBackRect.DOShakePosition(0.1f, 10, 10, 90);
+                bkgFrontRect.DOShakePosition(0.1f, 10, 10, 90);
+            }
+            
+            ServiceLocator.Get<GameManager>().PrepPhaseReady();
         }
     }
 }

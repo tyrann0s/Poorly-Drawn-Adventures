@@ -20,6 +20,8 @@ namespace Mobs
 
         [SerializeField]
         private MobButtons buttons;
+
+        public MobButtons Buttons => buttons;
         
         [SerializeField]
         private MobInfoPanel mobInfoPanel;
@@ -66,11 +68,14 @@ namespace Mobs
 
         public void HideUI()
         {
-            buttons.HideButtons();
-            
-            mobSprite.GetPropertyBlock(mobSpriteMPB);
-            mobSpriteMPB.SetInt("OUTLINE_ON", 0);
-            mobSprite.SetPropertyBlock(mobSpriteMPB);
+            if (this)
+            {
+                buttons.HideButtons();
+                
+                mobSprite.GetPropertyBlock(mobSpriteMPB);
+                mobSpriteMPB.SetInt("OUTLINE_ON", 0);
+                mobSprite.SetPropertyBlock(mobSpriteMPB);
+            }
         }
 
         public void ShowEnemyHighlight()
@@ -102,9 +107,12 @@ namespace Mobs
 
         public void MobDeath()
         {
-            buttons.HideButtons();
-            hpBar.gameObject.SetActive(false);
-            cursor.Hide();
+            if (this)
+            {
+                buttons.HideButtons();
+                hpBar.gameObject.SetActive(false);
+                cursor.Hide();
+            }
         }
 
         public void MobResurrect()
@@ -127,9 +135,9 @@ namespace Mobs
             cursor.Hide();
         }
 
-        public void PickTarget()
+        public void PickTarget(bool isFinal)
         {
-            cursor.PickTarget();
+            cursor.PickTarget(isFinal);
         }
 
         public void ShowTargetCursor()

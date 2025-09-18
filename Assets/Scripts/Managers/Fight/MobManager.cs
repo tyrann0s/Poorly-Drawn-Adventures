@@ -38,6 +38,9 @@ namespace Managers
         
         public void SpawnNextWave()
         {
+            // Очищаем список от уничтоженных мобов перед спавном новых
+            CleanupDestroyedMobs();
+            
             int currentSpawner = 0;
             foreach (var currentMob in ServiceLocator.Get<GameManager>().CurrentLevel.mobWaves[CurrentWave].mobs)
             { 
@@ -50,6 +53,9 @@ namespace Managers
 
         public void SpawnBoss()
         {
+            // Очищаем список от уничтоженных мобов перед спавном босса
+            CleanupDestroyedMobs();
+            
             var bossData = ServiceLocator.Get<GameManager>().CurrentLevel.boss;
             ProgressManager.Instance.UnlockRecord(bossData, false, false);
             AddMob(enemyMobSpawners[3].SpawnMob(bossData.mobPrefab));
@@ -112,6 +118,20 @@ namespace Managers
             }
 
             OnMobDied?.Invoke(mob);
+        }
+        
+        // Добавляем новый метод для очистки уничтоженных мобов
+        private void CleanupDestroyedMobs()
+        {
+            // Удаляем все null и уничтоженные ссылки из списков
+            PlayerMobs.RemoveAll(mob => mob == null || mob.gameObject == null);
+            EnemyMobs.RemoveAll(mob => mob == null || mob.gameObject == null);
+        }
+
+        // Также добавляем публичный метод для вызова из других мест при необходимости
+        public void CleanupAllDestroyedMobs()
+        {
+            CleanupDestroyedMobs();
         }
     }
 }

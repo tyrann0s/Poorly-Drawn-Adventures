@@ -20,6 +20,9 @@ public class StunSkill : ActiveSkill
     public override void Use(Mob targetMob)
     {
         targetMob.MobCombatSystem.GetDamage(Amount, ParentMob.CurrentCombo);
-        targetMob.MobStatusEffects.AddEffect(StatusEffectType.Stun, Duration);
+        if (!targetMob.MobStatusEffects.CheckShield())
+        {
+            targetMob.MobStatusEffects.AddEffect(StatusEffectType.Stun, Duration);
+        }
     }
 }

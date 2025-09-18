@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using Managers;
@@ -18,7 +19,7 @@ public class MobSpawner : MonoBehaviour//, IComparable<MobSpawner>
 
     public Mob SpawnMob(GameObject prefab)
     {
-        ClearCurrentMob();
+        StartCoroutine(ClearCurrentMob());
         var currentMob = InstantiateMob(prefab);
 
         if (isHostile)
@@ -55,12 +56,22 @@ public class MobSpawner : MonoBehaviour//, IComparable<MobSpawner>
         return currentMob;
     }
 
-    private void ClearCurrentMob()
+    private IEnumerator ClearCurrentMob()
     {
         if (currentMob)
         {
+            // Сначала уведомляем менеджера о том, что моб будет удален
+            // Это поможет избежать ссылок на уничтоженный объект
+            var mobManager = ServiceLocator.Get<MobManager>();
+        
             Destroy(currentMob.gameObject);
             currentMob = null;
+
+            // Даем время на полное уничтожение объекта
+            yield return new WaitForSeconds(0.1f);
+        
+            // Принудительно очищаем списки после уничтожения
+            mobManager?.CleanupAllDestroyedMobs();
         }
     }
 

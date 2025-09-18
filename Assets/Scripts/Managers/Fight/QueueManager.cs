@@ -16,6 +16,10 @@ namespace Managers
         public void CreateQueue()
         {
             actionList.Clear();
+            
+            // Добавляем дополнительную проверку на начало создания очереди
+            CleanupNullReferences();
+            
             GenerateEnemyActions();
 
             // Фаза защиты
@@ -43,6 +47,16 @@ namespace Managers
             actionList.AddRange(skipEnemy);
         }
 
+        // Добавляем метод для очистки null ссылок в начале создания очереди
+        private void CleanupNullReferences()
+        {
+            var mobManager = ServiceLocator.Get<MobManager>();
+            if (mobManager != null)
+            {
+                mobManager.CleanupAllDestroyedMobs();
+            }
+        }
+
         private void GenerateEnemyActions()
         {
             if (!ServiceLocator.Get<GameManager>())
@@ -65,8 +79,13 @@ namespace Managers
 
             foreach (Mob mob in ServiceLocator.Get<MobManager>().EnemyMobs)
             {
-                if (!mob || mob.State == MobState.Dead) continue;
-
+                // Добавляем дополнительную проверку на null и уничтоженный объект
+                if (!mob || mob.gameObject == null || mob.State == MobState.Dead) 
+                {
+                    Debug.LogWarning($"Skipping null or destroyed mob in GenerateEnemyActions");
+                    continue;
+                }
+                
                 mob.CurrentAction.MobInstance = mob;
 
                 // Если моб хилит ищем кого похилить

@@ -126,24 +126,6 @@ namespace Mobs
         {
             // Останавливаем все корутины этого моба
             StopAllCoroutines();
-    
-            // Очищаем действие, если оно ссылается на этого моба
-            if (CurrentAction != null)
-            {
-                if (CurrentAction.MobInstance == this)
-                    CurrentAction.MobInstance = null;
-                if (CurrentAction.TargetInstance == this)
-                    CurrentAction.TargetInstance = null;
-            }
-    
-            // Очищаем пассивное действие
-            if (PassiveAction != null)
-            {
-                if (PassiveAction.TargetInstance == this)
-                    PassiveAction.TargetInstance = null;
-            }
-
-            MobData.PassiveSkill?.Cleanup();
         }
         
         public void SetSortingOrderSmart(GameObject parent, string sortingLayerName, int spriteOrder, int canvasOrder)

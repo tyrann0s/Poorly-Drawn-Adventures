@@ -33,6 +33,8 @@ namespace Mobs
                 {
                     if (enemyCombo.ignoreDefense)
                     {
+                        ParentMob.MobStatusEffects.StatusEffects.RemoveAll(x => x.EffectType == StatusEffectType.Defense);
+                        ParentMob.UI.RemoveStatusEffect(new SEDefense());
                         ParentMob.UI.HideShield();
                         ParentMob.State = MobState.Idle;
                         return false;
@@ -142,21 +144,19 @@ namespace Mobs
                     ParentMob.UI.ShowText("Immune!", Color.white);
                     return;
                 }
+
+                if (ParentMob.MobData.VulnerableTo == ElementType.Physical)
+                {
+                    if (ParentMob.IsHostile) ProgressManager.Instance.UnlockRecord(ParentMob.MobData, true, false);
+                    resultDamage = damage * 2f;
+                    ParentMob.SoundController.PlayGetDamageSound(true);
+                    ParentMob.UI.ShowText("CRITICAL! " + resultDamage, Color.white);
+                }
                 else
                 {
-                    if (ParentMob.MobData.VulnerableTo == ElementType.Physical)
-                    {
-                        if (ParentMob.IsHostile) ProgressManager.Instance.UnlockRecord(ParentMob.MobData, true, false);
-                        resultDamage = damage * 2f;
-                        ParentMob.SoundController.PlayGetDamageSound(true);
-                        ParentMob.UI.ShowText("CRITICAL! " + resultDamage, Color.white);
-                    }
-                    else
-                    {
-                        resultDamage = damage;
-                        ParentMob.SoundController.PlayGetDamageSound(false);
-                        ParentMob.UI.ShowText(resultDamage.ToString(CultureInfo.CurrentCulture), Color.white);
-                    }
+                    resultDamage = damage;
+                    ParentMob.SoundController.PlayGetDamageSound(false);
+                    ParentMob.UI.ShowText(resultDamage.ToString(CultureInfo.CurrentCulture), Color.white);
                 }
             }
 

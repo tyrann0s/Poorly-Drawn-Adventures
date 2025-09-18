@@ -5137,7 +5137,7 @@ GameObject:
   - component: {fileID: 7343415747871140579}
   - component: {fileID: 5737846565708566965}
   - component: {fileID: 4172622642091904643}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5337,7 +5337,7 @@ GameObject:
   - component: {fileID: 1763638161954120029}
   - component: {fileID: 3203926639060420692}
   - component: {fileID: 4804017011352542917}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5839,7 +5839,7 @@ GameObject:
   - component: {fileID: 6699974820299305288}
   - component: {fileID: 4944341147161362464}
   - component: {fileID: 3914828074414497066}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Defense Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5985,7 +5985,7 @@ GameObject:
   - component: {fileID: 9081845283566668994}
   - component: {fileID: 5424299602436123007}
   - component: {fileID: 8777668473299444572}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35927,7 +35927,7 @@ GameObject:
   - component: {fileID: 8204390504607297578}
   - component: {fileID: 7637729181317491850}
   - component: {fileID: 8694517426378828631}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36065,7 +36065,7 @@ GameObject:
   - component: {fileID: 5219843909709210210}
   - component: {fileID: 6806820998672089792}
   - component: {fileID: 409922716450027981}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Attack Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36213,7 +36213,7 @@ GameObject:
   - component: {fileID: 8840229432316514711}
   - component: {fileID: 1624396946515741937}
   - component: {fileID: 4964440198362374605}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41358,7 +41358,7 @@ GameObject:
   - component: {fileID: 6602420211249735051}
   - component: {fileID: 1569417079707144305}
   - component: {fileID: 1497907021261921374}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Skip Turn Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -66174,7 +66174,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2885216002371058763}
   - component: {fileID: 5944820628587866185}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Button Descr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -66487,7 +66487,7 @@ GameObject:
   - component: {fileID: 8157049001995485317}
   - component: {fileID: 5863187333993075112}
   - component: {fileID: 4225254781546598511}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72249,7 +72249,7 @@ GameObject:
   - component: {fileID: 917232642441620101}
   - component: {fileID: 5620598072062471070}
   - component: {fileID: 1132057234424305535}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Descr Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72451,7 +72451,7 @@ GameObject:
   - component: {fileID: 6585483671815716802}
   - component: {fileID: 1619586882891244243}
   - component: {fileID: 9189252686692651254}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Skill Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72599,7 +72599,7 @@ GameObject:
   - component: {fileID: 8105249147737773204}
   - component: {fileID: 8526859428241393597}
   - component: {fileID: 6467578917575531793}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Buttons Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72647,7 +72647,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 1522415081
+  m_SortingLayerID: -961270577
   m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &8105249147737773204

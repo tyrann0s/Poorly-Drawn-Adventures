@@ -68,14 +68,11 @@ namespace Mobs
 
         public void HideUI()
         {
-            if (this)
-            {
-                buttons.HideButtons();
-                
-                mobSprite.GetPropertyBlock(mobSpriteMPB);
-                mobSpriteMPB.SetInt("OUTLINE_ON", 0);
-                mobSprite.SetPropertyBlock(mobSpriteMPB);
-            }
+            buttons.HideButtons();
+            
+            mobSprite.GetPropertyBlock(mobSpriteMPB);
+            mobSpriteMPB.SetInt("OUTLINE_ON", 0);
+            mobSprite.SetPropertyBlock(mobSpriteMPB);
         }
 
         public void ShowEnemyHighlight()
@@ -107,17 +104,16 @@ namespace Mobs
 
         public void MobDeath()
         {
-            if (this)
-            {
-                buttons.HideButtons();
-                hpBar.gameObject.SetActive(false);
-                cursor.Hide();
-            }
+            buttons.HideButtons();
+            hpBar.gameObject.SetActive(false);
+            statusEffectsPanel.gameObject.SetActive(false);
+            cursor.Hide();
         }
 
         public void MobResurrect()
         {
             hpBar.gameObject.SetActive(true);
+            statusEffectsPanel.gameObject.SetActive(true);
         }
         
         public void ShowCursor()

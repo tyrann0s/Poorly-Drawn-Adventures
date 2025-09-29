@@ -23,7 +23,7 @@ public class AutoResSkill : PassiveSkill
         GameManager.OnNewWave += ResetReviveCount;
     }
 
-    public override void Cleanup()
+    protected override void Cleanup()
     {
         MobManager.OnMobDied -= Prepare;   
         GameManager.OnNewWave -= ResetReviveCount;

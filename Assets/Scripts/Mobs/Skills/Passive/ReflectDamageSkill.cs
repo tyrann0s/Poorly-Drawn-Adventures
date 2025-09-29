@@ -16,7 +16,7 @@ public class ReflectDamageSkill : PassiveSkill
         MobActions.OnDeflect += Use;
     }
 
-    public override void Cleanup()
+    protected override void Cleanup()
     {
         MobActions.OnDeflect -= Use;
         base.Cleanup();

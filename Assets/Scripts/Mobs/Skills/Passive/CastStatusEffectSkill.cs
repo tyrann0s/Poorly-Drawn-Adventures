@@ -18,7 +18,7 @@ public class CastStatusEffectSkill : PassiveSkill
         MobActions.OnAttack += Use;
     }
 
-    public override void Cleanup()
+    protected override void Cleanup()
     {
         MobActions.OnAttack -= Use;
         base.Cleanup();

@@ -18,7 +18,7 @@ public class CounterAttackSkill : PassiveSkill
         MobActions.OnDamage += Use;
     }
 
-    public override void Cleanup()
+    protected override void Cleanup()
     {
         MobActions.OnDamage -= Use;
         base.Cleanup();

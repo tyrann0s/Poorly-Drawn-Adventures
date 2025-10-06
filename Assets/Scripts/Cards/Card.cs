@@ -35,10 +35,24 @@ namespace Cards
             cardRank = Random.Range(1, 7);
             originScale = transform.localScale;
             
+            Prepare();
+        }
+
+        public void InitializeCard(ElementType elementType, int rank)
+        {
+            cardElement.CurrentElementType = elementType;
+            cardRank = rank;
+            originScale = transform.localScale;
+            
+            Prepare();
+        }
+
+        private void Prepare()
+        {
             rankText.text = cardRank.ToString();
             elementImage.sprite = ResourceManager.Instance.Icons.GetIcon(cardElement.CurrentElementType);
             enabled = false;
-
+            
             cardBackgroundImage = GetComponent<Image>();
             originalMaterial = cardBackgroundImage.material;
             outlineMaterial = new Material(originalMaterial);
@@ -80,6 +94,15 @@ namespace Cards
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            if (ParentCardPanel.ItemCardForChange)
+            {
+                InitializeCard(ParentCardPanel.ItemCardForChange.CardElement, ParentCardPanel.ItemCardForChange.CardRank);
+                ParentCardPanel.ItemCardForChange.UseComplete();
+                Debug.Log(ParentCardPanel.ItemCardForChange);
+                //ParentCardPanel.ItemCardForChange = null;
+                ServiceLocator.Get<UIManager>().ExitChangeCards();
+            }
+            
             if (ParentCardPanel.CardChangeMode)
             {
                 if (IsForChange)

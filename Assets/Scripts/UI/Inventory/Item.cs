@@ -10,7 +10,7 @@ namespace UI.Inventory
         [SerializeField] private Sprite iconSprite;
     
         private Image icon;
-        private global::Inventory inventory;
+        protected global::Inventory inventory;
 
         protected virtual void Start()
         {
@@ -19,21 +19,48 @@ namespace UI.Inventory
             icon.sprite = iconSprite;
         }
 
-        public virtual void OnPointerClick(PointerEventData eventData)
+        protected void ShowIcon(bool show)
+        {
+            icon.enabled = show;
+        }
+
+        public void ActivateItem()
+        {
+            ShowIcon(true);
+            Cancel();
+        }
+
+        protected virtual void Cancel()
         {
             
+        }
+
+        public virtual void OnPointerClick(PointerEventData eventData)
+        {
+            ShowIcon(false);
+            inventory.ResetItem(this);
+        }
+
+        public void SetDescription(string text)
+        {
+            description = text;
         }
 
         public virtual void OnPointerEnter(PointerEventData eventData)
         {
             inventory.ShowDescription(description);
-            transform.localScale = Vector3.one * 1.1f;
+            transform.localScale = Vector3.one * 1.3f;
         }
 
         public virtual void OnPointerExit(PointerEventData eventData)
         {
             inventory.HideDescription();
             transform.localScale = Vector3.one;
+        }
+
+        public void UseComplete()
+        {
+            inventory.RemoveItem(this);
         }
     }
 }

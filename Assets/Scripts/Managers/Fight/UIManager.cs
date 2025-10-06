@@ -1,6 +1,7 @@
 using Cards;
 using DG.Tweening;
 using TMPro;
+using UI.Inventory;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,6 +26,8 @@ namespace Managers
 
         [SerializeField] private TextMeshProUGUI waveText;
         [SerializeField] private TextMeshProUGUI coinsText;
+
+        [SerializeField] private Inventory inventory;
     
         public UISounds UISounds { get; private set; }
         
@@ -42,6 +45,21 @@ namespace Managers
         public void ShowGameEndPanel(string value)
         {
             gameEndPanel.Show(value);
+        }
+
+        public void ShowInventory()
+        {
+            DOTween.Sequence()
+                .Append(inventory.gameObject.transform.DOScale(1, .5f))
+                .SetEase(Ease.InOutQuint);
+        }
+
+        public void HideInventory()
+        {
+            inventory.Cancel();
+            DOTween.Sequence()
+                .Append(inventory.gameObject.transform.DOScale(0, .5f))
+                .SetEase(Ease.InOutQuint);
         }
 
         public void ShowAssignActionsButton()
@@ -87,6 +105,15 @@ namespace Managers
             confirmChangeButton.gameObject.SetActive(true);
             SetConfirmChangeButton(false);
             cancelChangeButton.gameObject.SetActive(true);
+        }
+
+        public void EnterItemCardChange(ItemCard itemCard)
+        {
+            ServiceLocator.Get<CardPanel>().ItemCardForChange = itemCard;
+            ServiceLocator.Get<CardPanel>().EnableInteraction();
+            changeCardButton.gameObject.SetActive(false);
+            confirmChangeButton.gameObject.SetActive(false);
+            cancelChangeButton.gameObject.SetActive(false);
         }
         
         public void ExitChangeCards()

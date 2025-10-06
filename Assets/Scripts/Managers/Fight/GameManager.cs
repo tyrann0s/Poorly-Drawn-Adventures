@@ -65,6 +65,7 @@ namespace Managers
         {
             ServiceLocator.Get<CardPanel>().ShowButtons();
             ServiceLocator.Get<UIManager>().ShowAssignActionsButton();
+            ServiceLocator.Get<UIManager>().ShowInventory();
         }
 
         public void AssignActionsPhase()
@@ -74,6 +75,7 @@ namespace Managers
             ServiceLocator.Get<CardPanel>().HideButtons();
             ServiceLocator.Get<UIManager>().ExitChangeCards();
             ServiceLocator.Get<UIManager>().HideAssignActionsButton();
+            ServiceLocator.Get<UIManager>().HideInventory();
         }
 
         public void ReadyToFight()

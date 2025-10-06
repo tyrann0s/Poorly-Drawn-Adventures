@@ -2342,6 +2342,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1665472049 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 718458769679598022, guid: 8ca4b7be952c904459a1b066d16d971b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1793966725110838768}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a260332474143f4497f73b193e34777, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::Inventory
 --- !u!4 &1765040315 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8791802859087233161, guid: ae07f2a45f14a82428409cfe410e6002,
@@ -4075,6 +4087,11 @@ PrefabInstance:
       propertyPath: coinsText
       value: 
       objectReference: {fileID: 380865267}
+    - target: {fileID: 8877621610543104760, guid: 9f9047774658a3240bddb4784b3097cd,
+        type: 3}
+      propertyPath: inventory
+      value: 
+      objectReference: {fileID: 1665472049}
     - target: {fileID: 8877621610543104760, guid: 9f9047774658a3240bddb4784b3097cd,
         type: 3}
       propertyPath: gameEndPanel

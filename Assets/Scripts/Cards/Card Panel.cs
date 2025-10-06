@@ -5,6 +5,7 @@ using System.Linq;
 using DG.Tweening;
 using Managers;
 using TMPro;
+using UI.Inventory;
 
 namespace Cards
 {
@@ -31,6 +32,7 @@ namespace Cards
         public List<Card> Cards { get; private set; } = new();
 
         public bool CardChangeMode { get; set; }
+        public ItemCard ItemCardForChange { get; set; }
 
         public int ChangeIndex { get; set; }
         private int changesMadeThisRound;

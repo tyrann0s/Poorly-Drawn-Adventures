@@ -1,3 +1,5 @@
+using Cards;
+using Managers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -5,6 +7,8 @@ namespace UI.Inventory
 {
     public class ItemDeck : Item
     {
+        [SerializeField] private GameObject changeDeckPrefab;
+        
         protected override void Start()
         {
             base.Start();
@@ -13,7 +17,8 @@ namespace UI.Inventory
         public override void OnPointerClick(PointerEventData eventData)
         {
             base.OnPointerClick(eventData);
-            Debug.Log("Item Deck Clicked");
+            ServiceLocator.Get<UIManager>().EnterChangeCards();
+            GameObject go = Instantiate(changeDeckPrefab, inventory.ItemPosition);
         }
         
         public override void OnPointerEnter(PointerEventData eventData)

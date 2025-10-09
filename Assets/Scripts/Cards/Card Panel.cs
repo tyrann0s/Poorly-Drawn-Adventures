@@ -119,6 +119,29 @@ namespace Cards
             StartCoroutine(DealingCardsAnimation());
         }
 
+        public void ResetDeck()
+        {
+            cardsToAnimate = 0;
+
+            foreach (var card in Cards)
+            {
+                card.IsForChange = true;
+            }
+            
+            for (int i = 0; i < spawnPositions.Count; i++)
+            {
+                GameObject go = Instantiate(cardPrefab, spawnPositions[i]);
+                Cards[i] = go.GetComponent<Card>();
+                    
+                Cards[i].InitializeCard();
+                cardsToAnimate++;
+                    
+                Cards[i].ParentCardPanel = this;
+            }
+            
+            StartCoroutine(DealingCardsAnimation());
+        }
+
         public void DisableInteraction()
         {
             cardsBlock.DOScale(0, .5f).SetEase(Ease.InOutBack);;

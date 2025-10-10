@@ -61,6 +61,8 @@ namespace UI.Inventory
         public void UseComplete()
         {
             inventory.RemoveItem(this);
+            //ShowIcon(false);
+            enabled = false;
         }
     }
 }

@@ -1,3 +1,4 @@
+using Mobs.Skills;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -5,6 +6,9 @@ namespace UI.Inventory
 {
     public class ItemScroll : Item
     {
+        [Header("Active Skill")]
+        [SerializeReference] private ActiveSkill activeSkill;
+        
         protected override void Start()
         {
             base.Start();
@@ -13,6 +17,7 @@ namespace UI.Inventory
         public override void OnPointerClick(PointerEventData eventData)
         {
             base.OnPointerClick(eventData);
+            
             Debug.Log("Item Scroll Clicked");
         }
         

@@ -9,8 +9,8 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Transform itemPosition;
     [SerializeField] private Transform elementsPanel;
     [SerializeField] private Button cancelButton;
-    
-    protected List<Item> items = new ();
+
+    private List<Item> items = new ();
     
     public Transform ItemPosition => itemPosition;
     
@@ -71,7 +71,6 @@ public class Inventory : MonoBehaviour
     public void RemoveItem(Item item)
     {
         items.Remove(item);
-        Destroy(item.gameObject);
         Cancel();
     }
 }

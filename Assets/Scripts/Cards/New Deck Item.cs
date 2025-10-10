@@ -3,6 +3,7 @@ using System.Collections;
 using DG.Tweening;
 using Managers;
 using TMPro;
+using UI.Inventory;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -15,12 +16,14 @@ namespace Cards
         private CurvedLayoutGroup layoutGroup;
         private Vector3 originalPosition;
         private bool isActive = false;
+        private Item parentItem;
 
-        private void Start()
+        public void Initialize(Item item)
         {
             layoutGroup = GetComponentInChildren<CurvedLayoutGroup>();
             originalPosition = transform.position;
             StartCoroutine(OpenDeck());
+            parentItem = item;
         }
 
         private void CreateFloatingEffect()
@@ -52,12 +55,12 @@ namespace Cards
                     layoutGroup.SetLayoutVertical();
                 },
                 endValue: targetRadius,
-                duration: 1.2f
+                duration: .5f
             )
             .SetEase(Ease.InOutCirc)
             .SetLoops(2, LoopType.Yoyo); // 2 цикла = туда и обратно
             
-            yield return new WaitForSeconds(2.4f); // время на полную анимацию
+            yield return new WaitForSeconds(1f); // время на полную анимацию
             isActive = true;
             text.SetActive(true);
             CreateFloatingEffect();
@@ -75,6 +78,7 @@ namespace Cards
             {
                 //ServiceLocator.Get<UIManager>().ExitChangeCards();
                 ServiceLocator.Get<CardPanel>().ResetDeck();
+                parentItem.UseComplete();
             }
         }
 

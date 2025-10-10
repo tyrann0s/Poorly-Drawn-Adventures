@@ -1,7 +1,5 @@
 using Mobs.Skills;
-using Mobs.Skills.Active;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Mobs
 {

@@ -99,7 +99,7 @@ namespace Cards
                 InitializeCard(ParentCardPanel.ItemCardForChange.CardElement, ParentCardPanel.ItemCardForChange.CardRank);
                 ParentCardPanel.ItemCardForChange.UseComplete();
                 Debug.Log(ParentCardPanel.ItemCardForChange);
-                //ParentCardPanel.ItemCardForChange = null;
+                ParentCardPanel.ItemCardForChange = null;
                 ServiceLocator.Get<UIManager>().ExitChangeCards();
             }
             

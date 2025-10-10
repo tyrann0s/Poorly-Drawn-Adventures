@@ -19,6 +19,7 @@ namespace UI.Inventory
             base.OnPointerClick(eventData);
             ServiceLocator.Get<UIManager>().EnterChangeCards();
             GameObject go = Instantiate(changeDeckPrefab, inventory.ItemPosition);
+            go.GetComponent<NewDeckItem>().Initialize(this);
         }
         
         public override void OnPointerEnter(PointerEventData eventData)

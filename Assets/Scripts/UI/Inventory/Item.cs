@@ -8,6 +8,7 @@ namespace UI.Inventory
     {
         [SerializeField] private string description;
         [SerializeField] private Sprite iconSprite;
+        protected Sprite IcSprite => iconSprite;
     
         private Image icon;
         protected global::Inventory inventory;

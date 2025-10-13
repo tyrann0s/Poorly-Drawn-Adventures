@@ -278,7 +278,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79bb22ff406d6634e9f64adc21fb09c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: GameAssembly::NewDeckItem
-  text: {fileID: 8661565782662858112}
 --- !u!1 &1525584077066171616
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,7 +514,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2696764468884990276
 RectTransform:
   m_ObjectHideFlags: 0

@@ -1,0 +1,23 @@
+using System;
+using Mobs.Skills;
+using TMPro;
+using UI.Inventory;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace Items
+{
+    public class ScrollItem : ItemPref
+    {
+        [SerializeField] private TextMeshProUGUI text;
+        private Image iconImage;
+
+        public override void Initialize(Sprite icon, ItemScroll scroll)
+        {
+            base.Initialize(icon, scroll);
+            iconImage = GetComponent<Image>();
+            iconImage.sprite = icon;
+            //text.text = scroll.Description;
+        }
+    }
+}

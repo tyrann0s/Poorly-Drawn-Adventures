@@ -1,4 +1,5 @@
 using Cards;
+using Items;
 using Managers;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -31,7 +32,7 @@ namespace UI.Inventory
             ServiceLocator.Get<UIManager>().EnterItemCardChange(this);
             GameObject go = Instantiate(cardPrefab, inventory.ItemPosition);
             CardItem card = go.GetComponent<CardItem>();
-            card.InitializeCard(CardElement, CardRank);
+            card.Initialize(CardElement, CardRank);
         }
         
         public override void OnPointerEnter(PointerEventData eventData)

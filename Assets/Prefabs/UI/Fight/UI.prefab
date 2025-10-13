@@ -370,12 +370,15 @@ MonoBehaviour:
     \u0445\u0443\u0439\u043D\u0438 (ItemScroll)"
   iconSprite: {fileID: -164465796, guid: 9d226d5d3a9ecec44a9e019d0dfd7750, type: 3}
   activeSkill:
-    rid: -2
+    rid: 9095951040497844332
+  itemScrollPrefab: {fileID: 1368815213645048408, guid: cb0fdbc87c8214f4593b4ac414c6b661,
+    type: 3}
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    - rid: 9095951040497844332
+      type: {class: EnhancedRangeSkill, ns: , asm: GameAssembly}
+      data: 
 --- !u!222 &9008602159986794483
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1888,6 +1891,8 @@ MonoBehaviour:
     type: 3}
   activeSkill:
     rid: 9095950962087166058
+  itemScrollPrefab: {fileID: 1368815213645048408, guid: cb0fdbc87c8214f4593b4ac414c6b661,
+    type: 3}
   references:
     version: 2
     RefIds:

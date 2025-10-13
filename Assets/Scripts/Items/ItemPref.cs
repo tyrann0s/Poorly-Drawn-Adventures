@@ -1,38 +1,34 @@
-using System;
 using DG.Tweening;
-using Managers;
-using TMPro;
+using Mobs.Skills;
+using UI.Inventory;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Cards
+namespace Items
 {
-    public class CardItem : MonoBehaviour
+    public abstract class ItemPref : MonoBehaviour
     {
-        [SerializeField]
-        private TMP_Text rankText;
-
-        [SerializeField]
-        private Image elementImage;
-
-        private Element cardElement = new ();
-        private int cardRank;
         private Vector3 originalPosition;
 
-        public void InitializeCard(ElementType elementType, int rank)
+        private void Awake()
         {
-            cardElement.CurrentElementType = elementType;
-            cardRank = rank;
-            
-            rankText.text = cardRank.ToString();
-            elementImage.sprite = ResourceManager.Instance.Icons.GetIcon(cardElement.CurrentElementType);
-            enabled = false;
-            
             // Сохраняем изначальную позицию и поворот
             originalPosition = transform.position;
             
             // Создаем магический эффект парения
             CreateFloatingEffect();
+        }
+        
+        public virtual void Initialize(Item item)
+        {
+        }
+
+        public virtual void Initialize(ElementType elementType, int rank)
+        {
+        }
+
+        public virtual void Initialize(Sprite icon, ItemScroll scroll)
+        {
         }
 
         private void CreateFloatingEffect()

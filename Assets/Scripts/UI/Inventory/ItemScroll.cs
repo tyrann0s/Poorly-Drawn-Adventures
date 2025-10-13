@@ -1,13 +1,13 @@
+using Items;
 using Mobs.Skills;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace UI.Inventory
 {
-    public class ItemScroll : Item
+    public abstract class ItemScroll : Item
     {
-        [Header("Active Skill")]
-        [SerializeReference] private ActiveSkill activeSkill;
+        [SerializeField] private GameObject itemScrollPrefab;
         
         protected override void Start()
         {
@@ -17,8 +17,9 @@ namespace UI.Inventory
         public override void OnPointerClick(PointerEventData eventData)
         {
             base.OnPointerClick(eventData);
-            
-            Debug.Log("Item Scroll Clicked");
+
+            GameObject go = Instantiate(itemScrollPrefab, inventory.ItemPosition);
+            go.GetComponent<ScrollItem>().Initialize(IcSprite, this);
         }
         
         public override void OnPointerEnter(PointerEventData eventData)
@@ -30,5 +31,7 @@ namespace UI.Inventory
         {
             base.OnPointerExit(eventData);
         }
+
+        public abstract void Use();
     }
 }

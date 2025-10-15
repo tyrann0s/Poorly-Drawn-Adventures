@@ -325,7 +325,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8267102431795356398}
-  - component: {fileID: 3091355040543617328}
   - component: {fileID: 9008602159986794483}
   - component: {fileID: 5419414634852038146}
   m_Layer: 5
@@ -354,31 +353,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3091355040543617328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 359936766122384989}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65b43ac549206b84aab34206f10d596e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: GameAssembly::UI.Inventory.ItemScroll
-  description: "\u0421\u0432\u0438\u0442\u043E\u043A \u0441\u0432\u044F\u0442\u043E\u0439
-    \u0445\u0443\u0439\u043D\u0438 (ItemScroll)"
-  iconSprite: {fileID: -164465796, guid: 9d226d5d3a9ecec44a9e019d0dfd7750, type: 3}
-  activeSkill:
-    rid: 9095951040497844332
-  itemScrollPrefab: {fileID: 1368815213645048408, guid: cb0fdbc87c8214f4593b4ac414c6b661,
-    type: 3}
-  references:
-    version: 2
-    RefIds:
-    - rid: 9095951040497844332
-      type: {class: EnhancedRangeSkill, ns: , asm: GameAssembly}
-      data: 
 --- !u!222 &9008602159986794483
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1845,7 +1819,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8776749188230085797}
-  - component: {fileID: 3330442337957075612}
+  - component: {fileID: 6393273834091877334}
   - component: {fileID: 6805030465576545758}
   - component: {fileID: 8182773508738389094}
   m_Layer: 5
@@ -1874,7 +1848,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3330442337957075612
+--- !u!114 &6393273834091877334
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1886,19 +1860,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65b43ac549206b84aab34206f10d596e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: GameAssembly::UI.Inventory.ItemScroll
-  description: "\u0415\u0433\u043E\u0440 (ItemScroll)"
+  description: akjghdklajshdaksjld
   iconSprite: {fileID: -885336937852217256, guid: bee00b85ef4f3e34bba8c9bb2a8d0ccb,
     type: 3}
-  activeSkill:
-    rid: 9095950962087166058
-  itemScrollPrefab: {fileID: 1368815213645048408, guid: cb0fdbc87c8214f4593b4ac414c6b661,
+  itemScrollPrefab: {fileID: 1368815213645048408, guid: 1d88b07dbe390ef47959ef7ed1fea70e,
     type: 3}
-  references:
-    version: 2
-    RefIds:
-    - rid: 9095950962087166058
-      type: {class: HealSkill, ns: , asm: GameAssembly}
-      data: 
 --- !u!222 &6805030465576545758
 CanvasRenderer:
   m_ObjectHideFlags: 0

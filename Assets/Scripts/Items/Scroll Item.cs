@@ -12,12 +12,12 @@ namespace Items
         [SerializeField] private TextMeshProUGUI text;
         private Image iconImage;
 
-        public override void Initialize(Sprite icon, ItemScroll scroll)
+        public override void Initialize(Item item, Sprite icon, ItemScroll scroll)
         {
-            base.Initialize(icon, scroll);
+            base.Initialize(item, icon, scroll);
             iconImage = GetComponent<Image>();
             iconImage.sprite = icon;
-            //text.text = scroll.Description;
+            text.text = item.Description;
         }
     }
 }

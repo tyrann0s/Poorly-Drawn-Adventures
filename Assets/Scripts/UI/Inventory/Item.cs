@@ -7,6 +7,8 @@ namespace UI.Inventory
     public abstract class Item : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] private string description;
+        public string Description => description;
+        
         [SerializeField] private Sprite iconSprite;
         protected Sprite IcSprite => iconSprite;
     

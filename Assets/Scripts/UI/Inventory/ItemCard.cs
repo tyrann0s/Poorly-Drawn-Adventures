@@ -32,7 +32,7 @@ namespace UI.Inventory
             ServiceLocator.Get<UIManager>().EnterItemCardChange(this);
             GameObject go = Instantiate(cardPrefab, inventory.ItemPosition);
             CardItem card = go.GetComponent<CardItem>();
-            card.Initialize(CardElement, CardRank);
+            card.Initialize(this, CardElement, CardRank);
         }
         
         public override void OnPointerEnter(PointerEventData eventData)

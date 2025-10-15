@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace UI.Inventory
 {
-    public abstract class ItemScroll : Item
+    public class ItemScroll : Item
     {
         [SerializeField] private GameObject itemScrollPrefab;
         
@@ -19,7 +19,7 @@ namespace UI.Inventory
             base.OnPointerClick(eventData);
 
             GameObject go = Instantiate(itemScrollPrefab, inventory.ItemPosition);
-            go.GetComponent<ScrollItem>().Initialize(IcSprite, this);
+            go.GetComponent<ScrollItem>().Initialize(this, IcSprite, this);
         }
         
         public override void OnPointerEnter(PointerEventData eventData)
@@ -31,7 +31,5 @@ namespace UI.Inventory
         {
             base.OnPointerExit(eventData);
         }
-
-        public abstract void Use();
     }
 }

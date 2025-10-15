@@ -7,30 +7,19 @@ using UnityEngine.EventSystems;
 
 namespace Items
 {
-    public class NewDeckItem : ItemPref, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+    public class NewDeckItem : ItemPref
     {
-        private Item parentItem;
-
         public override void Initialize(Item item)
         {
-            parentItem = item;
+            base.Initialize(item);
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+        public override void Use()
         {
+            base.Use();
             //ServiceLocator.Get<UIManager>().ExitChangeCards();
             ServiceLocator.Get<CardPanel>().ResetDeck();
             parentItem.UseComplete();
-        }
-
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            transform.localScale = Vector3.one * 1.2f;
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            transform.localScale = Vector3.one;
         }
     }
 }

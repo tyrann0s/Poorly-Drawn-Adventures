@@ -26,6 +26,16 @@ namespace Cards
         public bool ignoreDefense;
         [Tooltip("Дамажит всех мобов на арене")]
         public bool aoeAttack;
+
+        public ElementCombo(ElementType elType, bool isStun, int stTime, bool isIgnoreDefense, bool isAOE)
+        {
+            elementType = elType;
+            stun = isStun;
+            stunTime = stTime;
+            damageMultiplier = 1f;
+            ignoreDefense = isIgnoreDefense;
+            aoeAttack = isAOE;
+        }
         
         public string GetId()
         {

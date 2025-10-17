@@ -1,16 +1,18 @@
+using Managers;
 using UnityEngine;
 
-public class AOECleanseScroll : MonoBehaviour
+namespace Items.Scrolls
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class AOECleanseScroll : ScrollItem
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public override void Use()
+        {
+            base.Use();
+            foreach (var mob in ServiceLocator.Get<MobManager>().PlayerMobs)
+            {
+                mob.MobStatusEffects.StatusEffects.RemoveAll(x => x.IsNegative);
+                mob.UI.ShowText("Cleansed!", Color.green);
+            }
+        }
     }
 }

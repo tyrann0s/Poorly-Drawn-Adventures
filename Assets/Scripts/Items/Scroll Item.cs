@@ -9,7 +9,6 @@ namespace Items
 {
     public class ScrollItem : ItemPref
     {
-        [SerializeField] private TextMeshProUGUI text;
         private Image iconImage;
 
         public override void Initialize(Item item, Sprite icon, ItemScroll scroll)
@@ -17,6 +16,8 @@ namespace Items
             base.Initialize(item, icon, scroll);
             iconImage = GetComponent<Image>();
             iconImage.sprite = icon;
+
+            TextMeshProUGUI text = GetComponentInChildren<TextMeshProUGUI>();
             text.text = item.Description;
         }
     }

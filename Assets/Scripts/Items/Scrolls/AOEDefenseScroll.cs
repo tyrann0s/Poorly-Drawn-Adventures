@@ -1,16 +1,17 @@
-using UnityEngine;
+using Managers;
+using Mobs.Status_Effects;
 
-public class AOEDefenseScroll : MonoBehaviour
+namespace Items.Scrolls
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class AOEDefenseScroll : ScrollItem
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public override void Use()
+        {
+            base.Use();
+            foreach (var mob in ServiceLocator.Get<MobManager>().PlayerMobs)
+            {
+                mob.MobStatusEffects.AddEffect(StatusEffectType.Defense, 1);
+            }
+        }
     }
 }

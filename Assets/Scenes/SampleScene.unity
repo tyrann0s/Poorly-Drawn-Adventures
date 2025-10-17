@@ -3777,13 +3777,13 @@ PrefabInstance:
     - target: {fileID: 6393273834091877334, guid: 8ca4b7be952c904459a1b066d16d971b,
         type: 3}
       propertyPath: description
-      value: Attack AOE
+      value: Defense AOE
       objectReference: {fileID: 0}
     - target: {fileID: 6393273834091877334, guid: 8ca4b7be952c904459a1b066d16d971b,
         type: 3}
       propertyPath: itemScrollPrefab
       value: 
-      objectReference: {fileID: 1368815213645048408, guid: 86d4bfd5623cded478634dc164c85d18,
+      objectReference: {fileID: 1368815213645048408, guid: 59bd35d22249a8b409974258fe442b05,
         type: 3}
     - target: {fileID: 6863507865598714873, guid: 8ca4b7be952c904459a1b066d16d971b,
         type: 3}

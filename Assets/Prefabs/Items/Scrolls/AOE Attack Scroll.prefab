@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93519cc12c58eec4fba5fdb09d17f39f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: GameAssembly::Items.Scrolls.AOEAttackScroll
-  text: {fileID: 7353843355658063607}
+  isHostile: 1
   damageAmount: 50
   damageType: 3
   ignoreShield: 0

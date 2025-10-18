@@ -1,13 +1,10 @@
 using System;
 using System.Collections;
 using System.Linq;
-using System.Threading.Tasks;
 using Cards;
 using Levels;
-using Managers.Base;
 using Mobs;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Managers
 {
@@ -32,8 +29,8 @@ namespace Managers
         public Level CurrentLevel { get; set; }
 
         public bool ControlLock { get; set; }
-        public SelectingState SelectingState { get; set; }
-        public GamePhase CurrentPhase { get; set; }
+        public SelectingState SelectingState { get; private set; }
+        public GamePhase CurrentPhase { get; private set; }
         public Mob PickingMob { get; set; }
         public Mob ActivatedMob { get; set; }
         public int CurrentCoins { get; set; }
@@ -70,12 +67,14 @@ namespace Managers
 
         public void AssignActionsPhase()
         {
-            CurrentPhase = GamePhase.AssignActions;
-            
             ServiceLocator.Get<CardPanel>().HideButtons();
             ServiceLocator.Get<UIManager>().ExitChangeCards();
             ServiceLocator.Get<UIManager>().HideAssignActionsButton();
             ServiceLocator.Get<UIManager>().HideInventory();
+            
+            ServiceLocator.Get<TargetManager>().SetContext(new TargetSelectionContext(SelectingState.Player, null, null, mob => !mob.IsHostile && mob.State == MobState.Idle));
+            
+            CurrentPhase = GamePhase.AssignActions;
         }
 
         public void ReadyToFight()

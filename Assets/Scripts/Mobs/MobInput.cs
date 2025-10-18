@@ -9,31 +9,42 @@ namespace Mobs
     {
         private void OnMouseEnter()
         {
-            if (!ParentMob.IsHostile &&
-                !ServiceLocator.Get<GameManager>().ControlLock &&
-                ParentMob.State == MobState.Idle &&
-                ServiceLocator.Get<GameManager>().CurrentPhase == GamePhase.AssignActions)
-            {
-                ParentMob.UI.ShowCursor();
-                ServiceLocator.Get<UIManager>().UISounds.ButtonHover();
-            }
+            var targetContext = ServiceLocator.Get<TargetManager>().CurrentContext;
 
-            if (ParentMob.IsHostile && ServiceLocator.Get<GameManager>().SelectingState == SelectingState.Enemy)
+            if (targetContext == null)
+                return;
+
+            if (targetContext.CanSelectTarget(ParentMob))
             {
-                ParentMob.UI.ShowEnemyHighlight();
+                if (targetContext.CurrentSelectingState == SelectingState.Player)
+                {
+                    ParentMob.UI.ShowCursor();
+                    ServiceLocator.Get<UIManager>().UISounds.ButtonHover();
+                }
+                else
+                {
+                    ParentMob.UI.ShowEnemyHighlight();
+                }
             }
         }
 
         private void OnMouseExit()
         {
-            if (!ParentMob.IsHostile && ParentMob.State == MobState.Idle && ServiceLocator.Get<GameManager>().CurrentPhase == GamePhase.AssignActions)
-            {
-                ParentMob.UI.HideCursor();
-            }
+            var targetContext = ServiceLocator.Get<TargetManager>().CurrentContext;
 
-            if (ParentMob.IsHostile && ServiceLocator.Get<GameManager>().SelectingState == SelectingState.Enemy)
+            if (targetContext == null)
+                return;
+
+            if (targetContext.CanSelectTarget(ParentMob))
             {
-                ParentMob.UI.HideEnemyHighlight();
+                if (targetContext.CurrentSelectingState == SelectingState.Player)
+                {
+                    ParentMob.UI.HideCursor();
+                }
+                else
+                {
+                    ParentMob.UI.HideEnemyHighlight();
+                }
             }
         }
 
@@ -41,29 +52,51 @@ namespace Mobs
         {
             if (Input.GetMouseButtonUp(0))
             {
-                if (ParentMob.State == MobState.Idle && !ParentMob.IsHostile &&
-                    !ServiceLocator.Get<GameManager>().ControlLock &&
-                    ServiceLocator.Get<GameManager>().CurrentPhase == GamePhase.AssignActions)
+                var targetContext = ServiceLocator.Get<TargetManager>().CurrentContext;
+
+                if (targetContext == null)
+                    return;
+                
+                if (targetContext.CanSelectTarget(ParentMob))
                 {
-                    if (ParentMob.State == MobState.Activated)
+                    if (targetContext.CurrentSelectingState == SelectingState.Player)
                     {
-                        ParentMob.Deactivate();
+                        if (ParentMob.State == MobState.Activated)
+                        {
+                            ParentMob.Deactivate();
+                        }
+                        else
+                        {
+                            ParentMob.Activate();
+                        }
                     }
                     else
                     {
-                        ParentMob.Activate();
+                        if (targetContext.MaxTargets >= ServiceLocator.Get<TargetManager>().Targets.Count)
+                        {
+                            ServiceLocator.Get<TargetManager>().AddTarget(ParentMob);
+                            PickEnemyMob();
+                            ParentMob.UI.HideEnemyHighlight();
+                        } 
                     }
                 }
+                
+                /*if (ParentMob.State == MobState.Idle && !ParentMob.IsHostile &&
+                    !ServiceLocator.Get<GameManager>().ControlLock &&
+                    ServiceLocator.Get<GameManager>().CurrentPhase == GamePhase.AssignActions)
+                {
+                    
+                }*/
 
                 // Выбираем врагов
-                if (ParentMob.IsHostile 
+                /*if (ParentMob.IsHostile 
                     && ServiceLocator.Get<GameManager>().ControlLock
                     && ServiceLocator.Get<GameManager>().SelectingState == SelectingState.Enemy
                     && ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.Targets.Count < ServiceLocator.Get<GameManager>().PickingMob.MobData.MaxTargets)
                 {
                     PickEnemyMob();
                     ParentMob.UI.HideEnemyHighlight();
-                }
+                }*/
                 
                 // Выбираем союзников
                 if (!ParentMob.IsHostile 
@@ -129,8 +162,9 @@ namespace Mobs
             }
             
             ServiceLocator.Get<GameManager>().ControlLock = false;
-            ServiceLocator.Get<GameManager>().SelectingState = SelectingState.None;
+            //ServiceLocator.Get<GameManager>().SelectingState = SelectingState.None;
             ServiceLocator.Get<CardPanel>().DisableInteraction();
+            ServiceLocator.Get<TargetManager>().SetContext(new TargetSelectionContext(SelectingState.Player, null, null, mob => !mob.IsHostile && mob.State == MobState.Idle));
         }
     }
 }

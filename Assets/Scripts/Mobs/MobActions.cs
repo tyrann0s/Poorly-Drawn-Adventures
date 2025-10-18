@@ -73,18 +73,28 @@ namespace Mobs
             switch (action)
             {
                 case ActionType.Attack:
-                    ServiceLocator.Get<GameManager>().SelectingState = SelectingState.Enemy;
+                    ServiceLocator.Get<TargetManager>().SetContext(new TargetSelectionContext(SelectingState.Enemy, ParentMob, null, mob => mob.IsHostile && mob.State == MobState.Idle));
                     ServiceLocator.Get<CardPanel>().EnableInteraction();
                     break;
                 case ActionType.ActiveSkill:
                     if (ParentMob.MobData.ActiveSkill.IsAttack)
                     {
-                        ServiceLocator.Get<GameManager>().SelectingState = SelectingState.Enemy;
+                        ServiceLocator.Get<TargetManager>().SetContext(new TargetSelectionContext(
+                            SelectingState.Enemy,
+                            ParentMob, 
+                            null, 
+                            mob => mob.IsHostile && mob.State == MobState.Idle,
+                            ParentMob.MobData.MaxTargets));
                         ServiceLocator.Get<CardPanel>().EnableInteraction();
                     }
                     else
                     {
-                        ServiceLocator.Get<GameManager>().SelectingState = SelectingState.Player;
+                        ServiceLocator.Get<TargetManager>().SetContext(new TargetSelectionContext(
+                            SelectingState.Player,
+                            ParentMob,
+                            null,
+                            mob => !mob.IsHostile && mob.State == MobState.Idle,
+                            ParentMob.MobData.MaxTargets));
                     }
                     break;
                 default:

@@ -529,6 +529,29 @@ AudioSource:
     type: 3}
   m_PrefabInstance: {fileID: 4417942666653839889}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &660980857 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 359936766122384989, guid: 8ca4b7be952c904459a1b066d16d971b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1793966725110838768}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &660980861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 660980857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65b43ac549206b84aab34206f10d596e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::UI.Inventory.ItemScroll
+  description: Attack Test
+  iconSprite: {fileID: -4413809722247398351, guid: 945d719902f9c1e4d807cbca99918ccb,
+    type: 3}
+  itemScrollPrefab: {fileID: 1368815213645048408, guid: 1d88b07dbe390ef47959ef7ed1fea70e,
+    type: 3}
 --- !u!114 &679196015 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8321963148477226953, guid: 3c2b75ffc3d2f26419d31ddc03533129,
@@ -3948,7 +3971,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 359936766122384989, guid: 8ca4b7be952c904459a1b066d16d971b,
+        type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 660980861}
   m_SourcePrefab: {fileID: 100100000, guid: 8ca4b7be952c904459a1b066d16d971b, type: 3}
 --- !u!1001 &4417942666653839889
 PrefabInstance:

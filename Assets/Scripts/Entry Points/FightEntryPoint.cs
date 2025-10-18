@@ -15,6 +15,7 @@ public class FightEntryPoint : EntryPoint
     [SerializeField] private QueueManager queueManager;
     [SerializeField] private MusicManager musicManager;
     [SerializeField] private CardPanel cardPanel;
+    private TargetManager taskManager;
     
     [Header("Параметры по-умолчанию")]
     [SerializeField] private MobData defaultMob;
@@ -61,6 +62,9 @@ public class FightEntryPoint : EntryPoint
         ServiceLocator.Register(musicManager);
         ServiceLocator.Register(cardPanel);
         
+        taskManager = gameObject.AddComponent<TargetManager>();
+        ServiceLocator.Register(taskManager);
+        
         ProgressManager.Instance.CurrentTeam = defaultTeam;
         ProgressManager.Instance.LevelToLoad = defaultLevel;
         
@@ -69,6 +73,7 @@ public class FightEntryPoint : EntryPoint
         gameManager.CurrentLevel = defaultLevel;
         gameManager.Initialize();
         mobManager.Initialize();
+        taskManager.Initialize();
 
         Instantiate(journalPrefab);
     }

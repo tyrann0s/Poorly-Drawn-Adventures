@@ -72,7 +72,12 @@ namespace Managers
             ServiceLocator.Get<UIManager>().HideAssignActionsButton();
             ServiceLocator.Get<UIManager>().HideInventory();
             
-            ServiceLocator.Get<TargetManager>().SetContext(new TargetSelectionContext(SelectingState.Player, null, null, mob => !mob.IsHostile && mob.State == MobState.Idle));
+            ServiceLocator.Get<TargetManager>().SetContext(new TargetSelectionContext(
+                SourceType.MobControl,
+                SelectingState.Player, 
+                null, 
+                null, 
+                mob => !mob.IsHostile && mob.State == MobState.Idle));
             
             CurrentPhase = GamePhase.AssignActions;
         }

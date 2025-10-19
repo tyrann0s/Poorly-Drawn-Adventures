@@ -73,27 +73,34 @@ namespace Mobs
             switch (action)
             {
                 case ActionType.Attack:
-                    ServiceLocator.Get<TargetManager>().SetContext(new TargetSelectionContext(SelectingState.Enemy, ParentMob, null, mob => mob.IsHostile && mob.State == MobState.Idle));
+                    ServiceLocator.Get<TargetManager>().SetContext(new TargetSelectionContext(
+                        SourceType.MobTarget,
+                        SelectingState.Enemy,
+                        ParentMob,
+                        null,
+                        mob => mob.IsHostile && mob.State != MobState.Dead));
                     ServiceLocator.Get<CardPanel>().EnableInteraction();
                     break;
                 case ActionType.ActiveSkill:
                     if (ParentMob.MobData.ActiveSkill.IsAttack)
                     {
                         ServiceLocator.Get<TargetManager>().SetContext(new TargetSelectionContext(
+                            SourceType.MobTarget,
                             SelectingState.Enemy,
                             ParentMob, 
                             null, 
-                            mob => mob.IsHostile && mob.State == MobState.Idle,
+                            mob => mob.IsHostile && mob.State != MobState.Dead,
                             ParentMob.MobData.MaxTargets));
                         ServiceLocator.Get<CardPanel>().EnableInteraction();
                     }
                     else
                     {
                         ServiceLocator.Get<TargetManager>().SetContext(new TargetSelectionContext(
+                            SourceType.MobTarget,
                             SelectingState.Player,
                             ParentMob,
                             null,
-                            mob => !mob.IsHostile && mob.State == MobState.Idle,
+                            mob => !mob.IsHostile,
                             ParentMob.MobData.MaxTargets));
                     }
                     break;

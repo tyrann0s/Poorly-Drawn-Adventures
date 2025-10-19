@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Cards;
 using Managers;
 using UnityEngine;
@@ -59,7 +60,8 @@ namespace Mobs
                 
                 if (targetContext.CanSelectTarget(ParentMob))
                 {
-                    if (targetContext.CurrentSelectingState == SelectingState.Player)
+                    if (targetContext.CurrentSelectingState == SelectingState.Player &&
+                        targetContext.CurrentSourceType == SourceType.MobControl)
                     {
                         if (ParentMob.State == MobState.Activated)
                         {
@@ -69,45 +71,25 @@ namespace Mobs
                         {
                             ParentMob.Activate();
                         }
+                        return;
                     }
-                    else
-                    {
-                        if (targetContext.MaxTargets >= ServiceLocator.Get<TargetManager>().Targets.Count)
-                        {
-                            ServiceLocator.Get<TargetManager>().AddTarget(ParentMob);
-                            PickEnemyMob();
-                            ParentMob.UI.HideEnemyHighlight();
-                        } 
-                    }
-                }
-                
-                /*if (ParentMob.State == MobState.Idle && !ParentMob.IsHostile &&
-                    !ServiceLocator.Get<GameManager>().ControlLock &&
-                    ServiceLocator.Get<GameManager>().CurrentPhase == GamePhase.AssignActions)
-                {
                     
-                }*/
-
-                // Выбираем врагов
-                /*if (ParentMob.IsHostile 
-                    && ServiceLocator.Get<GameManager>().ControlLock
-                    && ServiceLocator.Get<GameManager>().SelectingState == SelectingState.Enemy
-                    && ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.Targets.Count < ServiceLocator.Get<GameManager>().PickingMob.MobData.MaxTargets)
-                {
-                    PickEnemyMob();
-                    ParentMob.UI.HideEnemyHighlight();
-                }*/
-                
-                // Выбираем союзников
-                if (!ParentMob.IsHostile 
-                    && ServiceLocator.Get<GameManager>().ControlLock
-                    && ServiceLocator.Get<GameManager>().SelectingState == SelectingState.Player
-                    && ServiceLocator.Get<GameManager>().PickingMob.CurrentAction.Targets.Count < ServiceLocator.Get<GameManager>().PickingMob.MobData.MaxTargets)
-                {
-                    if (ServiceLocator.Get<GameManager>().PickingMob.MobData.ActiveSkill is ResurrectSkill)
+                    if (targetContext.CurrentSelectingState == SelectingState.Enemy && targetContext.MaxTargets >= ServiceLocator.Get<TargetManager>().Targets.Count)
                     {
-                        if (ParentMob.State == MobState.Dead) PickPlayerMob();
-                    } else if (ParentMob.State != MobState.Dead) PickPlayerMob();
+                        ServiceLocator.Get<TargetManager>().AddTarget(ParentMob);
+                        PickEnemyMob();
+                        ParentMob.UI.HideEnemyHighlight();
+                        return;
+                    } 
+                    
+                    if (targetContext.CurrentSelectingState == SelectingState.Player && targetContext.MaxTargets >= ServiceLocator.Get<TargetManager>().Targets.Count)
+                    {
+                        ServiceLocator.Get<TargetManager>().AddTarget(ParentMob);
+                        if (ServiceLocator.Get<GameManager>().PickingMob.MobData.ActiveSkill is ResurrectSkill)
+                        {
+                            if (ParentMob.State == MobState.Dead) PickPlayerMob();
+                        } else if (ParentMob.State != MobState.Dead) PickPlayerMob();
+                    } 
                 }
             }
         }
@@ -162,9 +144,16 @@ namespace Mobs
             }
             
             ServiceLocator.Get<GameManager>().ControlLock = false;
-            //ServiceLocator.Get<GameManager>().SelectingState = SelectingState.None;
             ServiceLocator.Get<CardPanel>().DisableInteraction();
-            ServiceLocator.Get<TargetManager>().SetContext(new TargetSelectionContext(SelectingState.Player, null, null, mob => !mob.IsHostile && mob.State == MobState.Idle));
+            if (ServiceLocator.Get<MobManager>().PlayerMobs.Any(mob => mob.State == MobState.Idle))
+            {
+                ServiceLocator.Get<TargetManager>().SetContext(new TargetSelectionContext(
+                    SourceType.MobControl, 
+                    SelectingState.Player, 
+                    null,
+                    null, 
+                    mob => !mob.IsHostile && mob.State == MobState.Idle));
+            } else ServiceLocator.Get<TargetManager>().ClearContext();
         }
     }
 }

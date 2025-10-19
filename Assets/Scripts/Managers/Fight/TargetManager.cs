@@ -6,6 +6,12 @@ using UnityEngine;
 
 namespace Managers
 {
+    public enum SourceType
+    {
+        MobControl,
+        MobTarget
+    }
+    
     public class TargetManager : MonoBehaviour, IManager
     {
         public TargetSelectionContext CurrentContext { get; private set; }
@@ -22,7 +28,7 @@ namespace Managers
             CurrentContext = context;
         }
 
-        private void ClearContext()
+        public void ClearContext()
         {
             CurrentContext = null;
             Targets.Clear();
@@ -37,18 +43,21 @@ namespace Managers
     public class TargetSelectionContext
     {
         public SelectingState CurrentSelectingState { get; private set; }
+        public SourceType CurrentSourceType { get; private set; }
         public Mob ParentMob {get; private set;}
         public ScrollItem ParentItem {get; private set;}
         public Func<Mob, bool> TargetFilter {get; private set;}
         public int MaxTargets { get; private set; } = 1;
         
         public TargetSelectionContext(
+            SourceType sourceType,
             SelectingState selectingState,
             Mob parentMob,
             ScrollItem parentItem,
             Func<Mob, bool> targetFilter,
             int maxTargets = 1)
         {
+            CurrentSourceType = sourceType;
             CurrentSelectingState = selectingState;
             ParentMob = parentMob;
             ParentItem = parentItem;

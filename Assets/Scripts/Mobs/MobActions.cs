@@ -76,8 +76,6 @@ namespace Mobs
                     ServiceLocator.Get<TargetManager>().SetContext(new TargetSelectionContext(
                         SourceType.MobTarget,
                         SelectingState.Enemy,
-                        ParentMob,
-                        null,
                         mob => mob.IsHostile && mob.State != MobState.Dead));
                     ServiceLocator.Get<CardPanel>().EnableInteraction();
                     break;
@@ -87,8 +85,6 @@ namespace Mobs
                         ServiceLocator.Get<TargetManager>().SetContext(new TargetSelectionContext(
                             SourceType.MobTarget,
                             SelectingState.Enemy,
-                            ParentMob, 
-                            null, 
                             mob => mob.IsHostile && mob.State != MobState.Dead,
                             ParentMob.MobData.MaxTargets));
                         ServiceLocator.Get<CardPanel>().EnableInteraction();
@@ -98,8 +94,6 @@ namespace Mobs
                         ServiceLocator.Get<TargetManager>().SetContext(new TargetSelectionContext(
                             SourceType.MobTarget,
                             SelectingState.Player,
-                            ParentMob,
-                            null,
                             mob => !mob.IsHostile,
                             ParentMob.MobData.MaxTargets));
                     }

@@ -51,6 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1570acc19f0d1614390518a1a9fa40b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: GameAssembly::AOEDefenseScroll
+  isHostile: 0
+  isAOE: 1
 --- !u!222 &8430757710612794273
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -9,7 +9,8 @@ namespace Managers
     public enum SourceType
     {
         MobControl,
-        MobTarget
+        MobTarget,
+        ItemTarget
     }
     
     public class TargetManager : MonoBehaviour, IManager
@@ -44,23 +45,17 @@ namespace Managers
     {
         public SelectingState CurrentSelectingState { get; private set; }
         public SourceType CurrentSourceType { get; private set; }
-        public Mob ParentMob {get; private set;}
-        public ScrollItem ParentItem {get; private set;}
         public Func<Mob, bool> TargetFilter {get; private set;}
         public int MaxTargets { get; private set; } = 1;
         
         public TargetSelectionContext(
             SourceType sourceType,
             SelectingState selectingState,
-            Mob parentMob,
-            ScrollItem parentItem,
             Func<Mob, bool> targetFilter,
             int maxTargets = 1)
         {
             CurrentSourceType = sourceType;
             CurrentSelectingState = selectingState;
-            ParentMob = parentMob;
-            ParentItem = parentItem;
             TargetFilter = targetFilter;
             MaxTargets = maxTargets;
         }

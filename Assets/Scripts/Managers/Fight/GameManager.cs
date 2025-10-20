@@ -75,8 +75,6 @@ namespace Managers
             ServiceLocator.Get<TargetManager>().SetContext(new TargetSelectionContext(
                 SourceType.MobControl,
                 SelectingState.Player, 
-                null, 
-                null, 
                 mob => !mob.IsHostile && mob.State == MobState.Idle));
             
             CurrentPhase = GamePhase.AssignActions;

@@ -1,5 +1,6 @@
 using Cards;
 using DG.Tweening;
+using Managers;
 using UI.Inventory;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -73,6 +74,7 @@ namespace Items
         public virtual void Use()
         {
             parentItem.UseComplete();
+            ServiceLocator.Get<TargetManager>().ClearContext();
         }
     }
 }

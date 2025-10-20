@@ -550,7 +550,7 @@ MonoBehaviour:
   description: Attack Test
   iconSprite: {fileID: -4413809722247398351, guid: 945d719902f9c1e4d807cbca99918ccb,
     type: 3}
-  itemScrollPrefab: {fileID: 1368815213645048408, guid: 1d88b07dbe390ef47959ef7ed1fea70e,
+  itemScrollPrefab: {fileID: 1368815213645048408, guid: 6121c2fe9c274434aba2f53b8c1783c1,
     type: 3}
 --- !u!114 &679196015 stripped
 MonoBehaviour:
@@ -3800,13 +3800,13 @@ PrefabInstance:
     - target: {fileID: 6393273834091877334, guid: 8ca4b7be952c904459a1b066d16d971b,
         type: 3}
       propertyPath: description
-      value: Defense AOE
+      value: Heal
       objectReference: {fileID: 0}
     - target: {fileID: 6393273834091877334, guid: 8ca4b7be952c904459a1b066d16d971b,
         type: 3}
       propertyPath: itemScrollPrefab
       value: 
-      objectReference: {fileID: 1368815213645048408, guid: 59bd35d22249a8b409974258fe442b05,
+      objectReference: {fileID: 1368815213645048408, guid: 00cd1908a428520458558b3568e01acc,
         type: 3}
     - target: {fileID: 6863507865598714873, guid: 8ca4b7be952c904459a1b066d16d971b,
         type: 3}

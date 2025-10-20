@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7554958838123026194}
-  - component: {fileID: 8430757710612794273}
   - component: {fileID: -835446136030791633}
+  - component: {fileID: 8430757710612794273}
   - component: {fileID: 6409489251770741663}
   m_Layer: 0
   m_Name: AOE Attack Scroll
@@ -39,14 +39,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &8430757710612794273
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1368815213645048408}
-  m_CullTransparentMesh: 1
 --- !u!114 &-835446136030791633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,9 +52,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: GameAssembly::Items.Scrolls.AOEAttackScroll
   isHostile: 1
+  isAOE: 1
   damageAmount: 50
   damageType: 3
   ignoreShield: 0
+--- !u!222 &8430757710612794273
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1368815213645048408}
+  m_CullTransparentMesh: 1
 --- !u!114 &6409489251770741663
 MonoBehaviour:
   m_ObjectHideFlags: 0

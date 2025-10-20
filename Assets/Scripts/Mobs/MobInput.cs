@@ -17,15 +17,33 @@ namespace Mobs
 
             if (targetContext.CanSelectTarget(ParentMob))
             {
-                if (targetContext.CurrentSelectingState == SelectingState.Player)
+                if (targetContext.CurrentSourceType != SourceType.ItemTarget)
                 {
-                    ParentMob.UI.ShowCursor();
-                    ServiceLocator.Get<UIManager>().UISounds.ButtonHover();
+                    if (targetContext.CurrentSelectingState == SelectingState.Player)
+                    {
+                        ParentMob.UI.ShowCursor();
+                        ServiceLocator.Get<UIManager>().UISounds.ButtonHover();
+                    }
+                    else
+                    {
+                        ParentMob.UI.ShowEnemyHighlight();
+                    }
                 }
-                else
+                
+                if (targetContext.CurrentSourceType == SourceType.ItemTarget
+                    && targetContext.MaxTargets > ServiceLocator.Get<TargetManager>().Targets.Count)
                 {
-                    ParentMob.UI.ShowEnemyHighlight();
+                    if (targetContext.CurrentSelectingState == SelectingState.Player)
+                    {
+                        ParentMob.UI.ShowCursor();
+                        ServiceLocator.Get<UIManager>().UISounds.ButtonHover();
+                    }
+                    else
+                    {
+                        ParentMob.UI.ShowEnemyHighlight();
+                    }
                 }
+                
             }
         }
 
@@ -60,6 +78,7 @@ namespace Mobs
                 
                 if (targetContext.CanSelectTarget(ParentMob))
                 {
+                    // Выбираем союзного моба для контроля
                     if (targetContext.CurrentSelectingState == SelectingState.Player &&
                         targetContext.CurrentSourceType == SourceType.MobControl)
                     {
@@ -74,22 +93,48 @@ namespace Mobs
                         return;
                     }
                     
-                    if (targetContext.CurrentSelectingState == SelectingState.Enemy && targetContext.MaxTargets >= ServiceLocator.Get<TargetManager>().Targets.Count)
+                    // Выбираем в качестве цели для атаки моба
+                    if (targetContext.CurrentSourceType == SourceType.MobTarget
+                        && targetContext.MaxTargets > ServiceLocator.Get<TargetManager>().Targets.Count)
                     {
-                        ServiceLocator.Get<TargetManager>().AddTarget(ParentMob);
-                        PickEnemyMob();
-                        ParentMob.UI.HideEnemyHighlight();
-                        return;
-                    } 
-                    
-                    if (targetContext.CurrentSelectingState == SelectingState.Player && targetContext.MaxTargets >= ServiceLocator.Get<TargetManager>().Targets.Count)
-                    {
-                        ServiceLocator.Get<TargetManager>().AddTarget(ParentMob);
-                        if (ServiceLocator.Get<GameManager>().PickingMob.MobData.ActiveSkill is ResurrectSkill)
+                        // Выбираем врагов
+                        if (targetContext.CurrentSelectingState == SelectingState.Enemy)
                         {
-                            if (ParentMob.State == MobState.Dead) PickPlayerMob();
-                        } else if (ParentMob.State != MobState.Dead) PickPlayerMob();
-                    } 
+                            ServiceLocator.Get<TargetManager>().AddTarget(ParentMob);
+                            PickEnemyMob();
+                            ParentMob.UI.HideEnemyHighlight();
+                            return;
+                        } 
+                    
+                        // Выбираем союзников
+                        if (targetContext.CurrentSelectingState == SelectingState.Player)
+                        {
+                            ServiceLocator.Get<TargetManager>().AddTarget(ParentMob);
+                            if (ServiceLocator.Get<GameManager>().PickingMob.MobData.ActiveSkill is ResurrectSkill)
+                            {
+                                if (ParentMob.State == MobState.Dead) PickPlayerMob();
+                            } else if (ParentMob.State != MobState.Dead) PickPlayerMob();
+                            return;
+                        } 
+                    }
+                    
+                    // Выбираем в качестве цели для итема
+                    if (targetContext.CurrentSourceType == SourceType.ItemTarget
+                        && targetContext.MaxTargets > ServiceLocator.Get<TargetManager>().Targets.Count)
+                    {
+                        // Выбираем врагов
+                        if (targetContext.CurrentSelectingState == SelectingState.Enemy)
+                        {
+                            ServiceLocator.Get<TargetManager>().AddTarget(ParentMob);
+                            return;
+                        } 
+                    
+                        // Выбираем союзников
+                        if (targetContext.CurrentSelectingState == SelectingState.Player)
+                        {
+                            ServiceLocator.Get<TargetManager>().AddTarget(ParentMob);
+                        } 
+                    }
                 }
             }
         }
@@ -150,8 +195,7 @@ namespace Mobs
                 ServiceLocator.Get<TargetManager>().SetContext(new TargetSelectionContext(
                     SourceType.MobControl, 
                     SelectingState.Player, 
-                    null,
-                    null, 
+
                     mob => !mob.IsHostile && mob.State == MobState.Idle));
             } else ServiceLocator.Get<TargetManager>().ClearContext();
         }

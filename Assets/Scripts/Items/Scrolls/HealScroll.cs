@@ -23,7 +23,6 @@ namespace Items.Scrolls
         {
             if (ServiceLocator.Get<TargetManager>().Targets.Count > 0)
             {
-                Debug.Log(ServiceLocator.Get<TargetManager>().Targets.Count);
                 foreach (var mob in ServiceLocator.Get<TargetManager>().Targets)
                 {
                     mob.MobCombatSystem.Heal(healAmount);

@@ -117,6 +117,7 @@ namespace Managers
             CurrentPhase = GamePhase.Fight;
             ServiceLocator.Get<UIManager>().HideStartBattleButton();
             ServiceLocator.Get<MusicManager>().StartBattleMusic();
+            ServiceLocator.Get<TargetManager>().ClearContext();
             
             StartCoroutine(StatusEffectsPhase());
         }

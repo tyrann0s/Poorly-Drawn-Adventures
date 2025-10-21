@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 7554958838123026194}
   - component: {fileID: 78113859517228216}
   m_Layer: 0
-  m_Name: New Deck Item
+  m_Name: New Deck ItemPref
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
